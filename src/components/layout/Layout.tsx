@@ -1,18 +1,13 @@
-import Header from './Header';
-import Footer from './Footer';
 import { Outlet } from 'react-router-dom';
+import Footer from './Footer';
+import Header from './Header';
 
 export default function Layout() {
     return (
-        <>
+        <main className="flex flex-col justify-between min-h-screen bg-neutral-1 gradient">
             <Header />
-            <div className="wrapper">
-                <div className="wrap"></div>
-            </div>
-            <div className="container">
-                <Outlet />
-            </div>
+            <Outlet />
             <Footer />
-        </>
+        </main>
     );
 }
