@@ -73,7 +73,7 @@ function Home() {
                 </section>
             </div>
             <div className="mt-4 w-2/4">
-                <div className="no-scrollbar mb-10 h-4/5 w-full overflow-y-scroll">
+                <div className="no-scrollbar mb-10 w-full">
                     {/* input */}
                     <div className="flex gap-4 rounded-lg border border-neutral-6 bg-gradient-to-tl from-neutral-1 to-neutral-2 p-4">
                         <div className="mt-0.5">
