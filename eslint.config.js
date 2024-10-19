@@ -1,28 +1,26 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
-import tseslint from 'typescript-eslint'
+import { fixupConfigRules } from '@eslint/compat';
+import pluginJs from '@eslint/js';
+import pluginReactConfig from 'eslint-plugin-react/configs/recommended.js';
+import tailwind from 'eslint-plugin-tailwindcss';
+import globals from 'globals';
+import tseslint from 'typescript-eslint';
 
-export default tseslint.config(
-  { ignores: ['dist'] },
-  {
-    extends: [js.configs.recommended, ...tseslint.configs.recommended],
-    files: ['**/*.{ts,tsx}'],
-    languageOptions: {
-      ecmaVersion: 2020,
-      globals: globals.browser,
+export default [
+    { files: ['**/*.{js,mjs,cjs,ts,jsx,tsx}'] },
+    { languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
+    { languageOptions: { globals: globals.browser } },
+    pluginJs.configs.recommended,
+    ...tseslint.configs.recommended,
+    ...fixupConfigRules(pluginReactConfig),
+    ...tailwind.configs['flat/recommended'],
+    {
+        rules: {
+            'react/react-in-jsx-scope': 0,
+            'react/no-unescaped-entities': 0,
+            'react/prop-types': 0
+        }
     },
-    plugins: {
-      'react-hooks': reactHooks,
-      'react-refresh': reactRefresh,
-    },
-    rules: {
-      ...reactHooks.configs.recommended.rules,
-      'react-refresh/only-export-components': [
-        'warn',
-        { allowConstantExport: true },
-      ],
-    },
-  },
-)
+    {
+        ignores: ['tailwind.config.js']
+    }
+];

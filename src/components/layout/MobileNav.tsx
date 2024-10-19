@@ -4,7 +4,7 @@ import navItems from '../../lib/links';
 function MobileNav({ ...props }) {
     return (
         <div className="md:hidden">
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 text-center border-b border-neutral-6">
+            <div className="space-y-1 border-b border-neutral-6 px-2 pb-3 pt-2 text-center sm:px-3">
                 {navItems.map(item => (
                     <NavLink
                         key={item.to}

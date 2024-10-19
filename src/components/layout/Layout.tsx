@@ -4,7 +4,7 @@ import Header from './Header';
 
 export default function Layout() {
     return (
-        <main className="flex flex-col justify-between min-h-screen bg-neutral-1 gradient">
+        <main className="gradient flex min-h-screen flex-col justify-between bg-neutral-1">
             <Header />
             <Outlet />
             <Footer />

@@ -1,7 +1,6 @@
 const navItems = [
-    { to: '/', label: 'Accueil' },
-    { to: '/à-propos', label: 'À propos' },
-    { to: '/profil', label: 'Profil' }
+    { to: '/tableau-de-bord', label: 'Tableau de bord' },
+    { to: '/activités', label: 'Activités' }
 ];
 
 export default navItems;
