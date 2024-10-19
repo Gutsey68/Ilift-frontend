@@ -2,8 +2,8 @@ import { Dumbbell, Menu, X } from 'lucide-react';
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import DesktopNav from './navbar/DesktopNav';
-import RightNav from './navbar/RightNav';
 import MobileNav from './navbar/MobileNav';
+import RightNav from './navbar/RightNav';
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -13,7 +13,7 @@ const Navbar = () => {
     };
 
     return (
-        <nav className="text-neutral-12">
+        <nav className="sticky top-0 text-neutral-12">
             <div className="mx-auto max-w-7xl px-4">
                 <div className="flex h-16 items-center justify-between">
                     <div className="flex items-center justify-center">
