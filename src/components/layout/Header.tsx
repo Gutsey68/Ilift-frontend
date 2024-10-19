@@ -1,5 +1,5 @@
 import { Dumbbell, Menu, X } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import DesktopNav from './navbar/DesktopNav';
 import MobileNav from './navbar/MobileNav';
@@ -7,14 +7,26 @@ import RightNav from './navbar/RightNav';
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const [isScrolled, setIsScrolled] = useState(false);
 
     const toggleMenu = () => {
         setIsOpen(!isOpen);
     };
 
+    useEffect(() => {
+        const handleScroll = () => {
+            setIsScrolled(window.scrollY > 50);
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
+
     return (
-        <nav className="sticky top-0 text-neutral-12">
-            <div className="mx-auto max-w-7xl px-4">
+        <nav className={`sticky top-0 pb-4 transition-colors duration-300 ${isScrolled ? 'bg-neutral-1' : 'bg-transparent'} text-neutral-12`}>
+            <div className="mx-auto max-w-6xl px-4">
                 <div className="flex h-16 items-center justify-between">
                     <div className="flex items-center justify-center">
                         <NavLink to={'/'} className="flex items-center text-xl font-bold">

@@ -1,6 +1,6 @@
 function UserStats() {
     return (
-        <div className="flex h-fit w-full items-center justify-center gap-4">
+        <div className="flex h-fit w-full items-center justify-center gap-2">
             <div className="flex w-1/3 flex-col items-center justify-center gap-1 border-r border-neutral-6">
                 <p className="text-xs text-neutral-11">Abonnés</p>
                 <p className="text-xl font-bold text-neutral-12">458</p>
