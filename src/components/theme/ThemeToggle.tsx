@@ -18,8 +18,8 @@ const ThemeToggle = () => {
     };
 
     return (
-        <button onClick={toggleTheme} className="p-2 text-neutral-12 hover:text-green-9 transition-colors">
-            {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+        <button onClick={toggleTheme} className="p-2 text-neutral-12 transition-colors hover:text-green-9">
+            {isDark ? <Sun className="size-5" /> : <Moon className="size-5" />}
         </button>
     );
 };

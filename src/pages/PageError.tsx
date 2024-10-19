@@ -7,7 +7,7 @@ export default function PageError() {
     const navigate = useNavigate();
 
     return (
-        <main className="flex flex-col justify-between min-h-screen bg-neutral-1 gradient">
+        <main className="gradient flex min-h-screen flex-col justify-between bg-neutral-1">
             <Header />
             <div className="flex items-center justify-center">
                 <div className="text-center">
