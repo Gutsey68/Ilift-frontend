@@ -1,7 +1,6 @@
-import { Search } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
-import navItems from '../../lib/links';
-import IconButton from '../ui/IconButton';
+import navItems from '../../../lib/links';
+import SearchNav from './SearchNav';
 
 function DesktopNav() {
     return (
@@ -18,7 +17,7 @@ function DesktopNav() {
                         {item.label}
                     </NavLink>
                 ))}
-                <IconButton icon={<Search className="size-5" />} />
+                <SearchNav />
             </div>
         </div>
     );

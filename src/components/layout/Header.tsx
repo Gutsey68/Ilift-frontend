@@ -1,9 +1,9 @@
 import { Dumbbell, Menu, X } from 'lucide-react';
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import DesktopNav from './DesktopNav';
-import MobileNav from './MobileNav';
-import RightNav from './RightNav';
+import DesktopNav from './navbar/DesktopNav';
+import RightNav from './navbar/RightNav';
+import MobileNav from './navbar/MobileNav';
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);

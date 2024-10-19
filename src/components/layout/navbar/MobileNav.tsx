@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import navItems from '../../lib/links';
+import navItems from '../../../lib/links';
 
 function MobileNav({ ...props }) {
     return (

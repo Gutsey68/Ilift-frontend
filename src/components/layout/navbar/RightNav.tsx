@@ -1,7 +1,7 @@
 import { Bell } from 'lucide-react';
-import ThemeToggle from '../theme/ThemeToggle';
-import Avatar from '../ui/Avatar';
-import IconButton from '../ui/IconButton';
+import Avatar from '../../ui/Avatar';
+import IconButton from '../../ui/IconButton';
+import ThemeToggle from '../../theme/ThemeToggle';
 
 function RightNav() {
     return (
