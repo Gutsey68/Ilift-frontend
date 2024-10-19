@@ -1,13 +1,13 @@
 import { Bell } from 'lucide-react';
+import ThemeToggle from '../../theme/ThemeToggle';
 import Avatar from '../../ui/Avatar';
 import IconButton from '../../ui/IconButton';
-import ThemeToggle from '../../theme/ThemeToggle';
 
 function RightNav() {
     return (
         <>
             <Avatar
-                src="https://www.seyzeriat.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fgauthier.d365b7d6.png&w=640&q=75"
+                src="https://images.unsplash.com/photo-1564859228273-274232fdb516?q=80&w=2187&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 alt=""
                 className="mr-2"
                 size="sm"
