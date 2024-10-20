@@ -1,4 +1,4 @@
-import { profilsSuggeres } from '../../pages/Home';
+import usersData from '../../../seeds.json';
 import Avatar from '../ui/Avatar';
 
 function SuggestedProfils() {
@@ -7,12 +7,12 @@ function SuggestedProfils() {
             <div className="w-full border-b border-neutral-6 px-2 pb-2">
                 <h2 className="font-semibold text-neutral-12">Profils suggérés</h2>
             </div>
-            {profilsSuggeres.map((profil, index) => (
+            {usersData.users.map((user, index) => (
                 <div key={index} className="flex items-center gap-4">
-                    <Avatar alt="" size="sm" src={profil.avatar} />
+                    <Avatar alt="" size="sm" src={user.profilePhoto} />
                     <div className="flex flex-col">
-                        <h1 className="text-sm font-semibold text-neutral-12">{profil.nom}</h1>
-                        <p className="text-xs text-neutral-11">@{profil.nomUtilisateur}</p>
+                        <h1 className="font-semibold text-neutral-12">{user.pseudo}</h1>
+                        <p className="text-xs text-neutral-11">@{user.bio}</p>
                     </div>
                 </div>
             ))}

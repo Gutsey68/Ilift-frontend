@@ -12,9 +12,9 @@ const Avatar = ({ size, src, alt, className }: AvatarProps) => {
         <div
             className={cn(
                 {
-                    'w-8 h-8': size === 'sm',
-                    'w-16 h-16': size === 'md',
-                    'w-24 h-24': size === 'lg',
+                    'size-10': size === 'sm',
+                    'size-16': size === 'md',
+                    'size-24': size === 'lg',
                     'rounded-full bg-neutral-400': true
                 },
                 className
