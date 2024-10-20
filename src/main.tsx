@@ -2,8 +2,9 @@ import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Layout from './components/layout/Layout';
 import About from './pages/About';
-import Home from './pages/Home';
+import AuthPage from './pages/AuthPage';
 import PageError from './pages/PageError';
+import Thread from './pages/Thread';
 import './styles/global.css';
 
 const router = createBrowserRouter([
@@ -13,8 +14,12 @@ const router = createBrowserRouter([
         errorElement: <PageError />,
         children: [
             {
+                path: 'tableau-de-bord',
+                element: <Thread />
+            },
+            {
                 path: '',
-                element: <Home />
+                element: <AuthPage />
             },
             {
                 path: 'à-propos',

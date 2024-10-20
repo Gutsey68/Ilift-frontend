@@ -5,7 +5,7 @@ import ProfilCard from '../components/thread/ProfilCard';
 import SuggestedProfils from '../components/thread/SuggestedProfils';
 import useScrollHandler from '../hooks/useScrollHandler';
 
-function Home() {
+function Thread() {
     const middleDivRef = useRef<HTMLDivElement>(null);
     useScrollHandler(middleDivRef);
 
@@ -27,4 +27,4 @@ function Home() {
     );
 }
 
-export default Home;
+export default Thread;
