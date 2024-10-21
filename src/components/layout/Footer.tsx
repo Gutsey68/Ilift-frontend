@@ -2,7 +2,7 @@ import { Dumbbell, Facebook, House, Instagram, Linkedin, Mail, Phone, Twitter } 
 import { NavLink } from 'react-router-dom';
 import navItems from '../../lib/links';
 
-const Footer = () => {
+const Footer = ({ ...props }) => {
     const socials = [
         { icon: Facebook, label: 'Facebook', href: 'https://facebook.com' },
         { icon: Twitter, label: 'Twitter', href: 'https://twitter.com' },
@@ -11,7 +11,7 @@ const Footer = () => {
     ];
 
     return (
-        <footer className="border-t border-neutral-6 text-neutral-11">
+        <footer {...props} className="border-t border-neutral-6 text-neutral-11">
             <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
                 <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
                     <div className="flex flex-col items-start">
