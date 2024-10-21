@@ -10,8 +10,8 @@ function Thread() {
     useScrollHandler(middleDivRef);
 
     return (
-        <div className="mx-auto flex max-h-screen min-h-screen w-full max-w-6xl gap-2">
-            <div className="flex w-1/4 flex-col px-4">
+        <div className="mx-auto flex max-h-screen min-h-screen w-full max-w-6xl gap-6">
+            <div className="flex w-1/4 flex-col">
                 <ProfilCard />
             </div>
             <div className="flex max-h-screen w-2/4 flex-col">
@@ -20,7 +20,7 @@ function Thread() {
                     <AllPosts />
                 </div>
             </div>
-            <div className="flex w-1/4 flex-col px-4">
+            <div className="flex w-1/4 flex-col">
                 <SuggestedProfils />
             </div>
         </div>

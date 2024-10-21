@@ -1,7 +1,7 @@
 import { cn } from '../../lib/cn';
 
 type AvatarProps = {
-    size: 'sm' | 'md' | 'lg';
+    size: 'sm' | 'md' | 'lg' | 'xl';
     src?: string;
     alt: string;
     className?: string;
@@ -15,6 +15,7 @@ const Avatar = ({ size, src, alt, className }: AvatarProps) => {
                     'size-10': size === 'sm',
                     'size-16': size === 'md',
                     'size-24': size === 'lg',
+                    'size-40': size === 'xl',
                     'rounded-full bg-neutral-400': true
                 },
                 className
