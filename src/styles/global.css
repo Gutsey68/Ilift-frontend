@@ -106,12 +106,4 @@
             hsl(0deg 0% 4%) 100%
         );
     }
-    .no-scrollbar::-webkit-scrollbar {
-        display: none;
-    }
-
-    .no-scrollbar {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-    }
 }

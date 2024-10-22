@@ -3,7 +3,7 @@ import Avatar from '../ui/Avatar';
 
 function ProfileCard() {
     return (
-        <div className="flex items-center gap-4 border-b border-neutral-6 p-4">
+        <div className="flex items-center gap-4 border-b border-neutral-6 p-6">
             <div className="relative">
                 <Avatar
                     src="https://images.unsplash.com/photo-1564859228273-274232fdb516?q=80&w=2187&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -11,9 +11,9 @@ function ProfileCard() {
                     className="mr-1"
                     size="xl"
                 />
-                <div className="absolute bottom-3 right-1 flex size-8 cursor-pointer items-center justify-center rounded-full bg-neutral-11 shadow-md">
+                <button className="absolute bottom-3 right-1 flex size-8 cursor-pointer items-center justify-center rounded-full bg-neutral-11 shadow-md">
                     <Camera strokeWidth={3} size={22} className="text-neutral-4" />
-                </div>
+                </button>
             </div>
             <div className="">
                 <h1 className="text-2xl font-bold">John Doe</h1>
