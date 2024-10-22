@@ -15,7 +15,7 @@ function Thread() {
                 <ProfilCard />
             </div>
             <div className="flex max-h-screen w-2/4 flex-col">
-                <div ref={middleDivRef} className="no-scrollbar mb-10 flex min-h-0 w-full flex-1 flex-col overflow-y-auto">
+                <div ref={middleDivRef} className="no-scrollbar mb-10 flex w-full flex-1 flex-col overflow-y-auto">
                     <InputPost />
                     <AllPosts />
                 </div>
