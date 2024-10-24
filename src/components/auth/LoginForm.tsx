@@ -19,7 +19,7 @@ function LoginForm({ setFormType }: LoginFormProps) {
                 Email
             </label>
             <Input onChange={changeHandler} value={inputState.email} type="email" name="email" placeholder="Email" className="" />
-            {touched.email && error.email && <p className="mb-2 text-sm text-red-600">Email invalide</p>}
+            {touched.email && error.email && <p className="mb-1 text-sm text-red-600">Email invalide</p>}
             <div className="mt-2 flex justify-between text-sm">
                 <label htmlFor="password">Mot de passe</label>
                 <a onClick={() => setFormType('forgotPassword')} className="cursor-pointer underline hover:text-green-9">
@@ -27,7 +27,7 @@ function LoginForm({ setFormType }: LoginFormProps) {
                 </a>
             </div>
             <Input onChange={changeHandler} value={inputState.password} type="password" name="password" placeholder="Mot de passe" className="" />
-            {touched.password && error.password && <p className="mb-2 text-sm text-red-600">Mot de passe invalide</p>}
+            {touched.password && error.password && <p className="mb-1 text-sm text-red-600">Mot de passe invalide</p>}
             <Button type="submit" className="mt-2 w-full">
                 Se connecter
             </Button>
