@@ -49,7 +49,7 @@ const useValidation = () => {
         if (areValid.email && areValid.password) {
             console.log('Envoi du formulaire');
         } else {
-            console.log('Erreur dans le formulaire');
+            console.error('Erreur dans le formulaire');
         }
     };
 
@@ -62,7 +62,18 @@ const useValidation = () => {
         if (areValid.email && areValid.password && areValid.confirmPassword) {
             console.log('Envoi du formulaire');
         } else {
-            console.log('Erreur dans le formulaire');
+            console.error('Erreur dans le formulaire');
+        }
+    };
+
+    const forgotPwdSubmitHandler = (e: React.FormEvent) => {
+        e.preventDefault();
+        markAllTouched();
+        validateEmail();
+        if (areValid.email) {
+            console.log('Envoi du formulaire');
+        } else {
+            console.error('Erreur dans le formulaire');
         }
     };
 
@@ -73,7 +84,8 @@ const useValidation = () => {
         touched,
         changeHandler,
         loginSubmitHandler,
-        registerSubmitHandler
+        registerSubmitHandler,
+        forgotPwdSubmitHandler
     };
 };
 
