@@ -1,69 +1,79 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const useValidation = () => {
-    const [inputState, setInputState] = useState({ email: '', password: '' });
-    const [areValid, setAreValid] = useState({ email: false, password: false });
-    const [error, setError] = useState({
-        email: false,
-        password: false
-    });
+    const [inputState, setInputState] = useState({ email: '', password: '', confirmPassword: '' });
+    const [areValid, setAreValid] = useState({ email: false, password: false, confirmPassword: false });
+    const [error, setError] = useState({ email: false, password: false, confirmPassword: false });
+    const [touched, setTouched] = useState({ email: false, password: false, confirmPassword: false });
 
-    const emailValidation = () => {
+    useEffect(() => {
+        if (touched.email) validateEmail();
+        if (touched.password) validatePassword();
+        if (touched.confirmPassword) validateConfirmPassword();
+    }, [inputState]);
+
+    const validateEmail = () => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-        if (!emailRegex.test(inputState.email)) {
-            setError(state => ({ ...state, email: true }));
-            setAreValid({ ...areValid, email: false });
-        } else {
-            setAreValid({ ...areValid, email: true });
-            setError(state => ({ ...state, email: false }));
-        }
+        const isValid = emailRegex.test(inputState.email);
+        setAreValid(prev => ({ ...prev, email: isValid }));
+        setError(prev => ({ ...prev, email: !isValid }));
     };
 
-    const passwordValidation = () => {
-        if (inputState.password.length < 5) {
-            setError(state => ({ ...state, password: true }));
-            setAreValid({ ...areValid, password: false });
-        } else {
-            setAreValid({ ...areValid, password: true });
-            setError(state => ({ ...state, password: false }));
-        }
+    const validatePassword = () => {
+        const isValid = inputState.password.length >= 3;
+        setAreValid(prev => ({ ...prev, password: isValid }));
+        setError(prev => ({ ...prev, password: !isValid }));
     };
 
-    const submitHandler = (e: React.FormEvent) => {
+    const validateConfirmPassword = () => {
+        const isValid = inputState.password === inputState.confirmPassword;
+        setAreValid(prev => ({ ...prev, confirmPassword: isValid }));
+        setError(prev => ({ ...prev, confirmPassword: !isValid }));
+    };
+
+    const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setInputState(prev => ({ ...prev, [name]: value }));
+        setTouched(prev => ({ ...prev, [name]: true }));
+    };
+
+    const markAllTouched = () => {
+        setTouched({ email: true, password: true, confirmPassword: true });
+    };
+
+    const loginSubmitHandler = (e: React.FormEvent) => {
         e.preventDefault();
-
-        if (validationCheck()) {
+        markAllTouched();
+        validateEmail();
+        validatePassword();
+        if (areValid.email && areValid.password) {
             console.log('Envoi du formulaire');
         } else {
             console.log('Erreur dans le formulaire');
         }
     };
 
-    const changePasswordHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setInputState({ ...inputState, password: e.target.value });
-        passwordValidation();
-    };
-
-    const changeEmailHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setInputState({ ...inputState, email: e.target.value });
-        emailValidation();
-    };
-
-    const validationCheck = () => {
-        emailValidation();
-        passwordValidation();
-
-        return areValid.email && areValid.password;
+    const registerSubmitHandler = (e: React.FormEvent) => {
+        e.preventDefault();
+        markAllTouched();
+        validateEmail();
+        validatePassword();
+        validateConfirmPassword();
+        if (areValid.email && areValid.password && areValid.confirmPassword) {
+            console.log('Envoi du formulaire');
+        } else {
+            console.log('Erreur dans le formulaire');
+        }
     };
 
     return {
         inputState,
         error,
         areValid,
-        changeEmailHandler,
-        changePasswordHandler,
-        submitHandler
+        touched,
+        changeHandler,
+        loginSubmitHandler,
+        registerSubmitHandler
     };
 };
 
