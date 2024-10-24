@@ -3,7 +3,7 @@ import { Input } from '../ui/Input';
 
 function RegisterForm() {
     return (
-        <div className="flex flex-col gap-2">
+        <form className="flex flex-col gap-2">
             <h2 className="text-2xl font-semibold">Inscription</h2>
             <p className="mb-4 text-sm text-neutral-11">Entre tes informations pour créer un compte</p>
             <label htmlFor="email" className="mt-1 text-sm">
@@ -21,7 +21,7 @@ function RegisterForm() {
             <Button type="submit" className="mt-2 w-full">
                 S'inscrire
             </Button>
-        </div>
+        </form>
     );
 }
 export default RegisterForm;

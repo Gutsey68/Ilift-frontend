@@ -11,7 +11,7 @@ export default function AuthPage() {
     const renderForm = () => {
         switch (formType) {
             case 'login':
-                return <LoginForm formType={formType} setFormType={setFormType} />;
+                return <LoginForm setFormType={setFormType} />;
             case 'register':
                 return <RegisterForm />;
             case 'forgotPassword':
@@ -21,8 +21,8 @@ export default function AuthPage() {
 
     return (
         <div className="flex items-center justify-center">
-            <div className="flex w-96 flex-col rounded-lg border border-neutral-6 bg-gradient-to-tl from-neutral-1 to-neutral-2 p-6 shadow-sm">
-                <form>{renderForm()}</form>
+            <div className="my-10 flex w-96 flex-col rounded-lg border border-neutral-6 bg-gradient-to-tl from-neutral-1 to-neutral-2 p-6 shadow-sm">
+                {renderForm()}
                 <div className="mt-4 flex flex-col gap-2 text-center text-sm">
                     {formType !== 'login' && (
                         <button className="group" onClick={() => setFormType('login')}>
