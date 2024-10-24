@@ -7,7 +7,7 @@ function Button({ children, className, ...props }: ButtonProps) {
         <button
             {...props}
             className={cn(
-                `inline-block rounded-md bg-neutral-12 px-5 py-3 text-sm font-medium text-neutral-1 hover:bg-neutral-11 focus:outline-none focus:ring-2 focus:ring-neutral-12 focus:ring-offset-2 transition-colors`,
+                `inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-neutral-1 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-12 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-neutral-12 text-neutral-1 hover:bg-neutral-11 h-10 px-4 py-2`,
                 className
             )}
         >

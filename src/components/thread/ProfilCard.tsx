@@ -4,7 +4,7 @@ import UserStats from './UserStats';
 
 function ProfilCard() {
     return (
-        <section className="sticky top-[80px] flex flex-col gap-4 rounded-lg border border-neutral-6 bg-gradient-to-tl from-neutral-1 to-neutral-2 p-4">
+        <section className="sticky top-[80px] flex flex-col gap-4 rounded-lg border border-neutral-6 bg-gradient-to-tl from-neutral-1 to-neutral-2 p-4 shadow-sm">
             <ProfilUser />
             <UserStats />
             <div className="mx-2 border-y border-neutral-6 py-4">

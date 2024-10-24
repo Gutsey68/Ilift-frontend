@@ -4,6 +4,9 @@ module.exports = {
     content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
     theme: {
         extend: {
+            fontFamily: {
+                sans: ['Poppins', 'Arial', 'sans-serif']
+            },
             colors: {
                 green: {
                     1: 'hsl(var(--green-1))',

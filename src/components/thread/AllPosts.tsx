@@ -7,7 +7,10 @@ function AllPosts() {
         <>
             {usersData.users.map(user =>
                 user.posts.map((post, index) => (
-                    <div key={index} className="mt-4 flex flex-col gap-4 rounded-lg border border-neutral-6 bg-gradient-to-tl from-neutral-1 to-neutral-2">
+                    <div
+                        key={index}
+                        className="mt-4 flex flex-col gap-4 rounded-lg border border-neutral-6 bg-gradient-to-tl from-neutral-1 to-neutral-2 shadow-sm"
+                    >
                         <div className="flex gap-4 px-4 pt-4">
                             <Avatar alt="" size="sm" src={user.profilePhoto} />
                             <div className="flex flex-col">

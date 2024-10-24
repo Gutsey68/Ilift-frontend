@@ -20,7 +20,7 @@ function InputPost() {
                 </div>
                 <div className="mt-4 flex items-center justify-between">
                     <IconButton icon={<Image className="-ml-2 size-5" />} />
-                    <Button className="py-2">Poster</Button>
+                    <Button>Poster</Button>
                 </div>
             </div>
         </div>
