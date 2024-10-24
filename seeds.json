@@ -1,109 +1,220 @@
 {
-    "users": [
-        {
-            "id": 1,
-            "pseudo": "john_doe",
-            "email": "john.doe@example.com",
-            "passwordHash": "hashedpassword123",
-            "bio": "Just a regular guy.",
-            "createdAt": "2023-10-01T00:00:00.000Z",
-            "updatedAt": "2023-10-01T00:00:00.000Z",
-            "profilePhoto": "https://images.unsplash.com/photo-1584999734482-0361aecad844?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-            "posts": [
-                {
-                    "id": 1,
-                    "photo": "https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?q=80&w=2187&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                    "title": "My First Workout",
-                    "content": "🏋🏻 Just finished my first workout session!",
-                    "createdAt": "2h",
-                    "updatedAt": "2023-10-01T08:00:00.000Z",
-                    "userId": 1
-                }
-            ]
-        },
-        {
-            "id": 2,
-            "pseudo": "jane_doe",
-            "email": "jane.doe@example.com",
-            "passwordHash": "hashedpassword456",
-            "bio": "Love to workout!",
-            "createdAt": "2023-10-01T00:00:00.000Z",
-            "updatedAt": "2023-10-01T00:00:00.000Z",
-            "profilePhoto": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-            "posts": [
-                {
-                    "id": 2,
-                    "photo": "https://plus.unsplash.com/premium_photo-1673580742890-4af144293960?q=80&w=2128&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                    "title": "Healthy Eating Tips",
-                    "content": "🥑 Here are some tips for healthy eating.",
-                    "createdAt": "8h",
-                    "updatedAt": "2023-10-02T09:00:00.000Z",
-                    "userId": 2
-                }
-            ]
-        },
-        {
-            "id": 3,
-            "pseudo": "fit_guy",
-            "email": "fit.guy@example.com",
-            "passwordHash": "hashedpassword789",
-            "bio": "Fitness enthusiast and trainer.",
-            "createdAt": "2023-10-01T00:00:00.000Z",
-            "updatedAt": "2023-10-01T00:00:00.000Z",
-            "profilePhoto": "https://images.unsplash.com/photo-1463453091185-61582044d556?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-            "posts": [
-                {
-                    "id": 3,
-                    "photo": "https://plus.unsplash.com/premium_photo-1674059549221-e2943b475f62?q=80&w=2128&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                    "title": "Fitness Journey",
-                    "content": "🌍 Sharing my fitness journey so far.",
-                    "createdAt": "5h",
-                    "updatedAt": "2023-10-03T10:00:00.000Z",
-                    "userId": 3
-                }
-            ]
-        },
-        {
-            "id": 4,
-            "pseudo": "health_guru",
-            "email": "health.guru@example.com",
-            "passwordHash": "hashedpassword101",
-            "bio": "Healthy living advocate.",
-            "createdAt": "2023-10-01T00:00:00.000Z",
-            "updatedAt": "2023-10-01T00:00:00.000Z",
-            "profilePhoto": "https://images.unsplash.com/photo-1543610892-0b1f7e6d8ac1?q=80&w=1856&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-            "posts": [
-                {
-                    "id": 5,
-                    "photo": "https://images.unsplash.com/photo-1528715471579-d1bcf0ba5e83?q=80&w=2093&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                    "title": "Meditation Techniques",
-                    "content": "🧿 Some effective meditation techniques.",
-                    "createdAt": "2j",
-                    "updatedAt": "2023-10-05T12:00:00.000Z",
-                    "userId": 4
-                }
-            ]
-        },
-        {
-            "id": 5,
-            "pseudo": "yoga_lover",
-            "email": "yoga.lover@example.com",
-            "passwordHash": "hashedpassword102",
-            "bio": "Yoga is life.",
-            "createdAt": "2023-10-01T00:00:00.000Z",
-            "updatedAt": "2023-10-01T00:00:00.000Z",
-            "profilePhoto": "https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?q=80&w=2000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-            "posts": [
-                {
-                    "id": 4,
-                    "photo": "https://images.unsplash.com/photo-1506126613408-eca07ce68773?q=80&w=2198&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                    "title": "🧘🏻‍♀Yoga Poses for Beginners",
-                    "content": " Here are some yoga poses for beginners.",
-                    "createdAt": "50 mins",
-                    "updatedAt": "2023-10-04T11:00:00.000Z",
-                    "userId": 5
-                }
-            ]
-        }
-    ]
+  "users": [
+    {
+      "id": 1,
+      "pseudo": "john_doe",
+      "email": "john.doe@example.com",
+      "passwordHash": "hashedpassword123",
+      "bio": "Just a regular guy.",
+      "createdAt": "2023-10-01T00:00:00.000Z",
+      "updatedAt": "2023-10-01T00:00:00.000Z",
+      "profilePhoto": "https://images.unsplash.com/photo-1584999734482-0361aecad844?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      "id": 2,
+      "pseudo": "jane_doe",
+      "email": "jane.doe@example.com",
+      "passwordHash": "hashedpassword456",
+      "bio": "Love to workout!",
+      "createdAt": "2023-10-01T00:00:00.000Z",
+      "updatedAt": "2023-10-01T00:00:00.000Z",
+      "profilePhoto": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    }
+  ],
+  "posts": [
+    {
+      "id": 1,
+      "photo": "https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?q=80&w=2187&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "title": "My First Workout",
+      "content": "🏋🏻 Just finished my first workout session!",
+      "createdAt": "2023-10-01T08:00:00.000Z",
+      "updatedAt": "2023-10-01T08:00:00.000Z",
+      "userId": 1
+    },
+    {
+      "id": 2,
+      "photo": "https://plus.unsplash.com/premium_photo-1673580742890-4af144293960?q=80&w=2128&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "title": "Healthy Eating Tips",
+      "content": "🥑 Here are some tips for healthy eating.",
+      "createdAt": "2023-10-02T09:00:00.000Z",
+      "updatedAt": "2023-10-02T09:00:00.000Z",
+      "userId": 2
+    }
+  ],
+  "exercices": [
+    {
+      "id": 1,
+      "name": "Push Up",
+      "sets": 3,
+      "reps": 15,
+      "createdAt": "2023-10-01T00:00:00.000Z",
+      "updatedAt": "2023-10-01T00:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "name": "Squat",
+      "sets": 3,
+      "reps": 20,
+      "createdAt": "2023-10-01T00:00:00.000Z",
+      "updatedAt": "2023-10-01T00:00:00.000Z"
+    }
+  ],
+  "user_progress": [
+    {
+      "id": 1,
+      "progressDate": "2023-10-01T00:00:00.000Z",
+      "type": "Weight",
+      "progressValue": 70,
+      "createdAt": "2023-10-01T00:00:00.000Z",
+      "updatedAt": "2023-10-01T00:00:00.000Z",
+      "userId": 1
+    },
+    {
+      "id": 2,
+      "progressDate": "2023-10-02T00:00:00.000Z",
+      "type": "Reps",
+      "progressValue": 30,
+      "createdAt": "2023-10-02T00:00:00.000Z",
+      "updatedAt": "2023-10-02T00:00:00.000Z",
+      "userId": 2
+    }
+  ],
+  "programs": [
+    {
+      "id": 1,
+      "name": "Beginner Program",
+      "description": "A program for beginners.",
+      "createdAt": "2023-10-01T00:00:00.000Z",
+      "updatedAt": "2023-10-01T00:00:00.000Z",
+      "userId": 1
+    },
+    {
+      "id": 2,
+      "name": "Strength Program",
+      "description": "A program to build strength.",
+      "createdAt": "2023-10-01T00:00:00.000Z",
+      "updatedAt": "2023-10-01T00:00:00.000Z",
+      "userId": 2
+    }
+  ],
+  "exercice_results": [
+    {
+      "id": 1,
+      "setNumber": 1,
+      "reps": 15,
+      "weight": 50.0,
+      "createdAt": "2023-10-01T00:00:00.000Z",
+      "updatedAt": "2023-10-01T00:00:00.000Z",
+      "exerciceId": 1
+    },
+    {
+      "id": 2,
+      "setNumber": 1,
+      "reps": 20,
+      "weight": 60.0,
+      "createdAt": "2023-10-01T00:00:00.000Z",
+      "updatedAt": "2023-10-01T00:00:00.000Z",
+      "exerciceId": 2
+    }
+  ],
+  "workouts": [
+    {
+      "id": 1,
+      "name": "Morning Workout",
+      "createdAt": "2023-10-01T00:00:00.000Z",
+      "updatedAt": "2023-10-01T00:00:00.000Z",
+      "userId": 1
+    },
+    {
+      "id": 2,
+      "name": "Evening Workout",
+      "createdAt": "2023-10-01T00:00:00.000Z",
+      "updatedAt": "2023-10-01T00:00:00.000Z",
+      "userId": 2
+    }
+  ],
+  "muscle_groups": [
+    {
+      "id": 1,
+      "name": "Chest",
+      "createdAt": "2023-10-01T00:00:00.000Z",
+      "updatedAt": "2023-10-01T00:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "name": "Legs",
+      "createdAt": "2023-10-01T00:00:00.000Z",
+      "updatedAt": "2023-10-01T00:00:00.000Z"
+    }
+  ],
+  "likes": [
+    {
+      "userId": 1,
+      "postId": 2,
+      "likedAt": "2023-10-01T00:00:00.000Z"
+    },
+    {
+      "userId": 2,
+      "postId": 1,
+      "likedAt": "2023-10-02T00:00:00.000Z"
+    }
+  ],
+  "comments": [
+    {
+      "userId": 1,
+      "postId": 2,
+      "content": "Great tips!",
+      "commentedAt": "2023-10-01T00:00:00.000Z",
+      "updatedAt": "2023-10-01T00:00:00.000Z"
+    },
+    {
+      "userId": 2,
+      "postId": 1,
+      "content": "Awesome workout!",
+      "commentedAt": "2023-10-02T00:00:00.000Z",
+      "updatedAt": "2023-10-02T00:00:00.000Z"
+    }
+  ],
+  "follows": [
+    {
+      "followerId": 1,
+      "followingId": 2,
+      "selectedAt": "2023-10-01T00:00:00.000Z"
+    },
+    {
+      "followerId": 2,
+      "followingId": 1,
+      "selectedAt": "2023-10-02T00:00:00.000Z"
+    }
+  ],
+  "workout_exercices": [
+    {
+      "workoutId": 1,
+      "exerciceId": 1
+    },
+    {
+      "workoutId": 2,
+      "exerciceId": 2
+    }
+  ],
+  "targets": [
+    {
+      "exerciceId": 1,
+      "muscleGroupId": 1
+    },
+    {
+      "exerciceId": 2,
+      "muscleGroupId": 2
+    }
+  ],
+  "program_workouts": [
+    {
+      "programId": 1,
+      "workoutId": 1
+    },
+    {
+      "programId": 2,
+      "workoutId": 2
+    }
+  ]
 }

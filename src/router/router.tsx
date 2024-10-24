@@ -6,23 +6,23 @@ import Profil from '../pages/Profil';
 import Thread from '../pages/Thread';
 
 export const router = createBrowserRouter([
-    {
-        path: '/',
-        element: <Layout />,
-        errorElement: <PageError />,
-        children: [
-            {
-                path: 'tableau-de-bord',
-                element: <Thread />
-            },
-            {
-                path: '',
-                element: <AuthPage />
-            },
-            {
-                path: 'profil',
-                element: <Profil />
-            }
-        ]
-    }
+  {
+    path: '/',
+    element: <Layout />,
+    errorElement: <PageError />,
+    children: [
+      {
+        path: 'tableau-de-bord',
+        element: <Thread />
+      },
+      {
+        path: '',
+        element: <AuthPage />
+      },
+      {
+        path: 'profil',
+        element: <Profil />
+      }
+    ]
+  }
 ]);
