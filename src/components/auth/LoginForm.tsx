@@ -22,7 +22,7 @@ function LoginForm({ setFormType }: LoginFormProps) {
             {touched.email && error.email && <p className="mb-2 text-sm text-red-600">Email invalide</p>}
             <div className="mt-2 flex justify-between text-sm">
                 <label htmlFor="password">Mot de passe</label>
-                <a onClick={() => setFormType('forgotPassword')} className="underline hover:text-green-9">
+                <a onClick={() => setFormType('forgotPassword')} className="cursor-pointer underline hover:text-green-9">
                     Mot de passe oublié
                 </a>
             </div>
