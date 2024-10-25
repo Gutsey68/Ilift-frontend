@@ -1,9 +1,9 @@
 import { createBrowserRouter } from 'react-router-dom';
 import Layout from '../components/layout/Layout';
-import Activities from '../pages/Activities';
+import ActivitiesPage from '../pages/ActivitiesPage';
 import AuthPage from '../pages/AuthPage';
 import PageError from '../pages/PageError';
-import Profil from '../pages/Profil';
+import ProfilPage from '../pages/ProfilPage';
 import Thread from '../pages/Thread';
 
 export const router = createBrowserRouter([
@@ -21,12 +21,12 @@ export const router = createBrowserRouter([
         element: <AuthPage />
       },
       {
-        path: 'profil',
-        element: <Profil />
+        path: 'profil/:id',
+        element: <ProfilPage />
       },
       {
         path: 'activités',
-        element: <Activities />
+        element: <ActivitiesPage />
       }
     ]
   }
