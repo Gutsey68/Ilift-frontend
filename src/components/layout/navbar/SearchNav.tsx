@@ -13,13 +13,7 @@ export default function SearchNav() {
       ) : (
         <div className="flex items-center">
           <div className="relative">
-            <Input
-              ref={inputRef}
-              type="text"
-              placeholder="Rechercher..."
-              className="rounded-md bg-transparent py-2 pl-4 pr-12 focus:outline-none focus:ring-2 focus:ring-green-9"
-              onBlur={handleBlur}
-            />
+            <Input ref={inputRef} type="text" placeholder="Rechercher..." onBlur={handleBlur} />
             <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center">
               <Search className="size-5" />
             </div>

@@ -1,5 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 import Layout from '../components/layout/Layout';
+import Activities from '../pages/Activities';
 import AuthPage from '../pages/AuthPage';
 import PageError from '../pages/PageError';
 import Profil from '../pages/Profil';
@@ -22,6 +23,10 @@ export const router = createBrowserRouter([
       {
         path: 'profil',
         element: <Profil />
+      },
+      {
+        path: 'activités',
+        element: <Activities />
       }
     ]
   }
