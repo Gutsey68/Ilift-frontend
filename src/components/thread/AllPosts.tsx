@@ -3,10 +3,8 @@ import data from '../../../seeds.json';
 import { formatRelativeTime } from '../../lib/formatRelativeTime';
 import Avatar from '../ui/Avatar';
 
-// Récupérer les utilisateurs et les posts
 const { users, posts } = data;
 
-// Fonction pour trouver l'utilisateur correspondant à un post
 function getUserById(userId: number) {
   return users.find(user => user.id === userId);
 }
