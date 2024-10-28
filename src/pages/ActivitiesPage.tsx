@@ -1,7 +1,9 @@
+import Card from '../components/ui/Card';
+
 function ActivitiesPage() {
   return (
     <div className="mx-auto flex w-full max-w-6xl gap-6">
-      <h1>Activités</h1>
+      <Card size="sm">Test</Card>
     </div>
   );
 }
