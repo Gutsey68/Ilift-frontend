@@ -1,7 +1,7 @@
 import { cn } from '../../lib/cn';
 
 type CardProps = {
-  size: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  size: 'xxs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   className?: string;
   children: React.ReactNode;
 };
@@ -10,6 +10,7 @@ function Card({ size, children, className }: CardProps) {
     <div
       className={cn(
         {
+          'p-0': size === 'xxs',
           'p-2': size === 'xs',
           'p-3': size === 'sm',
           'p-4': size === 'md',

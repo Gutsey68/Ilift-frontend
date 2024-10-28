@@ -1,19 +1,13 @@
+import StatItem from './StatItem';
+
 function UserStats() {
-    return (
-        <div className="flex h-fit w-full items-center justify-center gap-2">
-            <div className="flex w-1/3 flex-col items-center justify-center gap-1 border-r border-neutral-6">
-                <p className="text-xs text-neutral-11">Abonnés</p>
-                <p className="text-xl font-bold text-neutral-12">458</p>
-            </div>
-            <div className="flex w-1/3 flex-col items-center justify-center gap-1 ">
-                <p className="text-xs text-neutral-11">Abonnements</p>
-                <p className="text-xl font-bold text-neutral-12">365</p>
-            </div>
-            <div className="flex w-1/3 flex-col items-center justify-center gap-1 border-l border-neutral-6">
-                <p className="text-xs text-neutral-11">Activités</p>
-                <p className="text-xl font-bold text-neutral-12">23</p>
-            </div>
-        </div>
-    );
+  return (
+    <div className="flex h-fit w-full items-center justify-center gap-2">
+      <StatItem label="Abonnés" value={458} border="border-r border-neutral-6" />
+      <StatItem label="Abonnements" value={365} />
+      <StatItem label="Activités" value={23} border="border-l border-neutral-6" />
+    </div>
+  );
 }
+
 export default UserStats;

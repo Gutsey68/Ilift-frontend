@@ -2,6 +2,7 @@ import { Earth, Heart, MessageCircle, Send } from 'lucide-react';
 import data from '../../../seeds.json';
 import { formatRelativeTime } from '../../lib/formatRelativeTime';
 import Avatar from '../ui/Avatar';
+import Card from '../ui/Card';
 
 const { users, posts } = data;
 
@@ -15,8 +16,8 @@ function AllPosts() {
       {posts.map((post, index) => {
         const user = getUserById(post.userId);
         return (
-          <div key={index} className="mt-4 flex flex-col gap-4 rounded-lg border border-neutral-6 bg-gradient-to-tl from-neutral-1 to-neutral-2 shadow-sm">
-            <div className="flex gap-4 px-4 pt-4">
+          <Card size="xs" key={index} className="mt-4 flex flex-col gap-4">
+            <div className="flex gap-4 px-2 pt-4">
               <Avatar alt="" size="sm" src={user?.profilePhoto || ''} />
               <div className="flex flex-col">
                 <h1 className="font-semibold text-neutral-12">{user?.pseudo}</h1>
@@ -37,21 +38,21 @@ function AllPosts() {
                 <p>57</p>
               </div>
               <div className="mx-auto flex w-3/4 justify-between pb-4 pt-2">
-                <button className="flex items-center gap-2 text-neutral-12 hover:text-green-9">
+                <button className="flex items-center gap-2 hover:text-green-9">
                   <Heart size={16} />
                   Like
                 </button>
-                <button className="flex items-center gap-2 text-neutral-12 hover:text-green-9">
+                <button className="flex items-center gap-2 hover:text-green-9">
                   <MessageCircle size={16} />
                   Comment
                 </button>
-                <button className="flex items-center gap-2 text-neutral-12 hover:text-green-9">
+                <button className="flex items-center gap-2 hover:text-green-9">
                   <Send size={16} />
                   Share
                 </button>
               </div>
             </div>
-          </div>
+          </Card>
         );
       })}
     </>
