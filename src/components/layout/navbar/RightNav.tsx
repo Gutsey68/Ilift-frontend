@@ -17,7 +17,9 @@ function RightNav() {
       </NavLink>
       <div className="relative">
         <IconButton icon={<Bell className="size-5" />} />
-        <div className="absolute right-0.5 top-0.5 flex size-3 items-center justify-center rounded-full bg-red-600"></div>
+        <div className="absolute right-0.5 top-0.5 flex size-4 items-center justify-center rounded-full bg-red-600">
+          <span className="text-xs text-white">6</span>
+        </div>
       </div>
 
       <ThemeToggle />

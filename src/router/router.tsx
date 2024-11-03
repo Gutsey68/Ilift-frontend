@@ -1,9 +1,12 @@
 import { createBrowserRouter } from 'react-router-dom';
 import Layout from '../components/layout/Layout';
 import ActivitiesPage from '../pages/ActivitiesPage';
+import ActivityDetailPage from '../pages/ActivityDetailPage';
 import AuthPage from '../pages/AuthPage';
 import PageError from '../pages/PageError';
 import ProfilPage from '../pages/ProfilPage';
+import ProgramDetailPage from '../pages/ProgramDetailPage';
+import ProgramsPage from '../pages/ProgramsPage';
 import Thread from '../pages/Thread';
 
 export const router = createBrowserRouter([
@@ -26,7 +29,29 @@ export const router = createBrowserRouter([
       },
       {
         path: 'activités',
-        element: <ActivitiesPage />
+        children: [
+          {
+            path: '',
+            element: <ActivitiesPage />
+          },
+          {
+            path: ':id',
+            element: <ActivityDetailPage />
+          }
+        ]
+      },
+      {
+        path: 'programmes',
+        children: [
+          {
+            path: '',
+            element: <ProgramsPage />
+          },
+          {
+            path: ':id',
+            element: <ProgramDetailPage />
+          }
+        ]
       }
     ]
   }
