@@ -3,6 +3,8 @@ import Layout from '../components/layout/Layout';
 import ActivitiesPage from '../pages/ActivitiesPage';
 import ActivityDetailPage from '../pages/ActivityDetailPage';
 import AuthPage from '../pages/AuthPage';
+import ExerciceDetailPage from '../pages/ExerciceDetailPage';
+import ExercicesPage from '../pages/ExercicesPage';
 import PageError from '../pages/PageError';
 import ProfilPage from '../pages/ProfilPage';
 import ProgramDetailPage from '../pages/ProgramDetailPage';
@@ -49,7 +51,25 @@ export const router = createBrowserRouter([
           },
           {
             path: ':id',
-            element: <ProgramDetailPage />
+            children: [
+              {
+                path: '',
+                element: <ProgramDetailPage />
+              },
+              {
+                path: 'exercices',
+                children: [
+                  {
+                    path: '',
+                    element: <ExercicesPage />
+                  },
+                  {
+                    path: ':id',
+                    element: <ExerciceDetailPage />
+                  }
+                ]
+              }
+            ]
           }
         ]
       }

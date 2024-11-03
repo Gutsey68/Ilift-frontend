@@ -1,4 +1,4 @@
-import { Link, Outlet } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function ProgramsPage() {
   return (
@@ -12,7 +12,6 @@ function ProgramsPage() {
         </div>
       </Link>
       <hr className="border-neutral-6" />
-      <Outlet />
     </div>
   );
 }
