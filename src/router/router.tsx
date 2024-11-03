@@ -1,4 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom';
+import PrivateRoute from '../components/auth/PrivateRoute';
 import Layout from '../components/layout/Layout';
 import ActivitiesPage from '../pages/ActivitiesPage';
 import ActivityDetailPage from '../pages/ActivityDetailPage';
@@ -18,16 +19,28 @@ export const router = createBrowserRouter([
     errorElement: <PageError />,
     children: [
       {
-        path: 'tableau-de-bord',
-        element: <Thread />
-      },
-      {
         path: '',
         element: <AuthPage />
       },
       {
+        path: 'tableau-de-bord',
+        element: <PrivateRoute />,
+        children: [
+          {
+            path: '',
+            element: <Thread />
+          }
+        ]
+      },
+      {
         path: 'profil/:id',
-        element: <ProfilPage />
+        element: <PrivateRoute />,
+        children: [
+          {
+            path: '',
+            element: <ProfilPage />
+          }
+        ]
       },
       {
         path: 'activités',

@@ -1,38 +1,58 @@
-import { Dispatch, SetStateAction } from 'react';
-import useValidation from '../../hooks/useValidation';
-import { FormType } from '../../pages/AuthPage';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import useAuth from '../../hooks/useAuth';
+import { useAuthStore } from '../../stores/authStore';
 import Button from '../ui/Button';
 import { Input } from '../ui/Input';
 
-type LoginFormProps = {
-    setFormType: Dispatch<SetStateAction<FormType>>;
-};
+function LoginForm() {
+  const { loginMutation } = useAuth();
+  const setAuthenticated = useAuthStore(state => state.setAuthenticated);
+  const [credentials, setCredentials] = useState({ pseudo: '', password: '' });
+  const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
-function LoginForm({ setFormType }: LoginFormProps) {
-    const { inputState, error, touched, changeHandler, loginSubmitHandler } = useValidation();
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setCredentials(prev => ({ ...prev, [name]: value }));
+  };
 
-    return (
-        <form onSubmit={loginSubmitHandler} className="flex flex-col gap-2">
-            <h2 className="text-2xl font-semibold">Connexion</h2>
-            <p className="mb-4 text-sm text-neutral-11">Entrez votre email ci-dessous pour vous connecter à votre compte</p>
-            <label htmlFor="email" className="text-sm">
-                Email
-            </label>
-            <Input onChange={changeHandler} value={inputState.email} type="email" name="email" placeholder="Email" className="" />
-            {touched.email && error.email && <p className="mb-1 text-sm text-red-600">Email invalide</p>}
-            <div className="mt-2 flex justify-between text-sm">
-                <label htmlFor="password">Mot de passe</label>
-                <a onClick={() => setFormType('forgotPassword')} className="cursor-pointer underline hover:text-green-9">
-                    Mot de passe oublié
-                </a>
-            </div>
-            <Input onChange={changeHandler} value={inputState.password} type="password" name="password" placeholder="Mot de passe" className="" />
-            {touched.password && error.password && <p className="mb-1 text-sm text-red-600">Mot de passe invalide</p>}
-            <Button type="submit" className="mt-2 w-full">
-                Se connecter
-            </Button>
-        </form>
-    );
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      await loginMutation.mutateAsync(credentials);
+
+      setAuthenticated(true);
+
+      navigate('/tableau-de-bord');
+    } catch (error) {
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError('Erreur lors de la connexion');
+      }
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+      <h2 className="text-2xl font-semibold">Connexion</h2>
+      <label htmlFor="pseudo" className="mt-1 text-sm">
+        Pseudo
+      </label>
+      <Input name="pseudo" onChange={handleChange} value={credentials.pseudo} placeholder="Pseudo" />
+
+      <label htmlFor="password" className="mt-1 text-sm">
+        Mot de passe
+      </label>
+      <Input name="password" type="password" onChange={handleChange} value={credentials.password} placeholder="Mot de passe" />
+
+      {error && <p className="mb-1 text-sm text-red-600">{error}</p>}
+      <Button type="submit" className="mt-2 w-full">
+        Se connecter
+      </Button>
+    </form>
+  );
 }
 
 export default LoginForm;
