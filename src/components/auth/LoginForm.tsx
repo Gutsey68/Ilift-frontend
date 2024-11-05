@@ -1,7 +1,6 @@
 // LoginForm.tsx
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LoaderCircle } from 'lucide-react';
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
@@ -25,10 +24,8 @@ function LoginForm() {
   });
   const { loginMutation } = useAuth();
   const navigate = useNavigate();
-  const [error, setErrorState] = useState<string | null>(null);
 
   const onSubmit = async (data: z.infer<typeof loginSchema>) => {
-    setErrorState(null);
     try {
       await loginMutation.mutateAsync(data);
       navigate('/tableau-de-bord');
@@ -40,7 +37,11 @@ function LoginForm() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
       <h2 className="text-2xl font-semibold">Connexion</h2>
-      {error && <p className="mb-1 text-red-600">{error}</p>}
+      {loginMutation.isError && (
+        <p className="text-red-600" onClick={() => loginMutation.reset()}>
+          {loginMutation.error?.message}
+        </p>
+      )}
       <label htmlFor="pseudo" className="mt-1 text-sm">
         Pseudo
       </label>

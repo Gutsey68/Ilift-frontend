@@ -6,6 +6,12 @@ type LoginCredentials = {
   password: string;
 };
 
+type RegisterCredentials = {
+  pseudo: string;
+  email: string;
+  password: string;
+};
+
 type LoginResponse = {
   token: string;
 };
@@ -70,6 +76,21 @@ const useAuth = () => {
     }
   });
 
+  const registerMutation = useMutation<void, { message: string; status: number }, RegisterCredentials>({
+    mutationFn: async ({ pseudo, email, password }) => {
+      const response = await fetch('http://localhost:3000/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pseudo, email, password })
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw { message: errorData.error || 'Erreur lors de l’inscription', status: response.status };
+      }
+    }
+  });
+
   const logout = () => {
     localStorage.removeItem('token');
     clearUserDetails();
@@ -77,6 +98,7 @@ const useAuth = () => {
 
   return {
     loginMutation,
+    registerMutation,
     logout
   };
 };
