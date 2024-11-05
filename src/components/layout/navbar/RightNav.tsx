@@ -8,13 +8,13 @@ import Button from '../../ui/Button';
 import IconButton from '../../ui/IconButton';
 
 function RightNav() {
-  const { isAuthenticated } = useAuthStore();
-  const { logoutMutation } = useAuth();
+  const { isAuthenticated, userDetails } = useAuthStore();
+  const { logout } = useAuth();
   const navigate = useNavigate();
 
-  const handleLogout = async () => {
+  const handleLogout = () => {
     try {
-      await logoutMutation.mutateAsync();
+      logout();
       navigate('/');
     } catch (error) {
       console.error('Erreur lors de la déconnexion', error);
@@ -25,7 +25,7 @@ function RightNav() {
     <>
       <NavLink to="/profil/1">
         <Avatar
-          src="https://images.unsplash.com/photo-1564859228273-274232fdb516?q=80&w=2187&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          src={userDetails?.profilePhoto || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'}
           alt=""
           className="mr-1"
           size="sm"
@@ -37,9 +37,7 @@ function RightNav() {
           <span className="text-xs text-white">8</span>
         </div>
       </div>
-
       <ThemeToggle />
-
       {isAuthenticated && (
         <Button onClick={handleLogout} className="ml-2">
           Déconnexion

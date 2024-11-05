@@ -1,15 +1,15 @@
+import { useAuthStore } from '../../stores/authStore';
 import Avatar from '../ui/Avatar';
 
 function ProfilUser() {
+  const userDetails = useAuthStore(state => state.userDetails);
+
   return (
     <div className="flex flex-col items-center justify-center gap-2">
-      <Avatar
-        alt=""
-        size="md"
-        src="https://images.unsplash.com/photo-1561505457-3bcad021f8ee?q=80&w=2235&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-      />
-      <h1 className="text-xl font-semibold">James Due</h1>
+      <Avatar alt="" size="md" src={userDetails?.profilePhoto || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'} />
+      <h1 className="text-xl font-semibold">{userDetails?.pseudo || 'Utilisateur'}</h1>
     </div>
   );
 }
+
 export default ProfilUser;

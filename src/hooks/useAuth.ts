@@ -10,14 +10,37 @@ type LoginResponse = {
   token: string;
 };
 
-type RegisterCredentials = {
+type UserDetails = {
+  id: string;
   pseudo: string;
   email: string;
-  password: string;
+  bio: string;
+  createdAt: string;
+  profilePhoto: string;
+  roleId: string;
+  cityId: string;
 };
 
 const useAuth = () => {
   const setAuthenticated = useAuthStore(state => state.setAuthenticated);
+  const setUserDetails = useAuthStore(state => state.setUserDetails);
+  const clearUserDetails = useAuthStore(state => state.clearUserDetails);
+
+  const fetchUserProfile = async (token: string): Promise<UserDetails> => {
+    const response = await fetch('http://localhost:3000/api/user/me', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error('Erreur lors de la récupération du profil utilisateur');
+    }
+
+    return response.json();
+  };
 
   const loginMutation = useMutation<LoginResponse, { message: string; status: number }, LoginCredentials>({
     mutationFn: async ({ pseudo, password }) => {
@@ -34,39 +57,27 @@ const useAuth = () => {
 
       return response.json();
     },
-    onSuccess: () => {
+    onSuccess: async data => {
+      localStorage.setItem('token', data.token);
       setAuthenticated(true);
-    }
-  });
 
-  const registerMutation = useMutation({
-    mutationFn: async (userData: RegisterCredentials) => {
-      const response = await fetch('http://localhost:3000/api/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(userData)
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw { message: errorData.error || 'Erreur lors de l’inscription', status: response.status };
+      try {
+        const userProfile = await fetchUserProfile(data.token);
+        setUserDetails(userProfile);
+      } catch (error) {
+        console.error('Erreur lors de la récupération du profil utilisateur:', error);
       }
-
-      return response.json();
     }
   });
 
-  const logoutMutation = useMutation({
-    mutationFn: async () => {
-      localStorage.removeItem('token');
-      setAuthenticated(false);
-    }
-  });
+  const logout = () => {
+    localStorage.removeItem('token');
+    clearUserDetails();
+  };
 
   return {
     loginMutation,
-    registerMutation,
-    logoutMutation
+    logout
   };
 };
 

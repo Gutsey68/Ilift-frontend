@@ -1,10 +1,11 @@
+// LoginForm.tsx
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LoaderCircle } from 'lucide-react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import useAuth from '../../hooks/useAuth';
-import { useAuthStore } from '../../stores/authStore';
 import Button from '../ui/Button';
 import { Input } from '../ui/Input';
 
@@ -23,16 +24,13 @@ function LoginForm() {
     resolver: zodResolver(loginSchema)
   });
   const { loginMutation } = useAuth();
-  const setAuthenticated = useAuthStore(state => state.setAuthenticated);
   const navigate = useNavigate();
+  const [error, setErrorState] = useState<string | null>(null);
 
   const onSubmit = async (data: z.infer<typeof loginSchema>) => {
+    setErrorState(null);
     try {
-      const response = await loginMutation.mutateAsync(data);
-
-      localStorage.setItem('token', response.token);
-      setAuthenticated(true);
-
+      await loginMutation.mutateAsync(data);
       navigate('/tableau-de-bord');
     } catch {
       setError('root', { type: 'manual', message: 'Erreur lors de la connexion' });
@@ -42,11 +40,7 @@ function LoginForm() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
       <h2 className="text-2xl font-semibold">Connexion</h2>
-      {loginMutation.isError && (
-        <p className="text-red-600" onClick={() => loginMutation.reset()}>
-          {loginMutation.error?.message}
-        </p>
-      )}
+      {error && <p className="mb-1 text-red-600">{error}</p>}
       <label htmlFor="pseudo" className="mt-1 text-sm">
         Pseudo
       </label>

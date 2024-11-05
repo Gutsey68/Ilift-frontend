@@ -1,18 +1,17 @@
 import { Image } from 'lucide-react';
+import { useAuthStore } from '../../stores/authStore';
 import Avatar from '../ui/Avatar';
 import Button from '../ui/Button';
 import Card from '../ui/Card';
 import IconButton from '../ui/IconButton';
 
 function InputPost() {
+  const userDetails = useAuthStore(state => state.userDetails);
+
   return (
     <Card size="md" className="flex gap-4">
       <div className="mt-0.5">
-        <Avatar
-          alt=""
-          size="sm"
-          src="https://images.unsplash.com/photo-1564859228273-274232fdb516?q=80&w=2187&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-        />
+        <Avatar alt="" size="sm" src={userDetails?.profilePhoto || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'} />
       </div>
       <div className="flex w-full flex-col justify-center">
         <div className="w-full border-b border-neutral-6">
@@ -26,4 +25,5 @@ function InputPost() {
     </Card>
   );
 }
+
 export default InputPost;
