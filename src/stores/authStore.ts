@@ -5,7 +5,9 @@ type AuthStore = {
   setAuthenticated: (authStatus: boolean) => void;
 };
 
-export const useAuthStore = create<AuthStore>(set => ({
-  isAuthenticated: false,
+const useAuthStore = create<AuthStore>(set => ({
+  isAuthenticated: !!localStorage.getItem('token'),
   setAuthenticated: authStatus => set({ isAuthenticated: authStatus })
 }));
+
+export { useAuthStore };
