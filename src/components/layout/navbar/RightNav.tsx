@@ -34,7 +34,7 @@ function RightNav() {
       <div className="relative">
         <IconButton icon={<Bell className="size-5" />} />
         <div className="absolute right-0.5 top-0.5 flex size-4 items-center justify-center rounded-full bg-red-600">
-          <span className="text-xs text-white">6</span>
+          <span className="text-xs text-white">8</span>
         </div>
       </div>
 
