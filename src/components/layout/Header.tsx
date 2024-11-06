@@ -1,6 +1,7 @@
 import { Dumbbell, Menu, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { useAuthStore } from '../../stores/authStore';
 import DesktopNav from './navbar/DesktopNav';
 import MobileNav from './navbar/MobileNav';
 import RightNav from './navbar/RightNav';
@@ -8,6 +9,7 @@ import RightNav from './navbar/RightNav';
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const { isAuthenticated } = useAuthStore();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -32,7 +34,7 @@ const Navbar = () => {
             <NavLink to={'/'} className="flex items-center text-xl font-bold">
               <Dumbbell className="mr-2 mt-1" /> <span>ILift</span>
             </NavLink>
-            <DesktopNav />
+            {isAuthenticated && <DesktopNav />}
           </div>
           <div className="hidden items-center justify-center gap-2 md:flex">
             <RightNav />

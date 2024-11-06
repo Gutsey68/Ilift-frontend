@@ -16,14 +16,6 @@ function LogoutButton() {
       console.error('Erreur lors de la déconnexion', error);
     }
   };
-  return (
-    <>
-      {isAuthenticated && (
-        <Button onClick={handleLogout} className="ml-2">
-          Déconnexion
-        </Button>
-      )}
-    </>
-  );
+  return <>{isAuthenticated && <Button onClick={handleLogout}>Déconnexion</Button>}</>;
 }
 export default LogoutButton;
