@@ -1,15 +1,5 @@
 import { create } from 'zustand';
-
-type UserDetails = {
-  id: string;
-  pseudo: string;
-  email: string;
-  bio: string;
-  createdAt: string;
-  profilePhoto: string;
-  roleId: string;
-  cityId: string;
-};
+import { UserDetails } from '../types/userDetail';
 
 type AuthStore = {
   isAuthenticated: boolean;

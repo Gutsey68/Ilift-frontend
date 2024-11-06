@@ -1,12 +1,17 @@
 import { ChevronRight } from 'lucide-react';
+import { UserDetails } from '../../types/userDetail';
 import Card from '../ui/Card';
 import ProfilUser from './ProfilUser';
 import UserStats from './UserStats';
 
-function ProfilCard() {
+type ProfilCardProps = {
+  usersData: UserDetails;
+};
+
+function ProfilCard({ usersData }: ProfilCardProps) {
   return (
     <Card size="md" className="sticky top-[80px] flex flex-col gap-4">
-      <ProfilUser />
+      <ProfilUser user={usersData} />
       <UserStats />
       <div className="mx-2 border-y border-neutral-6 py-4">
         <p className="pb-2 text-xs text-neutral-11">Dernière activité</p>
@@ -20,4 +25,5 @@ function ProfilCard() {
     </Card>
   );
 }
+
 export default ProfilCard;

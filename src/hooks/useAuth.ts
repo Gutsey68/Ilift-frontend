@@ -16,37 +16,9 @@ type LoginResponse = {
   token: string;
 };
 
-type UserDetails = {
-  id: string;
-  pseudo: string;
-  email: string;
-  bio: string;
-  createdAt: string;
-  profilePhoto: string;
-  roleId: string;
-  cityId: string;
-};
-
 const useAuth = () => {
   const setAuthenticated = useAuthStore(state => state.setAuthenticated);
-  const setUserDetails = useAuthStore(state => state.setUserDetails);
   const clearUserDetails = useAuthStore(state => state.clearUserDetails);
-
-  const fetchUserProfile = async (token: string): Promise<UserDetails> => {
-    const response = await fetch('http://localhost:3000/api/user/me', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`
-      }
-    });
-
-    if (!response.ok) {
-      throw new Error('Erreur lors de la récupération du profil utilisateur');
-    }
-
-    return response.json();
-  };
 
   const loginMutation = useMutation<LoginResponse, { message: string; status: number }, LoginCredentials>({
     mutationFn: async ({ pseudo, password }) => {
@@ -66,13 +38,6 @@ const useAuth = () => {
     onSuccess: async data => {
       localStorage.setItem('token', data.token);
       setAuthenticated(true);
-
-      try {
-        const userProfile = await fetchUserProfile(data.token);
-        setUserDetails(userProfile);
-      } catch (error) {
-        console.error('Erreur lors de la récupération du profil utilisateur:', error);
-      }
     }
   });
 
