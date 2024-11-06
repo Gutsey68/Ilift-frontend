@@ -6,6 +6,7 @@ import ActivityDetailPage from '../pages/ActivityDetailPage';
 import AuthPage from '../pages/AuthPage';
 import ExerciceDetailPage from '../pages/ExerciceDetailPage';
 import ExercicesPage from '../pages/ExercicesPage';
+import LandingPage from '../pages/LandingPage';
 import PageError from '../pages/PageError';
 import ProfilPage from '../pages/ProfilPage';
 import ProgramDetailPage from '../pages/ProgramDetailPage';
@@ -20,6 +21,10 @@ export const router = createBrowserRouter([
     children: [
       {
         path: '',
+        element: <LandingPage />
+      },
+      {
+        path: 'connexion',
         element: <AuthPage />
       },
       {

@@ -1,25 +1,13 @@
 import { Bell } from 'lucide-react';
-import { NavLink, useNavigate } from 'react-router-dom';
-import useAuth from '../../../hooks/useAuth';
+import { NavLink } from 'react-router-dom';
 import { useAuthStore } from '../../../stores/authStore';
 import ThemeToggle from '../../theme/ThemeToggle';
 import Avatar from '../../ui/Avatar';
-import Button from '../../ui/Button';
 import IconButton from '../../ui/IconButton';
+import LogoutButton from './LogoutButton';
 
 function RightNav() {
-  const { isAuthenticated, userDetails } = useAuthStore();
-  const { logout } = useAuth();
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    try {
-      logout();
-      navigate('/');
-    } catch (error) {
-      console.error('Erreur lors de la déconnexion', error);
-    }
-  };
+  const { userDetails } = useAuthStore();
 
   return (
     <>
@@ -38,11 +26,7 @@ function RightNav() {
         </div>
       </div>
       <ThemeToggle />
-      {isAuthenticated && (
-        <Button onClick={handleLogout} className="ml-2">
-          Déconnexion
-        </Button>
-      )}
+      <LogoutButton />
     </>
   );
 }
