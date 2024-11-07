@@ -1,10 +1,22 @@
+import { useParams } from 'react-router-dom';
 import ProfileCard from '../components/profile/ProfileCard';
 import SuggestedProfils from '../components/thread/SuggestedProfils';
 import Card from '../components/ui/Card';
-import { useAuthStore } from '../stores/authStore';
+import useUser from '../hooks/useUser';
 
 function ProfilPage() {
-  const userDetails = useAuthStore(state => state.userDetails);
+  const { id } = useParams<{ id: string }>();
+  const userId = id || 'me';
+
+  const { userDetails, isLoading, error } = useUser(userId);
+
+  if (isLoading) {
+    return <div>Chargement du profil...</div>;
+  }
+
+  if (error) {
+    return <div>Erreur lors du chargement du profil utilisateur.</div>;
+  }
 
   return (
     <div className="mx-auto flex w-full max-w-6xl gap-6">

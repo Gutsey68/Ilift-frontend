@@ -1,12 +1,12 @@
 import { Image } from 'lucide-react';
-import { useAuthStore } from '../../stores/authStore';
+import { useAuthStore } from '../../stores/useAuthStore';
 import Avatar from '../ui/Avatar';
 import Button from '../ui/Button';
 import Card from '../ui/Card';
 import IconButton from '../ui/IconButton';
 
 function InputPost() {
-  const userDetails = useAuthStore(state => state.userDetails);
+  const userDetails = useAuthStore(state => state.currentUser);
 
   return (
     <Card size="md" className="flex gap-4">

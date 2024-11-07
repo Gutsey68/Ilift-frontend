@@ -1,7 +1,7 @@
 import { Dumbbell, Menu, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { useAuthStore } from '../../stores/authStore';
+import { useAuthStore } from '../../stores/useAuthStore';
 import DesktopNav from './navbar/DesktopNav';
 import MobileNav from './navbar/MobileNav';
 import RightNav from './navbar/RightNav';

@@ -1,12 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
+import { useEffect } from 'react';
+import { useAuthStore } from '../stores/useAuthStore';
+import { useUserStore } from '../stores/useUserStore';
 import { UserDetails } from '../types/userDetail';
 
-const fetchUserProfile = async (token: string | null): Promise<UserDetails> => {
-  if (!token) {
-    throw new Error('Token manquant');
-  }
-
-  const response = await fetch('http://localhost:3000/api/user/me', {
+const fetchUserProfile = async (userId: string, token: string): Promise<UserDetails> => {
+  const response = await fetch(`http://localhost:3000/api/user/${userId}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -21,16 +20,33 @@ const fetchUserProfile = async (token: string | null): Promise<UserDetails> => {
   return response.json();
 };
 
-const useUser = () => {
+const useUser = (userId: string) => {
   const token = localStorage.getItem('token');
+  const currentUser = useAuthStore(state => state.currentUser);
+  const setCurrentUser = useAuthStore(state => state.setCurrentUser);
+  const setViewedUser = useUserStore(state => state.setViewedUser);
 
   const queryResult = useQuery<UserDetails, Error>({
-    queryKey: ['userProfile'],
-    queryFn: () => fetchUserProfile(token),
+    queryKey: ['userProfile', userId],
+    queryFn: () => fetchUserProfile(userId, token!),
     enabled: !!token
   });
 
-  return { userDetails: queryResult.data, isLoading: queryResult.isLoading, error: queryResult.error };
+  useEffect(() => {
+    if (queryResult.isSuccess && queryResult.data) {
+      if (userId === currentUser?.id) {
+        setCurrentUser(queryResult.data);
+      } else {
+        setViewedUser(queryResult.data);
+      }
+    }
+  }, [queryResult.isSuccess, queryResult.data, userId, currentUser?.id, setCurrentUser, setViewedUser]);
+
+  return {
+    userDetails: queryResult.data,
+    isLoading: queryResult.isLoading,
+    error: queryResult.error
+  };
 };
 
 export default useUser;

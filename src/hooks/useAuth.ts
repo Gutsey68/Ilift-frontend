@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { useAuthStore } from '../stores/authStore';
+import { useAuthStore } from '../stores/useAuthStore';
 
 type LoginCredentials = {
   pseudo: string;

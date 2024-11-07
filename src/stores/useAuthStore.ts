@@ -3,18 +3,18 @@ import { UserDetails } from '../types/userDetail';
 
 type AuthStore = {
   isAuthenticated: boolean;
-  userDetails: UserDetails | null;
+  currentUser: UserDetails | null;
   setAuthenticated: (authStatus: boolean) => void;
-  setUserDetails: (user: UserDetails) => void;
+  setCurrentUser: (user: UserDetails) => void;
   clearUserDetails: () => void;
 };
 
 const useAuthStore = create<AuthStore>(set => ({
   isAuthenticated: !!localStorage.getItem('token'),
-  userDetails: null,
+  currentUser: null,
   setAuthenticated: authStatus => set({ isAuthenticated: authStatus }),
-  setUserDetails: user => set({ userDetails: user }),
-  clearUserDetails: () => set({ userDetails: null, isAuthenticated: false })
+  setCurrentUser: user => set({ currentUser: user }),
+  clearUserDetails: () => set({ currentUser: null, isAuthenticated: false })
 }));
 
 export { useAuthStore };

@@ -1,6 +1,6 @@
 import { CalendarDays, Camera, MapPin } from 'lucide-react';
 import { formatRelativeTime } from '../../lib/formatRelativeTime';
-import { useAuthStore } from '../../stores/authStore';
+import { useAuthStore } from '../../stores/useAuthStore';
 import Avatar from '../ui/Avatar';
 
 function ProfileCard() {

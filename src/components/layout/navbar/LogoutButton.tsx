@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../../../hooks/useAuth';
-import { useAuthStore } from '../../../stores/authStore';
+import { useAuthStore } from '../../../stores/useAuthStore';
 import Button from '../../ui/Button';
 
 function LogoutButton() {

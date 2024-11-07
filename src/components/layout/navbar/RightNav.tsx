@@ -1,6 +1,6 @@
 import { Bell } from 'lucide-react';
 import { Link, NavLink } from 'react-router-dom';
-import { useAuthStore } from '../../../stores/authStore';
+import { useAuthStore } from '../../../stores/useAuthStore';
 import ThemeToggle from '../../theme/ThemeToggle';
 import Avatar from '../../ui/Avatar';
 import Button from '../../ui/Button';
@@ -8,15 +8,15 @@ import IconButton from '../../ui/IconButton';
 import LogoutButton from './LogoutButton';
 
 function RightNav() {
-  const { userDetails, isAuthenticated } = useAuthStore();
+  const { currentUser, isAuthenticated } = useAuthStore();
 
   return (
     <>
       {isAuthenticated ? (
         <>
-          <NavLink to={`/profil/${userDetails?.id}`}>
+          <NavLink to={`/profil/${currentUser?.id}`}>
             <Avatar
-              src={userDetails?.profilePhoto || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'}
+              src={currentUser?.profilePhoto || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'}
               alt=""
               className="mr-1"
               size="sm"

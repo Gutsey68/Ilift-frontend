@@ -4,9 +4,11 @@ import InputPost from '../components/thread/InputPost';
 import ProfilCard from '../components/thread/ProfilCard';
 import SuggestedProfils from '../components/thread/SuggestedProfils';
 import useUser from '../hooks/useUser';
+import { useAuthStore } from '../stores/useAuthStore';
 
 function Thread() {
-  const { userDetails, isLoading, error } = useUser();
+  const currentUser = useAuthStore(state => state.currentUser);
+  const { userDetails, isLoading, error } = useUser(currentUser?.id || '');
 
   if (isLoading) {
     return <ThreadSkeleton />;
