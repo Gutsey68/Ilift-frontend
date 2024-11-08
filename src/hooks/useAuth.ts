@@ -1,5 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { useAuthStore } from '../stores/useAuthStore';
+import { UserDetails } from '../types/userDetail';
 
 type LoginCredentials = {
   pseudo: string;
@@ -14,10 +15,12 @@ type RegisterCredentials = {
 
 type LoginResponse = {
   token: string;
+  user: UserDetails;
 };
 
 const useAuth = () => {
   const setAuthenticated = useAuthStore(state => state.setAuthenticated);
+  const setCurrentUser = useAuthStore(state => state.setCurrentUser);
   const clearUserDetails = useAuthStore(state => state.clearUserDetails);
 
   const loginMutation = useMutation<LoginResponse, { message: string; status: number }, LoginCredentials>({
@@ -35,9 +38,10 @@ const useAuth = () => {
 
       return response.json();
     },
-    onSuccess: async data => {
+    onSuccess: data => {
       localStorage.setItem('token', data.token);
       setAuthenticated(true);
+      setCurrentUser(data.user);
     }
   });
 
