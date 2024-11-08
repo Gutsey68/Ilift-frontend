@@ -1,27 +1,38 @@
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import ProfileCard from '../components/profile/ProfileCard';
 import SuggestedProfils from '../components/thread/SuggestedProfils';
 import Card from '../components/ui/Card';
-import { useAuthStore } from '../stores/useAuthStore';
+import { fetchCurrentUser } from '../services/authService';
+import { UserDetails } from '../types/userDetail';
 
 function ProfilPage() {
   const { id } = useParams<{ id: string }>();
-  const currentUser = useAuthStore(state => state.currentUser);
-  const isAuthenticated = useAuthStore(state => state.isAuthenticated);
+  const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  let userDetails;
+  useEffect(() => {
+    const fetchUserDetails = async () => {
+      setLoading(true);
+      try {
+        const fetchedUser = await fetchCurrentUser();
+        setUserDetails(fetchedUser);
+      } catch (error) {
+        console.error('Erreur lors de la récupération des informations utilisateur:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  if (!id || id === 'me') {
-    if (!isAuthenticated) {
-      return <div>Erreur : Vous devez être connecté pour voir cette page.</div>;
-    }
-    userDetails = currentUser;
-  } else {
-    userDetails = null; // Placeholder, en cas de besoin de récupération d'un autre utilisateur
+    fetchUserDetails();
+  }, [id]);
+
+  if (loading) {
+    return <div>Chargement...</div>;
   }
 
   if (!userDetails) {
-    return <div>Chargement...</div>;
+    return <div>Erreur</div>;
   }
 
   return (

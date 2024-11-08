@@ -4,18 +4,20 @@ import { useAuthStore } from '../../../stores/useAuthStore';
 import Button from '../../ui/Button';
 
 function LogoutButton() {
-  const { isAuthenticated } = useAuthStore();
-  const { logout } = useAuth();
+  const isAuthenticated = useAuthStore(state => state.isAuthenticated);
+  const { logoutMutation } = useAuth();
   const navigate = useNavigate();
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     try {
-      logout();
+      await logoutMutation.mutateAsync();
       navigate('/');
     } catch (error) {
       console.error('Erreur lors de la déconnexion', error);
     }
   };
+
   return <>{isAuthenticated && <Button onClick={handleLogout}>Déconnexion</Button>}</>;
 }
+
 export default LogoutButton;
