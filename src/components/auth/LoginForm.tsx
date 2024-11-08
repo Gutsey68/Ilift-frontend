@@ -1,4 +1,3 @@
-// LoginForm.tsx
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LoaderCircle } from 'lucide-react';
 import { useForm } from 'react-hook-form';
@@ -13,7 +12,11 @@ const loginSchema = z.object({
   password: z.string().min(3, 'Le mot de passe doit comporter au moins 3 caractères')
 });
 
-function LoginForm() {
+type LoginFormProps = {
+  setFormType: (formType: 'login' | 'register' | 'forgotPassword') => void;
+};
+
+function LoginForm({ setFormType }: LoginFormProps) {
   const {
     register,
     handleSubmit,
@@ -29,7 +32,8 @@ function LoginForm() {
     try {
       await loginMutation.mutateAsync(data);
       navigate('/tableau-de-bord');
-    } catch {
+    } catch (error) {
+      console.error('Erreur lors de la connexion:', error);
       setError('root', { type: 'manual', message: 'Erreur lors de la connexion' });
     }
   };
@@ -55,6 +59,11 @@ function LoginForm() {
       <Button type="submit" className="mt-2 w-full" disabled={isSubmitting || loginMutation.status === 'pending'}>
         {isSubmitting || loginMutation.status === 'pending' ? <LoaderCircle className="animate-spin" size={20} /> : 'Se connecter'}
       </Button>
+      <div className="mt-2 text-center text-sm">
+        <button className="underline hover:text-green-9" type="button" onClick={() => setFormType('forgotPassword')}>
+          Mot de passe oublié ?
+        </button>
+      </div>
     </form>
   );
 }

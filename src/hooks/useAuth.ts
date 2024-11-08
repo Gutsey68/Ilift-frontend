@@ -1,4 +1,6 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
+import { fetchCurrentUser, login, logout, register } from '../services/authService';
 import { useAuthStore } from '../stores/useAuthStore';
 import { UserDetails } from '../types/userDetail';
 
@@ -13,62 +15,85 @@ type RegisterCredentials = {
   password: string;
 };
 
-type LoginResponse = {
-  token: string;
-  user: UserDetails;
-};
-
 const useAuth = () => {
   const setAuthenticated = useAuthStore(state => state.setAuthenticated);
   const setCurrentUser = useAuthStore(state => state.setCurrentUser);
   const clearUserDetails = useAuthStore(state => state.clearUserDetails);
+  const setLoading = useAuthStore(state => state.setLoading);
+  const navigate = useNavigate();
 
-  const loginMutation = useMutation<LoginResponse, { message: string; status: number }, LoginCredentials>({
-    mutationFn: async ({ pseudo, password }) => {
-      const response = await fetch('http://localhost:3000/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ pseudo, password })
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw { message: errorData.error || 'Pseudo ou mot de passe incorrect', status: response.status };
-      }
-
-      return response.json();
-    },
-    onSuccess: data => {
-      localStorage.setItem('token', data.token);
+  const queryOptions = {
+    onSuccess: (data: UserDetails) => {
+      setCurrentUser(data);
       setAuthenticated(true);
-      setCurrentUser(data.user);
+      localStorage.setItem('isAuthenticated', 'true');
+      setLoading(false);
+    },
+    onError: () => {
+      clearUserDetails();
+      localStorage.removeItem('isAuthenticated');
+      setLoading(false);
+    },
+    retry: false,
+    staleTime: 0
+  };
+
+  const {
+    data: user,
+    status,
+    refetch
+  } = useQuery<UserDetails, Error>({
+    queryKey: ['currentUser'],
+    queryFn: fetchCurrentUser,
+    ...queryOptions
+  });
+
+  const loginMutation = useMutation<{ token: string }, { message: string; status: number }, LoginCredentials>({
+    mutationFn: login,
+    onSuccess: async data => {
+      localStorage.setItem('jwtToken', data.token);
+      setAuthenticated(true);
+      await refetch();
+      navigate('/tableau-de-bord');
+    },
+    onError: error => {
+      console.error('Erreur de connexion:', error);
+      clearUserDetails();
+      localStorage.removeItem('isAuthenticated');
+      setLoading(false);
+    }
+  });
+
+  const logoutMutation = useMutation<void, Error>({
+    mutationFn: logout,
+    onSuccess: () => {
+      clearUserDetails();
+      localStorage.removeItem('isAuthenticated');
+      localStorage.removeItem('jwtToken');
+      setLoading(false);
+    },
+    onError: error => {
+      console.error('Erreur lors de la déconnexion:', error);
+      clearUserDetails();
+      localStorage.removeItem('isAuthenticated');
+      setLoading(false);
     }
   });
 
   const registerMutation = useMutation<void, { message: string; status: number }, RegisterCredentials>({
-    mutationFn: async ({ pseudo, email, password }) => {
-      const response = await fetch('http://localhost:3000/api/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ pseudo, email, password })
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw { message: errorData.error || 'Erreur lors de l’inscription', status: response.status };
-      }
+    mutationFn: register,
+    onError: error => {
+      console.error('Erreur lors de l’inscription:', error);
+      setLoading(false);
     }
   });
-
-  const logout = () => {
-    localStorage.removeItem('token');
-    clearUserDetails();
-  };
 
   return {
     loginMutation,
     registerMutation,
-    logout
+    logoutMutation,
+    user,
+    status
   };
 };
 

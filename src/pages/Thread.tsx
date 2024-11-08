@@ -1,14 +1,40 @@
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import ThreadSkeleton from '../components/skeletons/ThreadSkeleton';
 import AllPosts from '../components/thread/AllPosts';
 import InputPost from '../components/thread/InputPost';
 import ProfilCard from '../components/thread/ProfilCard';
 import SuggestedProfils from '../components/thread/SuggestedProfils';
+import { fetchCurrentUser } from '../services/authService';
 import { useAuthStore } from '../stores/useAuthStore';
 
 function Thread() {
+  const navigate = useNavigate();
   const currentUser = useAuthStore(state => state.currentUser);
+  const setCurrentUser = useAuthStore(state => state.setCurrentUser);
+  const isLoading = useAuthStore(state => state.isLoading);
+  const setLoading = useAuthStore(state => state.setLoading);
 
-  if (!currentUser) {
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        setLoading(true);
+        const user = await fetchCurrentUser();
+        setCurrentUser(user);
+      } catch (error) {
+        console.error('Erreur lors de la récupération des informations utilisateur:', error);
+        navigate('/login');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (!currentUser) {
+      fetchUser();
+    }
+  }, [currentUser, navigate, setCurrentUser, setLoading]);
+
+  if (isLoading) {
     return <ThreadSkeleton />;
   }
 
