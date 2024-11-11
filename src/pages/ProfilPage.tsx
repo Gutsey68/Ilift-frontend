@@ -1,34 +1,50 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import ProfileCard from '../components/profile/ProfileCard';
 import SuggestedProfils from '../components/thread/SuggestedProfils';
 import Card from '../components/ui/Card';
 import { fetchCurrentUser } from '../services/authService';
+import { fetchUserById } from '../services/userService';
 import { UserDetails } from '../types/userDetail';
 
 function ProfilPage() {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchUserDetails = async () => {
       setLoading(true);
+      setError(null);
       try {
-        const fetchedUser = await fetchCurrentUser();
+        const token = localStorage.getItem('jwtToken');
+        if (!token) {
+          throw new Error('Token manquant. Veuillez vous reconnecter.');
+        }
+
+        const fetchedUser = id ? await fetchUserById(id) : await fetchCurrentUser();
         setUserDetails(fetchedUser);
       } catch (error) {
-        console.error('Erreur lors de la récupération des informations utilisateur:', error);
+        setError('Erreur lors de la récupération des informations utilisateur.');
+        if (error instanceof Error && (error.message.includes('Token manquant') || error.message.includes('Non autorisé'))) {
+          navigate('/connexion');
+        }
       } finally {
         setLoading(false);
       }
     };
 
     fetchUserDetails();
-  }, [id]);
+  }, [id, navigate]);
 
   if (loading) {
     return <div>Chargement...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
   }
 
   if (!userDetails) {

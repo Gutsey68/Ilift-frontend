@@ -1,17 +1,10 @@
 import { CalendarDays, Camera, MapPin } from 'lucide-react';
 import { formatRelativeTime } from '../../lib/formatRelativeTime';
+import { UserDetails } from '../../types/userDetail';
 import Avatar from '../ui/Avatar';
 
 type ProfileCardProps = {
-  userDetails: {
-    pseudo: string;
-    bio?: string | null;
-    profilePhoto?: string | null;
-    createdAt?: string;
-    city?: {
-      name: string | null;
-    } | null;
-  };
+  userDetails: UserDetails | null;
 };
 
 function ProfileCard({ userDetails }: ProfileCardProps) {
