@@ -23,8 +23,14 @@ function ProfilPage() {
         if (!token) {
           throw new Error('Token manquant. Veuillez vous reconnecter.');
         }
-
-        const fetchedUser = id ? await fetchUserById(id) : await fetchCurrentUser();
+        let fetchedUser;
+        if (id) {
+          const data = await fetchUserById(id);
+          fetchedUser = data.data;
+        } else {
+          const data = await fetchCurrentUser();
+          fetchedUser = data.data;
+        }
         setUserDetails(fetchedUser);
       } catch (error) {
         setError('Erreur lors de la récupération des informations utilisateur.');

@@ -1,6 +1,4 @@
-import { UserDetails } from '../types/userDetail';
-
-export const fetchCurrentUser = async (): Promise<UserDetails> => {
+export const fetchCurrentUser = async () => {
   const token = localStorage.getItem('jwtToken');
 
   if (!token) {
@@ -23,7 +21,7 @@ export const fetchCurrentUser = async (): Promise<UserDetails> => {
 };
 
 export const login = async ({ pseudo, password }: { pseudo: string; password: string }): Promise<{ token: string }> => {
-  const response = await fetch('http://localhost:3000/api/auth/login', {
+  const response = await fetch('http://localhost:3000/api/user/login', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ pseudo, password })
@@ -38,7 +36,7 @@ export const login = async ({ pseudo, password }: { pseudo: string; password: st
 };
 
 export const logout = async (): Promise<void> => {
-  const response = await fetch('http://localhost:3000/api/auth/logout', {
+  const response = await fetch('http://localhost:3000/api/user/logout', {
     method: 'POST'
   });
 
@@ -48,7 +46,7 @@ export const logout = async (): Promise<void> => {
 };
 
 export const register = async ({ pseudo, email, password }: { pseudo: string; email: string; password: string }): Promise<void> => {
-  const response = await fetch('http://localhost:3000/api/auth/register', {
+  const response = await fetch('http://localhost:3000/api/user/register', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ pseudo, email, password })

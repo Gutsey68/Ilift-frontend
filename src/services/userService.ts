@@ -1,6 +1,4 @@
-import { UserDetails } from '../types/userDetail';
-
-export const fetchUserById = async (id: string): Promise<UserDetails> => {
+export const fetchUserById = async (id: string) => {
   const token = localStorage.getItem('jwtToken');
 
   if (!token) {

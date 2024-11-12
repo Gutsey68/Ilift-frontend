@@ -19,7 +19,9 @@ function Thread() {
     const fetchUser = async () => {
       try {
         setLoading(true);
-        const user = await fetchCurrentUser();
+        const data = await fetchCurrentUser();
+        const user = data.data;
+
         setCurrentUser(user);
       } catch (error) {
         console.error('Erreur lors de la récupération des informations utilisateur:', error);
