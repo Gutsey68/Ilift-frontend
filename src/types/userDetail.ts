@@ -9,4 +9,10 @@ export type UserDetails = {
   city: {
     name: string | null;
   } | null;
+  _count: {
+    posts: number;
+    followedBy: number;
+    following: number;
+    workouts: number;
+  } | null;
 };
