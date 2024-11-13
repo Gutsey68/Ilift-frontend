@@ -18,4 +18,7 @@ export type Post = {
     roleId?: string;
     cityId?: string;
   };
+  _count?: {
+    likes: number;
+  };
 };

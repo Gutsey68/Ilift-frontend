@@ -35,7 +35,7 @@ function AllPosts({ posts }: AllPostsProps) {
             <div className="px-4">
               <div className="mx-auto flex w-3/4 items-center gap-1 border-b border-gray-600 pb-2 text-xs text-neutral-11">
                 <Heart size={14} />
-                <p>57</p>
+                <p>{post._count?.likes}</p>
               </div>
               <div className="mx-auto flex w-3/4 justify-between pb-4 pt-2">
                 <button className="flex items-center gap-2 hover:text-green-9">

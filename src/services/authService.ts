@@ -1,5 +1,5 @@
 export const fetchCurrentUser = async () => {
-  const token = localStorage.getItem('jwtToken');
+  const token = localStorage.getItem('token');
 
   if (!token) {
     throw new Error('Token manquant. Veuillez vous reconnecter.');
