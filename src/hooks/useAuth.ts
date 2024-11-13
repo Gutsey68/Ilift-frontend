@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
-import { fetchCurrentUser, login, logout, register } from '../services/authService';
+import { fetchCurrentUser, login, register } from '../services/authService';
 import { useAuthStore } from '../stores/useAuthStore';
 import { UserDetails } from '../types/userDetail';
 
@@ -56,8 +56,7 @@ const useAuth = () => {
       await refetch();
       navigate('/tableau-de-bord');
     },
-    onError: error => {
-      console.error('Erreur de connexion:', error);
+    onError: () => {
       clearUserDetails();
       localStorage.removeItem('isAuthenticated');
       setLoading(false);
@@ -65,15 +64,15 @@ const useAuth = () => {
   });
 
   const logoutMutation = useMutation<void, Error>({
-    mutationFn: logout,
+    mutationFn: async () => {
+      localStorage.removeItem('jwtToken');
+    },
     onSuccess: () => {
       clearUserDetails();
       localStorage.removeItem('isAuthenticated');
-      localStorage.removeItem('jwtToken');
       setLoading(false);
     },
-    onError: error => {
-      console.error('Erreur lors de la déconnexion:', error);
+    onError: () => {
       clearUserDetails();
       localStorage.removeItem('isAuthenticated');
       setLoading(false);
@@ -82,8 +81,7 @@ const useAuth = () => {
 
   const registerMutation = useMutation<void, { message: string; status: number }, RegisterCredentials>({
     mutationFn: register,
-    onError: error => {
-      console.error('Erreur lors de l’inscription:', error);
+    onError: () => {
       setLoading(false);
     }
   });

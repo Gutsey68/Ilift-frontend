@@ -5,7 +5,7 @@ export const fetchCurrentUser = async () => {
     throw new Error('Token manquant. Veuillez vous reconnecter.');
   }
 
-  const response = await fetch('http://localhost:3000/api/user/me', {
+  const response = await fetch('http://localhost:3000/api/users/me', {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -21,7 +21,7 @@ export const fetchCurrentUser = async () => {
 };
 
 export const login = async ({ pseudo, password }: { pseudo: string; password: string }): Promise<{ token: string }> => {
-  const response = await fetch('http://localhost:3000/api/user/login', {
+  const response = await fetch('http://localhost:3000/api/users/login', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ pseudo, password })
@@ -35,18 +35,8 @@ export const login = async ({ pseudo, password }: { pseudo: string; password: st
   return response.json();
 };
 
-export const logout = async (): Promise<void> => {
-  const response = await fetch('http://localhost:3000/api/user/logout', {
-    method: 'POST'
-  });
-
-  if (!response.ok) {
-    throw new Error('Erreur lors de la déconnexion');
-  }
-};
-
 export const register = async ({ pseudo, email, password }: { pseudo: string; email: string; password: string }): Promise<void> => {
-  const response = await fetch('http://localhost:3000/api/user/register', {
+  const response = await fetch('http://localhost:3000/api/users/register', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ pseudo, email, password })

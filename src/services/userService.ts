@@ -5,7 +5,7 @@ export const fetchUserById = async (id: string) => {
     throw new Error('Token manquant. Veuillez vous reconnecter.');
   }
 
-  const response = await fetch(`http://localhost:3000/api/user/${id}`, {
+  const response = await fetch(`http://localhost:3000/api/users/${id}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
