@@ -1,5 +1,7 @@
+import { useQuery } from '@tanstack/react-query';
 import { Bell } from 'lucide-react';
 import { Link, NavLink } from 'react-router-dom';
+import { fetchCurrentUser } from '../../../services/authService';
 import { useAuthStore } from '../../../stores/useAuthStore';
 import ThemeToggle from '../../theme/ThemeToggle';
 import Avatar from '../../ui/Avatar';
@@ -8,15 +10,33 @@ import IconButton from '../../ui/IconButton';
 import LogoutButton from './LogoutButton';
 
 function RightNav() {
-  const { currentUser, isAuthenticated } = useAuthStore();
+  const { isAuthenticated } = useAuthStore();
+  const {
+    isPending: userPending,
+    error: userError,
+    data: userData
+  } = useQuery({
+    queryKey: ['users'],
+    queryFn: () => fetchCurrentUser()
+  });
+
+  const user = userData?.data;
+
+  if (userPending) {
+    return null;
+  }
+
+  if (userError) {
+    return null;
+  }
 
   return (
     <>
       {isAuthenticated ? (
         <>
-          <NavLink to={`/profil/${currentUser?.id}`}>
+          <NavLink to={`/profil/${user?.id}`}>
             <Avatar
-              src={currentUser?.profilePhoto || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'}
+              src={user?.profilePhoto || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'}
               alt=""
               className="mr-1"
               size="sm"

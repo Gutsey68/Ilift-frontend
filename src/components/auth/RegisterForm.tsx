@@ -55,14 +55,12 @@ function RegisterForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
-      <h2 className="text-2xl font-semibold">Inscription</h2>
       {registerMutation.isError && (
         <p className="text-red-600" onClick={() => registerMutation.reset()}>
           {registerMutation.error?.message}
         </p>
       )}
       {successMessage && <p className="text-green-600">{successMessage}</p>}
-      <p className="mb-4 text-sm text-neutral-11">Entre tes informations pour créer un compte</p>
       <label htmlFor="pseudo" className="mt-1 text-sm">
         Pseudo
       </label>

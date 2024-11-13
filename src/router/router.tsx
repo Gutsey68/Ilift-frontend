@@ -3,14 +3,16 @@ import PrivateRoute from '../components/auth/PrivateRoute';
 import Layout from '../components/layout/Layout';
 import ActivitiesPage from '../pages/ActivitiesPage';
 import ActivityDetailPage from '../pages/ActivityDetailPage';
-import AuthPage from '../pages/AuthPage';
 import ExerciceDetailPage from '../pages/ExerciceDetailPage';
 import ExercicesPage from '../pages/ExercicesPage';
+import ForgotPasswordPage from '../pages/ForgotPasswordPage';
 import LandingPage from '../pages/LandingPage';
+import LoginPage from '../pages/LoginPage';
 import PageError from '../pages/PageError';
 import ProfilPage from '../pages/ProfilPage';
 import ProgramDetailPage from '../pages/ProgramDetailPage';
 import ProgramsPage from '../pages/ProgramsPage';
+import RegisterPage from '../pages/REgisterPage';
 import Thread from '../pages/Thread';
 
 export const router = createBrowserRouter([
@@ -25,7 +27,15 @@ export const router = createBrowserRouter([
       },
       {
         path: 'connexion',
-        element: <AuthPage />
+        element: <LoginPage />
+      },
+      {
+        path: 'inscription',
+        element: <RegisterPage />
+      },
+      {
+        path: 'mot-de-passe-oublie',
+        element: <ForgotPasswordPage />
       },
       {
         path: 'tableau-de-bord',

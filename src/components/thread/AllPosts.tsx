@@ -4,9 +4,11 @@ import { Post } from '../../types/postsType';
 import Avatar from '../ui/Avatar';
 import Card from '../ui/Card';
 
-function AllPosts({ posts }: { posts: Post[] }) {
+type AllPostsProps = { posts: Post[] };
+
+function AllPosts({ posts }: AllPostsProps) {
   if (!Array.isArray(posts) || posts.length === 0) {
-    return <div className="text-center text-red-600">Aucun post trouvé.</div>;
+    return null;
   }
 
   return (
@@ -38,15 +40,15 @@ function AllPosts({ posts }: { posts: Post[] }) {
               <div className="mx-auto flex w-3/4 justify-between pb-4 pt-2">
                 <button className="flex items-center gap-2 hover:text-green-9">
                   <Heart size={16} />
-                  Like
+                  J'aime
                 </button>
                 <button className="flex items-center gap-2 hover:text-green-9">
                   <MessageCircle size={16} />
-                  Comment
+                  Commenter
                 </button>
                 <button className="flex items-center gap-2 hover:text-green-9">
                   <Send size={16} />
-                  Share
+                  Partager
                 </button>
               </div>
             </div>
