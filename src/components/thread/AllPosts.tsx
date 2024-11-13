@@ -1,22 +1,20 @@
 import { Earth, Heart, MessageCircle, Send } from 'lucide-react';
-import data from '../../../seeds.json';
 import { formatRelativeTime } from '../../lib/formatRelativeTime';
+import { Post } from '../../types/postsType';
 import Avatar from '../ui/Avatar';
 import Card from '../ui/Card';
 
-const { users, posts } = data;
+function AllPosts({ posts }: { posts: Post[] }) {
+  if (!Array.isArray(posts) || posts.length === 0) {
+    return <div className="text-center text-red-600">Aucun post trouvé.</div>;
+  }
 
-function getUserById(userId: number) {
-  return users.find(user => user.id === userId);
-}
-
-function AllPosts() {
   return (
     <>
-      {posts.map((post, index) => {
-        const user = getUserById(post.userId);
+      {posts.map((post: Post) => {
+        const user = post.author;
         return (
-          <Card size="xs" key={index} className="mt-4 flex flex-col gap-4">
+          <Card size="xs" key={post.id} className="mt-4 flex flex-col gap-4">
             <div className="flex gap-4 px-2 pt-4">
               <Avatar alt="" size="sm" src={user?.profilePhoto || ''} />
               <div className="flex flex-col">

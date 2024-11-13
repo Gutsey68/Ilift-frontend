@@ -2,17 +2,17 @@ export type UserDetails = {
   id: string;
   pseudo: string;
   email: string;
-  bio: string | null;
+  bio?: string;
   createdAt: string;
-  profilePhoto: string | null;
-  roleId: string | null;
-  city: {
-    name: string | null;
-  } | null;
-  _count: {
+  profilePhoto?: string;
+  roleId?: string;
+  city?: {
+    name?: string;
+  };
+  _count?: {
     posts: number;
     followedBy: number;
     following: number;
     workouts: number;
-  } | null;
+  };
 };
