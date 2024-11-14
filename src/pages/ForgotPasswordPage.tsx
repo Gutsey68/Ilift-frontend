@@ -7,12 +7,15 @@ function ForgotPasswordPage() {
     <div className="flex items-center justify-center">
       <Card size="lg" className="my-10 flex w-96 flex-col ">
         <h1 className="text-2xl font-semibold">Mot de passe oublié</h1>
-        <Link className="mb-4 mt-2 text-sm text-neutral-10" to="/connexion">
+        <p className="mb-4 mt-2 text-sm text-neutral-10">
+          Ne vous inquiétez pas! Renseignez votre adresse e-mail et nous vous enverrons un lien pour réinitialiser votre mot de passe.
+        </p>
+        <ForgotPasswordForm />
+        <Link className="mt-2 text-center text-sm text-neutral-10" to="/connexion">
           <button className="group">
-            Vous avez déjà un compte ? <span className="underline group-hover:text-green-9">Se connecter</span>
+            <span className="underline group-hover:text-green-9">Retour à la connexion</span>
           </button>
         </Link>
-        <ForgotPasswordForm />
       </Card>
     </div>
   );

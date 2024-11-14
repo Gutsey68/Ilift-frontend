@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { LoaderCircle } from 'lucide-react';
+import { LoaderCircle, TriangleAlert } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { z } from 'zod';
@@ -44,7 +44,10 @@ function LoginForm() {
       <label htmlFor="pseudo" className="mt-1 text-sm">
         Pseudo
       </label>
-      <Input {...register('pseudo')} type="text" name="pseudo" placeholder="Pseudo" />
+      <div className="relative">
+        <Input {...register('pseudo')} type="text" name="pseudo" placeholder="Pseudo" />
+        {errors.pseudo && <TriangleAlert size={20} className="absolute right-3.5 top-2 text-red-600" />}
+      </div>
       {errors.pseudo && <p className="mb-1 text-sm text-red-600">{errors.pseudo.message?.toString()}</p>}
       <div className="flex items-center justify-between">
         <label htmlFor="password" className="mt-1 text-sm">
@@ -54,7 +57,10 @@ function LoginForm() {
           <a className="text-xs text-neutral-10 underline hover:text-green-9">Mot de passe oublié ?</a>
         </Link>
       </div>
-      <Input {...register('password')} type="password" name="password" placeholder="Mot de passe" />
+      <div className="relative">
+        <Input {...register('password')} type="password" name="password" placeholder="Mot de passe" />
+        {errors.password && <TriangleAlert size={20} className="absolute right-3.5 top-2 text-red-600" />}
+      </div>
       {errors.password && <p className="mb-1 text-sm text-red-600">{errors.password.message?.toString()}</p>}
       <Button type="submit" className="mt-2 w-full" disabled={isSubmitting || loginMutation.status === 'pending'}>
         {isSubmitting || loginMutation.status === 'pending' ? <LoaderCircle className="animate-spin" size={20} /> : 'Se connecter'}
