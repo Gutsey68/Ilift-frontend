@@ -2,7 +2,6 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { fetchCurrentUser, login, register } from '../services/authService';
 import { useAuthStore } from '../stores/useAuthStore';
-import { UserDetails } from '../types/userDetail';
 
 const useAuth = () => {
   const setAuthenticated = useAuthStore(state => state.setAuthenticated);
@@ -23,7 +22,7 @@ const useAuth = () => {
     data: user,
     status,
     refetch
-  } = useQuery<UserDetails, Error>({
+  } = useQuery({
     queryKey: ['currentUser'],
     queryFn: fetchCurrentUser,
     ...queryOptions
@@ -33,6 +32,7 @@ const useAuth = () => {
     mutationFn: login,
     onSuccess: async data => {
       localStorage.setItem('token', data.token);
+      localStorage.removeItem('isAuthenticated');
       setAuthenticated(true);
       await refetch();
       navigate('/tableau-de-bord');

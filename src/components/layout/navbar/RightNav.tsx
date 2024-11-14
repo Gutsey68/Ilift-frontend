@@ -11,6 +11,8 @@ import LogoutButton from './LogoutButton';
 
 function RightNav() {
   const { isAuthenticated } = useAuthStore();
+  console.log(isAuthenticated);
+
   const {
     isPending: userPending,
     error: userError,
