@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { fetchCurrentUser } from '../services/userService';
 
-const useUser = () => {
+const useCurrentUser = () => {
   const {
     isPending: userPending,
     error: userError,
@@ -20,4 +20,4 @@ const useUser = () => {
   };
 };
 
-export default useUser;
+export default useCurrentUser;

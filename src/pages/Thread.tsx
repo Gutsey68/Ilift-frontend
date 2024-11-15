@@ -1,31 +1,14 @@
-import { useQuery } from '@tanstack/react-query';
 import ThreadSkeleton from '../components/skeletons/ThreadSkeleton';
 import AllPosts from '../components/thread/AllPosts';
 import InputPost from '../components/thread/InputPost';
 import ProfilCard from '../components/thread/ProfilCard';
 import SuggestedProfils from '../components/thread/SuggestedProfils';
-import useUser from '../hooks/useUser';
-import { fetchPostsOfUserAndHisFollowingsHandler } from '../services/postService';
+import useCurrentUser from '../hooks/useCurrentUser';
+import usePostsOfUsers from '../hooks/usePostsOfUsers';
 
 function Thread() {
-  const { userPending, userError, userData } = useUser();
-
-  const {
-    isPending: postsPending,
-    error: postError,
-    data: postsData
-  } = useQuery({
-    queryKey: ['posts', userData?.id],
-    queryFn: () => {
-      if (!userData) {
-        throw new Error('Utilisateur non connecté');
-      }
-      return fetchPostsOfUserAndHisFollowingsHandler(userData.id);
-    },
-    enabled: !!userData
-  });
-
-  const posts = postsData?.data;
+  const { userPending, userError, userData } = useCurrentUser();
+  const { postsPending, postError, postsData } = usePostsOfUsers();
 
   if (postsPending) {
     return <ThreadSkeleton />;
@@ -48,7 +31,7 @@ function Thread() {
       <div className="flex w-1/4 flex-col">{userData && <ProfilCard usersData={userData} />}</div>
       <div className="mb-10 flex w-2/4 flex-col">
         <InputPost usersData={userData} />
-        {userData && <AllPosts posts={posts} />}
+        {userData && <AllPosts posts={postsData} />}
       </div>
       <div className="flex w-1/4 flex-col">
         <SuggestedProfils />

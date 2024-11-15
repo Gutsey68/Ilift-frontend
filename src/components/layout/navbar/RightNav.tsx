@@ -1,6 +1,6 @@
 import { Bell } from 'lucide-react';
 import { Link, NavLink } from 'react-router-dom';
-import useUser from '../../../hooks/useUser';
+import useCurrentUser from '../../../hooks/useCurrentUser';
 import { useAuthStore } from '../../../stores/useAuthStore';
 import RightNavSkeleton from '../../skeletons/RightNavSkeleton';
 import ThemeToggle from '../../theme/ThemeToggle';
@@ -11,15 +11,14 @@ import LogoutButton from './LogoutButton';
 
 function RightNav() {
   const isAuthenticated = useAuthStore(state => state.isAuthenticated);
-
-  const { userPending, userError, userData } = useUser();
+  const { userPending, userError, userData } = useCurrentUser();
 
   if (userPending) {
     return <RightNavSkeleton />;
   }
 
   if (userError) {
-    return null;
+    return <p className="text-center text-red-600">{userError.message}</p>;
   }
 
   return (
