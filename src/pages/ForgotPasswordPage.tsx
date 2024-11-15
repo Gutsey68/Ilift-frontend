@@ -11,7 +11,7 @@ function ForgotPasswordPage() {
           Ne vous inquiétez pas! Renseignez votre adresse e-mail et nous vous enverrons un lien pour réinitialiser votre mot de passe.
         </p>
         <ForgotPasswordForm />
-        <Link className="mt-2 text-center text-sm text-neutral-10" to="/connexion">
+        <Link className="mt-4 text-center text-sm text-neutral-10" to="/connexion">
           <button className="group">
             <span className="underline group-hover:text-green-9">Retour à la connexion</span>
           </button>
