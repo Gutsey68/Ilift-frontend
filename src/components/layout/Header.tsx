@@ -1,10 +1,10 @@
 import { Dumbbell, Menu, X } from 'lucide-react';
-import { useEffect, useState, useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { AuthContext } from '../../context/AuthContext';
 import DesktopNav from './navbar/DesktopNav';
 import MobileNav from './navbar/MobileNav';
 import RightNav from './navbar/RightNav';
-import { AuthContext } from '../../context/AuthContext';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
