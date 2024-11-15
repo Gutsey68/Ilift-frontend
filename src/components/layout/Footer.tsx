@@ -1,14 +1,11 @@
-import { Dumbbell, Facebook, House, Instagram, Linkedin, Mail, Phone, Twitter } from 'lucide-react';
+import { Dumbbell, House, Mail, Phone } from 'lucide-react';
+import { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
-import navItems from '../../lib/links';
+import { AuthContext } from '../../context/AuthContext';
+import { navItems, NotAuhenticatedNavItems, socials } from '../../lib/links';
 
 const Footer = ({ ...props }) => {
-  const socials = [
-    { icon: Facebook, label: 'Facebook', href: 'https://facebook.com' },
-    { icon: Twitter, label: 'Twitter', href: 'https://twitter.com' },
-    { icon: Instagram, label: 'Instagram', href: 'https://instagram.com' },
-    { icon: Linkedin, label: 'LinkedIn', href: 'https://linkedin.com' }
-  ];
+  const { user } = useContext(AuthContext);
 
   return (
     <footer {...props} className="text-neutral-11">
@@ -29,13 +26,21 @@ const Footer = ({ ...props }) => {
           <div>
             <h3 className="mb-4 text-lg font-semibold text-neutral-12">Liens rapides</h3>
             <ul className="space-y-2">
-              {navItems.map(item => (
-                <li key={item.to}>
-                  <NavLink to={item.to} className="transition-colors hover:text-green-9">
-                    {item.label}
-                  </NavLink>
-                </li>
-              ))}
+              {user
+                ? navItems.map(item => (
+                    <li key={item.to}>
+                      <NavLink to={item.to} className="transition-colors hover:text-green-9">
+                        {item.label}
+                      </NavLink>
+                    </li>
+                  ))
+                : NotAuhenticatedNavItems.map(item => (
+                    <li key={item.to}>
+                      <NavLink to={item.to} className="transition-colors hover:text-green-9">
+                        {item.label}
+                      </NavLink>
+                    </li>
+                  ))}
             </ul>
           </div>
           <div>
