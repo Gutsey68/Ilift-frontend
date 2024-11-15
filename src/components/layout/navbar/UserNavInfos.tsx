@@ -1,13 +1,14 @@
 import { Bell } from 'lucide-react';
+import { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
-import useCurrentUser from '../../../hooks/useCurrentUser';
+import { AuthContext } from '../../../context/AuthContext';
 import RightNavSkeleton from '../../skeletons/RightNavSkeleton';
 import Avatar from '../../ui/Avatar';
 import IconButton from '../../ui/IconButton';
 import LogoutButton from './LogoutButton';
 
 function UserNavInfos() {
-  const { userPending, userError, userData } = useCurrentUser();
+  const { userPending, userError, user } = useContext(AuthContext);
 
   if (userPending) {
     return <RightNavSkeleton />;
@@ -18,9 +19,9 @@ function UserNavInfos() {
   }
   return (
     <>
-      <NavLink to={`/profil/${userData?.id}`}>
+      <NavLink to={`/profil/${user?.id}`}>
         <Avatar
-          src={userData?.profilePhoto || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'}
+          src={user?.profilePhoto || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'}
           alt=""
           className="mr-1"
           size="sm"

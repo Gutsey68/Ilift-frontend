@@ -1,23 +1,24 @@
 import { useQuery } from '@tanstack/react-query';
+import { useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
 import { fetchPostsOfUserAndHisFollowingsHandler } from '../services/postService';
-import useCurrentUser from './useCurrentUser';
 
 const usePostsOfUsers = () => {
-  const { userData } = useCurrentUser();
+  const { user } = useContext(AuthContext);
 
   const {
     isPending: postsPending,
     error: postError,
     data: posts
   } = useQuery({
-    queryKey: ['posts', userData?.id],
+    queryKey: ['posts', user?.id],
     queryFn: () => {
-      if (!userData) {
+      if (!user) {
         throw new Error('Utilisateur non connecté');
       }
-      return fetchPostsOfUserAndHisFollowingsHandler(userData.id);
+      return fetchPostsOfUserAndHisFollowingsHandler(user.id);
     },
-    enabled: !!userData
+    enabled: !!user
   });
 
   const postsData = posts?.data;

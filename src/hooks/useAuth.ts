@@ -34,8 +34,9 @@ const useAuth = () => {
   const checkAuth = async () => {
     const token = localStorage.getItem('token');
     if (token) {
-      const user = await fetchCurrentUser();
-      setUser(user);
+      const data = await fetchCurrentUser();
+
+      setUser(data.data);
     }
   };
 
