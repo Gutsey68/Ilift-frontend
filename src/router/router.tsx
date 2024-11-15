@@ -12,7 +12,7 @@ import PageError from '../pages/PageError';
 import ProfilPage from '../pages/ProfilPage';
 import ProgramDetailPage from '../pages/ProgramDetailPage';
 import ProgramsPage from '../pages/ProgramsPage';
-import RegisterPage from '../pages/REgisterPage';
+import RegisterPage from '../pages/RegisterPage';
 import Thread from '../pages/Thread';
 
 export const router = createBrowserRouter([

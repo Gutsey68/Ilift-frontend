@@ -1,8 +1,8 @@
-import { useQuery } from '@tanstack/react-query';
 import { Bell } from 'lucide-react';
 import { Link, NavLink } from 'react-router-dom';
-import { fetchCurrentUser } from '../../../services/authService';
+import useUser from '../../../hooks/useUser';
 import { useAuthStore } from '../../../stores/useAuthStore';
+import RightNavSkeleton from '../../skeletons/RightNavSkeleton';
 import ThemeToggle from '../../theme/ThemeToggle';
 import Avatar from '../../ui/Avatar';
 import Button from '../../ui/Button';
@@ -10,22 +10,12 @@ import IconButton from '../../ui/IconButton';
 import LogoutButton from './LogoutButton';
 
 function RightNav() {
-  const { isAuthenticated } = useAuthStore();
-  console.log(isAuthenticated);
+  const isAuthenticated = useAuthStore(state => state.isAuthenticated);
 
-  const {
-    isPending: userPending,
-    error: userError,
-    data: userData
-  } = useQuery({
-    queryKey: ['users'],
-    queryFn: () => fetchCurrentUser()
-  });
-
-  const user = userData?.data;
+  const { userPending, userError, userData } = useUser();
 
   if (userPending) {
-    return null;
+    return <RightNavSkeleton />;
   }
 
   if (userError) {
@@ -36,9 +26,9 @@ function RightNav() {
     <>
       {isAuthenticated ? (
         <>
-          <NavLink to={`/profil/${user?.id}`}>
+          <NavLink to={`/profil/${userData?.id}`}>
             <Avatar
-              src={user?.profilePhoto || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'}
+              src={userData?.profilePhoto || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'}
               alt=""
               className="mr-1"
               size="sm"

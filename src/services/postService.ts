@@ -14,7 +14,8 @@ export const fetchPostsOfUserAndHisFollowingsHandler = async (id: string) => {
   });
 
   if (!response.ok) {
-    throw new Error('Non autorisé');
+    const errorData = await response.json();
+    throw { message: errorData.error || 'Non autorisé', status: response.status };
   }
 
   return response.json();

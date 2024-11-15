@@ -3,8 +3,7 @@ import { useParams } from 'react-router-dom';
 import ProfileCard from '../components/profile/ProfileCard';
 import SuggestedProfils from '../components/thread/SuggestedProfils';
 import Card from '../components/ui/Card';
-import { fetchCurrentUser } from '../services/authService';
-import { fetchUserById } from '../services/userService';
+import { fetchCurrentUser, fetchUserById } from '../services/userService';
 
 function ProfilPage() {
   const { id } = useParams();
