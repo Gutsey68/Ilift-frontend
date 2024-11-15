@@ -1,16 +1,12 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { LoaderCircle, TriangleAlert } from 'lucide-react';
+import { LoaderCircle } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import useAuth from '../../hooks/useAuth';
+import { loginSchema } from '../../lib/shemas';
 import Button from '../ui/Button';
-import { Input } from '../ui/Input';
-
-const loginSchema = z.object({
-  pseudo: z.string().min(1, 'Le pseudo est requis'),
-  password: z.string().min(3, 'Le mot de passe doit comporter au moins 3 caractères')
-});
+import FormField from './FormField';
 
 function LoginForm() {
   const {
@@ -41,14 +37,7 @@ function LoginForm() {
           {loginMutation.error?.message}
         </p>
       )}
-      <label htmlFor="pseudo" className="mt-1 text-sm">
-        Pseudo
-      </label>
-      <div className="relative">
-        <Input {...register('pseudo')} type="text" name="pseudo" placeholder="Pseudo" />
-        {errors.pseudo && <TriangleAlert size={20} className="absolute right-3.5 top-2 text-red-600" />}
-      </div>
-      {errors.pseudo && <p className="mb-1 text-sm text-red-600">{errors.pseudo.message?.toString()}</p>}
+      <FormField label="Pseudo" name="pseudo" type="text" register={register} errors={errors} />
       <div className="flex items-center justify-between">
         <label htmlFor="password" className="mt-1 text-sm">
           Mot de passe
@@ -57,11 +46,7 @@ function LoginForm() {
           <a className="text-xs text-neutral-10 underline hover:text-green-9">Mot de passe oublié ?</a>
         </Link>
       </div>
-      <div className="relative">
-        <Input {...register('password')} type="password" name="password" placeholder="Mot de passe" />
-        {errors.password && <TriangleAlert size={20} className="absolute right-3.5 top-2 text-red-600" />}
-      </div>
-      {errors.password && <p className="mb-1 text-sm text-red-600">{errors.password.message?.toString()}</p>}
+      <FormField label="Mot de passe" name="password" type="password" register={register} errors={errors} />
       <Button type="submit" className="mt-2 w-full" disabled={isSubmitting || loginMutation.status === 'pending'}>
         {isSubmitting || loginMutation.status === 'pending' ? <LoaderCircle className="animate-spin" size={20} /> : 'Se connecter'}
       </Button>
