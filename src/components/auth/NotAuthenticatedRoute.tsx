@@ -2,10 +2,10 @@ import { useContext } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 
-function PrivateRoute() {
+function NorAuthenticatedRoute() {
   const { user } = useContext(AuthContext);
 
-  return user ? <Outlet /> : <Navigate to="/connexion" />;
+  return user ? <Navigate to="/tableau-de-bord" /> : <Outlet />;
 }
 
-export default PrivateRoute;
+export default NorAuthenticatedRoute;

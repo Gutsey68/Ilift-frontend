@@ -1,15 +1,16 @@
 import { Link } from 'react-router-dom';
-import { useAuthStore } from '../../../stores/useAuthStore';
+import { useContext } from 'react';
 import ThemeToggle from '../../theme/ThemeToggle';
 import Button from '../../ui/Button';
 import UserNavInfos from './UserNavInfos';
+import { AuthContext } from '../../../context/AuthContext';
 
 function RightNav() {
-  const isAuthenticated = useAuthStore(state => state.isAuthenticated);
+  const { user } = useContext(AuthContext);
 
   return (
     <>
-      {isAuthenticated ? (
+      {user ? (
         <UserNavInfos />
       ) : (
         <>

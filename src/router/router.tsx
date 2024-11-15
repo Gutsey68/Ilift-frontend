@@ -1,4 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom';
+import NorAuthenticatedRoute from '../components/auth/NotAuthenticatedRoute';
 import PrivateRoute from '../components/auth/PrivateRoute';
 import Layout from '../components/layout/Layout';
 import ActivitiesPage from '../pages/ActivitiesPage';
@@ -27,15 +28,33 @@ export const router = createBrowserRouter([
       },
       {
         path: 'connexion',
-        element: <LoginPage />
+        element: <NorAuthenticatedRoute />,
+        children: [
+          {
+            path: '',
+            element: <LoginPage />
+          }
+        ]
       },
       {
         path: 'inscription',
-        element: <RegisterPage />
+        element: <NorAuthenticatedRoute />,
+        children: [
+          {
+            path: '',
+            element: <RegisterPage />
+          }
+        ]
       },
       {
         path: 'mot-de-passe-oublie',
-        element: <ForgotPasswordPage />
+        element: <NorAuthenticatedRoute />,
+        children: [
+          {
+            path: '',
+            element: <ForgotPasswordPage />
+          }
+        ]
       },
       {
         path: 'tableau-de-bord',

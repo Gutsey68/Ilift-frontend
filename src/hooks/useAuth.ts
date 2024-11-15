@@ -1,25 +1,29 @@
 import { useMutation } from '@tanstack/react-query';
+import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
 import { login, register } from '../services/authService';
-import { useAuthStore } from '../stores/useAuthStore';
+import { fetchCurrentUser } from '../services/userService';
 
 const useAuth = () => {
-  const setAuthenticated = useAuthStore(state => state.setAuthenticated);
   const navigate = useNavigate();
+  const { setUser } = useContext(AuthContext);
 
   const loginMutation = useMutation({
     mutationFn: login,
     onSuccess: async data => {
       localStorage.setItem('token', data.token);
-      setAuthenticated(true);
+      localStorage.setItem('isAuthenticated', 'true');
       navigate('/tableau-de-bord');
+      setUser(data.user);
     }
   });
 
   const logoutMutation = useMutation({
     mutationFn: async () => {
       localStorage.removeItem('token');
-      setAuthenticated(false);
+      localStorage.removeItem('isAuthenticated');
+      setUser(null);
     }
   });
 
@@ -27,10 +31,23 @@ const useAuth = () => {
     mutationFn: register
   });
 
+  const checkAuth = async () => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const user = await fetchCurrentUser();
+      setUser(user);
+    }
+  };
+
+  useEffect(() => {
+    checkAuth();
+  }, []);
+
   return {
     loginMutation,
     registerMutation,
-    logoutMutation
+    logoutMutation,
+    checkAuth
   };
 };
 

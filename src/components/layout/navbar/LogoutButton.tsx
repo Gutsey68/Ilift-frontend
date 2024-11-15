@@ -1,10 +1,11 @@
 import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
 import useAuth from '../../../hooks/useAuth';
-import { useAuthStore } from '../../../stores/useAuthStore';
 import Button from '../../ui/Button';
+import { AuthContext } from '../../../context/AuthContext';
 
 function LogoutButton() {
-  const isAuthenticated = useAuthStore(state => state.isAuthenticated);
+  const { user } = useContext(AuthContext);
   const { logoutMutation } = useAuth();
   const navigate = useNavigate();
 
@@ -17,7 +18,7 @@ function LogoutButton() {
     }
   };
 
-  return <>{isAuthenticated && <Button onClick={handleLogout}>Déconnexion</Button>}</>;
+  return <>{user && <Button onClick={handleLogout}>Déconnexion</Button>}</>;
 }
 
 export default LogoutButton;
