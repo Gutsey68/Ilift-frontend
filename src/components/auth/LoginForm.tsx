@@ -44,7 +44,7 @@ function LoginForm() {
             Mot de passe
           </label>
           <Link className="" to="/mot-de-passe-oublie">
-            <a className="text-xs text-neutral-10 underline hover:text-green-9">Mot de passe oublié ?</a>
+            <p className="text-xs text-neutral-10 underline hover:text-green-9">Mot de passe oublié ?</p>
           </Link>
         </div>
         <FormField label="" name="password" type="password" register={register} errors={errors} />

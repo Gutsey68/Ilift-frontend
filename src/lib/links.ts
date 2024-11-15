@@ -12,8 +12,8 @@ export const NotAuhenticatedNavItems = [
 ];
 
 export const socials = [
-  { icon: Facebook, label: 'Facebook', href: 'https://facebook.com' },
-  { icon: Twitter, label: 'Twitter', href: 'https://twitter.com' },
-  { icon: Instagram, label: 'Instagram', href: 'https://instagram.com' },
-  { icon: Linkedin, label: 'LinkedIn', href: 'https://linkedin.com' }
+  { icon: Facebook, label: 'Facebook', href: '' },
+  { icon: Twitter, label: 'Twitter', href: '' },
+  { icon: Instagram, label: 'Instagram', href: '' },
+  { icon: Linkedin, label: 'LinkedIn', href: '' }
 ];
