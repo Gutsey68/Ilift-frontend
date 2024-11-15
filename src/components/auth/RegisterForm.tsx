@@ -49,7 +49,11 @@ function RegisterForm() {
           {registerMutation.error?.message}
         </p>
       )}
-      {successMessage && <p className="text-green-600">{successMessage}</p>}
+      {registerMutation.isSuccess && (
+        <p className="text-green-9" onClick={() => registerMutation.reset()}>
+          {successMessage}
+        </p>
+      )}
       <FormField label="Pseudo" name="pseudo" type="text" register={register} errors={errors} />
       <FormField label="Email" name="email" type="email" register={register} errors={errors} />
       <FormField label="Mot de passe" name="password" type="password" register={register} errors={errors} />
