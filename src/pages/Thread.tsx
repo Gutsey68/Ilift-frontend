@@ -10,8 +10,6 @@ import usePostsOfUsers from '../hooks/usePostsOfUsers';
 
 function Thread() {
   const { userPending, userError, user } = useContext(AuthContext);
-  console.log(user);
-
   const { postsPending, postError, postsData } = usePostsOfUsers();
 
   if (postError) {

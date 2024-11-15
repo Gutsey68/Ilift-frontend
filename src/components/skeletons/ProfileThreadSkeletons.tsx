@@ -1,7 +1,7 @@
 function ProfileThreadSkeleton() {
   return (
     <div className="flex w-1/4 animate-pulse flex-col">
-      <div className="h-96 rounded-md bg-neutral-4"></div>
+      <div className="h-96 rounded-lg bg-neutral-4"></div>
     </div>
   );
 }
