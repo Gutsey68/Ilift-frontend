@@ -1,12 +1,13 @@
 import { TriangleAlert } from 'lucide-react';
 import { Input } from '../ui/Input';
+import { UseFormRegister } from 'react-hook-form';
 
 type FormFieldProps = {
   label: string;
-  name: string;
+  name: 'password' | 'pseudo';
   type: string;
-  register: any;
-  errors: any;
+  register: UseFormRegister<{ password: string; pseudo: string }>;
+  errors: { [key: string]: { message?: string } };
 };
 
 function FormField({ label, name, type, register, errors }: FormFieldProps) {
@@ -16,7 +17,7 @@ function FormField({ label, name, type, register, errors }: FormFieldProps) {
         {label}
       </label>
       <div className="relative">
-        <Input errors={errors} {...register(name)} type={type} name={name} placeholder={label} />
+        <Input {...register(name)} type={type} name={name} placeholder={label} />
         {errors[name] && <TriangleAlert size={20} className="absolute right-3.5 top-2 text-red-600" />}
       </div>
       {errors[name] && <p className="mb-1 text-sm text-red-600">{errors[name].message?.toString()}</p>}

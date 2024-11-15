@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import Footer from '../components/layout/Footer';
 import Header from '../components/layout/Header';
 import Button from '../components/ui/Button';
+import { Spacing } from '../components/ui/Spacing';
 
 export default function PageError() {
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ export default function PageError() {
           <Button onClick={() => navigate('/')}>Revenir à l'accueil</Button>
         </div>
       </div>
+      <Spacing />
       <Footer />
     </main>
   );

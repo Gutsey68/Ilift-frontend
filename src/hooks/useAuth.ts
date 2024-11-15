@@ -14,8 +14,10 @@ const useAuth = () => {
     onSuccess: async data => {
       localStorage.setItem('token', data.token);
       localStorage.setItem('isAuthenticated', 'true');
-      navigate('/tableau-de-bord');
+      await checkAuth();
       setUser(data.user);
+      navigate('/accueil');
+      window.location.reload();
     }
   });
 

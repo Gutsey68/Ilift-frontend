@@ -1,7 +1,7 @@
 import { Facebook, Instagram, Linkedin, Twitter } from 'lucide-react';
 
 export const navItems = [
-  { to: '/tableau-de-bord', label: 'Tableau de bord' },
+  { to: '/accueil', label: 'Accueil' },
   { to: '/activités', label: 'Activités' },
   { to: '/programmes', label: 'Programmes' }
 ];

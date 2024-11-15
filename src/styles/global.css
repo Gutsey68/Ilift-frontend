@@ -29,6 +29,7 @@
     --neutral-11: 234, 5%, 40%;
     --neutral-12: 230, 9%, 13%;
     --ring: 0 0% 3.9%;
+    --destructive: 0 100% 50%;
   }
 
   .dark {
@@ -57,6 +58,7 @@
     --neutral-11: 0, 0%, 71%;
     --neutral-12: 0, 0%, 93%;
     --ring: 0 0% 83.1%;
+    --destructive: 0 100% 50%;
   }
 
   body {
