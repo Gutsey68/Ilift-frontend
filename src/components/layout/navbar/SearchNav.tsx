@@ -7,20 +7,24 @@ export default function SearchNav() {
   const { handleSearchClick, handleCloseClick, handleBlur, isSearching, inputRef } = useSearchBarOnNavigation();
 
   return (
-    <div className="relative inline-block">
+    <>
       {!isSearching ? (
-        <IconButton icon={<Search onClick={handleSearchClick} className="size-5" />} />
+        <div onClick={handleSearchClick} className="relative inline-block">
+          <IconButton icon={<Search className="size-5" />} />
+        </div>
       ) : (
-        <div className="flex items-center">
-          <div className="relative">
-            <Input ref={inputRef} type="text" placeholder="Rechercher..." onBlur={handleBlur} />
-            <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center">
-              <Search className="size-5" />
+        <div onClick={handleCloseClick} className="relative inline-block">
+          <div className="flex items-center">
+            <div className="relative">
+              <Input ref={inputRef} type="text" placeholder="Rechercher..." onBlur={handleBlur} />
+              <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center">
+                <Search className="size-5" />
+              </div>
             </div>
+            <IconButton icon={<X id="close-button" className="size-5" />} />
           </div>
-          <IconButton icon={<X id="close-button" onClick={handleCloseClick} className="size-5" />} />
         </div>
       )}
-    </div>
+    </>
   );
 }

@@ -9,7 +9,7 @@ function ProfilPage() {
   const { id } = useParams();
 
   const {
-    isPending: userLoading,
+    isPending: userPending,
     error: userError,
     data: userData
   } = useQuery({
@@ -19,7 +19,7 @@ function ProfilPage() {
 
   const user = userData?.data;
 
-  if (userLoading) {
+  if (userPending) {
     return <p>Chargement...</p>;
   }
 
