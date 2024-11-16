@@ -19,9 +19,10 @@ function SuggestedProfils({ suggestedUsers }: SuggestedProfilsProps) {
           <div className="flex flex-col">
             <h1 className="font-semibold">{user.pseudo}</h1>
             <p className="text-xs text-neutral-11">
-              {user.followedBy.length > 0 && user.followedBy[0].following.length > 0 ? (
+              {user.commonFollowersCount > 0 ? (
                 <span>
-                  Suivi(e) par {user.followedBy[0].following[0].pseudo} et {user._count.followedBy - 1} autres
+                  Suivi(e) par {user.commonFollowers[0].pseudo}
+                  {user.commonFollowersCount > 1 ? ` et ${user.commonFollowersCount - 1} autres` : ''}
                 </span>
               ) : (
                 <span>Suggestions</span>
@@ -33,4 +34,5 @@ function SuggestedProfils({ suggestedUsers }: SuggestedProfilsProps) {
     </Card>
   );
 }
+
 export default SuggestedProfils;

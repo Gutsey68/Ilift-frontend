@@ -1,11 +1,8 @@
+// types/SuggestedUserType.ts
 export type SuggestedUser = {
   id: string;
   pseudo: string;
   profilePhoto: string | null;
-  followedBy: {
-    following: { pseudo: string }[];
-  }[];
-  _count: {
-    followedBy: number;
-  };
+  commonFollowers: { id: string; pseudo: string }[];
+  commonFollowersCount: number;
 };

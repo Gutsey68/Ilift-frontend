@@ -39,11 +39,11 @@ function ProfileCard({ userDetails }: ProfileCardProps) {
         </div>
         <div className="mt-2 flex items-center gap-6 text-sm text-neutral-10">
           <p className="flex items-center gap-1">
-            <span className="text-lg font-semibold text-green-9">{userDetails._count?.following || 0}</span>
+            <span className="text-lg font-semibold text-green-9">{userDetails._count?.followedBy || 0}</span>
             abonnements
           </p>
           <p className="flex items-center gap-1">
-            <span className="text-lg font-semibold text-green-9">{userDetails._count?.followedBy || 0}</span>
+            <span className="text-lg font-semibold text-green-9">{userDetails._count?.following || 0}</span>
             abonnés
           </p>
           <p className="flex items-center gap-1">
