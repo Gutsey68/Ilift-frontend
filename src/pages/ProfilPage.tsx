@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import ProfileCard from '../components/profile/ProfileCard';
 import SuggestedProfils from '../components/thread/SuggestedProfils';
 import Card from '../components/ui/Card';
+import useSuggestedUsers from '../hooks/useSuggestedUsers';
 import { fetchCurrentUser, fetchUserById } from '../services/userService';
 
 function ProfilPage() {
@@ -16,6 +17,8 @@ function ProfilPage() {
     queryKey: ['userProfile', id],
     queryFn: () => (id ? fetchUserById(id) : fetchCurrentUser())
   });
+
+  const { suggestedData } = useSuggestedUsers();
 
   const user = userData?.data;
 
@@ -40,7 +43,7 @@ function ProfilPage() {
         </Card>
       </div>
       <div className="w-1/3">
-        <SuggestedProfils />
+        <SuggestedProfils suggestedUsers={suggestedData} />{' '}
       </div>
     </div>
   );

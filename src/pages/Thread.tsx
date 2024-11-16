@@ -7,10 +7,17 @@ import ProfilCard from '../components/thread/ProfilCard';
 import SuggestedProfils from '../components/thread/SuggestedProfils';
 import { AuthContext } from '../context/AuthContext';
 import usePostsOfUsers from '../hooks/usePostsOfUsers';
+import useSuggestedUsers from '../hooks/useSuggestedUsers';
 
 function Thread() {
   const { userPending, userError, user } = useContext(AuthContext);
   const { postsPending, postError, postsData } = usePostsOfUsers();
+  const { suggestedPending, suggestedError, suggestedData } = useSuggestedUsers();
+
+  // todo: handler errors
+  if (suggestedError) {
+    return <div className="text-center text-xl text-red-600">{suggestedError.message}</div>;
+  }
 
   if (postError) {
     return <div className="text-center text-xl text-red-600">{postError.message}</div>;
@@ -31,9 +38,11 @@ function Thread() {
           {user && <AllPosts posts={postsData} />}
         </div>
       )}
-      <div className="flex w-1/4 flex-col">
-        <SuggestedProfils />
-      </div>
+      {suggestedPending ? (
+        <ProfileThreadSkeleton />
+      ) : (
+        <div className="flex w-1/4 flex-col">{suggestedData && <SuggestedProfils suggestedUsers={suggestedData} />}</div>
+      )}
     </div>
   );
 }

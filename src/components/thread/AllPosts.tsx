@@ -18,7 +18,7 @@ function AllPosts({ posts }: AllPostsProps) {
         return (
           <Card size="xs" key={post.id} className="mt-4 flex flex-col gap-4">
             <div className="flex gap-4 px-2 pt-4">
-              <Avatar alt="" size="sm" src={user?.profilePhoto || ''} />
+              <Avatar alt="" size="sm" src={user.profilePhoto ?? ''} />
               <div className="flex flex-col">
                 <h1 className="font-semibold text-neutral-12">{user?.pseudo}</h1>
                 <div className="flex items-center gap-1 text-xs text-neutral-11">
