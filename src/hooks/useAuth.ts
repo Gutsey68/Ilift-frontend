@@ -16,8 +16,8 @@ const useAuth = () => {
       localStorage.setItem('isAuthenticated', 'true');
       await checkAuth();
       setUser(data.user);
-      navigate('/accueil');
       window.location.reload();
+      navigate('/accueil');
     }
   });
 
