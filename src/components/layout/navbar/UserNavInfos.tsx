@@ -1,7 +1,7 @@
 import { Bell } from 'lucide-react';
 import { useContext } from 'react';
-import ProfilPicture from '../../assets/images/profil.png';
 import { NavLink } from 'react-router-dom';
+import ProfilPicture from '../../../assets/images/profil.png';
 import { AuthContext } from '../../../context/AuthContext';
 import RightNavSkeleton from '../../skeletons/RightNavSkeleton';
 import Avatar from '../../ui/Avatar';
