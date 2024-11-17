@@ -29,14 +29,12 @@ function ProgramDetailPage() {
     return <div>Erreur: {workoutsError.message}</div>;
   }
 
-  console.log(workoutsData);
-
   return (
     <div className="mx-auto flex min-h-96 w-full max-w-6xl flex-col gap-4">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl">Séances</h1>
-          <p className="mt-1 text-neutral-11">{workoutsData[0].program.name ?? ''}</p>
+          <p className="mt-1 text-neutral-11">{workoutsData ? workoutsData[0].program.name : ''}</p>
         </div>
         <Button>Ajouter une séance</Button>
       </div>

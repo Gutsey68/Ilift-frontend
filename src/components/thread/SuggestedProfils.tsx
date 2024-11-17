@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
 import ProfilPicture from '../../assets/images/profil.png';
-import { SuggestedUser } from '../../types/SuggestedUserType';
 import Avatar from '../ui/Avatar';
 import Card from '../ui/Card';
+import { SuggestedUserType } from '../../types/SuggestedUserType';
 
 type SuggestedProfilsProps = {
-  suggestedUsers: SuggestedUser[];
+  suggestedUsers: SuggestedUserType[];
 };
 
 function SuggestedProfils({ suggestedUsers }: SuggestedProfilsProps) {

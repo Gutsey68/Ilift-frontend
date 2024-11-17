@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
-import { Workout } from '../../types/workoutsType';
+import { WorkoutType } from '../../types/workoutsType';
 
 type WorkoutsListProps = {
-  workouts: Workout[];
+  workouts: WorkoutType[];
 };
 
 function WorkoutsList({ workouts }: WorkoutsListProps) {

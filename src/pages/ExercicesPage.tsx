@@ -1,7 +1,34 @@
-import { Link } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { useParams } from 'react-router-dom';
+import ExercicesList from '../components/programs/ExercicesList';
+import ProgramsSkeletons from '../components/skeletons/ProgramsSkeletons';
 import Button from '../components/ui/Button';
+import { fetchExercicesOfWorkout } from '../services/programsService';
 
 function ExercicesPage() {
+  const { id } = useParams();
+
+  const {
+    isPending: exercicesPending,
+    error: exercicesError,
+    data: exercices
+  } = useQuery({
+    queryKey: ['exercices', id],
+    queryFn: () => {
+      if (!id) {
+        throw new Error('Utilisateur non connecté');
+      }
+      return fetchExercicesOfWorkout(id);
+    },
+    enabled: !!id
+  });
+
+  const exercicesData = exercices?.data;
+
+  if (exercicesError) {
+    return <div>Erreur: {exercicesError.message}</div>;
+  }
+
   return (
     <div className="mx-auto flex min-h-96 w-full max-w-6xl flex-col gap-4">
       <div className="flex items-center justify-between">
@@ -11,20 +38,8 @@ function ExercicesPage() {
         </div>
         <Button>Ajouter un exercice</Button>
       </div>
-      <hr className="border-neutral-6" />
-      <Link to={`/programmes/${1}/exercices/${1}`}>
-        <div className="group cursor-pointer">
-          <h2 className="font-semibold group-hover:text-green-9">Développé décliné avec haltères</h2>
-        </div>
-      </Link>
-      <hr className="border-neutral-6" />
-      <div className="group cursor-pointer">
-        <h2 className="font-semibold group-hover:text-green-9">Développé assis à la machine</h2>
-      </div>
-      <hr className="border-neutral-6" />
-      <div className="group cursor-pointer">
-        <h2 className="font-semibold group-hover:text-green-9">Ecarté poulis vis à vis haut de pec</h2>
-      </div>
+      {exercicesData && exercicesData.length === 0 && <hr className="border-neutral-6" />}
+      {exercicesPending ? <ProgramsSkeletons /> : <ExercicesList exercices={exercicesData} />}
     </div>
   );
 }

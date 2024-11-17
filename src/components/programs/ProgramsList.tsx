@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
-import { Program } from '../../types/programsType';
+import { ProgramType } from '../../types/programsType';
 
 type ProgramsListProps = {
-  programs: Program[];
+  programs: ProgramType[];
 };
 
 function ProgramsList({ programs }: ProgramsListProps) {

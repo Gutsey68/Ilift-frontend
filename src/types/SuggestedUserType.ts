@@ -1,5 +1,4 @@
-// types/SuggestedUserType.ts
-export type SuggestedUser = {
+export type SuggestedUserType = {
   id: string;
   pseudo: string;
   profilePhoto: string | null;
