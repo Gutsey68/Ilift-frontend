@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import ProfilPicture from '../../assets/images/profil.png';
 import { SuggestedUser } from '../../types/SuggestedUserType';
 import Avatar from '../ui/Avatar';
 import Card from '../ui/Card';
@@ -15,7 +16,7 @@ function SuggestedProfils({ suggestedUsers }: SuggestedProfilsProps) {
       </div>
       {suggestedUsers.map((user, index) => (
         <Link to={`/profil/${user.id}`} key={index} className="flex items-center gap-4">
-          <Avatar alt="" size="sm" src={user.profilePhoto ?? 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'} />
+          <Avatar alt="" size="sm" src={user.profilePhoto ?? ProfilPicture} />
           <div className="flex flex-col">
             <h1 className="font-semibold">{user.pseudo}</h1>
             <p className="text-xs text-neutral-11">

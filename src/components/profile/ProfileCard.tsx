@@ -1,4 +1,5 @@
 import { CalendarDays, Camera, MapPin } from 'lucide-react';
+import ProfilPicture from '../../assets/images/profil.png';
 import { formatRelativeTime } from '../../lib/formatRelativeTime';
 import { UserDetailsType } from '../../types/UserDetailsType';
 import Avatar from '../ui/Avatar';
@@ -15,19 +16,14 @@ function ProfileCard({ userDetails }: ProfileCardProps) {
   return (
     <div className="flex items-center gap-4 border-b border-neutral-6 p-6 shadow-sm">
       <div className="relative">
-        <Avatar
-          src={userDetails.profilePhoto || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'}
-          alt=""
-          className="mr-1"
-          size="xl"
-        />
+        <Avatar src={userDetails.profilePhoto || ProfilPicture} alt="" className="mr-1" size="xl" />
         <button className="absolute bottom-3 right-1 flex size-7 cursor-pointer items-center justify-center rounded-full bg-neutral-11 shadow-md">
           <Camera size={20} className="text-neutral-1" />
         </button>
       </div>
       <div>
         <h1 className="text-2xl font-bold">{userDetails.pseudo}</h1>
-        <p className="text-neutral-11">{userDetails.bio || 'Pas de biographie disponible'}</p>
+        <p className="text-neutral-11">{userDetails.bio || ''}</p>
         <div className="mt-2 flex items-center gap-6 text-sm text-neutral-10">
           <p>
             <MapPin size={16} className="mr-1 inline-block" />

@@ -1,5 +1,6 @@
 import { Bell } from 'lucide-react';
 import { useContext } from 'react';
+import ProfilPicture from '../../assets/images/profil.png';
 import { NavLink } from 'react-router-dom';
 import { AuthContext } from '../../../context/AuthContext';
 import RightNavSkeleton from '../../skeletons/RightNavSkeleton';
@@ -20,12 +21,7 @@ function UserNavInfos() {
   return (
     <>
       <NavLink to={`/profil/${user?.id}`}>
-        <Avatar
-          src={user?.profilePhoto || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'}
-          alt=""
-          className="mr-1"
-          size="sm"
-        />
+        <Avatar src={user?.profilePhoto || ProfilPicture} alt="" className="mr-1" size="sm" />
       </NavLink>
       <div className="relative">
         <IconButton icon={<Bell className="size-5" />} />
