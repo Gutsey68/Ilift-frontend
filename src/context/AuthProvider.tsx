@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { fetchCurrentUser } from '../services/userService';
-import { UserDetails } from '../types/userDetail';
+import { UserDetails } from '../types/UserDetailsType';
 import { AuthContext, AuthProviderProps } from './AuthContext';
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {

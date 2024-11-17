@@ -1,4 +1,4 @@
-export type UserDetails = {
+export type UserDetailsType = {
   id: string;
   pseudo: string;
   email: string;
@@ -9,6 +9,11 @@ export type UserDetails = {
   city?: {
     name?: string;
   };
+  workouts?: {
+    id: string;
+    name: string;
+    createdAt: string;
+  }[];
   _count?: {
     posts: number;
     followedBy: number;

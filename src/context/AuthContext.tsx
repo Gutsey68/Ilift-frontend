@@ -1,9 +1,9 @@
 import { createContext } from 'react';
-import { UserDetails } from '../types/userDetail';
+import { UserDetailsType } from '../types/UserDetailsType';
 
 export type AuthContextType = {
-  user: UserDetails | null;
-  setUser: (user: UserDetails | null) => void;
+  user: UserDetailsType | null;
+  setUser: (user: UserDetailsType | null) => void;
   userPending: boolean;
   userError: Error | null;
 };
