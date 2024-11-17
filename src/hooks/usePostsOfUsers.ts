@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
-import { fetchPostsOfUserAndHisFollowingsHandler } from '../services/postService';
+import { fetchPostsOfUserAndHisFollowingsHandler } from '../services/postsService';
 
 const usePostsOfUsers = () => {
   const { user } = useContext(AuthContext);

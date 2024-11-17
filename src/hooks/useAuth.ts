@@ -3,7 +3,7 @@ import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { login, register } from '../services/authService';
-import { fetchCurrentUser } from '../services/userService';
+import { fetchCurrentUser } from '../services/usersService';
 
 const useAuth = () => {
   const navigate = useNavigate();

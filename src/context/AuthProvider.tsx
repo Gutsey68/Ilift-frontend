@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { fetchCurrentUser } from '../services/userService';
+import { fetchCurrentUser } from '../services/usersService';
 import { UserDetails } from '../types/UserDetailsType';
 import { AuthContext, AuthProviderProps } from './AuthContext';
 

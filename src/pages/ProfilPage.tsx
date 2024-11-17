@@ -4,7 +4,7 @@ import ProfileCard from '../components/profile/ProfileCard';
 import SuggestedProfils from '../components/thread/SuggestedProfils';
 import Card from '../components/ui/Card';
 import useSuggestedUsers from '../hooks/useSuggestedUsers';
-import { fetchCurrentUser, fetchUserById } from '../services/userService';
+import { fetchCurrentUser, fetchUserById } from '../services/usersService';
 
 function ProfilPage() {
   const { id } = useParams();

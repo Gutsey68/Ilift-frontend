@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
-import { fetchSuggestedUsers } from '../services/userService';
+import { fetchSuggestedUsers } from '../services/usersService';
 
 const useSuggestedUsers = () => {
   const { user } = useContext(AuthContext);
