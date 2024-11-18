@@ -6,10 +6,6 @@ import useProgramsOfUser from '../hooks/useProgramsOfUsers';
 function ProgramsPage() {
   const { programsPending, programsError, programsData } = useProgramsOfUser();
 
-  if (programsError) {
-    return <div className="text-center text-xl text-red-600">{programsError.message}</div>;
-  }
-
   return (
     <div className="mx-auto flex min-h-96 w-full max-w-6xl flex-col gap-4">
       <div className="flex items-center justify-between">
@@ -17,6 +13,7 @@ function ProgramsPage() {
         <Button>Créer un programme</Button>
       </div>
       {programsData && programsData.length === 0 && <hr className="border-neutral-6" />}
+      {programsError && <div className="text-xl text-red-600">Erreur: {programsError.message}</div>}
       {programsPending ? <ProgramsSkeletons /> : <ProgramsList programs={programsData} />}
     </div>
   );

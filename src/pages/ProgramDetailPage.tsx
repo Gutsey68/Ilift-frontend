@@ -25,10 +25,6 @@ function ProgramDetailPage() {
 
   const workoutsData = workouts?.data;
 
-  if (workoutsError) {
-    return <div>Erreur: {workoutsError.message}</div>;
-  }
-
   return (
     <div className="mx-auto flex min-h-96 w-full max-w-6xl flex-col gap-4">
       <div className="flex items-center justify-between">
@@ -39,6 +35,7 @@ function ProgramDetailPage() {
         <Button>Ajouter une séance</Button>
       </div>
       {workoutsData && workoutsData.length === 0 && <hr className="border-neutral-6" />}
+      {workoutsError && <div className="text-xl text-red-600">Erreur: {workoutsError.message}</div>}
       {workoutsPending ? <ExercicesSkeletons /> : <WorkoutsList workouts={workoutsData} />}
     </div>
   );

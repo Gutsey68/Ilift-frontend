@@ -25,10 +25,6 @@ function ExercicesPage() {
 
   const exercicesData = exercices?.data;
 
-  if (exercicesError) {
-    return <div>Erreur: {exercicesError.message}</div>;
-  }
-
   return (
     <div className="mx-auto flex min-h-96 w-full max-w-6xl flex-col gap-4">
       <div className="flex items-center justify-between">
@@ -39,6 +35,7 @@ function ExercicesPage() {
         <Button>Ajouter un exercice</Button>
       </div>
       {exercicesData && exercicesData.length === 0 && <hr className="border-neutral-6" />}
+      {exercicesError && <div className="text-xl text-red-600">Erreur: {exercicesError.message}</div>}
       {exercicesPending ? <ExercicesSkeletons /> : <ExercicesList exercices={exercicesData} />}
     </div>
   );

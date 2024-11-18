@@ -16,8 +16,8 @@ const useAuth = () => {
       localStorage.setItem('isAuthenticated', 'true');
       await checkAuth();
       setUser(data.user);
-      window.location.reload();
       navigate('/accueil');
+      window.location.reload();
     }
   });
 
@@ -36,9 +36,15 @@ const useAuth = () => {
   const checkAuth = async () => {
     const token = localStorage.getItem('token');
     if (token) {
-      const data = await fetchCurrentUser();
-
-      setUser(data.data);
+      try {
+        const data = await fetchCurrentUser();
+        setUser(data.data);
+      } catch (error) {
+        if (error === 401) {
+          logoutMutation.mutate();
+          navigate('/login');
+        }
+      }
     }
   };
 
