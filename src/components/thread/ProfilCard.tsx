@@ -16,8 +16,8 @@ function ProfilCard() {
       <UserStats />
       <div className="mx-2 border-y border-neutral-6 py-4">
         <p className="pb-2 text-xs text-neutral-11">Dernière activité</p>
-        <p className="font-semibold text-neutral-12">{user && user.workouts ? user.workouts[0].name : 'Dodo'}</p>
-        <p className="text-xs text-neutral-11">{user && user.workouts ? formatRelativeTime(user.workouts[0].createdAt) : '💤'}</p>
+        <p className="font-semibold text-neutral-12">{user && user.workouts && user.workouts[0] ? user.workouts[0].name : 'Dodo'}</p>
+        <p className="text-xs text-neutral-11">{user && user.workouts && user.workouts[0] ? formatRelativeTime(user.workouts[0].createdAt) : '💤'}</p>
       </div>
       <Link to="/activités">
         <div className="group mx-2 flex cursor-pointer items-center justify-between text-xs text-neutral-11">

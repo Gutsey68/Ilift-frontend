@@ -20,7 +20,7 @@ export const fetchExerciceAndResults = async (id: string) => {
     }
 
     return response.json();
-  } catch (error) {
+  } catch {
     throw new Error('Erreur lors de la récupération des données.');
   }
 };
