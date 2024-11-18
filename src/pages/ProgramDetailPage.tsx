@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import WorkoutsList from '../components/programs/WorkoutsList';
-import ProgramsSkeletons from '../components/skeletons/ProgramsSkeletons';
+import ExercicesSkeletons from '../components/skeletons/ExercicesSkeletons';
 import Button from '../components/ui/Button';
 import { fetchWorkoutsOfProgram } from '../services/programsService';
 
@@ -39,7 +39,7 @@ function ProgramDetailPage() {
         <Button>Ajouter une séance</Button>
       </div>
       {workoutsData && workoutsData.length === 0 && <hr className="border-neutral-6" />}
-      {workoutsPending ? <ProgramsSkeletons /> : <WorkoutsList workouts={workoutsData} />}
+      {workoutsPending ? <ExercicesSkeletons /> : <WorkoutsList workouts={workoutsData} />}
     </div>
   );
 }
