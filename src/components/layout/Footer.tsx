@@ -8,11 +8,11 @@ const Footer = ({ ...props }) => {
   const { user } = useContext(AuthContext);
 
   return (
-    <footer {...props} className="text-neutral-11 max-sm:pb-16">
+    <footer {...props} className="text-neutral-11 max-sm:text-center">
       <div className="mx-auto max-w-6xl border-t border-neutral-6 py-8">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-          <div className="flex flex-col items-start">
-            <a href="/" className="mb-4 flex items-center text-neutral-12">
+          <div className="flex flex-col sm:items-start">
+            <a href="/" className="mb-4 flex items-center justify-center max-sm:text-neutral-12">
               <Dumbbell className="mr-2 size-8" />
               <span className="text-xl font-bold">ILift</span>
             </a>
@@ -43,13 +43,13 @@ const Footer = ({ ...props }) => {
                   ))}
             </ul>
           </div>
-          <div>
+          <div className="flex-col items-center justify-center max-sm:flex">
             <h3 className="mb-4 text-lg font-semibold text-neutral-12">Contactez nous</h3>
             <div className="flex items-center">
               <House className="mr-2 mt-1 size-4" />
               36 rue saint Léon
             </div>
-            <div className="flex items-center">
+            <div className="flex items-center max-sm:py-2">
               <Mail className="mr-2 mt-1 size-4" /> gauthier@seyzeriat.fr
             </div>
             <div className="flex items-center">

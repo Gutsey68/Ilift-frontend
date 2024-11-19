@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import Footer from '../components/layout/Footer';
 import Header from '../components/layout/Header';
+import MobileBottomNav from '../components/layout/navbar/MobileBottomNav';
 import Button from '../components/ui/Button';
 import { Spacing } from '../components/ui/Spacing';
 
@@ -8,7 +9,7 @@ export default function PageError() {
   const navigate = useNavigate();
 
   return (
-    <main className="flex min-h-screen flex-col justify-between bg-neutral-1">
+    <main className="flex min-h-screen flex-col justify-between bg-neutral-1 max-md:px-4">
       <Header />
       <div className="flex items-center justify-center">
         <div className="text-center">
@@ -20,6 +21,7 @@ export default function PageError() {
       </div>
       <Spacing />
       <Footer />
+      <MobileBottomNav />
     </main>
   );
 }

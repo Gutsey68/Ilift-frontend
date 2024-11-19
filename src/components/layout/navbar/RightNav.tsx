@@ -1,9 +1,9 @@
-import { Link } from 'react-router-dom';
 import { useContext } from 'react';
+import { Link } from 'react-router-dom';
+import { AuthContext } from '../../../context/AuthContext';
 import ThemeToggle from '../../theme/ThemeToggle';
 import Button from '../../ui/Button';
 import UserNavInfos from './UserNavInfos';
-import { AuthContext } from '../../../context/AuthContext';
 
 function RightNav() {
   const { user } = useContext(AuthContext);
@@ -14,7 +14,7 @@ function RightNav() {
         <UserNavInfos />
       ) : (
         <>
-          <Link to="/connexion">
+          <Link className="max-sm:mr-2" to="/connexion">
             <Button>Connexion</Button>
           </Link>
         </>

@@ -27,7 +27,9 @@ function LogoutButton() {
           <Button className="max-md:hidden" onClick={handleLogout}>
             Déconnexion
           </Button>
-          <IconButton className="md:hidden" onClick={handleLogout} icon={<LogOutIcon />} />
+          <div onClick={handleLogout}>
+            <IconButton className="mr-2 md:hidden" icon={<LogOutIcon />} />
+          </div>
         </>
       )}
     </>

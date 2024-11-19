@@ -4,7 +4,6 @@ import React from 'react';
 interface IconButtonProps {
   icon: React.ReactNode;
   className?: string;
-  onClick?: () => void;
 }
 
 function IconButton({ icon, className }: IconButtonProps) {

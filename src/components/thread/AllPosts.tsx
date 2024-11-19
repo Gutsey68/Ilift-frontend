@@ -1,10 +1,10 @@
 import { Earth, Heart, MessageCircle, Send } from 'lucide-react';
 import { formatRelativeTime } from '../../lib/formatRelativeTime';
-import { Post } from '../../types/postsType';
+import { PostType } from '../../types/postsType';
 import Avatar from '../ui/Avatar';
 import Card from '../ui/Card';
 
-type AllPostsProps = { posts: Post[] };
+type AllPostsProps = { posts: PostType[] };
 
 function AllPosts({ posts }: AllPostsProps) {
   if (!Array.isArray(posts) || posts.length === 0) {
@@ -13,7 +13,7 @@ function AllPosts({ posts }: AllPostsProps) {
 
   return (
     <>
-      {posts.map((post: Post) => {
+      {posts.map((post: PostType) => {
         const user = post.author;
         return (
           <Card size="xs" key={post.id} className="mt-4 flex flex-col gap-4">
@@ -27,28 +27,28 @@ function AllPosts({ posts }: AllPostsProps) {
                 </div>
               </div>
             </div>
-            <div className="mx-auto flex w-3/4 flex-col">
+            <div className="mx-auto flex w-11/12 flex-col sm:w-3/4">
               <h2 className="text-lg font-semibold">{post.title}</h2>
-              <p className="text-neutral-11">{post.content}</p>
+              <p className="text-neutral-11 max-sm:text-sm">{post.content}</p>
             </div>
-            {post.photo && <img className="mx-auto w-3/4 rounded-lg" src={post.photo} alt={post.title} />}
+            {post.photo && <img className="mx-auto w-11/12 rounded-lg sm:w-3/4" src={post.photo} alt={post.title} />}
             <div className="px-4">
-              <div className="mx-auto flex w-3/4 items-center gap-1 border-b border-gray-600 pb-2 text-xs text-neutral-11">
+              <div className="mx-auto flex w-11/12 items-center gap-1 border-b border-gray-600 pb-2 text-xs text-neutral-11 sm:w-3/4">
                 <Heart size={14} />
                 <p>{post._count?.likes}</p>
               </div>
-              <div className="mx-auto flex w-3/4 justify-between pb-4 pt-2">
-                <button className="flex items-center gap-2 hover:text-green-9">
+              <div className="mx-auto flex w-11/12 justify-between pb-4 pt-2 sm:w-3/4">
+                <button className="xs:gap-2 flex items-center gap-1 hover:text-green-9">
                   <Heart size={16} />
-                  J'aime
+                  <span className="max-sm:text-xs">J'aime</span>
                 </button>
-                <button className="flex items-center gap-2 hover:text-green-9">
+                <button className="xs:gap-2 flex items-center gap-1 hover:text-green-9">
                   <MessageCircle size={16} />
-                  Commenter
+                  <span className="max-sm:text-xs">Commenter</span>
                 </button>
-                <button className="flex items-center gap-2 hover:text-green-9">
+                <button className="xs:gap-2 flex items-center gap-1 hover:text-green-9">
                   <Send size={16} />
-                  Partager
+                  <span className="max-sm:text-xs">Partager</span>
                 </button>
               </div>
             </div>
