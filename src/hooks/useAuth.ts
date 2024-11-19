@@ -40,7 +40,7 @@ const useAuth = () => {
         const data = await fetchCurrentUser();
         setUser(data.data);
       } catch (error) {
-        if (error === 401) {
+        if (error instanceof Error && (error as { response?: { status?: number } }).response?.status === 401) {
           logoutMutation.mutate();
           navigate('/login');
         }

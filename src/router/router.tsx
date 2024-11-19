@@ -76,6 +76,7 @@ export const router = createBrowserRouter([
       },
       {
         path: 'programmes',
+        element: <PrivateRoute />,
         children: [
           {
             path: '',
@@ -83,6 +84,7 @@ export const router = createBrowserRouter([
           },
           {
             path: ':id',
+            element: <PrivateRoute />,
             children: [
               {
                 path: '',
@@ -90,6 +92,7 @@ export const router = createBrowserRouter([
               },
               {
                 path: 'exercices',
+                element: <PrivateRoute />,
                 children: [
                   {
                     path: '',
