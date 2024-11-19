@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import { Plus } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 import WorkoutsList from '../components/programs/WorkoutsList';
 import ExercicesSkeletons from '../components/skeletons/ExercicesSkeletons';
@@ -32,7 +33,10 @@ function ProgramDetailPage() {
           <h1 className="text-3xl">Séances</h1>
           <p className="mt-1 text-neutral-11">{workoutsData ? workoutsData[0].program.name : ''}</p>
         </div>
-        <Button>Ajouter une séance</Button>
+        <Button className="max-sm:px-2">
+          <Plus className="sm:hidden" />
+          <span className="max-sm:hidden">Ajouter une séance</span>
+        </Button>
       </div>
       {workoutsData && workoutsData.length === 0 && <hr className="border-neutral-6" />}
       {workoutsError && <div className="text-xl text-red-600">Erreur: {workoutsError.message}</div>}

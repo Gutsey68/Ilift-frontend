@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import { Plus } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 import ExerciceResults from '../components/programs/ExerciceResults';
 import ExerciceResultsSkeletons from '../components/skeletons/ExerciceResultsSkeletons';
@@ -29,7 +30,10 @@ function ExerciceDetailPage() {
     <div className="mx-auto flex min-h-96 w-full max-w-6xl flex-col gap-4">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl">{resultsData ? resultsData.name : 'Développer assis'}</h1>
-        <Button>Ajouter une série</Button>
+        <Button className="max-sm:px-2">
+          <Plus className="sm:hidden" />
+          <span className="max-sm:hidden">Ajouter une série</span>
+        </Button>
       </div>
       {resultsData && resultsData.results.length === 0 && <hr className="border-neutral-6" />}
       {resultsError && <div className="text-xl text-red-600">Erreur: {resultsError.message}</div>}
