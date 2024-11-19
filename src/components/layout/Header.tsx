@@ -21,11 +21,11 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className={`sticky top-0 z-10 pb-4 transition-colors duration-300 ${isScrolled ? 'bg-neutral-1' : 'bg-transparent'} text-neutral-12`}>
+    <nav className={`sticky top-0 z-20 pb-4 transition-colors duration-300 ${isScrolled ? 'bg-neutral-1' : 'bg-transparent'} text-neutral-12`}>
       <div className="mx-auto max-w-6xl px-4">
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center justify-center">
-            <NavLink to={'/'} className="flex items-center text-xl font-bold">
+            <NavLink to={`/${user ? 'accueil' : ''}`} className="flex items-center text-xl font-bold">
               <Dumbbell className="mr-2 mt-1" /> <span>ILift</span>
             </NavLink>
             {user && <DesktopNav />}

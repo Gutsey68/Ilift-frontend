@@ -1,6 +1,6 @@
 import { Dumbbell, House, Mail, Phone } from 'lucide-react';
 import { useContext } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import { navItems, NotAuhenticatedNavItems, socials } from '../../lib/links';
 
@@ -12,10 +12,10 @@ const Footer = ({ ...props }) => {
       <div className="mx-auto max-w-6xl border-t border-neutral-6 py-8">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           <div className="flex flex-col sm:items-start">
-            <a href="/" className="mb-4 flex items-center justify-center max-sm:text-neutral-12">
+            <Link to={`/${user && 'accueil'}`} className="mb-4 flex items-center justify-center max-sm:text-neutral-12">
               <Dumbbell className="mr-2 size-8" />
               <span className="text-xl font-bold">ILift</span>
-            </a>
+            </Link>
             <p className="text-sm">
               Made with ❤️ by{' '}
               <a href="https://gauthierseyzeriat.com" target="_blank" className="text-green-9 hover:underline" rel="noreferrer">
@@ -26,6 +26,11 @@ const Footer = ({ ...props }) => {
           <div>
             <h3 className="mb-4 text-lg font-semibold text-neutral-12">Liens rapides</h3>
             <ul className="space-y-2">
+              <li>
+                <NavLink to={`/${user ? 'accueil' : ''}`} className="transition-colors hover:text-green-9">
+                  Accueil
+                </NavLink>
+              </li>
               {user
                 ? navItems.map(item => (
                     <li key={item.to}>

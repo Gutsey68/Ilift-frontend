@@ -14,7 +14,7 @@ function MobileBottomNav() {
       {user && (
         <>
           <div className="h-16 sm:hidden"></div>
-          <div className="fixed bottom-0 left-0 z-10 h-16 w-full border-t border-neutral-6 bg-neutral-1 sm:hidden">
+          <div className="fixed bottom-0 left-0 z-20 h-16 w-full border-t border-neutral-6 bg-neutral-1 sm:hidden">
             <div className="mx-auto grid h-full max-w-lg grid-cols-4 font-medium">
               <Link to="/accueil" className="group inline-flex flex-col items-center justify-center border-x border-neutral-6 px-5 hover:bg-neutral-3">
                 <HomeIcon className="group-hover:text-green-9" />

@@ -35,16 +35,14 @@ const useAuth = () => {
 
   const checkAuth = async () => {
     const token = localStorage.getItem('token');
-    if (token) {
-      try {
+    try {
+      if (token) {
         const data = await fetchCurrentUser();
         setUser(data.data);
-      } catch (error) {
-        if (error instanceof Error && (error as { response?: { status?: number } }).response?.status === 401) {
-          logoutMutation.mutate();
-          navigate('/login');
-        }
       }
+    } catch {
+      logoutMutation.mutate();
+      navigate('/connexion');
     }
   };
 
