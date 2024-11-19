@@ -6,6 +6,7 @@ import { Spacing } from '../components/ui/Spacing';
 function LoginPage() {
   return (
     <>
+      <Spacing size="sm" />
       <section className="flex items-center justify-center">
         <Card size="lg" className="my-10 flex w-96 flex-col ">
           <h1 className="text-2xl font-semibold">Connexion</h1>
@@ -20,7 +21,7 @@ function LoginPage() {
           </div>
         </Card>
       </section>
-      <Spacing />
+      <Spacing size="sm" />
     </>
   );
 }

@@ -6,6 +6,7 @@ import { Spacing } from '../components/ui/Spacing';
 function RegisterPage() {
   return (
     <>
+      <Spacing size="sm" />
       <div className="flex items-center justify-center">
         <Card size="lg" className="my-10 flex w-96 flex-col ">
           <h1 className="text-2xl font-semibold ">Inscription</h1>
