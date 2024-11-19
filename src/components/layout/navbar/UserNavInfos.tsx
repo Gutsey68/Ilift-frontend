@@ -20,7 +20,7 @@ function UserNavInfos() {
   }
   return (
     <>
-      <NavLink to={`/profil/${user?.id}`}>
+      <NavLink className="max-sm:hidden" to={`/profil/${user?.id}`}>
         <Avatar src={user?.profilePhoto || ProfilPicture} alt="" className="mr-1" size="sm" />
       </NavLink>
       <div className="relative">

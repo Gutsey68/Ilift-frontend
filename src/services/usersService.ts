@@ -44,14 +44,14 @@ export const fetchCurrentUser = async () => {
   return response.json();
 };
 
-export const fetchSuggestedUsers = async (id: string) => {
+export const fetchSuggestedUsers = async () => {
   const token = localStorage.getItem('token');
 
   if (!token) {
     throw new Error('Token manquant. Veuillez vous reconnecter.');
   }
 
-  const response = await fetch(`http://localhost:3000/api/users/${id}/suggested`, {
+  const response = await fetch(`http://localhost:3000/api/users/suggested`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

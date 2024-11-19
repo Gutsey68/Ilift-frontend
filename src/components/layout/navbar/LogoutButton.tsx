@@ -1,8 +1,10 @@
-import { useNavigate } from 'react-router-dom';
+import { LogOutIcon } from 'lucide-react';
 import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../../context/AuthContext';
 import useAuth from '../../../hooks/useAuth';
 import Button from '../../ui/Button';
-import { AuthContext } from '../../../context/AuthContext';
+import IconButton from '../../ui/IconButton';
 
 function LogoutButton() {
   const { user } = useContext(AuthContext);
@@ -18,7 +20,18 @@ function LogoutButton() {
     }
   };
 
-  return <>{user && <Button onClick={handleLogout}>Déconnexion</Button>}</>;
+  return (
+    <>
+      {user && (
+        <>
+          <Button className="max-md:hidden" onClick={handleLogout}>
+            Déconnexion
+          </Button>
+          <IconButton className="md:hidden" onClick={handleLogout} icon={<LogOutIcon />} />
+        </>
+      )}
+    </>
+  );
 }
 
 export default LogoutButton;

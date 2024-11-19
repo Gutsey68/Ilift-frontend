@@ -19,7 +19,7 @@ function Thread() {
       {userPending ? (
         <ProfileThreadSkeleton />
       ) : (
-        <div className="flex w-1/4 flex-col">
+        <div className="flex w-1/4 flex-col max-md:hidden">
           {userError && <div className="text-center text-xl text-red-600">{userError.message}</div>}
           {user && <ProfilCard />}
         </div>
@@ -27,7 +27,7 @@ function Thread() {
       {postsPending ? (
         <PostsThreadSkeleton />
       ) : (
-        <div className="mb-10 flex w-2/4 flex-col">
+        <div className="mb-10 flex flex-col md:w-2/4">
           <InputPost />
           {postError && <div className="text-center text-xl text-red-600">{postError.message}</div>}
           {user && <AllPosts posts={postsData} />}
@@ -36,7 +36,7 @@ function Thread() {
       {suggestedPending ? (
         <ProfileThreadSkeleton />
       ) : (
-        <div className="flex w-1/4 flex-col">
+        <div className="flex w-1/4 flex-col max-md:hidden">
           {suggestedError && <div className="text-center text-xl text-red-600">{suggestedError.message}</div>}
           {suggestedData && <SuggestedProfils suggestedUsers={suggestedData} />}
         </div>

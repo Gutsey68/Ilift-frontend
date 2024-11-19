@@ -1,19 +1,13 @@
-import { Dumbbell, Menu, X } from 'lucide-react';
+import { Dumbbell } from 'lucide-react';
 import { useContext, useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import DesktopNav from './navbar/DesktopNav';
-import MobileNav from './navbar/MobileNav';
 import RightNav from './navbar/RightNav';
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const { user } = useContext(AuthContext);
-
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -39,19 +33,11 @@ const Navbar = () => {
           <div className="hidden items-center justify-center gap-2 md:flex">
             <RightNav />
           </div>
-          <div className="flex items-center gap-2 md:hidden">
+          <div className="flex items-center  md:hidden">
             <RightNav />
-            <button
-              onClick={toggleMenu}
-              className="inline-flex items-center justify-center rounded-md p-2 text-neutral-12 transition-colors hover:text-green-9 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-green-9"
-              aria-expanded={isOpen}
-            >
-              {isOpen ? <X /> : <Menu />}
-            </button>
           </div>
         </div>
       </div>
-      {isOpen && <MobileNav onClick={toggleMenu} />}
     </nav>
   );
 };

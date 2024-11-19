@@ -19,7 +19,7 @@ function ProfilCard() {
         <p className="font-semibold text-neutral-12">{user && user.workouts && user.workouts[0] ? user.workouts[0].name : 'Dodo'}</p>
         <p className="text-xs text-neutral-11">{user && user.workouts && user.workouts[0] ? formatRelativeTime(user.workouts[0].createdAt) : '💤'}</p>
       </div>
-      <Link to="/activités">
+      <Link to="/programmes">
         <div className="group mx-2 flex cursor-pointer items-center justify-between text-xs text-neutral-11">
           <p>Voir le journal d’entraînements</p>
           <ChevronRight className="size-4 transition-transform duration-200 group-hover:translate-x-2" />

@@ -2,8 +2,6 @@ import { createBrowserRouter } from 'react-router-dom';
 import NorAuthenticatedRoute from '../components/auth/NotAuthenticatedRoute';
 import PrivateRoute from '../components/auth/PrivateRoute';
 import Layout from '../components/layout/Layout';
-import ActivitiesPage from '../pages/ActivitiesPage';
-import ActivityDetailPage from '../pages/ActivityDetailPage';
 import ExerciceDetailPage from '../pages/ExerciceDetailPage';
 import ExercicesPage from '../pages/ExercicesPage';
 import ForgotPasswordPage from '../pages/ForgotPasswordPage';
@@ -73,19 +71,6 @@ export const router = createBrowserRouter([
           {
             path: '',
             element: <ProfilPage />
-          }
-        ]
-      },
-      {
-        path: 'activités',
-        children: [
-          {
-            path: '',
-            element: <ActivitiesPage />
-          },
-          {
-            path: ':id',
-            element: <ActivityDetailPage />
           }
         ]
       },
