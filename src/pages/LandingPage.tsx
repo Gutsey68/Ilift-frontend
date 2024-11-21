@@ -29,9 +29,8 @@ function LandingPage() {
         <div className="image-container relative z-10 m-auto w-3/4">
           <img src={ScreenShot} alt="" />
         </div>
-        <div className="background-overlay"></div>
+        <div className="background-overlay border-t border-neutral-6 bg-neutral-1"></div>
       </div>
-
       <BlurBackground />
       <Spacing size="md" />
     </>
