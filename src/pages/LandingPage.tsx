@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import Macbook from '../assets/images/rb_511.png';
+import ScreenShot from '../assets/images/show-develop-menu-in-menu-bar.webp';
 import BlurBackground from '../components/ui/BackgroundBlur';
 import Button from '../components/ui/Button';
 import { Spacing } from '../components/ui/Spacing';
@@ -25,7 +25,13 @@ function LandingPage() {
         </section>
       </div>
       <Spacing size="sm" />
-      <img className="relative z-10 m-auto max-w-6xl" src={Macbook} alt="" />
+      <div className="relative m-auto flex justify-center">
+        <div className="image-container relative z-10 m-auto w-3/4">
+          <img src={ScreenShot} alt="" />
+        </div>
+        <div className="background-overlay"></div>
+      </div>
+
       <BlurBackground />
       <Spacing size="md" />
     </>

@@ -108,4 +108,30 @@
             hsl(0deg 0% 4%) 100%
         );
     } */
+
+  .image-container {
+    position: relative;
+    display: inline-block;
+  }
+
+  .image-container::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 30%;
+    background: linear-gradient(to bottom, hsla(0, 0%, 50%, 0) 0%, hsl(0deg 0% 4%) 100%);
+  }
+
+  .background-overlay {
+    border-top: 1px solid hsl(0deg, 0%, 23%);
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    bottom: -200px;
+    background: hsl(0deg 0% 4%);
+    z-index: 5;
+  }
 }
