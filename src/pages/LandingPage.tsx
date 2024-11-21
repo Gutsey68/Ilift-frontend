@@ -26,7 +26,7 @@ function LandingPage() {
       </div>
       <Spacing size="sm" />
       <div className="relative m-auto flex justify-center">
-        <div className="image-container relative z-10 m-auto w-3/4">
+        <div className="image-container relative z-10 m-auto w-3/4 max-sm:w-10/12">
           <img src={ScreenShot} alt="" />
         </div>
         <div className="background-overlay border-t border-neutral-6 bg-neutral-1"></div>
