@@ -1,4 +1,5 @@
 import { useContext } from 'react';
+import ErrorPage from '../components/error/ErrorPage';
 import PostsThreadSkeleton from '../components/skeletons/PostsThreadSkeletons';
 import ProfileThreadSkeleton from '../components/skeletons/ProfileThreadSkeletons';
 import AllPosts from '../components/thread/AllPosts';
@@ -14,32 +15,25 @@ function Thread() {
   const { postsPending, postError, postsData } = usePostsOfUsers();
   const { suggestedPending, suggestedError, suggestedData } = useSuggestedUsers();
 
+  if (userError || postError || suggestedError) {
+    return <ErrorPage />;
+  }
+
   return (
     <div className="mx-auto flex w-full max-w-6xl gap-6">
-      {userPending ? (
-        <ProfileThreadSkeleton />
-      ) : (
-        <div className="flex w-1/4 flex-col max-md:hidden">
-          {userError && <div className="text-center text-xl text-red-600">{userError.message}</div>}
-          {user && <ProfilCard />}
-        </div>
-      )}
+      {userPending ? <ProfileThreadSkeleton /> : <div className="flex w-1/4 flex-col max-md:hidden">{user && <ProfilCard />}</div>}
       {postsPending ? (
         <PostsThreadSkeleton />
       ) : (
         <div className="mb-10 flex flex-col md:w-2/4">
           <InputPost />
-          {postError && <div className="text-center text-xl text-red-600">{postError.message}</div>}
           {user && <AllPosts posts={postsData} />}
         </div>
       )}
       {suggestedPending ? (
         <ProfileThreadSkeleton />
       ) : (
-        <div className="flex w-1/4 flex-col max-md:hidden">
-          {suggestedError && <div className="text-center text-xl text-red-600">{suggestedError.message}</div>}
-          {suggestedData && <SuggestedProfils suggestedUsers={suggestedData} />}
-        </div>
+        <div className="flex w-1/4 flex-col max-md:hidden">{suggestedData && <SuggestedProfils suggestedUsers={suggestedData} />}</div>
       )}
     </div>
   );

@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
+import ErrorPage from '../components/error/ErrorPage';
 import ProfileCard from '../components/profile/ProfileCard';
 import SuggestedProfils from '../components/thread/SuggestedProfils';
 import Card from '../components/ui/Card';
@@ -27,7 +28,7 @@ function ProfilPage() {
   }
 
   if (userError) {
-    return <div>Erreur.</div>;
+    return <ErrorPage />;
   }
 
   return (

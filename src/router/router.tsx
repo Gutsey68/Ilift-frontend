@@ -7,7 +7,7 @@ import ExercicesPage from '../pages/ExercicesPage';
 import ForgotPasswordPage from '../pages/ForgotPasswordPage';
 import LandingPage from '../pages/LandingPage';
 import LoginPage from '../pages/LoginPage';
-import PageError from '../pages/PageError';
+import Page404 from '../pages/Page404';
 import ProfilPage from '../pages/ProfilPage';
 import ProgramDetailPage from '../pages/ProgramDetailPage';
 import ProgramsPage from '../pages/ProgramsPage';
@@ -18,7 +18,7 @@ export const router = createBrowserRouter([
   {
     path: '/',
     element: <Layout />,
-    errorElement: <PageError />,
+    errorElement: <Page404 />,
     children: [
       {
         path: '',

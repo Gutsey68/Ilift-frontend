@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { Plus } from 'lucide-react';
 import { useParams } from 'react-router-dom';
+import ErrorPage from '../components/error/ErrorPage';
 import ExercicesList from '../components/programs/ExercicesList';
 import ExercicesSkeletons from '../components/skeletons/ExercicesSkeletons';
 import Button from '../components/ui/Button';
@@ -26,6 +27,10 @@ function ExercicesPage() {
 
   const exercicesData = exercices?.data;
 
+  if (exercicesError) {
+    return <ErrorPage />;
+  }
+
   return (
     <div className="mx-auto flex min-h-96 w-full max-w-6xl flex-col gap-4">
       <div className="flex items-center justify-between">
@@ -39,7 +44,6 @@ function ExercicesPage() {
         </Button>
       </div>
       {exercicesData && exercicesData.length === 0 && <hr className="border-neutral-6" />}
-      {exercicesError && <div className="text-xl text-red-600">Erreur: {exercicesError.message}</div>}
       {exercicesPending ? <ExercicesSkeletons /> : <ExercicesList exercices={exercicesData} />}
     </div>
   );

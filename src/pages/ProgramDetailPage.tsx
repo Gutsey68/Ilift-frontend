@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { Plus } from 'lucide-react';
 import { useParams } from 'react-router-dom';
+import ErrorPage from '../components/error/ErrorPage';
 import WorkoutsList from '../components/programs/WorkoutsList';
 import ExercicesSkeletons from '../components/skeletons/ExercicesSkeletons';
 import Button from '../components/ui/Button';
@@ -26,6 +27,10 @@ function ProgramDetailPage() {
 
   const workoutsData = workouts?.data;
 
+  if (workoutsError) {
+    return <ErrorPage />;
+  }
+
   return (
     <div className="mx-auto flex min-h-96 w-full max-w-6xl flex-col gap-4">
       <div className="flex items-center justify-between">
@@ -39,7 +44,6 @@ function ProgramDetailPage() {
         </Button>
       </div>
       {workoutsData && workoutsData.length === 0 && <hr className="border-neutral-6" />}
-      {workoutsError && <div className="text-xl text-red-600">Erreur: {workoutsError.message}</div>}
       {workoutsPending ? <ExercicesSkeletons /> : <WorkoutsList workouts={workoutsData} />}
     </div>
   );

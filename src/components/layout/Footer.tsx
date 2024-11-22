@@ -8,7 +8,7 @@ const Footer = ({ ...props }) => {
   const { user } = useContext(AuthContext);
 
   return (
-    <footer {...props} className="text-neutral-11 max-sm:text-center">
+    <footer {...props} className="z-10 bg-neutral-1 text-neutral-11 max-sm:text-center">
       <div className="mx-auto max-w-6xl border-t border-neutral-6 py-8">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           <div className="flex flex-col sm:items-start">
