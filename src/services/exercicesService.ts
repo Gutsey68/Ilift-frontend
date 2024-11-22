@@ -1,9 +1,10 @@
+import useAuth from '../hooks/useAuth';
+
 export const fetchExerciceAndResults = async (id: string) => {
+  const { checkAuth } = useAuth();
   const token = localStorage.getItem('token');
 
-  if (!token) {
-    throw new Error('Token manquant. Veuillez vous reconnecter.');
-  }
+  await checkAuth();
 
   try {
     const response = await fetch(`http://localhost:3000/api/exercices/${id}`, {

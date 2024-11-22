@@ -6,6 +6,7 @@ import AllPosts from '../components/thread/AllPosts';
 import InputPost from '../components/thread/InputPost';
 import ProfilCard from '../components/thread/ProfilCard';
 import SuggestedProfils from '../components/thread/SuggestedProfils';
+import Trends from '../components/thread/Trends';
 import { AuthContext } from '../context/AuthContext';
 import usePostsOfUsers from '../hooks/usePostsOfUsers';
 import useSuggestedUsers from '../hooks/useSuggestedUsers';
@@ -35,6 +36,7 @@ function Thread() {
       ) : (
         <div className="flex w-1/4 flex-col max-md:hidden">{suggestedData && <SuggestedProfils suggestedUsers={suggestedData} />}</div>
       )}
+      <Trends />
     </div>
   );
 }

@@ -1,9 +1,10 @@
+import useAuth from '../hooks/useAuth';
+
 export const fetchUserById = async (id: string) => {
+  const { checkAuth } = useAuth();
   const token = localStorage.getItem('token');
 
-  if (!token) {
-    throw new Error('Token manquant. Veuillez vous reconnecter.');
-  }
+  await checkAuth();
 
   const response = await fetch(`http://localhost:3000/api/users/${id}`, {
     method: 'GET',
@@ -22,11 +23,10 @@ export const fetchUserById = async (id: string) => {
 };
 
 export const fetchCurrentUser = async () => {
+  const { checkAuth } = useAuth();
   const token = localStorage.getItem('token');
 
-  if (!token) {
-    throw new Error('Token manquant. Veuillez vous reconnecter.');
-  }
+  await checkAuth();
 
   const response = await fetch('http://localhost:3000/api/users/me', {
     method: 'GET',
@@ -45,11 +45,10 @@ export const fetchCurrentUser = async () => {
 };
 
 export const fetchSuggestedUsers = async () => {
+  const { checkAuth } = useAuth();
   const token = localStorage.getItem('token');
 
-  if (!token) {
-    throw new Error('Token manquant. Veuillez vous reconnecter.');
-  }
+  await checkAuth();
 
   const response = await fetch(`http://localhost:3000/api/users/suggested`, {
     method: 'GET',
