@@ -2,6 +2,7 @@ import { Earth, Heart, MessageCircle, Send } from 'lucide-react';
 import { formatRelativeTime } from '../../lib/formatRelativeTime';
 import { PostType } from '../../types/postsType';
 import Avatar from '../ui/Avatar';
+import Badge from '../ui/Badge';
 import Card from '../ui/Card';
 
 type AllPostsProps = { posts: PostType[] };
@@ -30,6 +31,13 @@ function AllPosts({ posts }: AllPostsProps) {
             <div className="mx-auto flex w-11/12 flex-col sm:w-3/4">
               <h2 className="text-lg font-semibold">{post.title}</h2>
               <p className="text-neutral-11 max-sm:text-sm">{post.content}</p>
+              {post.tags && post.tags.length > 0 && (
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {post.tags.map(tag => (
+                    <Badge key={tag.tag.id}>{tag.tag.name}</Badge>
+                  ))}
+                </div>
+              )}
             </div>
             {post.photo && <img className="mx-auto w-11/12 rounded-lg sm:w-3/4" src={post.photo} alt={post.title} />}
             <div className="px-4">

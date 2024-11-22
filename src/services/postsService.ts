@@ -1,10 +1,9 @@
-import useAuth from '../hooks/useAuth';
-
 export const fetchPostsOfUserAndHisFollowingsHandler = async (id: string) => {
-  const { checkAuth } = useAuth();
   const token = localStorage.getItem('token');
 
-  await checkAuth();
+  if (!token) {
+    throw new Error('Token manquant. Veuillez vous reconnecter.');
+  }
 
   const response = await fetch(`http://localhost:3000/api/posts/users/${id}/accueil`, {
     method: 'GET',

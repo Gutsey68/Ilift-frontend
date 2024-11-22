@@ -6,6 +6,7 @@ export type PostType = {
   createdAt: string;
   updatedAt: string;
   authorId: string;
+  tags: TagType[];
   author: {
     id: string;
     pseudo: string;
@@ -20,5 +21,18 @@ export type PostType = {
   };
   _count?: {
     likes: number;
+  };
+};
+
+export type TagType = {
+  postId: string;
+  tagId: string;
+  createdAt: string;
+  updatedAt: string;
+  tag: {
+    id: string;
+    name: string;
+    createdAt: string;
+    updatedAt: string;
   };
 };

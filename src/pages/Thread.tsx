@@ -22,7 +22,7 @@ function Thread() {
 
   return (
     <div className="mx-auto flex w-full max-w-6xl gap-6">
-      {userPending ? <ProfileThreadSkeleton /> : <div className="flex w-1/4 flex-col max-md:hidden">{user && <ProfilCard />}</div>}
+      <div className="flex w-1/4 flex-col max-md:hidden">{userPending ? <ProfileThreadSkeleton /> : <>{user && <ProfilCard />}</>}</div>
       {postsPending ? (
         <PostsThreadSkeleton />
       ) : (
@@ -31,12 +31,10 @@ function Thread() {
           {user && <AllPosts posts={postsData} />}
         </div>
       )}
-      {suggestedPending ? (
-        <ProfileThreadSkeleton />
-      ) : (
-        <div className="flex w-1/4 flex-col max-md:hidden">{suggestedData && <SuggestedProfils suggestedUsers={suggestedData} />}</div>
-      )}
-      <Trends />
+      <div className="flex w-1/4 flex-col gap-4 max-md:hidden">
+        {suggestedPending ? <ProfileThreadSkeleton /> : <>{suggestedData && <SuggestedProfils suggestedUsers={suggestedData} />}</>}
+        <Trends />
+      </div>
     </div>
   );
 }
