@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import ErrorPage from '../components/error/ErrorPage';
 import ProfileCard from '../components/profile/ProfileCard';
 import SuggestedProfils from '../components/thread/SuggestedProfils';
+import Trends from '../components/thread/Trends';
 import Card from '../components/ui/Card';
 import useSuggestedUsers from '../hooks/useSuggestedUsers';
 import { fetchCurrentUser, fetchUserById } from '../services/usersService';
@@ -43,8 +44,9 @@ function ProfilPage() {
           </div>
         </Card>
       </div>
-      <div className="w-1/3">
-        <SuggestedProfils suggestedUsers={suggestedData} />{' '}
+      <div className="flex w-1/3 flex-col gap-4">
+        <SuggestedProfils suggestedUsers={suggestedData} />
+        <Trends />
       </div>
     </div>
   );

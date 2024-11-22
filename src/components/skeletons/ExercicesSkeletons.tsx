@@ -1,7 +1,6 @@
 function ExercicesSkeletons() {
   return (
     <div>
-      <div className="h-4 w-1/6 animate-pulse rounded-full bg-neutral-4"></div>
       {[...Array(4)].map((_, index) => (
         <div key={index}>
           <hr className="my-4 border-neutral-6" />

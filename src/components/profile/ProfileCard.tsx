@@ -17,7 +17,7 @@ function ProfileCard({ userDetails }: ProfileCardProps) {
     <div className="flex items-center gap-4 border-b border-neutral-6 p-6 shadow-sm">
       <div className="relative">
         <Avatar src={userDetails.profilePhoto || ProfilPicture} alt="" className="mr-1" size="xl" />
-        <button className="absolute bottom-3 right-1 flex size-7 cursor-pointer items-center justify-center rounded-full bg-neutral-11 shadow-md">
+        <button className="absolute bottom-3 right-1 flex size-7 cursor-pointer items-center justify-center rounded-full border-2 border-neutral-1 bg-green-11 shadow-md">
           <Camera size={20} className="text-neutral-1" />
         </button>
       </div>

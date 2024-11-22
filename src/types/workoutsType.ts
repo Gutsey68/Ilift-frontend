@@ -7,5 +7,14 @@ export type WorkoutType = {
   userId: string;
   program: {
     name: string;
+    id: string;
+  };
+};
+
+export type WorkoutsDataType = {
+  workouts: WorkoutType[];
+  program: {
+    name: string;
+    id: string;
   };
 };

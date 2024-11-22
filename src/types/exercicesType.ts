@@ -3,10 +3,16 @@ export type ExerciseType = {
   name: string;
   createdAt: string;
   updatedAt: string;
-  workouts: {
-    workout: {
+};
+
+export type ExercicesDataType = {
+  exercices: ExerciseType[];
+  workout: {
+    name: string;
+    id: string;
+    program: {
       name: string;
       id: string;
     };
-  }[];
+  };
 };

@@ -5,8 +5,6 @@ type ExerciceResultsProps = {
 };
 
 function ExerciceResults({ results }: ExerciceResultsProps) {
-  console.log(results);
-
   return (
     <>
       {results.map(result => (

@@ -16,17 +16,18 @@ function UserNavInfos() {
   }
 
   if (userError) {
-    return <p className="text-center text-red-600">{userError.message}</p>;
+    return null;
   }
+
   return (
     <>
       <NavLink className="max-sm:hidden" to={`/profil/${user?.id}`}>
         <Avatar src={user?.profilePhoto || ProfilPicture} alt="" className="mr-1" size="sm" />
       </NavLink>
-      <div className="relative max-sm:mr-3">
+      <div className="relative cursor-pointer max-sm:mr-3">
         <IconButton icon={<Bell className="size-5" />} />
-        <div className="absolute right-0.5 top-0.5 flex size-4 items-center justify-center rounded-full bg-red-600">
-          <span className="text-xs text-white">8</span>
+        <div className="absolute left-[18px] top-0 flex size-5 items-center justify-center rounded-full border-2 border-neutral-1 bg-red-600">
+          <span className="text-xs text-white">9</span>
         </div>
       </div>
       <LogoutButton />

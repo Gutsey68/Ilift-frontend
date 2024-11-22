@@ -12,4 +12,16 @@ export type ExerciseResult = {
     updatedAt: string;
     exerciceResultId: string;
   }[];
+  user: {
+    id: string;
+    pseudo: string;
+    email: string;
+    passwordHash: string;
+    bio: string | null;
+    createdAt: string;
+    updatedAt: string;
+    profilePhoto: string | null;
+    roleId: string | null;
+    cityId: string | null;
+  };
 };

@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Plus } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 import ErrorPage from '../components/error/ErrorPage';
+import BreadCrumb from '../components/layout/BreadCrumb';
 import ExerciceResults from '../components/programs/ExerciceResults';
 import ExerciceResultsSkeletons from '../components/skeletons/ExerciceResultsSkeletons';
 import Button from '../components/ui/Button';
@@ -31,18 +32,38 @@ function ExerciceDetailPage() {
     return <ErrorPage />;
   }
 
+  const breadcrumbItems = [
+    { label: 'Accueil', href: '/' },
+    { label: 'Programmes', href: '/programmes' },
+    {
+      label: resultsData ? resultsData.workout.workouts[0].workout.program.name : '',
+      href: resultsData ? `/programmes/${resultsData.workout.workouts[0].workout.program.id}` : ''
+    },
+    {
+      label: resultsData ? resultsData.workout.workouts[0].workout.name : '',
+      href: resultsData ? `/programmes/${resultsData.workout.workouts[0].workout.id}/exercices` : ''
+    },
+    { label: resultsData ? resultsData.exercices.name : '', current: true }
+  ];
+
   return (
-    <div className="mx-auto flex min-h-96 w-full max-w-6xl flex-col gap-4">
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl">{resultsData ? resultsData.name : 'Développer assis'}</h1>
-        <Button className="max-sm:px-2">
-          <Plus className="sm:hidden" />
-          <span className="max-sm:hidden">Ajouter une série</span>
-        </Button>
+    <>
+      <div className="mx-auto flex w-full max-w-6xl justify-start">
+        <BreadCrumb items={breadcrumbItems} />
+        <hr className="border-neutral-6" />
       </div>
-      {resultsData && resultsData.results.length === 0 && <hr className="border-neutral-6" />}
-      {resultsPending ? <ExerciceResultsSkeletons /> : <ExerciceResults results={resultsData.results} />}
-    </div>
+      <div className="mx-auto flex min-h-96 w-full max-w-6xl flex-col gap-4">
+        <div className="flex items-center justify-between">
+          <h1 className="text-3xl">{resultsData ? resultsData.exercices.name : 'Développer assis'}</h1>
+          <Button className="max-sm:px-2">
+            <Plus className="sm:hidden" />
+            <span className="max-sm:hidden">Ajouter une série</span>
+          </Button>
+        </div>
+        {resultsData && resultsData.exercices.results.length === 0 && <hr className="border-neutral-6" />}
+        {resultsPending ? <ExerciceResultsSkeletons /> : <ExerciceResults results={resultsData.exercices.results} />}
+      </div>
+    </>
   );
 }
 export default ExerciceDetailPage;
