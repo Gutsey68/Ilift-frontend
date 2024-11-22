@@ -36,7 +36,7 @@ function LoginForm() {
           {loginMutation.error?.message}
         </p>
       )}
-      <FormField label="Pseudo" name="pseudo" type="text" register={register} errors={errors} />
+      <FormField label="Pseudo" name="pseudo" type="text" register={register} errors={errors} placeholder="darkSasuke" />
       <div>
         <div className="mb-2 flex items-center justify-between">
           <label htmlFor="password" className={`mt-1 text-sm ${errors.password && 'text-red-600'}`}>

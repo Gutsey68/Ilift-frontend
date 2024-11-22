@@ -20,3 +20,7 @@ export const registerShema = z
     message: 'Les mots de passe ne correspondent pas',
     path: ['confirmPassword']
   });
+
+export const postShema = z.object({
+  content: z.string().min(1, 'Le contenu est requis')
+});

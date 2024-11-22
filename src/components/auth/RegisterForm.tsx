@@ -54,8 +54,8 @@ function RegisterForm() {
           {successMessage}
         </p>
       )}
-      <FormField label="Pseudo" name="pseudo" type="text" register={register} errors={errors} />
-      <FormField label="Email" name="email" type="email" register={register} errors={errors} />
+      <FormField label="Pseudo" name="pseudo" type="text" register={register} errors={errors} placeholder="darkSasuke" />
+      <FormField label="Email" name="email" type="email" register={register} errors={errors} placeholder="dark.s@email.com" />
       <FormField label="Mot de passe" name="password" type="password" register={register} errors={errors} />
       <FormField label="Confirmer le mot de passe" name="confirmPassword" type="password" register={register} errors={errors} />
       <Button type="submit" className="mt-2 w-full" disabled={isSubmitting || registerMutation.status === 'pending'}>
