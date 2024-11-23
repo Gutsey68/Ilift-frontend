@@ -3,7 +3,6 @@ import { Facebook, Instagram, Linkedin, Twitter } from 'lucide-react';
 export const navItems = [{ to: '/programmes', label: 'Programmes' }];
 
 export const NotAuhenticatedNavItems = [
-  { to: '/', label: 'Accueil' },
   { to: '/connexion', label: 'Connexion' },
   { to: '/inscription', label: 'inscription' }
 ];
