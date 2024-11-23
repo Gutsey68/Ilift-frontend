@@ -3,7 +3,6 @@ import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../context/AuthContext';
 import useAuth from '../../../hooks/useAuth';
-import Button from '../../ui/Button';
 import IconButton from '../../ui/IconButton';
 
 function LogoutButton() {
@@ -24,11 +23,8 @@ function LogoutButton() {
     <>
       {user && (
         <>
-          <Button className="max-md:hidden" onClick={handleLogout}>
-            Déconnexion
-          </Button>
           <div onClick={handleLogout}>
-            <IconButton className="mr-2 md:hidden" icon={<LogOutIcon />} />
+            <IconButton className="max-sm:mr-2" icon={<LogOutIcon />} />
           </div>
         </>
       )}
