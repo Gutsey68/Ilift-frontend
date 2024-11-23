@@ -7,8 +7,10 @@ import Trends from '../components/thread/Trends';
 import Card from '../components/ui/Card';
 import useSuggestedUsers from '../hooks/useSuggestedUsers';
 import { fetchCurrentUser, fetchUserById } from '../services/usersService';
+import {fetchTagsHandler} from "../services/tagsService.ts";
 
-function ProfilPage() {
+function ProfilePage() {
+
   const { id } = useParams();
 
   const {
@@ -24,6 +26,19 @@ function ProfilPage() {
 
   const user = userData?.data;
 
+  const {
+    isPending: tagsPending,
+    error: tagsError,
+    data : tagsData
+  } = useQuery({
+    queryKey: ['results'],
+    queryFn: () => {
+      return fetchTagsHandler();
+    }
+  });
+
+  const tags = tagsData?.data;
+
   if (userPending) {
     return <p>Chargement...</p>;
   }
@@ -31,6 +46,7 @@ function ProfilPage() {
   if (userError) {
     return <ErrorPage />;
   }
+
 
   return (
     <div className="mx-auto flex w-full max-w-6xl gap-6">
@@ -46,10 +62,10 @@ function ProfilPage() {
       </div>
       <div className="flex w-1/3 flex-col gap-4">
         <SuggestedProfils suggestedUsers={suggestedData} />
-        <Trends />
+        <Trends tags={tags} />
       </div>
     </div>
   );
 }
 
-export default ProfilPage;
+export default ProfilePage;

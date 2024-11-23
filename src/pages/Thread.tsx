@@ -4,8 +4,8 @@ import PostsThreadSkeleton from '../components/skeletons/PostsThreadSkeletons';
 import ProfileThreadSkeleton from '../components/skeletons/ProfileThreadSkeletons';
 import AllPosts from '../components/thread/AllPosts';
 import InputPost from '../components/thread/InputPost';
-import ProfilCard from '../components/thread/ProfilCard';
-import SuggestedProfils from '../components/thread/SuggestedProfils';
+import ProfileCard from '../components/thread/ProfilCard';
+import SuggestedProfiles from '../components/thread/SuggestedProfils';
 import Trends from '../components/thread/Trends';
 import { AuthContext } from '../context/AuthContext';
 import usePostsOfUsers from '../hooks/usePostsOfUsers';
@@ -39,7 +39,7 @@ function Thread() {
 
   return (
     <div className="mx-auto flex w-full max-w-6xl gap-6">
-      <div className="flex w-1/4 flex-col max-md:hidden">{userPending ? <ProfileThreadSkeleton /> : <>{user && <ProfilCard />}</>}</div>
+      <div className="flex w-1/4 flex-col max-md:hidden">{userPending ? <ProfileThreadSkeleton /> : <>{user && <ProfileCard />}</>}</div>
       {postsPending ? (
         <PostsThreadSkeleton />
       ) : (
@@ -49,7 +49,7 @@ function Thread() {
         </div>
       )}
       <div className="flex w-1/4 flex-col gap-4 max-md:hidden">
-        {suggestedPending ? <ProfileThreadSkeleton /> : <>{suggestedData && <SuggestedProfils suggestedUsers={suggestedData} />}</>}
+        {suggestedPending ? <ProfileThreadSkeleton /> : <>{suggestedData && <SuggestedProfiles suggestedUsers={suggestedData} />}</>}
         {tagsPending ? <ProfileThreadSkeleton /> : <>{tagsData && <Trends tags={tags} />}</>}
       </div>
     </div>

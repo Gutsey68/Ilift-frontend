@@ -8,7 +8,7 @@ import ForgotPasswordPage from '../pages/ForgotPasswordPage';
 import LandingPage from '../pages/LandingPage';
 import LoginPage from '../pages/LoginPage';
 import Page404 from '../pages/Page404';
-import ProfilPage from '../pages/ProfilPage';
+import ProfilPage from '../pages/ProfilePage.tsx';
 import ProgramDetailPage from '../pages/ProgramDetailPage';
 import ProgramsPage from '../pages/ProgramsPage';
 import RegisterPage from '../pages/RegisterPage';
