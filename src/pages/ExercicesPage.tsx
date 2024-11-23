@@ -6,6 +6,7 @@ import BreadCrumb from '../components/layout/BreadCrumb';
 import ExercicesList from '../components/programs/ExercicesList';
 import ExercicesSkeletons from '../components/skeletons/ExercicesSkeletons';
 import Button from '../components/ui/Button';
+import { Spacing } from '../components/ui/Spacing';
 import { fetchExercicesOfWorkout } from '../services/programsService';
 
 function ExercicesPage() {
@@ -47,23 +48,26 @@ function ExercicesPage() {
 
   return (
     <>
-      <div className="mx-auto flex w-full max-w-6xl justify-start">
-        <BreadCrumb items={breadcrumbItems} />
-      </div>
-      <div className="mx-auto flex min-h-96 w-full max-w-6xl flex-col gap-4">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl">Exercices</h1>
-            <p className="mt-1 text-neutral-11">{exercicesData ? exercicesData.workout.name : ''}</p>
-          </div>
-          <Button className="max-sm:px-2">
-            <Plus className="sm:hidden" />
-            <span className="max-sm:hidden">Ajouter un exercice</span>
-          </Button>
+      <div className="mt-4 min-h-96">
+        <div className="mx-auto mb-2 flex w-full max-w-6xl justify-start">
+          <BreadCrumb items={breadcrumbItems} />
         </div>
-        {exercicesData && exercicesData.exercices.length === 0 && <hr className="border-neutral-6" />}
-        {exercicesPending ? <ExercicesSkeletons /> : <ExercicesList workout={exercicesData.workout} exercices={exercicesData.exercices} />}
+        <div className="mx-auto flex min-h-96 w-full max-w-6xl flex-col gap-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl">Exercices</h1>
+              <p className="mt-1 text-neutral-11">{exercicesData ? exercicesData.workout.name : ''}</p>
+            </div>
+            <Button className="max-sm:px-2">
+              <Plus className="sm:hidden" />
+              <span className="max-sm:hidden">Ajouter un exercice</span>
+            </Button>
+          </div>
+          {exercicesData && exercicesData.exercices.length === 0 && <hr className="border-neutral-6" />}
+          {exercicesPending ? <ExercicesSkeletons /> : <ExercicesList workout={exercicesData.workout} exercices={exercicesData.exercices} />}
+        </div>
       </div>
+      <Spacing size="xl" />
     </>
   );
 }

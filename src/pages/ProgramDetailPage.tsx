@@ -6,6 +6,7 @@ import BreadCrumb from '../components/layout/BreadCrumb';
 import WorkoutsList from '../components/programs/WorkoutsList';
 import ExercicesSkeletons from '../components/skeletons/ExercicesSkeletons';
 import Button from '../components/ui/Button';
+import { Spacing } from '../components/ui/Spacing';
 import { fetchWorkoutsOfProgram } from '../services/programsService';
 
 function ProgramDetailPage() {
@@ -42,23 +43,26 @@ function ProgramDetailPage() {
 
   return (
     <>
-      <div className="mx-auto flex w-full max-w-6xl justify-start">
-        <BreadCrumb items={breadcrumbItems} />
-      </div>
-      <div className="mx-auto flex min-h-96 w-full max-w-6xl flex-col gap-4">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl">Séances</h1>
-            <p className="mt-1 text-neutral-11">{workoutsData ? workoutsData.program.name : ''}</p>
-          </div>
-          <Button className="max-sm:px-2">
-            <Plus className="sm:hidden" />
-            <span className="max-sm:hidden">Ajouter une séance</span>
-          </Button>
+      <div className="mt-4 min-h-96">
+        <div className="mx-auto mb-2 flex w-full max-w-6xl justify-start">
+          <BreadCrumb items={breadcrumbItems} />
         </div>
-        {workoutsData && workoutsData.workouts.length === 0 && <hr className="border-neutral-6" />}
-        {workoutsPending ? <ExercicesSkeletons /> : <WorkoutsList workouts={workoutsData.workouts} />}
+        <div className="mx-auto flex min-h-96 w-full max-w-6xl flex-col gap-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl">Séances</h1>
+              <p className="mt-1 text-neutral-11">{workoutsData ? workoutsData.program.name : ''}</p>
+            </div>
+            <Button className="max-sm:px-2">
+              <Plus className="sm:hidden" />
+              <span className="max-sm:hidden">Ajouter une séance</span>
+            </Button>
+          </div>
+          {workoutsData && workoutsData.workouts.length === 0 && <hr className="border-neutral-6" />}
+          {workoutsPending ? <ExercicesSkeletons /> : <WorkoutsList workouts={workoutsData.workouts} />}
+        </div>
       </div>
+      <Spacing size="xl" />
     </>
   );
 }
