@@ -50,7 +50,7 @@ function ExerciceDetailPage() {
   return (
     <>
       <div className="mt-4 min-h-96">
-        <div className="mx-auto mb-2 flex w-full max-w-6xl justify-start">
+        <div className="mx-auto mb-4 flex w-full max-w-6xl justify-start">
           <BreadCrumb items={breadcrumbItems} />
           <hr className="border-neutral-6" />
         </div>

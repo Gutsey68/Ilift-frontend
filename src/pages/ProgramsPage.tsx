@@ -22,7 +22,7 @@ function ProgramsPage() {
   return (
     <>
       <div className="mt-4 min-h-96">
-        <div className="mx-auto mb-2 flex w-full max-w-6xl justify-start">
+        <div className="mx-auto mb-4 flex w-full max-w-6xl justify-start">
           <BreadCrumb items={breadcrumbItems} />
         </div>
         <div className="mx-auto flex w-full max-w-6xl flex-col gap-4">
