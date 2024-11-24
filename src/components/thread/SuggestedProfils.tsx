@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 import ProfilPicture from '../../assets/images/profil.png';
+import { SuggestedUserType } from '../../types/suggestedUserType';
 import Avatar from '../ui/Avatar';
 import Card from '../ui/Card';
-import { SuggestedUserType } from '../../types/suggestedUserType';
 
 type SuggestedProfilsProps = {
   suggestedUsers: SuggestedUserType[];
@@ -10,7 +10,7 @@ type SuggestedProfilsProps = {
 
 function SuggestedProfils({ suggestedUsers }: SuggestedProfilsProps) {
   return (
-    <Card size="md" className="sticky top-[80px] flex flex-col gap-4">
+    <Card size="md" className="top-[80px] flex flex-col gap-4 sm:sticky">
       <div className="w-full border-b border-neutral-6 px-2 pb-2">
         <h2 className="font-semibold">Profils suggérés</h2>
       </div>

@@ -30,8 +30,8 @@ export default function PostForm({ closeModal }: PostFormProps) {
 
   return (
     <div onClick={closeModal} className="fixed inset-0 z-30 flex items-center justify-center bg-transparent/80">
-      <div onClick={e => e.stopPropagation()} className="relative mb-[10vh] w-1/3">
-        <Card className="p-10" size="md">
+      <div onClick={e => e.stopPropagation()} className="relative mb-[10vh] w-full max-sm:px-4 sm:w-1/3">
+        <Card className="p-4 sm:p-10" size="md">
           <p className="text-2xl font-semibold">Nouveau post</p>
           <p className="mb-4 text-sm text-neutral-10">Que voulez-vous partager ?</p>
           <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">

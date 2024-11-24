@@ -14,7 +14,7 @@ function ProfileCardProfile({ userDetails }: ProfileCardProps) {
   }
 
   return (
-    <div className="flex items-center gap-4 border-b border-neutral-6 p-6 shadow-sm">
+    <div className="flex items-center gap-4 border-b border-neutral-6 p-6 shadow-sm max-sm:flex-col max-sm:text-center">
       <div className="relative">
         <Avatar src={userDetails.profilePhoto || ProfilPicture} alt="" className="mr-1" size="xl" />
         <button className="absolute bottom-3 right-1 flex size-7 cursor-pointer items-center justify-center rounded-full border-2 border-neutral-1 bg-green-11 shadow-md">
@@ -24,7 +24,7 @@ function ProfileCardProfile({ userDetails }: ProfileCardProps) {
       <div>
         <h1 className="text-2xl font-bold">{userDetails.pseudo}</h1>
         <p className="text-neutral-11">{userDetails.bio || ''}</p>
-        <div className="mt-2 flex items-center gap-6 text-sm text-neutral-10">
+        <div className="mt-2 flex items-center gap-6 text-sm text-neutral-10 max-sm:flex-col">
           <p>
             <MapPin size={16} className="mr-1 inline-block" />
             {userDetails.city?.name || 'Localisation non spécifiée'}

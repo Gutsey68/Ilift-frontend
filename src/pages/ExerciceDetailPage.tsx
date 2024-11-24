@@ -56,7 +56,7 @@ function ExerciceDetailPage() {
         </div>
         <div className="mx-auto flex min-h-96 w-full max-w-6xl flex-col gap-4">
           <div className="flex items-center justify-between">
-            <h1 className="text-3xl">{resultsData ? resultsData.exercices.name : 'Développer assis'}</h1>
+            <h1 className="sm:text-3xl">{resultsData ? resultsData.exercices.name : 'Développer assis'}</h1>
             <Button className="max-sm:px-2">
               <Plus className="sm:hidden" />
               <span className="max-sm:hidden">Ajouter une série</span>

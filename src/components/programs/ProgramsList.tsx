@@ -14,7 +14,7 @@ function ProgramsList({ programs }: ProgramsListProps) {
           <Link to={`/programmes/${program.id}`}>
             <div className="group mb-4 cursor-pointer">
               <h2 className="mt-3 font-semibold group-hover:text-green-9">{program.name}</h2>
-              <p className="text-sm text-neutral-10">{program.description}</p>
+              <p className="text-sm text-neutral-10 max-sm:text-xs">{program.description}</p>
             </div>
           </Link>
         </div>

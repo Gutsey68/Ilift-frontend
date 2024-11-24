@@ -11,10 +11,10 @@ type BreadCrumbProps = {
 
 function BreadCrumb({ items }: BreadCrumbProps) {
   return (
-    <nav className="flex">
+    <nav className="flex overflow-x-auto">
       <ol className="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
         {items.map((item, index) => (
-          <li key={index} className="inline-flex items-center">
+          <li key={index} className="inline-flex items-center whitespace-nowrap">
             {index > 0 && <ChevronRight size={16} className="text-neutral-10" />}
             {item.href ? (
               <Link to={item.href} className="inline-flex items-center text-sm font-medium text-neutral-10 hover:text-green-11">

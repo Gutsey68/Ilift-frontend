@@ -22,7 +22,13 @@ export const router = createBrowserRouter([
     children: [
       {
         path: '',
-        element: <LandingPage />
+        element: <NotAuthenticatedRoute />,
+        children: [
+          {
+            path: '',
+            element: <LandingPage />
+          }
+        ]
       },
       {
         path: 'connexion',
