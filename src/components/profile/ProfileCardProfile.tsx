@@ -8,7 +8,7 @@ type ProfileCardProps = {
   userDetails: UserDetailsType | null;
 };
 
-function ProfileCard({ userDetails }: ProfileCardProps) {
+function ProfileCardProfile({ userDetails }: ProfileCardProps) {
   if (!userDetails) {
     return <div>Erreur : Aucun utilisateur trouvé.</div>;
   }
@@ -52,4 +52,4 @@ function ProfileCard({ userDetails }: ProfileCardProps) {
   );
 }
 
-export default ProfileCard;
+export default ProfileCardProfile;

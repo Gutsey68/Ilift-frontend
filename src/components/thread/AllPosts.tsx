@@ -21,7 +21,7 @@ function AllPosts({ posts }: AllPostsProps) {
             <div className="flex gap-4 px-2 pt-4">
               <Avatar alt="" size="sm" src={user.profilePhoto ?? ''} />
               <div className="flex flex-col">
-                <h1 className="font-semibold text-neutral-12">{user?.pseudo}</h1>
+                <p className="font-semibold text-neutral-12">{user?.pseudo}</p>
                 <div className="flex items-center gap-1 text-xs text-neutral-11">
                   <p>{formatRelativeTime(post.createdAt)} • </p>
                   <Earth size={14} />
@@ -29,7 +29,7 @@ function AllPosts({ posts }: AllPostsProps) {
               </div>
             </div>
             <div className="mx-auto flex w-11/12 flex-col sm:w-3/4">
-              <h2 className="text-lg font-semibold">{post.title}</h2>
+              <h2 className="mb-2 text-lg font-semibold">{post.title}</h2>
               <p className="text-neutral-11 max-sm:text-sm">{post.content}</p>
               {post.tags && post.tags.length > 0 && (
                 <div className="mt-2 flex flex-wrap gap-2">
