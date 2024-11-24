@@ -12,7 +12,7 @@ function FeaturesSection() {
         </span>{' '}
         vous offre
       </h2>
-      <div className="flex gap-4">
+      <div className="flex gap-4 max-sm:flex-col">
         <Card className="flex-1" size="md">
           <Activity className="mb-2 text-green-11" />
           <h3 className="mb-1 text-lg font-semibold">Suivi des séances</h3>

@@ -1,3 +1,4 @@
+import { useQuery } from '@tanstack/react-query';
 import { useContext } from 'react';
 import ErrorPage from '../components/error/ErrorPage';
 import PostsThreadSkeleton from '../components/skeletons/PostsThreadSkeletons';
@@ -10,32 +11,29 @@ import Trends from '../components/thread/Trends';
 import { AuthContext } from '../context/AuthContext';
 import usePostsOfUsers from '../hooks/usePostsOfUsers';
 import useSuggestedUsers from '../hooks/useSuggestedUsers';
-import {useQuery} from "@tanstack/react-query";
-import {fetchTagsHandler} from "../services/tagsService.ts";
+import { fetchTagsHandler } from '../services/tagsService.ts';
 
 function Thread() {
   const { userPending, userError, user } = useContext(AuthContext);
   const { postsPending, postError, postsData } = usePostsOfUsers();
   const { suggestedPending, suggestedError, suggestedData } = useSuggestedUsers();
 
-    const {
-        isPending: tagsPending,
-        error: tagsError,
-        data : tagsData
-    } = useQuery({
-        queryKey: ['results'],
-        queryFn: () => {
-            return fetchTagsHandler();
-        }
-    });
+  const {
+    isPending: tagsPending,
+    error: tagsError,
+    data: tagsData
+  } = useQuery({
+    queryKey: ['results'],
+    queryFn: () => {
+      return fetchTagsHandler();
+    }
+  });
 
-    const tags = tagsData?.data;
+  const tags = tagsData?.data;
 
   if (userError || postError || suggestedError || tagsError) {
     return <ErrorPage />;
   }
-
-
 
   return (
     <div className="mx-auto flex w-full max-w-6xl gap-6">
