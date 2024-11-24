@@ -2,12 +2,15 @@ import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import ErrorPage from '../components/error/ErrorPage';
 import ProfileCard from '../components/profile/ProfileCard';
-import SuggestedProfils from '../components/thread/SuggestedProfils';
 import Trends from '../components/thread/Trends';
 import Card from '../components/ui/Card';
 import useSuggestedUsers from '../hooks/useSuggestedUsers';
 import { fetchCurrentUser, fetchUserById } from '../services/usersService';
 import {fetchTagsHandler} from "../services/tagsService.ts";
+import ProfileThreadSkeleton from "../components/skeletons/ProfileThreadSkeletons.tsx";
+import SuggestedProfiles from "../components/thread/SuggestedProfils.tsx";
+import {fetchPostsByUserHandler} from "../services/postsService.ts";
+import AllPosts from "../components/thread/AllPosts.tsx";
 
 function ProfilePage() {
 
@@ -22,7 +25,7 @@ function ProfilePage() {
     queryFn: () => (id ? fetchUserById(id) : fetchCurrentUser())
   });
 
-  const { suggestedData } = useSuggestedUsers();
+  const { suggestedData, suggestedPending, suggestedError } = useSuggestedUsers();
 
   const user = userData?.data;
 
@@ -31,7 +34,7 @@ function ProfilePage() {
     error: tagsError,
     data : tagsData
   } = useQuery({
-    queryKey: ['results'],
+    queryKey: ['tags'],
     queryFn: () => {
       return fetchTagsHandler();
     }
@@ -39,11 +42,23 @@ function ProfilePage() {
 
   const tags = tagsData?.data;
 
-  if (userPending) {
-    return <p>Chargement...</p>;
-  }
+  const {
+    isPending: userPostsPending,
+    error: userPostsError,
+    data : userPostsData
+  } = useQuery({
+    queryKey: ['userPosts', id],
+    queryFn: () => {
+      if (id) {
+        return fetchPostsByUserHandler(id);
+      }
+    }
+  });
 
-  if (userError) {
+  const userPosts = userPostsData?.data;
+
+
+  if (userError || tagsError || suggestedError || userPostsError) {
     return <ErrorPage />;
   }
 
@@ -58,11 +73,12 @@ function ProfilePage() {
             <div className="w-1/3 border-b border-neutral-6 py-2 hover:border-green-9">J'aime</div>
             <div className="w-1/3 border-b border-neutral-6 py-2 hover:border-green-9">Partages</div>
           </div>
+          {userPostsPending ? <ProfileThreadSkeleton /> :  <AllPosts posts={ userPosts   } /> }
         </Card>
       </div>
       <div className="flex w-1/3 flex-col gap-4">
-        <SuggestedProfils suggestedUsers={suggestedData} />
-        <Trends tags={tags} />
+        {suggestedPending ? <ProfileThreadSkeleton /> : <>{suggestedData && <SuggestedProfiles suggestedUsers={suggestedData} />}</>}
+        {tagsPending ? <ProfileThreadSkeleton /> : <>{tagsData && <Trends tags={tags} />}</>}
       </div>
     </div>
   );

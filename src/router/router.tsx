@@ -1,5 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom';
-import NorAuthenticatedRoute from '../components/auth/NotAuthenticatedRoute';
+import NotAuthenticatedRoute from '../components/auth/NotAuthenticatedRoute';
 import PrivateRoute from '../components/auth/PrivateRoute';
 import Layout from '../components/layout/Layout';
 import ExerciceDetailPage from '../pages/ExerciceDetailPage';
@@ -26,7 +26,7 @@ export const router = createBrowserRouter([
       },
       {
         path: 'connexion',
-        element: <NorAuthenticatedRoute />,
+        element: <NotAuthenticatedRoute />,
         children: [
           {
             path: '',
@@ -36,7 +36,7 @@ export const router = createBrowserRouter([
       },
       {
         path: 'inscription',
-        element: <NorAuthenticatedRoute />,
+        element: <NotAuthenticatedRoute />,
         children: [
           {
             path: '',
@@ -46,7 +46,7 @@ export const router = createBrowserRouter([
       },
       {
         path: 'mot-de-passe-oublie',
-        element: <NorAuthenticatedRoute />,
+        element: <NotAuthenticatedRoute />,
         children: [
           {
             path: '',
