@@ -14,7 +14,9 @@ function HeroSection() {
             <Link className="z-10" to="/connexion">
               <Button className="w-fit">Je m'inscris</Button>
             </Link>
-            <Button className="z-10 w-fit border border-neutral-8 bg-neutral-1 text-neutral-11 shadow-sm hover:bg-neutral-2">En savoir plus</Button>
+            <a className="z-10" href="#features">
+              <Button className=" w-fit border border-neutral-8 bg-neutral-1 text-neutral-11 shadow-sm hover:bg-neutral-2">En savoir plus</Button>
+            </a>
           </div>
         </div>
       </section>

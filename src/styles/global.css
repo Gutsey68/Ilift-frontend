@@ -136,4 +136,7 @@
     bottom: -200px;
     z-index: 5;
   }
+  html {
+    scroll-behavior: smooth;
+  }
 }
