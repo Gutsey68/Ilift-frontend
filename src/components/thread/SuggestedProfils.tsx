@@ -10,7 +10,7 @@ type SuggestedProfilsProps = {
 
 function SuggestedProfils({ suggestedUsers }: SuggestedProfilsProps) {
   return (
-    <Card size="md" className="top-[80px] flex flex-col gap-4 sm:sticky">
+    <Card size="md" className="flex w-full flex-col gap-4">
       <div className="w-full border-b border-neutral-6 px-2 pb-2">
         <h2 className="font-semibold">Profils suggérés</h2>
       </div>

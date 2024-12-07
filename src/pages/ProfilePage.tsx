@@ -66,8 +66,8 @@ function ProfilePage() {
   return (
     <>
       <div className="mx-auto flex w-full max-w-6xl gap-6 max-sm:flex-col">
-        <div className="flex flex-col sm:w-2/3">
-          <Card size="xxs" className="sticky top-20 flex flex-col">
+        <div className=" flex min-h-96 flex-col sm:w-2/3">
+          <Card size="xxs" className="flex flex-col">
             {userPending ? <ProfileCardProfileSkeletons /> : <ProfileCardProfile userDetails={user} />}
             <div className="flex cursor-pointer items-center justify-center text-center text-neutral-11">
               <div className="w-1/3 border-b-2 border-green-9 py-2 hover:text-green-9 ">Publications</div>
@@ -77,12 +77,14 @@ function ProfilePage() {
             {userPostsPending ? <AllPostsProfileSkeletons /> : <AllPostsProfile posts={userPosts} />}
           </Card>
         </div>
-        <div className="flex flex-col gap-4 sm:w-1/3">
-          {suggestedPending ? <ProfileThreadSkeleton /> : <>{suggestedData && <SuggestedProfiles suggestedUsers={suggestedData} />}</>}
-          {tagsPending ? <ProfileThreadSkeleton /> : <>{tagsData && <Trends tags={tags} />}</>}
+        <div className="sticky top-20 sm:w-1/3">
+          <div className="fixed flex w-[26.4%] flex-col gap-4">
+            {suggestedPending ? <ProfileThreadSkeleton /> : <>{suggestedData && <SuggestedProfiles suggestedUsers={suggestedData} />}</>}
+            {tagsPending ? <ProfileThreadSkeleton /> : <>{tagsData && <Trends tags={tags} />}</>}
+          </div>
         </div>
       </div>
-      <Spacing />
+      <Spacing size="lg" />
     </>
   );
 }

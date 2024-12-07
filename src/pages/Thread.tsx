@@ -46,9 +46,11 @@ function Thread() {
           {user && <AllPosts posts={postsData} />}
         </div>
       )}
-      <div className="flex w-1/4 flex-col gap-4 max-md:hidden">
-        {suggestedPending ? <ProfileThreadSkeleton /> : <>{suggestedData && <SuggestedProfiles suggestedUsers={suggestedData} />}</>}
-        {tagsPending ? <ProfileThreadSkeleton /> : <>{tagsData && <Trends tags={tags} />}</>}
+      <div className="top-20 w-1/4 max-md:hidden sm:sticky">
+        <div className="fixed flex w-[19.44%] flex-col gap-4">
+          {suggestedPending ? <ProfileThreadSkeleton /> : <>{suggestedData && <SuggestedProfiles suggestedUsers={suggestedData} />}</>}
+          {tagsPending ? <ProfileThreadSkeleton /> : <>{tagsData && <Trends tags={tags} />}</>}
+        </div>
       </div>
     </div>
   );
