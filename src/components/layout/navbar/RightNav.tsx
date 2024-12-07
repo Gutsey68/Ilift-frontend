@@ -19,7 +19,7 @@ function RightNav() {
           </Link>
         </>
       )}
-      <ThemeToggle />
+      {!user && <ThemeToggle />}
     </>
   );
 }

@@ -3,7 +3,6 @@ import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../context/AuthContext';
 import useAuth from '../../../hooks/useAuth';
-import IconButton from '../../ui/IconButton';
 
 function LogoutButton() {
   const { user } = useContext(AuthContext);
@@ -23,8 +22,11 @@ function LogoutButton() {
     <>
       {user && (
         <>
-          <div onClick={handleLogout}>
-            <IconButton className="max-sm:mr-2" icon={<LogOutIcon />} />
+          <div className="w-full" onClick={handleLogout}>
+            <button className="ml-auto flex min-w-max items-center gap-2 text-sm font-medium text-neutral-11 hover:text-green-11">
+              <LogOutIcon size={16} />
+              <span>Se déconnecter</span>
+            </button>
           </div>
         </>
       )}
