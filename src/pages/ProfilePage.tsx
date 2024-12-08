@@ -66,7 +66,7 @@ function ProfilePage() {
   return (
     <>
       <div className="mx-auto flex w-full max-w-6xl gap-6 max-sm:flex-col">
-        <div className=" flex min-h-96 flex-col sm:w-2/3">
+        <div className=" flex min-h-96 flex-col lg:w-2/3">
           <Card size="xxs" className="flex flex-col">
             {userPending ? <ProfileCardProfileSkeletons /> : <ProfileCardProfile userDetails={user} />}
             <div className="flex cursor-pointer items-center justify-center text-center text-neutral-11">
@@ -77,7 +77,7 @@ function ProfilePage() {
             {userPostsPending ? <AllPostsProfileSkeletons /> : <AllPostsProfile posts={userPosts} />}
           </Card>
         </div>
-        <div className="sticky top-20 sm:w-1/3">
+        <div className="sticky top-20 w-1/3 max-lg:hidden">
           <div className="fixed flex w-[26.4%] flex-col gap-4">
             {suggestedPending ? <ProfileThreadSkeleton /> : <>{suggestedData && <SuggestedProfiles suggestedUsers={suggestedData} />}</>}
             {tagsPending ? <ProfileThreadSkeleton /> : <>{tagsData && <Trends tags={tags} />}</>}

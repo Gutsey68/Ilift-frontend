@@ -5,7 +5,7 @@ import MobileBottomNav from './navbar/MobileBottomNav';
 
 export default function Layout() {
   return (
-    <main className="flex min-h-screen flex-col justify-between bg-neutral-1 max-md:px-4">
+    <main className="flex min-h-screen flex-col justify-between bg-neutral-1 max-lg:px-4">
       <Header />
       <Outlet />
       <Footer />

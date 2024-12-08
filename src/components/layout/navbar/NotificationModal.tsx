@@ -32,7 +32,7 @@ function NotificationModal({ closeModal }: NotificationModalProps) {
   return (
     <div onClick={closeModal} className="fixed inset-0 z-30 flex items-center justify-center bg-transparent">
       <div onClick={e => e.stopPropagation()} className="relative mb-[10vh] w-full max-sm:px-4 sm:w-1/3"></div>
-      <div className="absolute right-48 top-12 flex max-w-96 flex-col gap-2 rounded-md border border-neutral-6 bg-neutral-1 shadow-lg">
+      <div className="absolute top-12 flex max-w-96 flex-col gap-2 rounded-md border border-neutral-6 bg-neutral-1 shadow-lg md:right-16 lg:right-48">
         <p className="mx-3 mt-2 text-neutral-11">Notifications</p>
         <hr className="border-neutral-6" />
         <div className="m-2">
