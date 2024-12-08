@@ -6,7 +6,6 @@ import BreadCrumb from '../components/layout/BreadCrumb';
 import ExerciceResults from '../components/programs/ExerciceResults';
 import ExerciceResultsSkeletons from '../components/skeletons/ExerciceResultsSkeletons';
 import Button from '../components/ui/Button';
-import { Spacing } from '../components/ui/Spacing';
 import { fetchExerciceAndResults } from '../services/exercicesService';
 
 function ExerciceDetailPage() {
@@ -66,7 +65,6 @@ function ExerciceDetailPage() {
           {resultsPending ? <ExerciceResultsSkeletons /> : <ExerciceResults results={resultsData.exercices.results} />}
         </div>
       </div>
-      <Spacing size="xl" />
     </>
   );
 }

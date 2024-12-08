@@ -4,7 +4,7 @@ import Card from '../ui/Card';
 function FeaturesSection() {
   return (
     <section id="features" className="z-10 mx-auto max-w-6xl">
-      <h2 className="mb-6 text-center text-3xl font-semibold">
+      <h2 className="mb-6 text-center text-2xl font-semibold">
         Ce que{' '}
         <span className="text-green-9">
           <Dumbbell size={34} className="inline-block pr-1" />

@@ -10,7 +10,7 @@ function LandingPage() {
       <HeroSection />
       <Spacing size="sm" />
       <ScreenShotHero />
-      <Spacing size="md" />
+      <Spacing size="xl" />
       <FeaturesSection />
       <Spacing size="md" />
     </>
