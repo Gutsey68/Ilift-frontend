@@ -5,7 +5,7 @@ export const fetchUserById = async (id: string) => {
     throw new Error('Token manquant. Veuillez vous reconnecter.');
   }
 
-  const response = await fetch(`http://localhost:3000/api/users/${id}`, {
+  const response = await fetch(`/api/users/${id}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -28,7 +28,7 @@ export const fetchCurrentUser = async () => {
     throw new Error('Token manquant. Veuillez vous reconnecter.');
   }
 
-  const response = await fetch('http://localhost:3000/api/users/me', {
+  const response = await fetch('/api/users/me', {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -51,7 +51,7 @@ export const fetchSuggestedUsers = async () => {
     throw new Error('Token manquant. Veuillez vous reconnecter.');
   }
 
-  const response = await fetch(`http://localhost:3000/api/users/suggested`, {
+  const response = await fetch(`/api/users/suggested`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

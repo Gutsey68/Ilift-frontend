@@ -6,7 +6,7 @@ export const fetchExerciceAndResults = async (id: string) => {
   }
 
   try {
-    const response = await fetch(`http://localhost:3000/api/exercices/${id}`, {
+    const response = await fetch(`/api/exercices/${id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

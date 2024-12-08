@@ -5,7 +5,7 @@ export const fetchPostsOfUserAndHisFollowingsHandler = async (id: string) => {
     throw new Error('Token manquant. Veuillez vous reconnecter.');
   }
 
-  const response = await fetch(`http://localhost:3000/api/posts/users/${id}/accueil`, {
+  const response = await fetch(`/api/posts/users/${id}/accueil`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -22,24 +22,24 @@ export const fetchPostsOfUserAndHisFollowingsHandler = async (id: string) => {
 };
 
 export const fetchPostsByUserHandler = async (id: string) => {
-    const token = localStorage.getItem('token');
+  const token = localStorage.getItem('token');
 
-    if (!token) {
-        throw new Error('Token manquant. Veuillez vous reconnecter.');
+  if (!token) {
+    throw new Error('Token manquant. Veuillez vous reconnecter.');
+  }
+
+  const response = await fetch(`/api/posts/users/${id}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
     }
+  });
 
-    const response = await fetch(`http://localhost:3000/api/posts/users/${id}`, {
-        method: 'GET',
-        headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`
-        }
-    });
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw { message: errorData.error || 'Non autorisé', status: response.status };
+  }
 
-    if (!response.ok) {
-        const errorData = await response.json();
-        throw { message: errorData.error || 'Non autorisé', status: response.status };
-    }
-
-    return response.json();
-}
+  return response.json();
+};

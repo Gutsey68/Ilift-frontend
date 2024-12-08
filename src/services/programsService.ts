@@ -5,7 +5,7 @@ export const fetchProgramsOfUser = async (id: string) => {
     throw new Error('Token manquant. Veuillez vous reconnecter.');
   }
 
-  const response = await fetch(`http://localhost:3000/api/programs/users/${id}`, {
+  const response = await fetch(`/api/programs/users/${id}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -28,7 +28,7 @@ export const fetchWorkoutsOfProgram = async (id: string) => {
     throw new Error('Token manquant. Veuillez vous reconnecter.');
   }
 
-  const response = await fetch(`http://localhost:3000/api/programs/${id}/workouts`, {
+  const response = await fetch(`/api/programs/${id}/workouts`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -51,7 +51,7 @@ export const fetchExercicesOfWorkout = async (id: string) => {
     throw new Error('Token manquant. Veuillez vous reconnecter.');
   }
 
-  const response = await fetch(`http://localhost:3000/api/programs/workouts/${id}/exercices`, {
+  const response = await fetch(`/api/programs/workouts/${id}/exercices`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

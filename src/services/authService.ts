@@ -1,5 +1,5 @@
 export const login = async ({ pseudo, password }: { pseudo: string; password: string }) => {
-  const response = await fetch('http://localhost:3000/api/auth/login', {
+  const response = await fetch('/api/auth/login', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ pseudo, password })
@@ -14,7 +14,7 @@ export const login = async ({ pseudo, password }: { pseudo: string; password: st
 };
 
 export const register = async ({ pseudo, email, password }: { pseudo: string; email: string; password: string }) => {
-  const response = await fetch('http://localhost:3000/api/auth/register', {
+  const response = await fetch('/api/auth/register', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ pseudo, email, password })

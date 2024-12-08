@@ -20,7 +20,7 @@ function UserAvatarModal({ closeModal }: UserAvatarModalProps) {
   };
 
   return (
-    <div onClick={closeModal} className="fixed inset-0 z-30 flex items-center justify-center bg-transparent">
+    <div onClick={closeModal} className="fixed inset-0 z-30 flex items-center justify-center bg-transparent text-neutral-11">
       <div onClick={e => e.stopPropagation()} className="relative mb-[10vh] w-full max-sm:px-4 sm:w-1/3"></div>
       <div className="absolute right-4 top-12 mt-2 flex flex-col gap-2 rounded-md border border-neutral-6 bg-neutral-1 p-3 shadow-lg lg:right-32">
         <Link className="flex items-center gap-2 hover:text-green-11" to={`/profil/${user?.id}`}>

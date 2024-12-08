@@ -5,7 +5,7 @@ export const fetchTagsHandler = async () => {
     throw new Error('Token manquant. Veuillez vous reconnecter.');
   }
 
-  const response = await fetch(`http://localhost:3000/api/tags`, {
+  const response = await fetch(`/api/tags`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
