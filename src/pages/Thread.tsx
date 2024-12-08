@@ -1,4 +1,4 @@
-import { useSuspenseQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { useContext } from 'react';
 import ErrorPage from '../components/error/ErrorPage';
 import PostsThreadSkeleton from '../components/skeletons/PostsThreadSkeletons';
@@ -22,14 +22,14 @@ function Thread() {
     isPending: tagsPending,
     error: tagsError,
     data: tagsData
-  } = useSuspenseQuery({
+  } = useQuery({
     queryKey: ['results'],
     queryFn: () => {
       return fetchTagsHandler();
     }
   });
 
-  const tags = tagsData.data;
+  const tags = tagsData?.data;
 
   if (userError || postError || suggestedError || tagsError) {
     return <ErrorPage />;

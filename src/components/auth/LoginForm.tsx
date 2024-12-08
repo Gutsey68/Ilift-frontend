@@ -23,7 +23,7 @@ function LoginForm() {
   const onSubmit = async (data: z.infer<typeof loginSchema>) => {
     try {
       await loginMutation.mutateAsync(data);
-      navigate(0);
+      navigate('/accueil');
     } catch (error) {
       console.error('Erreur lors de la connexion:', error);
       setError('root', { type: 'manual', message: 'Erreur lors de la connexion' });
