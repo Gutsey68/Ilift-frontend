@@ -1,4 +1,4 @@
-import { Moon, Sun, User } from 'lucide-react';
+import { Moon, Settings, Sun, User } from 'lucide-react';
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../../context/AuthContext';
@@ -26,6 +26,10 @@ function UserAvatarModal({ closeModal }: UserAvatarModalProps) {
         <Link className="flex items-center gap-2 hover:text-green-11" to={`/profil/${user?.id}`}>
           <User size={18} />
           Voir le profil
+        </Link>
+        <Link className="flex items-center gap-2 hover:text-green-11" to={`/parametres/${user?.id}`}>
+          <Settings size={18} />
+          Paramètres
         </Link>
         <div onClick={onClickHandler} className="flex cursor-pointer items-center gap-2 hover:text-green-11">
           {isDark ? <Sun size={18} /> : <Moon size={18} />} Changer de thème

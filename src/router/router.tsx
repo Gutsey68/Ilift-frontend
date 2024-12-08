@@ -13,6 +13,7 @@ import ProgramDetailPage from '../pages/ProgramDetailPage';
 import ProgramsPage from '../pages/ProgramsPage';
 import RegisterPage from '../pages/RegisterPage';
 import Thread from '../pages/Thread';
+import ParametresPage from '../pages/ParametresPage.tsx';
 
 export const router = createBrowserRouter([
   {
@@ -77,6 +78,16 @@ export const router = createBrowserRouter([
           {
             path: '',
             element: <ProfilPage />
+          }
+        ]
+      },
+      {
+        path: 'parametres/:id',
+        element: <PrivateRoute />,
+        children: [
+          {
+            path: '',
+            element: <ParametresPage />
           }
         ]
       },
