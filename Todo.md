@@ -8,6 +8,7 @@
 -Recherche en mode mobile
 -Suggestions et tag en mode mobile
 -Page profile changé les posts likés/partagés
+-Ajouter une page détail post
 
 ---
 
