@@ -1,5 +1,6 @@
 import FeaturesSection from '../components/landing/FeaturesSection';
 import HeroSection from '../components/landing/HeroSection';
+import SceenMobile from '../components/landing/SceenMobile';
 import ScreenShotHero from '../components/landing/ScreenShotHero';
 import { Spacing } from '../components/ui/Spacing';
 
@@ -12,6 +13,8 @@ function LandingPage() {
       <ScreenShotHero />
       <Spacing size="xl" />
       <FeaturesSection />
+      <Spacing size="xl" />
+      <SceenMobile />
       <Spacing size="md" />
     </>
   );
