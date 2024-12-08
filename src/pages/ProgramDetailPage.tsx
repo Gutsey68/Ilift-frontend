@@ -1,4 +1,4 @@
-import { useSuspenseQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { Plus } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 import ErrorPage from '../components/error/ErrorPage';
@@ -16,17 +16,18 @@ function ProgramDetailPage() {
     isPending: workoutsPending,
     error: workoutsError,
     data: workouts
-  } = useSuspenseQuery({
+  } = useQuery({
     queryKey: ['workouts', id],
     queryFn: () => {
       if (!id) {
         throw new Error('Utilisateur non connecté');
       }
       return fetchWorkoutsOfProgram(id);
-    }
+    },
+    enabled: !!id
   });
 
-  const workoutsData = workouts.data;
+  const workoutsData = workouts?.data;
 
   console.log(workoutsData);
 
