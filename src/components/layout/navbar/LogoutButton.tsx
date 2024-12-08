@@ -22,9 +22,9 @@ function LogoutButton() {
     <>
       {user && (
         <>
-          <div className="w-full" onClick={handleLogout}>
-            <button className="ml-auto flex min-w-max items-center gap-2 text-sm font-medium text-neutral-11 hover:text-green-11">
-              <LogOutIcon size={16} />
+          <div className="w-full cursor-pointer hover:text-green-11" onClick={handleLogout}>
+            <button className="flex min-w-max items-center gap-2">
+              <LogOutIcon size={18} />
               <span>Se déconnecter</span>
             </button>
           </div>

@@ -11,7 +11,7 @@ function HeroSection() {
           <p className="mt-6 text-neutral-11">Rejoignez notre communauté de sportifs,</p>
           <p className="mb-6 text-neutral-11">et profitez d'une plateforme dédiée pour suivre vos performances et inspirer les autres.</p>
           <div className=" flex justify-center gap-2">
-            <Link className="z-10" to="/connexion">
+            <Link className="z-10" to="/inscription">
               <Button className="w-fit">Je m'inscris</Button>
             </Link>
             <a className="z-10" href="#features">

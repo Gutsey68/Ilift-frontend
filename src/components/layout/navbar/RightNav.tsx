@@ -17,9 +17,9 @@ function RightNav() {
           <Link className="max-sm:mr-2" to="/connexion">
             <Button>Connexion</Button>
           </Link>
+          <ThemeToggle />
         </>
       )}
-      {!user && <ThemeToggle />}
     </>
   );
 }

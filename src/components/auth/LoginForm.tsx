@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LoaderCircle } from 'lucide-react';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import useAuth from '../../hooks/useAuth';
 import { loginSchema } from '../../lib/shemas';
@@ -18,11 +18,12 @@ function LoginForm() {
     resolver: zodResolver(loginSchema)
   });
   const { loginMutation } = useAuth();
+  const navigate = useNavigate();
 
   const onSubmit = async (data: z.infer<typeof loginSchema>) => {
     try {
       await loginMutation.mutateAsync(data);
-      window.location.reload();
+      navigate(0);
     } catch (error) {
       console.error('Erreur lors de la connexion:', error);
       setError('root', { type: 'manual', message: 'Erreur lors de la connexion' });

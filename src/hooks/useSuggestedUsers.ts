@@ -16,7 +16,7 @@ const useSuggestedUsers = () => {
       if (!user) {
         throw new Error('Utilisateur non connecté');
       }
-      return fetchSuggestedUsers(user.id);
+      return fetchSuggestedUsers();
     },
     enabled: !!user
   });
