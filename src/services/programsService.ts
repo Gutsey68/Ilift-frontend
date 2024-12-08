@@ -1,68 +1,13 @@
+import { fetchWithToken } from '../lib/fetchWithToken';
+
 export const fetchProgramsOfUser = async (id: string) => {
-  const token = localStorage.getItem('token');
-
-  if (!token) {
-    throw new Error('Token manquant. Veuillez vous reconnecter.');
-  }
-
-  const response = await fetch(`/api/programs/users/${id}`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`
-    }
-  });
-
-  if (!response.ok) {
-    const errorData = await response.json();
-    throw { message: errorData.error || 'Non autorisé', status: response.status };
-  }
-
-  return response.json();
+  return fetchWithToken(`/api/programs/users/${id}`);
 };
 
 export const fetchWorkoutsOfProgram = async (id: string) => {
-  const token = localStorage.getItem('token');
-
-  if (!token) {
-    throw new Error('Token manquant. Veuillez vous reconnecter.');
-  }
-
-  const response = await fetch(`/api/programs/${id}/workouts`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`
-    }
-  });
-
-  if (!response.ok) {
-    const errorData = await response.json();
-    throw { message: errorData.error || 'Non autorisé', status: response.status };
-  }
-
-  return response.json();
+  return fetchWithToken(`/api/programs/${id}/workouts`);
 };
 
 export const fetchExercicesOfWorkout = async (id: string) => {
-  const token = localStorage.getItem('token');
-
-  if (!token) {
-    throw new Error('Token manquant. Veuillez vous reconnecter.');
-  }
-
-  const response = await fetch(`/api/programs/workouts/${id}/exercices`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`
-    }
-  });
-
-  if (!response.ok) {
-    const errorData = await response.json();
-    throw { message: errorData.error || 'Non autorisé', status: response.status };
-  }
-
-  return response.json();
+  return fetchWithToken(`/api/programs/workouts/${id}/exercices`);
 };
