@@ -1,8 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 import { Plus } from 'lucide-react';
+import { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { useParams } from 'react-router-dom';
 import ErrorPage from '../components/error/ErrorPage';
 import BreadCrumb from '../components/layout/BreadCrumb';
+import AddExerciceModal from '../components/programs/CreateExerciceModal';
 import ExercicesList from '../components/programs/ExercicesList';
 import ExercicesSkeletons from '../components/skeletons/ExercicesSkeletons';
 import Button from '../components/ui/Button';
@@ -11,6 +14,7 @@ import { fetchExercicesOfWorkout } from '../services/programsService';
 
 function ExercicesPage() {
   const { id } = useParams();
+  const [showModal, setShowModal] = useState(false);
 
   const {
     isPending: exercicesPending,
@@ -58,7 +62,7 @@ function ExercicesPage() {
               <h1 className="text-3xl">Exercices</h1>
               <p className="mt-1 text-neutral-11">{exercicesData ? exercicesData.workout.name : ''}</p>
             </div>
-            <Button className="max-sm:px-2">
+            <Button onClick={() => setShowModal(true)} className="max-sm:px-2">
               <Plus className="sm:hidden" />
               <span className="max-sm:hidden">Ajouter un exercice</span>
             </Button>
@@ -68,6 +72,7 @@ function ExercicesPage() {
         </div>
       </div>
       <Spacing size="xl" />
+      {showModal && createPortal(<AddExerciceModal closeModal={() => setShowModal(false)} />, document.body)}
     </>
   );
 }

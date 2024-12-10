@@ -2,7 +2,6 @@
 
 ---
 
--Ajouter une modale pour les commentaires + afficher les deux derniers commentaires ?
 -Créer des programmes
 -Recherche en mode mobile
 -Suggestions et tag en mode mobile

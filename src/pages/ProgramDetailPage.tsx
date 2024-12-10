@@ -1,8 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 import { Plus } from 'lucide-react';
+import { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { useParams } from 'react-router-dom';
 import ErrorPage from '../components/error/ErrorPage';
 import BreadCrumb from '../components/layout/BreadCrumb';
+import CreateWorkoutModal from '../components/programs/CreateWorkoutModal';
 import WorkoutsList from '../components/programs/WorkoutsList';
 import ExercicesSkeletons from '../components/skeletons/ExercicesSkeletons';
 import Button from '../components/ui/Button';
@@ -11,6 +14,7 @@ import { fetchWorkoutsOfProgram } from '../services/programsService';
 
 function ProgramDetailPage() {
   const { id } = useParams();
+  const [showModal, setShowModal] = useState(false);
 
   const {
     isPending: workoutsPending,
@@ -53,7 +57,7 @@ function ProgramDetailPage() {
               <h1 className="text-3xl">Séances</h1>
               <p className="mt-1 text-neutral-11">{workoutsData ? workoutsData.program.name : ''}</p>
             </div>
-            <Button className="max-sm:px-2">
+            <Button onClick={() => setShowModal(true)} className="max-sm:px-2">
               <Plus className="sm:hidden" />
               <span className="max-sm:hidden">Ajouter une séance</span>
             </Button>
@@ -62,6 +66,7 @@ function ProgramDetailPage() {
           {workoutsPending ? <ExercicesSkeletons /> : <WorkoutsList workouts={workoutsData.workouts} />}
         </div>
       </div>
+      {showModal && createPortal(<CreateWorkoutModal closeModal={() => setShowModal(false)} />, document.body)}
       <Spacing size="xl" />
     </>
   );

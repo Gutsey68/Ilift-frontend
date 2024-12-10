@@ -1,6 +1,9 @@
 import { Plus } from 'lucide-react';
+import { useState } from 'react';
+import { createPortal } from 'react-dom';
 import ErrorPage from '../components/error/ErrorPage';
 import BreadCrumb from '../components/layout/BreadCrumb';
+import CreateProgramModal from '../components/programs/CreateProgramModal';
 import ProgramsList from '../components/programs/ProgramsList';
 import ProgramsSkeletons from '../components/skeletons/ProgramsSkeletons';
 import Button from '../components/ui/Button';
@@ -9,6 +12,7 @@ import useProgramsOfUser from '../hooks/useProgramsOfUsers';
 
 function ProgramsPage() {
   const { programsPending, programsError, programsData } = useProgramsOfUser();
+  const [showModal, setShowModal] = useState(false);
 
   const breadcrumbItems = [
     { label: 'Accueil', href: '/' },
@@ -28,7 +32,7 @@ function ProgramsPage() {
         <div className="mx-auto flex w-full max-w-6xl flex-col gap-4">
           <div className="flex items-center justify-between">
             <h1 className="text-3xl">Mes programmes</h1>
-            <Button className="max-sm:px-2">
+            <Button onClick={() => setShowModal(true)} className="max-sm:px-2">
               <Plus className="sm:hidden" />
               <span className="max-sm:hidden">Créer un programme</span>
             </Button>
@@ -37,6 +41,7 @@ function ProgramsPage() {
           {programsPending ? <ProgramsSkeletons /> : <ProgramsList programs={programsData} />}
         </div>
       </div>
+      {showModal && createPortal(<CreateProgramModal closeModal={() => setShowModal(false)} />, document.body)}
       <Spacing size="xl" />
     </>
   );
