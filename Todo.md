@@ -2,7 +2,6 @@
 
 ---
 
--Refaire la page de connexion
 -Ajouter une modale pour les commentaireq + afficher les deux derniers commentaires ?
 -Créer des programmes
 -Recherche en mode mobile
@@ -12,3 +11,5 @@
 ---
 
 -Ajouter les partages dans all posts
+-Ajouter l'administration
+-Changer “api/programs/workouts/ :id/exercices” dans workouts (créer un controller)
