@@ -1,3 +1,4 @@
+import { Pencil } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { WorkoutType } from '../../types/workoutsType';
 
@@ -10,12 +11,15 @@ function WorkoutsList({ workouts }: WorkoutsListProps) {
     <>
       {workouts.map(workout => (
         <div key={workout.id}>
-          <hr className="border-neutral-6" />
-          <Link to={`/programmes/${workout.id}/exercices`}>
-            <div className="group mt-4 cursor-pointer">
-              <h2 className="font-semibold group-hover:text-green-9">{workout.name}</h2>
-            </div>
-          </Link>
+          <hr className="mb-4 border-neutral-6" />
+          <div className="group flex items-center justify-between gap-8">
+            <Link className="w-full" to={`/programmes/${workout.id}/exercices`}>
+              <div className="group cursor-pointer">
+                <h2 className="font-semibold group-hover:text-green-9">{workout.name}</h2>
+              </div>
+            </Link>
+            <Pencil className="ml-2 inline-block cursor-pointer opacity-0 hover:text-green-11 group-hover:opacity-100" />
+          </div>
         </div>
       ))}
     </>

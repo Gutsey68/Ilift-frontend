@@ -62,10 +62,12 @@ function ExercicesPage() {
               <h1 className="text-3xl">Exercices</h1>
               <p className="mt-1 text-neutral-11">{exercicesData ? exercicesData.workout.name : ''}</p>
             </div>
-            <Button onClick={() => setShowModal(true)} className="max-sm:px-2">
-              <Plus className="sm:hidden" />
-              <span className="max-sm:hidden">Ajouter un exercice</span>
-            </Button>
+            <div>
+              <Button onClick={() => setShowModal(true)} className="max-sm:px-2">
+                <Plus className="sm:hidden" />
+                <span className="max-sm:hidden">Ajouter un exercice</span>
+              </Button>
+            </div>
           </div>
           {exercicesData && exercicesData.exercices.length === 0 && <hr className="border-neutral-6" />}
           {exercicesPending ? <ExercicesSkeletons /> : <ExercicesList workout={exercicesData.workout} exercices={exercicesData.exercices} />}
