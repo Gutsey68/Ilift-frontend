@@ -3,7 +3,7 @@
 ## Prérequis
 
 - Node.js
-- pnpm
+- pnpm ou npm
 
 ## Installation
 
@@ -37,7 +37,7 @@ pnpm run dev
 
 2. Ouvrez votre navigateur et accédez à `http://localhost:7173`.
 
-Pour se connecter à l'application, voir le readme du backend
+Pour s'authentifier à l'application, voir le readme du backend
 
 ## Scripts disponibles
 
