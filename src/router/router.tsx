@@ -8,12 +8,12 @@ import ForgotPasswordPage from '../pages/ForgotPasswordPage';
 import LandingPage from '../pages/LandingPage';
 import LoginPage from '../pages/LoginPage';
 import Page404 from '../pages/Page404';
+import ParametresPage from '../pages/ParametresPage.tsx';
 import ProfilPage from '../pages/ProfilePage.tsx';
 import ProgramDetailPage from '../pages/ProgramDetailPage';
 import ProgramsPage from '../pages/ProgramsPage';
 import RegisterPage from '../pages/RegisterPage';
 import Thread from '../pages/Thread';
-import ParametresPage from '../pages/ParametresPage.tsx';
 
 export const router = createBrowserRouter([
   {
@@ -28,36 +28,6 @@ export const router = createBrowserRouter([
           {
             path: '',
             element: <LandingPage />
-          }
-        ]
-      },
-      {
-        path: 'connexion',
-        element: <NotAuthenticatedRoute />,
-        children: [
-          {
-            path: '',
-            element: <LoginPage />
-          }
-        ]
-      },
-      {
-        path: 'inscription',
-        element: <NotAuthenticatedRoute />,
-        children: [
-          {
-            path: '',
-            element: <RegisterPage />
-          }
-        ]
-      },
-      {
-        path: 'mot-de-passe-oublie',
-        element: <NotAuthenticatedRoute />,
-        children: [
-          {
-            path: '',
-            element: <ForgotPasswordPage />
           }
         ]
       },
@@ -124,6 +94,36 @@ export const router = createBrowserRouter([
             ]
           }
         ]
+      }
+    ]
+  },
+  {
+    path: 'connexion',
+    element: <NotAuthenticatedRoute />,
+    children: [
+      {
+        path: '',
+        element: <LoginPage />
+      }
+    ]
+  },
+  {
+    path: 'inscription',
+    element: <NotAuthenticatedRoute />,
+    children: [
+      {
+        path: '',
+        element: <RegisterPage />
+      }
+    ]
+  },
+  {
+    path: 'mot-de-passe-oublie',
+    element: <NotAuthenticatedRoute />,
+    children: [
+      {
+        path: '',
+        element: <ForgotPasswordPage />
       }
     ]
   }
