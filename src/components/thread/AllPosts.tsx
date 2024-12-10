@@ -1,13 +1,18 @@
 import { Earth, Heart, MessageCircle, Send } from 'lucide-react';
+import { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { formatRelativeTime } from '../../lib/formatRelativeTime';
 import { PostType } from '../../types/postsType';
 import Avatar from '../ui/Avatar';
 import Badge from '../ui/Badge';
 import Card from '../ui/Card';
+import CommentsModal from './CommentsModal';
 
 type AllPostsProps = { posts: PostType[] };
 
 function AllPosts({ posts }: AllPostsProps) {
+  const [showModal, setShowModal] = useState(false);
+
   if (!Array.isArray(posts) || posts.length === 0) {
     return null;
   }
@@ -50,7 +55,7 @@ function AllPosts({ posts }: AllPostsProps) {
                   <Heart size={16} />
                   <span className="max-sm:text-xs">J'aime</span>
                 </button>
-                <button className="xs:gap-2 flex items-center gap-1 hover:text-green-9">
+                <button onClick={() => setShowModal(true)} className="xs:gap-2 flex items-center gap-1 hover:text-green-9">
                   <MessageCircle size={16} />
                   <span className="max-sm:text-xs">Commenter</span>
                 </button>
@@ -63,6 +68,7 @@ function AllPosts({ posts }: AllPostsProps) {
           </Card>
         );
       })}
+      {showModal && createPortal(<CommentsModal closeModal={() => setShowModal(false)} />, document.body)}
     </>
   );
 }

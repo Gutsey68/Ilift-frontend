@@ -11,7 +11,7 @@ function NotificationModal({ closeModal }: NotificationModalProps) {
       id: '1',
       userId: 'fit_mom',
       userAvatar:
-        'https://images.unsplash.com/photo-1508280904592-52be2f8dfbc9?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDV8fHxlbnwwfHx8fHw%3D',
+        'https://images.unsplash.com/photo-1645810809381-97f6fd2f7d10?q=80&w=2130&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       type: 'comment',
       content: 'fit_mom a commenté votre post.',
       isRead: false,
