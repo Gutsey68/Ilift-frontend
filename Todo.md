@@ -11,4 +11,3 @@
 
 -Ajouter les partages dans all posts
 -Ajouter l'administration
--Changer “api/programs/workouts/ :id/exercices” dans workouts (créer un controller)
