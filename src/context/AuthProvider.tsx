@@ -1,38 +1,33 @@
 import { useEffect, useState } from 'react';
+import { checkTokenExpiration } from '../services/authService';
 import { fetchCurrentUser } from '../services/usersService';
 import { UserDetailsType } from '../types/userDetailsType';
 import { AuthContext, AuthProviderProps } from './AuthContext';
-
-const isTokenExpired = (token: string): boolean => {
-  const payload = JSON.parse(atob(token.split('.')[1]));
-  return payload.exp * 1000 < Date.now();
-};
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<UserDetailsType | null>(null);
   const [userPending, setUserPending] = useState<boolean>(true);
   const [userError, setUserError] = useState<Error | null>(null);
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        if (token && isTokenExpired(token)) {
-          setUser(null);
-          setUserError(new Error('Session expiré'));
-          setUserPending(false);
-          return;
-        }
+  const checkAuth = async () => {
+    const token = localStorage.getItem('token');
+    try {
+      if (token) {
+        checkTokenExpiration(token);
         const userData = await fetchCurrentUser();
-        setUser(userData);
-      } catch (error) {
-        setUserError(error as Error);
-      } finally {
-        setUserPending(false);
+        setUser(userData.data);
       }
-    };
+    } catch (error) {
+      setUserError(error as Error);
+      localStorage.removeItem('token');
+      localStorage.removeItem('isAuthenticated');
+    } finally {
+      setUserPending(false);
+    }
+  };
 
-    fetchUser();
+  useEffect(() => {
+    checkAuth();
   }, []);
 
   return <AuthContext.Provider value={{ user, setUser, userPending, userError }}>{children}</AuthContext.Provider>;

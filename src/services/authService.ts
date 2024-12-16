@@ -25,3 +25,10 @@ export const register = async ({ pseudo, email, password }: { pseudo: string; em
     throw { message: errorData.error || 'Erreur lors de l’inscription', status: response.status };
   }
 };
+
+export const checkTokenExpiration = (token: string) => {
+  const { exp } = JSON.parse(atob(token.split('.')[1]));
+  if (Date.now() >= exp * 1000) {
+    throw new Error('Le jeton a expiré. Veuillez vous reconnecter.');
+  }
+};

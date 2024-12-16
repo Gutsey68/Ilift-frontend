@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { login, register } from '../services/authService';
@@ -14,8 +14,9 @@ const useAuth = () => {
     onSuccess: async data => {
       localStorage.setItem('token', data.token);
       localStorage.setItem('isAuthenticated', 'true');
-      await checkAuth();
-      setUser(data.user);
+      const userData = await fetchCurrentUser();
+      setUser(userData.data);
+      navigate('/accueil');
     }
   });
 
@@ -24,6 +25,7 @@ const useAuth = () => {
       localStorage.removeItem('token');
       localStorage.removeItem('isAuthenticated');
       setUser(null);
+      navigate('/connexion');
     }
   });
 
@@ -31,28 +33,10 @@ const useAuth = () => {
     mutationFn: register
   });
 
-  const checkAuth = async () => {
-    const token = localStorage.getItem('token');
-    try {
-      if (token) {
-        const data = await fetchCurrentUser();
-        setUser(data.data);
-      }
-    } catch {
-      logoutMutation.mutate();
-      navigate('/connexion');
-    }
-  };
-
-  useEffect(() => {
-    checkAuth();
-  }, []);
-
   return {
     loginMutation,
     registerMutation,
-    logoutMutation,
-    checkAuth
+    logoutMutation
   };
 };
 
