@@ -33,8 +33,6 @@ function ProgramDetailPage() {
 
   const workoutsData = workouts?.data;
 
-  console.log(workoutsData);
-
   if (workoutsError) {
     return <ErrorPage />;
   }

@@ -7,6 +7,11 @@ import { AuthContext } from '../context/AuthContext';
 
 function ParametresPage() {
   const { user } = useContext(AuthContext);
+
+  const handleDeletePicture = () => {
+    // ajouter une modale
+  };
+
   return (
     <>
       <div className="m-auto flex w-full max-w-6xl flex-col gap-4 text-neutral-11">
@@ -18,7 +23,9 @@ function ParametresPage() {
           <button className="absolute bottom-10 right-1 flex size-7 cursor-pointer items-center justify-center rounded-full border-2 border-neutral-1 bg-neutral-10 shadow-md hover:bg-neutral-9">
             <Camera size={20} className="text-neutral-1" />
           </button>
-          <button className="pt-4 text-green-11 hover:underline">Supprimer</button>
+          <button onClick={handleDeletePicture} className="pt-4 text-green-11 hover:underline">
+            Supprimer
+          </button>
         </div>
         <hr className="border-neutral-6" />
         <p className="group cursor-pointer">
