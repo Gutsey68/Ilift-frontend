@@ -1,4 +1,5 @@
 import { Earth, Heart, MessageCircle, Send } from 'lucide-react';
+import ProfilPicture from '../../assets/images/profil.png';
 import { formatRelativeTime } from '../../lib/formatRelativeTime';
 import { PostType } from '../../types/postsType';
 import Avatar from '../ui/Avatar';
@@ -19,7 +20,7 @@ function AllPosts({ posts }: AllPostsProps) {
           <div key={post.id} className="border-t border-neutral-6 p-4">
             <div className="flex flex-col gap-4 sm:w-4/5">
               <div className="flex gap-4 px-4 pt-4">
-                <Avatar alt="" size="sm" src={user.profilePhoto ?? ''} />
+                <Avatar alt="" size="sm" src={import.meta.env.BASE_URL + user.profilePhoto || ProfilPicture} />
                 <div className="flex flex-col">
                   <h1 className="font-semibold text-neutral-12">{user?.pseudo}</h1>
                   <div className="flex items-center gap-1 text-xs text-neutral-11">

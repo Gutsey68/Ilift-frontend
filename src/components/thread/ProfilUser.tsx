@@ -8,7 +8,7 @@ function ProfilUser() {
 
   return (
     <div className="flex flex-col items-center justify-center gap-2">
-      <Avatar alt="" size="md" src={user?.profilePhoto || ProfilPicture} />
+      <Avatar alt="" size="md" src={import.meta.env.BASE_URL + user?.profilePhoto || ProfilPicture} />
       <h1 className="text-xl font-semibold">{user?.pseudo || 'Utilisateur'}</h1>
     </div>
   );

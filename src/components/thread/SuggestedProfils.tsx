@@ -16,7 +16,7 @@ function SuggestedProfils({ suggestedUsers }: SuggestedProfilsProps) {
       </div>
       {suggestedUsers.map((user, index) => (
         <Link to={`/profil/${user.id}`} key={index} className="flex items-center gap-4">
-          <Avatar alt="" size="sm" src={user.profilePhoto ?? ProfilPicture} />
+          <Avatar alt="" size="sm" src={user.profilePhoto || ProfilPicture} />
           <div className="flex flex-col">
             <h1 className="font-semibold">{user.pseudo}</h1>
             <p className="text-xs text-neutral-11">

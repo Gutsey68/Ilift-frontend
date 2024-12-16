@@ -2,7 +2,6 @@
 
 ---
 
--Créer des programmes
 -Recherche en mode mobile
 -Suggestions et tag en mode mobile
 -Page profile changé les posts likés/partagés

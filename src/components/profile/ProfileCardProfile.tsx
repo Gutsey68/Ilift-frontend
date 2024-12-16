@@ -13,9 +13,11 @@ function ProfileCardProfile({ userDetails }: ProfileCardProps) {
     return <div>Erreur : Aucun utilisateur trouvé.</div>;
   }
 
+  
+
   return (
     <div className="flex items-center gap-4 border-b border-neutral-6 p-6 shadow-sm max-sm:flex-col max-sm:text-center">
-      <Avatar src={userDetails.profilePhoto || ProfilPicture} alt="" className="mr-1" size="xl" />
+      <Avatar src={ import.meta.env.BASE_URL + userDetails.profilePhoto || ProfilPicture} alt="" className="mr-1" size="xl" />
       <div>
         <h1 className="text-2xl font-bold">{userDetails.pseudo}</h1>
         <p className="text-neutral-11">{userDetails.bio || ''}</p>
