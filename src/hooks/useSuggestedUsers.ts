@@ -13,9 +13,6 @@ const useSuggestedUsers = () => {
   } = useQuery({
     queryKey: ['suggested', user?.id],
     queryFn: () => {
-      if (!user) {
-        throw new Error('Utilisateur non connecté');
-      }
       return fetchSuggestedUsers();
     },
     enabled: !!user

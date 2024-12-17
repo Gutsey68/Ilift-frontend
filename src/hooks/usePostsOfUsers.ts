@@ -16,7 +16,7 @@ const usePostsOfUsers = () => {
       if (!user) {
         throw new Error('Utilisateur non connecté');
       }
-      return fetchPostsOfUserAndHisFollowingsHandler(user.id);
+      return fetchPostsOfUserAndHisFollowingsHandler(user?.id);
     },
     enabled: !!user
   });
