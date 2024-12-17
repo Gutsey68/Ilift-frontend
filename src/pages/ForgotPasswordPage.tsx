@@ -23,7 +23,7 @@ function ForgotPasswordPage() {
         </div>
       </div>
       <div className="w-1/2 max-lg:hidden">
-        <img className="size-full object-cover" src={forgetPhoto} alt="" />
+        <img className="size-full bg-neutral-1 object-cover" src={forgetPhoto} alt="" />
       </div>
       <Link to="/">
         <Dumbbell size={36} className="absolute left-8 top-8 text-green-9" />

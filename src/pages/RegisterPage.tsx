@@ -21,7 +21,7 @@ function RegisterPage() {
         </div>
       </div>
       <div className="w-1/2 max-lg:hidden">
-        <img src={registerPhoto} className="size-full object-cover" alt="" />
+        <img src={registerPhoto} className="size-full bg-neutral-1 object-cover" alt="" />
       </div>
       <Link to="/">
         <Dumbbell size={36} className="absolute left-8 top-8 text-green-9" />

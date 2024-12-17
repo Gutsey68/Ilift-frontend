@@ -63,6 +63,7 @@
 
   body {
     @apply text-neutral-12;
+    @apply bg-neutral-1;
   }
 }
 

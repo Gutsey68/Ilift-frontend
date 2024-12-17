@@ -14,8 +14,8 @@ function RightNav() {
         <UserNavInfos />
       ) : (
         <>
-          <Link className="max-sm:mr-2" to="/connexion">
-            <Button>Connexion</Button>
+          <Link className="z-50 max-sm:mr-2" to="/connexion">
+            <Button className="z-50">Connexion</Button>
           </Link>
           <ThemeToggle />
         </>
