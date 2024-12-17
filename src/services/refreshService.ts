@@ -8,10 +8,11 @@ export const refresh = async () => {
     }
   });
 
+  const data = await response.json();
+
   if (!response.ok) {
-    const errorData = await response.json();
-    throw { message: errorData.error || 'Token invalide', status: response.status };
+    throw { message: data.message || 'Token invalide', status: response.status };
   }
 
-  return response.json();
+  return data;
 };

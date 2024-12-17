@@ -17,24 +17,33 @@ export const fetchWithToken = async (url: string, options: RequestInit = {}) => 
   });
 
   if (response.status === 401) {
-    const responseRefresh = await refresh();
+    try {
+      const responseRefresh = await refresh();
 
-    console.log('responseRefresh', responseRefresh);
+      console.log('responseRefresh', responseRefresh);
 
-    localStorage.setItem('token', responseRefresh.token);
-    localStorage.setItem('refreshToken', responseRefresh.refreshToken);
+      const newToken = responseRefresh.data.token;
+      const newRefreshToken = responseRefresh.data.refreshToken;
 
-    if (responseRefresh.ok) {
+      localStorage.setItem('token', newToken);
+      localStorage.setItem('refreshToken', newRefreshToken);
+
       response = await fetch(url, {
         ...options,
         headers: {
           ...options.headers,
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${newToken}`
         }
       });
-    } else {
-      throw new Error('Échec du rafraîchissement du token.');
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw { message: errorData.error || 'Non autorisé', status: response.status };
+      }
+    } catch {
+      const errorData = await response.json();
+      throw { message: errorData.error || 'Échec du rafraîchissement du token.', status: response.status };
     }
   } else if (!response.ok) {
     const errorData = await response.json();
