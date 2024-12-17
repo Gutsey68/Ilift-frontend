@@ -19,10 +19,10 @@ export const fetchWithToken = async (url: string, options: RequestInit = {}) => 
   if (response.status === 401) {
     const responseRefresh = await refresh();
 
-    console.log(responseRefresh);
+    console.log('responseRefresh', responseRefresh);
 
-    localStorage.setItem('token', responseRefresh.data.token);
-    localStorage.setItem('refreshToken', responseRefresh.Data.refreshToken);
+    localStorage.setItem('token', responseRefresh.token);
+    localStorage.setItem('refreshToken', responseRefresh.refreshToken);
 
     if (responseRefresh.ok) {
       response = await fetch(url, {

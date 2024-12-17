@@ -1,3 +1,4 @@
+import { Circle } from 'lucide-react';
 import { useContext } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
@@ -8,7 +9,7 @@ function NotAuthenticatedRoute() {
   if (userPending) {
     return (
       <div className="flex h-screen w-screen items-center justify-center bg-neutral-1">
-        <p className="text-3xl">loading</p>
+        <Circle size={40} className="animate-spin" />
       </div>
     );
   }
