@@ -77,8 +77,8 @@ function ProfilePage() {
             {userPostsPending ? <AllPostsProfileSkeletons /> : <AllPostsProfile posts={userPosts} />}
           </Card>
         </div>
-        <div className="sticky top-20 w-1/3 max-lg:hidden">
-          <div className="fixed flex w-[26.4%] flex-col gap-4">
+        <div className="w-1/3 max-lg:hidden">
+          <div className="sticky top-20 flex flex-col gap-4">
             {suggestedPending ? <ProfileThreadSkeleton /> : <>{suggestedData && <SuggestedProfiles suggestedUsers={suggestedData} />}</>}
             {tagsPending ? <ProfileThreadSkeleton /> : <>{tagsData && <Trends tags={tags} />}</>}
           </div>
