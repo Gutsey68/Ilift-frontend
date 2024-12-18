@@ -1,4 +1,4 @@
-import { TagType } from '../../types/tagType.ts';
+import { TagType } from '@/types/tagType';
 import Badge from '../ui/Badge';
 import Card from '../ui/Card';
 
