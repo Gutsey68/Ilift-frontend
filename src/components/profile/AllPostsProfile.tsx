@@ -30,7 +30,6 @@ function AllPosts({ posts }: AllPostsProps) {
                 </div>
               </div>
               <div className="mx-auto flex w-11/12 flex-col sm:w-3/4">
-                <h2 className="text-lg font-semibold">{post.title}</h2>
                 <p className="text-neutral-11 max-sm:text-sm">{post.content}</p>
                 {post.tags && post.tags.length > 0 && (
                   <div className="mt-2 flex flex-wrap gap-2">
@@ -40,7 +39,7 @@ function AllPosts({ posts }: AllPostsProps) {
                   </div>
                 )}
               </div>
-              {post.photo && <img className="mx-auto w-11/12 rounded-lg sm:w-3/4" src={post.photo} alt={post.title} />}
+              {post.photo && <img className="mx-auto w-11/12 rounded-lg sm:w-3/4" src={post.photo} alt={`Photo de ${post.author.pseudo}`} />}
               <div className="px-4">
                 <div className="mx-auto flex w-11/12 items-center gap-1 border-b border-gray-600 pb-2 text-xs text-neutral-11 sm:w-3/4">
                   <Heart size={14} />
