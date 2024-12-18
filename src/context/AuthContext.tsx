@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import { UserDetailsType } from '../types/userDetailsType';
+import { UserDetailsType } from '../types/userDetailsType.ts';
 
 export type AuthContextType = {
   user: UserDetailsType | null;
