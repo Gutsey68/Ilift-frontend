@@ -1,6 +1,7 @@
-import { Earth, Heart, MessageCircle, Send } from 'lucide-react';
+import { Earth, Heart, LoaderCircle, MessageCircle, Send } from 'lucide-react';
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
+import useInfiniteScroll from '../../hooks/useInfiniteScroll';
 import { formatRelativeTime } from '../../lib/formatRelativeTime';
 import { PostType } from '../../types/postsType';
 import Avatar from '../ui/Avatar';
@@ -8,10 +9,17 @@ import Badge from '../ui/Badge';
 import Card from '../ui/Card';
 import CommentsModal from './CommentsModal';
 
-type AllPostsProps = { posts: PostType[] };
+type AllPostsProps = {
+  posts: PostType[];
+  fetchNextPage: () => void;
+  hasNextPage: boolean;
+  isFetchingNextPage: boolean;
+};
 
-function AllPosts({ posts }: AllPostsProps) {
+function AllPosts({ posts, fetchNextPage, hasNextPage, isFetchingNextPage }: AllPostsProps) {
   const [showModal, setShowModal] = useState(false);
+
+  useInfiniteScroll(fetchNextPage, hasNextPage, isFetchingNextPage);
 
   if (!Array.isArray(posts) || posts.length === 0) {
     return null;
@@ -69,6 +77,7 @@ function AllPosts({ posts }: AllPostsProps) {
         );
       })}
       {showModal && createPortal(<CommentsModal closeModal={() => setShowModal(false)} />, document.body)}
+      {isFetchingNextPage && <LoaderCircle className="m-auto mt-4 w-fit animate-spin text-neutral-11" size={30} />}
     </>
   );
 }

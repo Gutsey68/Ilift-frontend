@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import ErrorPage from '../components/error/ErrorPage';
 import Header from '../components/layout/Header.tsx';
 import MobileBottomNav from '../components/layout/navbar/MobileBottomNav.tsx';
-import SideFooter from '../components/layout/SideFooter.tsx';
 import AllPostsProfile from '../components/profile/AllPostsProfile.tsx';
 import ProfileCardProfile from '../components/profile/ProfileCardProfile.tsx';
 import AllPostsProfileSkeletons from '../components/skeletons/AllPostsProfileSkeletons.tsx';
@@ -17,6 +16,7 @@ import useSuggestedUsers from '../hooks/useSuggestedUsers';
 import { fetchPostsByUserHandler } from '../services/postsService.ts';
 import { fetchTagsHandler } from '../services/tagsService.ts';
 import { fetchCurrentUser, fetchUserById } from '../services/usersService';
+import SideFooter from '../components/layout/SideFooter.tsx';
 
 function ProfilePage() {
   const { id } = useParams();

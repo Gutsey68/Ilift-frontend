@@ -18,7 +18,7 @@ import { fetchTagsHandler } from '../services/tagsService.ts';
 
 function Thread() {
   const { userPending, userError, user } = useContext(AuthContext);
-  const { postsPending, postError, postsData } = usePostsOfUsers();
+  const { status, postError, postsData, fetchNextPage, hasNextPage, isFetchingNextPage } = usePostsOfUsers();
   const { suggestedPending, suggestedError, suggestedData } = useSuggestedUsers();
 
   const {
@@ -43,12 +43,12 @@ function Thread() {
       <Header />
       <div className="mx-auto flex w-full max-w-6xl gap-6">
         <div className="flex w-1/4 flex-col max-lg:hidden">{userPending ? <ProfileThreadSkeleton /> : <>{user && <ProfileCard />}</>}</div>
-        {postsPending ? (
+        {status === 'pending' ? (
           <PostsThreadSkeleton />
         ) : (
           <div className="mb-10 flex flex-col lg:w-2/4">
             <InputPost />
-            {user && <AllPosts posts={postsData} />}
+            {user && <AllPosts posts={postsData} fetchNextPage={fetchNextPage} hasNextPage={hasNextPage} isFetchingNextPage={isFetchingNextPage} />}
           </div>
         )}
         <div className="w-1/4 max-lg:hidden">
