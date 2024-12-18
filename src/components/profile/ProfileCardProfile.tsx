@@ -1,7 +1,7 @@
 import { CalendarDays, MapPin } from 'lucide-react';
 import ProfilPicture from '../../assets/images/profil.png';
 import { formatRelativeTime } from '../../lib/formatRelativeTime';
-import { UserDetailsType } from '../../types/userDetailsType.ts';
+import { UserDetailsType } from '../../types/userDetailsType';
 import Avatar from '../ui/Avatar';
 
 type ProfileCardProps = {

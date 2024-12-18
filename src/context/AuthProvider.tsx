@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { checkTokenExpiration } from '../services/authService';
 import { fetchCurrentUser } from '../services/usersService';
-import { UserDetailsType } from '../types/userDetailsType.ts';
+import { UserDetailsType } from '../types/userDetailsType';
 import { AuthContext, AuthProviderProps } from './AuthContext';
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
