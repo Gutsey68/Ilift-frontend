@@ -25,7 +25,7 @@ const Navbar = () => {
       <div className="mx-auto max-w-6xl">
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center justify-center">
-            <NavLink to={`/${user ? 'accueil' : ''}`} className="flex items-center text-xl font-bold">
+            <NavLink to={`/${user ? 'accueil' : ''}`} className="flex items-center text-xl font-bold hover:text-green-9">
               <Dumbbell className="mr-2 mt-1" /> <span>ILift</span>
             </NavLink>
             {user && <DesktopNav />}
