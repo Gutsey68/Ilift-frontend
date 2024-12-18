@@ -21,7 +21,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className={`sticky top-0 z-20 pb-4 transition-colors duration-300 ${isScrolled ? 'bg-neutral-1' : 'bg-transparent'} text-neutral-12`}>
+    <nav className={`sticky top-0 z-30 pb-4 transition-colors duration-300 ${isScrolled ? 'bg-neutral-1' : 'bg-transparent'} text-neutral-12`}>
       <div className="mx-auto max-w-6xl">
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center justify-center">
