@@ -1,11 +1,13 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, Outlet } from 'react-router-dom';
 import NotAuthenticatedRoute from '../components/auth/NotAuthenticatedRoute';
 import PrivateRoute from '../components/auth/PrivateRoute';
 import Layout from '../components/layout/Layout';
+import AboutPage from '../pages/AboutPage.tsx';
 import ExerciceDetailPage from '../pages/ExerciceDetailPage';
 import ExercicesPage from '../pages/ExercicesPage';
 import ForgotPasswordPage from '../pages/ForgotPasswordPage';
 import LandingPage from '../pages/LandingPage';
+import LegalPage from '../pages/LegalPage.tsx';
 import LoginPage from '../pages/LoginPage';
 import Page404 from '../pages/Page404';
 import ParametresPage from '../pages/ParametresPage.tsx';
@@ -28,6 +30,26 @@ export const router = createBrowserRouter([
           {
             path: '',
             element: <LandingPage />
+          }
+        ]
+      },
+      {
+        path: '/mentions-legales',
+        element: <Outlet />,
+        children: [
+          {
+            path: '',
+            element: <LegalPage />
+          }
+        ]
+      },
+      {
+        path: '/a-propos',
+        element: <Outlet />,
+        children: [
+          {
+            path: '',
+            element: <AboutPage />
           }
         ]
       },

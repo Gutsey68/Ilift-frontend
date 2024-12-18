@@ -1,4 +1,4 @@
-import { Facebook, Instagram, Linkedin, Twitter } from 'lucide-react';
+import { Github, Globe, Linkedin, Twitter } from 'lucide-react';
 
 export const navItems = [{ to: '/programmes', label: 'Programmes' }];
 
@@ -8,8 +8,8 @@ export const NotAuhenticatedNavItems = [
 ];
 
 export const socials = [
-  { icon: Facebook, label: 'Facebook', href: '' },
-  { icon: Twitter, label: 'Twitter', href: '' },
-  { icon: Instagram, label: 'Instagram', href: '' },
-  { icon: Linkedin, label: 'LinkedIn', href: '' }
+  { icon: Github, label: 'Github', href: 'https://github.com/Gutsey68' },
+  { icon: Globe, label: 'Globe', href: 'https://www.seyzeriat.com/' },
+  { icon: Twitter, label: 'Twitter', href: 'https://x.com/Gauthier__sey' },
+  { icon: Linkedin, label: 'LinkedIn', href: 'https://www.linkedin.com/in/gauthier-seyzeriat-meyer-1b8582281/' }
 ];

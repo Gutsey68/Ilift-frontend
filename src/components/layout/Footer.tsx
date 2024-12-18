@@ -1,4 +1,4 @@
-import { Dumbbell, House, Mail, Phone } from 'lucide-react';
+import { Dumbbell } from 'lucide-react';
 import { useContext } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
@@ -48,17 +48,15 @@ const Footer = ({ ...props }) => {
                   ))}
             </ul>
           </div>
-          <div className="flex-col items-center justify-center max-sm:flex">
+          <div className="flex flex-col justify-center max-sm:flex">
             <h3 className="mb-4 text-lg font-semibold text-neutral-12">Contactez nous</h3>
-            <div className="flex items-center">
-              <House className="mr-2 mt-1 size-4" />
-              36 rue saint Léon
-            </div>
-            <div className="flex items-center max-sm:py-2">
-              <Mail className="mr-2 mt-1 size-4" /> gauthier@seyzeriat.fr
-            </div>
-            <div className="flex items-center">
-              <Phone className="mr-2 mt-1 size-4" /> 03 89 80 53 62
+            <div className="flex flex-col space-y-2">
+              <NavLink to={'mentions-legales'} className="transition-colors hover:text-green-9">
+                Mentions légales
+              </NavLink>
+              <NavLink to={'a-propos'} className="transition-colors hover:text-green-9">
+                À propos de nous
+              </NavLink>
             </div>
           </div>
         </div>
