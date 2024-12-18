@@ -1,6 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import ErrorPage from '../components/error/ErrorPage';
+import Header from '../components/layout/Header.tsx';
+import MobileBottomNav from '../components/layout/navbar/MobileBottomNav.tsx';
+import SideFooter from '../components/layout/SideFooter.tsx';
 import AllPostsProfile from '../components/profile/AllPostsProfile.tsx';
 import ProfileCardProfile from '../components/profile/ProfileCardProfile.tsx';
 import AllPostsProfileSkeletons from '../components/skeletons/AllPostsProfileSkeletons.tsx';
@@ -64,7 +67,8 @@ function ProfilePage() {
   }
 
   return (
-    <>
+    <main className="flex min-h-screen flex-col justify-between bg-neutral-1 max-lg:px-4">
+      <Header />
       <div className="mx-auto flex w-full max-w-6xl gap-6 max-sm:flex-col">
         <div className=" flex min-h-96 flex-col lg:w-2/3">
           <Card size="xxs" className="flex flex-col">
@@ -81,11 +85,13 @@ function ProfilePage() {
           <div className="sticky top-20 flex flex-col gap-4">
             {suggestedPending ? <ProfileThreadSkeleton /> : <>{suggestedData && <SuggestedProfiles suggestedUsers={suggestedData} />}</>}
             {tagsPending ? <ProfileThreadSkeleton /> : <>{tagsData && <Trends tags={tags} />}</>}
+            <SideFooter />
           </div>
         </div>
       </div>
       <Spacing size="lg" />
-    </>
+      <MobileBottomNav />
+    </main>
   );
 }
 

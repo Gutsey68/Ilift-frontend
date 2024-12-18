@@ -23,7 +23,7 @@ function UserNavInfos() {
     <div className="flex items-center gap-4">
       <NotificationBell />
       <div onClick={() => setShowModal(true)} className="cursor-pointer">
-        <Avatar src={import.meta.env.BASE_URL + user?.profilePhoto || ProfilPicture} alt="" size="sm" />
+        <Avatar src={'/' + user?.profilePhoto || ProfilPicture} alt="" size="sm" />
       </div>
       {showModal && createPortal(<UserAvatarModal closeModal={() => setShowModal(false)} />, document.body)}
     </div>

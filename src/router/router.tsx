@@ -54,26 +54,6 @@ export const router = createBrowserRouter([
         ]
       },
       {
-        path: 'accueil',
-        element: <PrivateRoute />,
-        children: [
-          {
-            path: '',
-            element: <Thread />
-          }
-        ]
-      },
-      {
-        path: 'profil/:id',
-        element: <PrivateRoute />,
-        children: [
-          {
-            path: '',
-            element: <ProfilPage />
-          }
-        ]
-      },
-      {
         path: 'parametres/:id',
         element: <PrivateRoute />,
         children: [
@@ -116,6 +96,26 @@ export const router = createBrowserRouter([
             ]
           }
         ]
+      }
+    ]
+  },
+  {
+    path: 'profil/:id',
+    element: <PrivateRoute />,
+    children: [
+      {
+        path: '',
+        element: <ProfilPage />
+      }
+    ]
+  },
+  {
+    path: 'accueil',
+    element: <PrivateRoute />,
+    children: [
+      {
+        path: '',
+        element: <Thread />
       }
     ]
   },
