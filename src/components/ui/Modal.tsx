@@ -1,12 +1,14 @@
 import { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
+import { cn } from '../../lib/cn';
 
-interface ModalProps {
+type ModalProps = {
   children: React.ReactNode;
   onClose?: () => void;
-}
+  size?: 'sm' | 'md' | 'lg';
+};
 
-const Modal = ({ children, onClose }: ModalProps) => {
+const Modal = ({ children, onClose, size = 'lg' }: ModalProps) => {
   const elRef = useRef<HTMLDivElement | null>(null);
 
   if (!elRef.current) {
@@ -31,7 +33,15 @@ const Modal = ({ children, onClose }: ModalProps) => {
 
   const modalContent = (
     <div className="fixed inset-0 z-30 flex items-center justify-center bg-transparent/80" onClick={onClose}>
-      <div className="relative mb-[10vh] w-full max-sm:px-4 sm:w-1/3" onClick={e => e.stopPropagation()}>
+      <div
+        className={cn({
+          'sm:w-1/5': size === 'sm',
+          'sm:w-1/4': size === 'md',
+          'sm:w-1/3': size === 'lg',
+          'relative mb-[10vh] w-full max-sm:px-4': true
+        })}
+        onClick={e => e.stopPropagation()}
+      >
         {children}
       </div>
     </div>

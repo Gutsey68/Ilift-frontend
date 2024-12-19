@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import ProfilPicture from '../../assets/images/profil.png';
-import { SuggestedUserType } from '../../types/suggestedUserType';
+import { SuggestedUserType } from '../../types/SuggestedUserType';
 import Avatar from '../ui/Avatar';
 import Card from '../ui/Card';
 
