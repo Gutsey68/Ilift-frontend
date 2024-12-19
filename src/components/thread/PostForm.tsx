@@ -14,11 +14,8 @@ type PostFormProps = {
 
 export default function PostForm({ closeModal }: PostFormProps) {
   const {
-    register,
     handleSubmit,
-    formState: { errors, isSubmitting },
-    setError,
-    reset
+    formState: { errors, isSubmitting }
   } = useForm<z.infer<typeof postShema>>({
     resolver: zodResolver(postShema)
   });
