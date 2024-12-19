@@ -2,7 +2,6 @@ import { useQuery } from '@tanstack/react-query';
 import { Plus } from 'lucide-react';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import ErrorPage from '../components/error/ErrorPage';
 import BreadCrumb from '../components/layout/BreadCrumb';
 import ExerciceResults from '../components/programs/ExerciceResults';
 import SetInput from '../components/programs/SetInput';
@@ -14,11 +13,7 @@ function ExerciceDetailPage() {
   const { id } = useParams();
   const [showSetInput, setShowSetInput] = useState(false);
 
-  const {
-    isPending: resultsPending,
-    error: resultsError,
-    data: results
-  } = useQuery({
+  const { isPending: resultsPending, data: results } = useQuery({
     queryKey: ['results', id],
     queryFn: () => {
       if (!id) {
@@ -30,10 +25,6 @@ function ExerciceDetailPage() {
   });
 
   const resultsData = results?.data;
-
-  if (resultsError) {
-    return <ErrorPage />;
-  }
 
   const handleAddSetClick = () => {
     setShowSetInput(!showSetInput);

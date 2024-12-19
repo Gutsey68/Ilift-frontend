@@ -1,7 +1,6 @@
 import { Plus } from 'lucide-react';
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
-import ErrorPage from '../components/error/ErrorPage';
 import BreadCrumb from '../components/layout/BreadCrumb';
 import CreateProgramModal from '../components/programs/CreateProgramModal';
 import ProgramsList from '../components/programs/ProgramsList';
@@ -11,17 +10,13 @@ import { Spacing } from '../components/ui/Spacing';
 import useProgramsOfUser from '../hooks/useProgramsOfUsers';
 
 function ProgramsPage() {
-  const { programsPending, programsError, programsData } = useProgramsOfUser();
+  const { programsPending, programsData } = useProgramsOfUser();
   const [showModal, setShowModal] = useState(false);
 
   const breadcrumbItems = [
     { label: 'Accueil', href: '/' },
     { label: 'Programmes', current: true }
   ];
-
-  if (programsError) {
-    return <ErrorPage />;
-  }
 
   return (
     <>

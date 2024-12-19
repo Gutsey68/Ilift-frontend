@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
-import ErrorPage from '../components/error/ErrorPage';
 import Header from '../components/layout/Header.tsx';
 import MobileBottomNav from '../components/layout/navbar/MobileBottomNav.tsx';
+import SideFooter from '../components/layout/SideFooter.tsx';
 import AllPostsProfile from '../components/profile/AllPostsProfile.tsx';
 import ProfileCardProfile from '../components/profile/ProfileCardProfile.tsx';
 import AllPostsProfileSkeletons from '../components/skeletons/AllPostsProfileSkeletons.tsx';
@@ -16,29 +16,20 @@ import useSuggestedUsers from '../hooks/useSuggestedUsers';
 import { fetchPostsByUserHandler } from '../services/postsService.ts';
 import { fetchTagsHandler } from '../services/tagsService.ts';
 import { fetchCurrentUser, fetchUserById } from '../services/usersService';
-import SideFooter from '../components/layout/SideFooter.tsx';
 
 function ProfilePage() {
   const { id } = useParams();
 
-  const {
-    isPending: userPending,
-    error: userError,
-    data: userData
-  } = useQuery({
+  const { isPending: userPending, data: userData } = useQuery({
     queryKey: ['userProfile', id],
     queryFn: () => (id ? fetchUserById(id) : fetchCurrentUser())
   });
 
-  const { suggestedData, suggestedPending, suggestedError } = useSuggestedUsers();
+  const { suggestedData, suggestedPending } = useSuggestedUsers();
 
   const user = userData?.data;
 
-  const {
-    isPending: tagsPending,
-    error: tagsError,
-    data: tagsData
-  } = useQuery({
+  const { isPending: tagsPending, data: tagsData } = useQuery({
     queryKey: ['tags'],
     queryFn: () => {
       return fetchTagsHandler();
@@ -47,11 +38,7 @@ function ProfilePage() {
 
   const tags = tagsData?.data;
 
-  const {
-    isPending: userPostsPending,
-    error: userPostsError,
-    data: userPostsData
-  } = useQuery({
+  const { isPending: userPostsPending, data: userPostsData } = useQuery({
     queryKey: ['userPosts', id],
     queryFn: () => {
       if (id) {
@@ -61,10 +48,6 @@ function ProfilePage() {
   });
 
   const userPosts = userPostsData?.data;
-
-  if (userError || tagsError || suggestedError || userPostsError) {
-    return <ErrorPage />;
-  }
 
   return (
     <main className="flex min-h-screen flex-col justify-between bg-neutral-1 max-lg:px-4">

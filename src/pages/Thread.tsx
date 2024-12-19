@@ -1,6 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
 import { useContext } from 'react';
-import ErrorPage from '../components/error/ErrorPage';
 import Header from '../components/layout/Header.tsx';
 import MobileBottomNav from '../components/layout/navbar/MobileBottomNav.tsx';
 import SideFooter from '../components/layout/SideFooter.tsx';
@@ -17,15 +16,11 @@ import useSuggestedUsers from '../hooks/useSuggestedUsers';
 import { fetchTagsHandler } from '../services/tagsService.ts';
 
 function Thread() {
-  const { userPending, userError, user } = useContext(AuthContext);
-  const { status, postError, postsData, fetchNextPage, hasNextPage, isFetchingNextPage } = usePostsOfUsers();
-  const { suggestedPending, suggestedError, suggestedData } = useSuggestedUsers();
+  const { userPending, user } = useContext(AuthContext);
+  const { status, postsData, fetchNextPage, hasNextPage, isFetchingNextPage } = usePostsOfUsers();
+  const { suggestedPending, suggestedData } = useSuggestedUsers();
 
-  const {
-    isPending: tagsPending,
-    error: tagsError,
-    data: tagsData
-  } = useQuery({
+  const { isPending: tagsPending, data: tagsData } = useQuery({
     queryKey: ['results'],
     queryFn: () => {
       return fetchTagsHandler();
@@ -33,10 +28,6 @@ function Thread() {
   });
 
   const tags = tagsData?.data;
-
-  if (userError || postError || suggestedError || tagsError) {
-    return <ErrorPage />;
-  }
 
   return (
     <main className="flex min-h-screen flex-col justify-between bg-neutral-1 max-lg:px-4">
