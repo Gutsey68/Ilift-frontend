@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { Plus } from 'lucide-react';
 import { useState } from 'react';
-import { createPortal } from 'react-dom';
 import { useParams } from 'react-router-dom';
 import BreadCrumb from '../components/layout/BreadCrumb';
 import CreateWorkoutModal from '../components/programs/CreateWorkoutModal';
@@ -55,9 +54,10 @@ function ProgramDetailPage() {
           {workoutsPending ? <ExercicesSkeletons /> : <WorkoutsList workouts={workoutsData.workouts} />}
         </div>
       </div>
-      {showModal && createPortal(<CreateWorkoutModal closeModal={() => setShowModal(false)} />, document.body)}
+      {showModal && <CreateWorkoutModal closeModal={() => setShowModal(false)} />}
       <Spacing size="xl" />
     </>
   );
 }
+
 export default ProgramDetailPage;

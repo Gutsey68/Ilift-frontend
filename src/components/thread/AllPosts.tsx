@@ -1,6 +1,5 @@
 import { Earth, Heart, LoaderCircle, MessageCircle, Send } from 'lucide-react';
 import { useState } from 'react';
-import { createPortal } from 'react-dom';
 import useInfiniteScroll from '../../hooks/useInfiniteScroll';
 import { formatRelativeTime } from '../../lib/formatRelativeTime';
 import { PostType } from '../../types/postsType';
@@ -75,7 +74,7 @@ function AllPosts({ posts, fetchNextPage, hasNextPage, isFetchingNextPage }: All
           </Card>
         );
       })}
-      {showModal && createPortal(<CommentsModal closeModal={() => setShowModal(false)} />, document.body)}
+      {showModal && <CommentsModal closeModal={() => setShowModal(false)} />}
       {isFetchingNextPage && <LoaderCircle className="m-auto mt-4 w-fit animate-spin text-neutral-11" size={30} />}
     </>
   );

@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { Plus } from 'lucide-react';
 import { useState } from 'react';
-import { createPortal } from 'react-dom';
 import { useParams } from 'react-router-dom';
 import BreadCrumb from '../components/layout/BreadCrumb';
 import AddExerciceModal from '../components/programs/CreateExerciceModal';
@@ -65,7 +64,7 @@ function ExercicesPage() {
         </div>
       </div>
       <Spacing size="xl" />
-      {showModal && createPortal(<AddExerciceModal closeModal={() => setShowModal(false)} />, document.body)}
+      {showModal && <AddExerciceModal closeModal={() => setShowModal(false)} />}
     </>
   );
 }

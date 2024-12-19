@@ -1,6 +1,5 @@
 import { Plus } from 'lucide-react';
 import { useState } from 'react';
-import { createPortal } from 'react-dom';
 import BreadCrumb from '../components/layout/BreadCrumb';
 import CreateProgramModal from '../components/programs/CreateProgramModal';
 import ProgramsList from '../components/programs/ProgramsList';
@@ -36,7 +35,7 @@ function ProgramsPage() {
           {programsPending ? <ProgramsSkeletons /> : <ProgramsList programs={programsData} />}
         </div>
       </div>
-      {showModal && createPortal(<CreateProgramModal closeModal={() => setShowModal(false)} />, document.body)}
+      {showModal && <CreateProgramModal closeModal={() => setShowModal(false)} />}
       <Spacing size="xl" />
     </>
   );
