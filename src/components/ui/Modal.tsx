@@ -32,13 +32,13 @@ const Modal = ({ children, onClose, size = 'lg' }: ModalProps) => {
   }, []);
 
   const modalContent = (
-    <div className="fixed inset-0 z-30 flex items-center justify-center bg-transparent/80" onClick={onClose}>
+    <div className="fixed inset-0 z-30 flex justify-center bg-transparent/80" onClick={onClose}>
       <div
         className={cn({
           'sm:w-1/5': size === 'sm',
           'sm:w-1/4': size === 'md',
           'sm:w-1/3': size === 'lg',
-          'relative mb-[10vh] w-full max-sm:px-4': true
+          'relative mb-[10vh] w-full max-sm:px-4 top-40': true
         })}
         onClick={e => e.stopPropagation()}
       >

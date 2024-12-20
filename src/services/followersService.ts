@@ -18,7 +18,7 @@ export const fetchFollowings = async (id: string) => {
 
 export const follow = async (id: string) => {
   try {
-    return fetchWithToken(`/api/users/follow/${id}`, {
+    return fetchWithToken(`/api/follows/${id}`, {
       method: 'POST'
     });
   } catch {
@@ -28,7 +28,17 @@ export const follow = async (id: string) => {
 
 export const unfollow = async (id: string) => {
   try {
-    return fetchWithToken(`/api/users/unfollow/${id}`, {
+    return fetchWithToken(`/api/follows/${id}`, {
+      method: 'DELETE'
+    });
+  } catch {
+    throw new Error('Erreur lors de la récupération des données.');
+  }
+};
+
+export const deleteFollower = async (id: string) => {
+  try {
+    return fetchWithToken(`/api/follows/users/${id}`, {
       method: 'DELETE'
     });
   } catch {
