@@ -2,6 +2,7 @@
 
 ---
 
+-Bouton suivre sur page profil
 -Changer lamodale de recherche
 -Recherche en mode mobile
 -Suggestions et tag en mode mobile

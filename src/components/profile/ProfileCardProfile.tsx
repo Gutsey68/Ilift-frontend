@@ -1,8 +1,13 @@
+import { useMutation } from '@tanstack/react-query';
 import { CalendarDays, MapPin } from 'lucide-react';
+import { useContext } from 'react';
 import ProfilPicture from '../../assets/images/profil.png';
+import { AuthContext } from '../../context/AuthContext';
 import { formatRelativeTime } from '../../lib/formatRelativeTime';
+import { follow } from '../../services/followersService';
 import { UserDetailsType } from '../../types/userDetailsType';
 import Avatar from '../ui/Avatar';
+import Button from '../ui/Button';
 
 type ProfileCardProps = {
   userDetails: UserDetailsType | null;
@@ -10,11 +15,25 @@ type ProfileCardProps = {
 
 function ProfileCardProfile({ userDetails }: ProfileCardProps) {
   if (!userDetails) {
-    return <div>Erreur : Aucun utilisateur trouvé.</div>;
+    throw new Error('Le profil est introuvable');
   }
+  const { user } = useContext(AuthContext);
+
+  const mutation = useMutation({
+    mutationFn: () => follow(userDetails.id)
+  });
+
+  const handleFollow = () => {
+    mutation.mutate();
+  };
 
   return (
-    <div className="flex items-center gap-4 border-b border-neutral-6 p-6 shadow-sm max-sm:flex-col max-sm:text-center">
+    <div className="relative flex items-center gap-4 border-b border-neutral-6 p-6 shadow-sm max-sm:flex-col max-sm:text-center">
+      {user && user.id !== userDetails.id && (
+        <Button onClick={handleFollow} className="absolute right-10 top-10">
+          Suivre
+        </Button>
+      )}
       <Avatar src={'/' + userDetails.profilePhoto || ProfilPicture} alt="" className="mr-1" size="xl" />
       <div>
         <h1 className="text-2xl font-bold">{userDetails.pseudo}</h1>

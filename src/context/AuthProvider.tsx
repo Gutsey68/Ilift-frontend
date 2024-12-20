@@ -1,4 +1,3 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { checkTokenExpiration } from '../services/authService';
 import { fetchCurrentUser } from '../services/usersService';
@@ -6,43 +5,30 @@ import { UserDetailsType } from '../types/userDetailsType';
 import { AuthContext, AuthProviderProps } from './AuthContext';
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const queryClient = useQueryClient();
-  const [userError] = useState<Error | null>(null);
+  const [user, setUser] = useState<UserDetailsType | null>(null);
+  const [userPending, setUserPending] = useState<boolean>(true);
+  const [userError, setUserError] = useState<Error | null>(null);
 
-  const {
-    isLoading: userPending,
-    data: user = null,
-    error: queryError
-  } = useQuery<UserDetailsType | null, Error>({
-    queryKey: ['currentUser'],
-    queryFn: async () => {
-      const token = localStorage.getItem('token');
+  const checkAuth = async () => {
+    const token = localStorage.getItem('token');
+    try {
       if (token) {
         checkTokenExpiration(token);
         const userData = await fetchCurrentUser();
-        return userData.data;
+        setUser(userData.data);
       }
-      return null;
-    },
-    refetchOnWindowFocus: false,
-    staleTime: Infinity
-  });
-
-  useEffect(() => {
-    if (queryError) {
+    } catch (error) {
+      setUserError(error as Error);
       localStorage.removeItem('token');
       localStorage.removeItem('isAuthenticated');
+    } finally {
+      setUserPending(false);
     }
-  }, [userError]);
+  };
 
   useEffect(() => {
-    const unsubscribe = queryClient.getQueryCache().subscribe(event => {
-      if (event.query.queryKey.includes('followers') || event.query.queryKey.includes('followings')) {
-        queryClient.invalidateQueries({ queryKey: ['currentUser'] });
-      }
-    });
-    return () => unsubscribe();
-  }, [queryClient]);
+    checkAuth();
+  }, []);
 
-  return <AuthContext.Provider value={{ user, setUser: () => {}, userPending, userError: queryError }}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ user, setUser, userPending, userError }}>{children}</AuthContext.Provider>;
 };
