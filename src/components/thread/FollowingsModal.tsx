@@ -20,6 +20,7 @@ type FollowingsModalProps = {
 function FollowingsModal({ closeModal }: FollowingsModalProps) {
   const { user } = useContext(AuthContext);
   const [selectedFollowing, setSelectedFollowing] = useState<FollowingsType | null>(null);
+  const [searchTerm, setSearchTerm] = useState('');
   const id = user?.id;
 
   const { isPending: followingsPending, data: followings } = useQuery({
@@ -35,6 +36,8 @@ function FollowingsModal({ closeModal }: FollowingsModalProps) {
 
   const followingsData = followings?.data;
 
+  const filteredFollowings = followingsData?.filter((following: FollowingsType) => following.pseudo.toLowerCase().includes(searchTerm.toLowerCase()));
+
   return (
     <>
       <Modal size="lg" onClose={closeModal}>
@@ -44,12 +47,12 @@ function FollowingsModal({ closeModal }: FollowingsModalProps) {
             <X onClick={closeModal} className="absolute right-4 cursor-pointer text-neutral-11 hover:text-neutral-12" />
           </div>
           <hr className="mb-6 border-neutral-6" />
-          <Input className="mb-8" placeholder="Rechercher un abonnement" />
+          <Input className="mb-8" placeholder="Rechercher un abonnement" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
           {followingsPending ? (
             <FollowingsSkeletons />
           ) : (
             <div className="flex flex-col gap-4">
-              {followingsData.map((following: FollowingsType) => (
+              {filteredFollowings.map((following: FollowingsType) => (
                 <div key={following.id} className="flex items-center justify-between">
                   <Link to={`/profil/${following.id}`} className="group flex w-full cursor-pointer items-center gap-2">
                     <Avatar size="sm" src={following.profilePhoto} alt={`Photo de ${following.pseudo}`} />

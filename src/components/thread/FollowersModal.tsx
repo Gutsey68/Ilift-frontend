@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { X } from 'lucide-react';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import { fetchFollowers } from '../../services/followersService';
@@ -19,6 +19,7 @@ type FollowersModalProps = {
 function FollowersModal({ closeModal }: FollowersModalProps) {
   const { user } = useContext(AuthContext);
   const id = user?.id;
+  const [searchTerm, setSearchTerm] = useState('');
 
   const { isPending: followersPending, data: followers } = useQuery({
     queryKey: ['followings', id],
@@ -33,6 +34,8 @@ function FollowersModal({ closeModal }: FollowersModalProps) {
 
   const followersData = followers?.data;
 
+  const filteredFollowers = followersData?.filter((follower: FollowersType) => follower.pseudo.toLowerCase().includes(searchTerm.toLowerCase()));
+
   return (
     <Modal size="lg" onClose={closeModal}>
       <Card size="lg" className="modal-content max-h-[60vh] overflow-y-auto">
@@ -41,12 +44,12 @@ function FollowersModal({ closeModal }: FollowersModalProps) {
           <X onClick={closeModal} className="absolute right-4 cursor-pointer text-neutral-11 hover:text-neutral-12" />
         </div>
         <hr className="mb-6 border-neutral-6" />
-        <Input className="mb-8" placeholder="Rechercher un abonnement" />
+        <Input className="mb-8" placeholder="Rechercher un abonnement" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
         {followersPending ? (
           <FollowingsSkeletons />
         ) : (
           <div className="flex flex-col gap-4">
-            {followersData.map((follower: FollowersType) => (
+            {filteredFollowers.map((follower: FollowersType) => (
               <div key={follower.id} className="flex items-center justify-between">
                 <div className="flex gap-4">
                   <Link to={`/profil/${follower.id}`} className="group flex w-full cursor-pointer items-center gap-2">
