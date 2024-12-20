@@ -1,5 +1,6 @@
 import { UserDetailsType } from '@/types/userDetailsType';
 import { createContext } from 'react';
+
 export type AuthContextType = {
   user: UserDetailsType | null;
   setUser: (user: UserDetailsType | null) => void;

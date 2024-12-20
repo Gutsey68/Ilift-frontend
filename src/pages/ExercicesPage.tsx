@@ -1,9 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { Plus } from 'lucide-react';
 import { useState } from 'react';
-import { createPortal } from 'react-dom';
 import { useParams } from 'react-router-dom';
-import ErrorPage from '../components/error/ErrorPage';
 import BreadCrumb from '../components/layout/BreadCrumb';
 import AddExerciceModal from '../components/programs/CreateExerciceModal';
 import ExercicesList from '../components/programs/ExercicesList';
@@ -16,11 +14,7 @@ function ExercicesPage() {
   const { id } = useParams();
   const [showModal, setShowModal] = useState(false);
 
-  const {
-    isPending: exercicesPending,
-    error: exercicesError,
-    data: exercices
-  } = useQuery({
+  const { isPending: exercicesPending, data: exercices } = useQuery({
     queryKey: ['exercices', id],
     queryFn: () => {
       if (!id) {
@@ -32,10 +26,6 @@ function ExercicesPage() {
   });
 
   const exercicesData = exercices?.data;
-
-  if (exercicesError) {
-    return <ErrorPage />;
-  }
 
   const breadcrumbItems = [
     { label: 'Accueil', href: '/' },
@@ -74,7 +64,7 @@ function ExercicesPage() {
         </div>
       </div>
       <Spacing size="xl" />
-      {showModal && createPortal(<AddExerciceModal closeModal={() => setShowModal(false)} />, document.body)}
+      {showModal && <AddExerciceModal closeModal={() => setShowModal(false)} />}
     </>
   );
 }

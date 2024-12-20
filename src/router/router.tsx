@@ -1,6 +1,8 @@
 import { createBrowserRouter, Outlet } from 'react-router-dom';
 import NotAuthenticatedRoute from '../components/auth/NotAuthenticatedRoute';
 import PrivateRoute from '../components/auth/PrivateRoute';
+import ErrorBoundary from '../components/error/ErrorBoundary.tsx';
+import ErrorBoundaryWithLayout from '../components/error/ErrorBoundaryWithLayout.tsx';
 import Layout from '../components/layout/Layout';
 import AboutPage from '../pages/AboutPage.tsx';
 import ExerciceDetailPage from '../pages/ExerciceDetailPage';
@@ -69,7 +71,11 @@ export const router = createBrowserRouter([
         children: [
           {
             path: '',
-            element: <ProgramsPage />
+            element: (
+              <ErrorBoundary>
+                <ProgramsPage />
+              </ErrorBoundary>
+            )
           },
           {
             path: ':id',
@@ -77,7 +83,11 @@ export const router = createBrowserRouter([
             children: [
               {
                 path: '',
-                element: <ProgramDetailPage />
+                element: (
+                  <ErrorBoundary>
+                    <ProgramDetailPage />
+                  </ErrorBoundary>
+                )
               },
               {
                 path: 'exercices',
@@ -85,11 +95,19 @@ export const router = createBrowserRouter([
                 children: [
                   {
                     path: '',
-                    element: <ExercicesPage />
+                    element: (
+                      <ErrorBoundary>
+                        <ExercicesPage />
+                      </ErrorBoundary>
+                    )
                   },
                   {
                     path: ':id',
-                    element: <ExerciceDetailPage />
+                    element: (
+                      <ErrorBoundary>
+                        <ExerciceDetailPage />
+                      </ErrorBoundary>
+                    )
                   }
                 ]
               }
@@ -105,7 +123,11 @@ export const router = createBrowserRouter([
     children: [
       {
         path: '',
-        element: <ProfilPage />
+        element: (
+          <ErrorBoundaryWithLayout>
+            <ProfilPage />
+          </ErrorBoundaryWithLayout>
+        )
       }
     ]
   },
@@ -115,7 +137,11 @@ export const router = createBrowserRouter([
     children: [
       {
         path: '',
-        element: <Thread />
+        element: (
+          <ErrorBoundaryWithLayout>
+            <Thread />
+          </ErrorBoundaryWithLayout>
+        )
       }
     ]
   },

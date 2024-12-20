@@ -5,6 +5,8 @@
 -Recherche en mode mobile
 -Suggestions et tag en mode mobile
 -Page profile changé les posts likés/partagés
+-Bug unfollow
+-Get all comments
 
 ---
 
