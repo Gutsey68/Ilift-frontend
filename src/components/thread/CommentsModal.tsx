@@ -2,6 +2,7 @@ import { useContext, useState } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { formatRelativeTime } from '../../lib/formatRelativeTime';
 import Avatar from '../ui/Avatar';
+import Card from '../ui/Card';
 import { Input } from '../ui/Input';
 import Modal from '../ui/Modal';
 
@@ -48,7 +49,7 @@ function CommentsModal({ closeModal }: CommentsModalProps) {
 
   return (
     <Modal onClose={closeModal}>
-      <div className="flex flex-col gap-4 rounded-md border border-neutral-6 bg-neutral-1 p-4 shadow-lg lg:right-32">
+      <Card size="md" className="flex flex-col gap-4">
         {comments.map(comment => (
           <div key={comment.id} className="flex items-start justify-between gap-2">
             <div className="flex items-center gap-2">
@@ -68,7 +69,7 @@ function CommentsModal({ closeModal }: CommentsModalProps) {
           </div>
           <Input placeholder="Ajouter un commentaire..." />
         </div>
-      </div>
+      </Card>
     </Modal>
   );
 }

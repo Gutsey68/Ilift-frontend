@@ -34,8 +34,8 @@ function FollowersModal({ closeModal }: FollowersModalProps) {
   const followersData = followers?.data;
 
   return (
-    <Modal size="md" onClose={closeModal}>
-      <Card size="md" className="max-h-[60vh] overflow-y-auto">
+    <Modal size="lg" onClose={closeModal}>
+      <Card size="md" className="modal-content max-h-[60vh] overflow-y-auto">
         <div className="flex w-full justify-center">
           <h2 className="mb-4 text-xl font-semibold">Abonnés</h2>
           <X onClick={closeModal} className="absolute right-4 cursor-pointer text-neutral-11 hover:text-neutral-12" />
