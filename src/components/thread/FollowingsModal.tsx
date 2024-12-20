@@ -37,14 +37,14 @@ function FollowingsModal({ closeModal }: FollowingsModalProps) {
 
   return (
     <>
-      <Modal size="md" onClose={closeModal}>
-        <Card size="md" className="modal-content max-h-[60vh] overflow-y-auto">
+      <Modal size="lg" onClose={closeModal}>
+        <Card size="lg" className="modal-content max-h-[60vh] overflow-y-auto">
           <div className="flex w-full justify-center">
             <h2 className="mb-4 text-xl font-semibold">Abonnements</h2>
             <X onClick={closeModal} className="absolute right-4 cursor-pointer text-neutral-11 hover:text-neutral-12" />
           </div>
           <hr className="mb-6 border-neutral-6" />
-          <Input className="mb-6" placeholder="Rechercher un abonnement" />
+          <Input className="mb-8" placeholder="Rechercher un abonnement" />
           {followingsPending ? (
             <FollowingsSkeletons />
           ) : (

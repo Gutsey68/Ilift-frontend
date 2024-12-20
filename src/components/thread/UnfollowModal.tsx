@@ -1,4 +1,5 @@
 import { X } from 'lucide-react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { unfollow } from '../../services/followersService';
 import { FollowingsType } from '../../types/followingsType';
 import Avatar from '../ui/Avatar';
@@ -11,13 +12,18 @@ type UnfollowModalProps = {
 };
 
 function UnfollowModal({ closeModal, following }: UnfollowModalProps) {
-  const handleUnfollow = () => {
-    try {
-      unfollow(following.id);
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: () => unfollow(following.id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['followings'] });
       closeModal();
-    } catch (error) {
-      console.error(error);
     }
+  });
+
+  const handleUnfollow = () => {
+    mutation.mutate();
   };
 
   return (

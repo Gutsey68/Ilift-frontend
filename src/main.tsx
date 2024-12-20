@@ -21,3 +21,5 @@ createRoot(document.getElementById('root')!).render(
     </QueryClientProvider>
   </Suspense>
 );
+
+createRoot(document.getElementById('modal')!).render(<QueryClientProvider client={queryClient}></QueryClientProvider>);

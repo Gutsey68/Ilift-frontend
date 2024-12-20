@@ -35,13 +35,13 @@ function FollowersModal({ closeModal }: FollowersModalProps) {
 
   return (
     <Modal size="lg" onClose={closeModal}>
-      <Card size="md" className="modal-content max-h-[60vh] overflow-y-auto">
+      <Card size="lg" className="modal-content max-h-[60vh] overflow-y-auto">
         <div className="flex w-full justify-center">
           <h2 className="mb-4 text-xl font-semibold">Abonnés</h2>
           <X onClick={closeModal} className="absolute right-4 cursor-pointer text-neutral-11 hover:text-neutral-12" />
         </div>
         <hr className="mb-6 border-neutral-6" />
-        <Input className="mb-6" placeholder="Rechercher un abonnement" />
+        <Input className="mb-8" placeholder="Rechercher un abonnement" />
         {followersPending ? (
           <FollowingsSkeletons />
         ) : (
