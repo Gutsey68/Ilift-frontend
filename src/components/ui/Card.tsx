@@ -5,6 +5,7 @@ type CardProps = {
   className?: string;
   children: React.ReactNode;
 };
+
 function Card({ size, children, className }: CardProps) {
   return (
     <div

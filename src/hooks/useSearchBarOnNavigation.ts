@@ -19,10 +19,12 @@ const useSearchBarOnNavigation = () => {
   };
 
   const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-    if (!e.relatedTarget || e.relatedTarget.id !== 'close-button') {
+    const relatedTarget = e.relatedTarget as HTMLElement;
+    if (!relatedTarget || (relatedTarget.id !== 'close-button' && !relatedTarget.closest('a'))) {
       setIsSearching(false);
     }
   };
+
   return { handleSearchClick, handleCloseClick, handleBlur, isSearching, setIsSearching, inputRef };
 };
 

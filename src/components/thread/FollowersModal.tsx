@@ -1,9 +1,10 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { X } from 'lucide-react';
 import { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
-import { fetchFollowers } from '../../services/followersService';
+import { fetchFollowers, follow } from '../../services/followersService';
+import { FollowersType } from '../../types/followersType';
 import { FollowingsType } from '../../types/followingsType';
 import FollowingsSkeletons from '../skeletons/FollowingsSkeletons';
 import Avatar from '../ui/Avatar';
@@ -21,6 +22,8 @@ function FollowersModal({ closeModal }: FollowersModalProps) {
   const { user } = useContext(AuthContext);
   const [selectedFollower, setSelectedFollower] = useState<FollowingsType | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const queryClient = useQueryClient();
+
   const id = user?.id;
 
   const { isPending: followersPending, data: followers } = useQuery({
@@ -38,6 +41,20 @@ function FollowersModal({ closeModal }: FollowersModalProps) {
 
   const filteredFollowers = followersData?.filter((follower: FollowingsType) => follower.pseudo.toLowerCase().includes(searchTerm.toLowerCase()));
 
+  const mutation = useMutation({
+    mutationFn: (id: string) => follow(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['followings'] });
+      queryClient.invalidateQueries({ queryKey: ['currentUser'] });
+      queryClient.invalidateQueries({ queryKey: ['suggested'] });
+      queryClient.invalidateQueries({ queryKey: ['followers'] });
+    }
+  });
+
+  const handleFollow = (followerId: string) => {
+    mutation.mutate(followerId);
+  };
+
   return (
     <>
       <Modal size="lg" onClose={closeModal}>
@@ -52,12 +69,19 @@ function FollowersModal({ closeModal }: FollowersModalProps) {
             <FollowingsSkeletons />
           ) : (
             <div className="flex flex-col gap-4">
-              {filteredFollowers.map((follower: FollowingsType) => (
+              {filteredFollowers.map((follower: FollowersType) => (
                 <div key={follower.id} className="flex items-center justify-between">
-                  <Link to={`/profil/${follower.id}`} className="group flex w-full cursor-pointer items-center gap-2">
-                    <Avatar size="sm" src={follower.profilePhoto} alt={`Photo de ${follower.pseudo}`} />
-                    <p className="text-sm text-neutral-11 group-hover:text-green-11">{follower.pseudo}</p>
-                  </Link>
+                  <div className="flex items-center gap-4">
+                    <Link to={`/profil/${follower.id}`} className="group flex w-full cursor-pointer items-center gap-2">
+                      <Avatar size="sm" src={follower.profilePhoto} alt={`Photo de ${follower.pseudo}`} />
+                      <p className="text-sm text-neutral-11 group-hover:text-green-11">{follower.pseudo}</p>
+                    </Link>
+                    {!follower.isFollowing && (
+                      <button onClick={() => handleFollow(follower.id)} className="text-sm text-green-11 hover:underline">
+                        Suivre
+                      </button>
+                    )}
+                  </div>
                   <Button
                     onClick={() => setSelectedFollower(follower)}
                     className="w-fit border border-neutral-6 bg-neutral-1 text-neutral-11 shadow-sm hover:bg-neutral-2"

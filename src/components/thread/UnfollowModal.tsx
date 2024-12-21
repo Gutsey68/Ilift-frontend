@@ -19,6 +19,7 @@ function UnfollowModal({ closeModal, following }: UnfollowModalProps) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['followings'] });
       queryClient.invalidateQueries({ queryKey: ['currentUser'] });
+      queryClient.invalidateQueries({ queryKey: ['suggested'] });
       closeModal();
     }
   });

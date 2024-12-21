@@ -2,7 +2,6 @@ import { UserDetailsType } from '@/types/userDetailsType';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { CalendarDays, MapPin } from 'lucide-react';
 import { useContext } from 'react';
-import ProfilPicture from '../../assets/images/profil.png';
 import { AuthContext } from '../../context/AuthContext';
 import { formatRelativeTime } from '../../lib/formatRelativeTime';
 import { follow } from '../../services/followersService';
@@ -41,7 +40,7 @@ function ProfileCardProfile({ userDetails }: ProfileCardProps) {
           Suivre
         </Button>
       )}
-      <Avatar src={'/' + userDetails.profilePhoto || ProfilPicture} alt="" className="mr-1" size="xl" />
+      <Avatar src={userDetails.profilePhoto || '/uploads/profil.png'} alt={`Photo de ${userDetails.pseudo}`} className="mr-1" size="xl" />
       <div>
         <h1 className="text-2xl font-bold">{userDetails.pseudo}</h1>
         <p className="text-neutral-11">{userDetails.bio || ''}</p>
