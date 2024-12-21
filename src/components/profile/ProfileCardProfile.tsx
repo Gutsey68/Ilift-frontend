@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { CalendarDays, MapPin } from 'lucide-react';
 import { useContext } from 'react';
 import ProfilPicture from '../../assets/images/profil.png';
@@ -14,13 +14,20 @@ type ProfileCardProps = {
 };
 
 function ProfileCardProfile({ userDetails }: ProfileCardProps) {
+  const { user } = useContext(AuthContext);
+  const queryClient = useQueryClient();
+
   if (!userDetails) {
     throw new Error('Le profil est introuvable');
   }
-  const { user } = useContext(AuthContext);
 
   const mutation = useMutation({
-    mutationFn: () => follow(userDetails.id)
+    mutationFn: () => follow(userDetails.id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['followings'] });
+      queryClient.invalidateQueries({ queryKey: ['currentUser'] });
+      queryClient.invalidateQueries({ queryKey: ['suggested'] });
+    }
   });
 
   const handleFollow = () => {
