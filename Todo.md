@@ -11,5 +11,6 @@
 -Ajouter l'administration
 -Routes shares
 -Changer le jwt
+-Changer la validation des mots de passes
 
 ---

@@ -21,7 +21,7 @@ function ForgotPasswordForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
-      <FormField label="Email" name="email" type="email" register={register} errors={errors} placeholder="dark.s@email.com" />
+      <FormField disabled={isSubmitting} label="Email" name="email" type="email" register={register} errors={errors} placeholder="dark.s@email.com" />
       <Button type="submit" className="mt-2 w-full" disabled={isSubmitting}>
         {isSubmitting ? 'Chargement...' : 'Réinitialiser le mot de passe'}
       </Button>

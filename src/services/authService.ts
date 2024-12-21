@@ -26,16 +26,16 @@ export const logout = async () => {
   }
 };
 
-export const register = async ({ pseudo, email, password }: { pseudo: string; email: string; password: string }) => {
+export const register = async ({ pseudo, email, password, confirmPassword }: { pseudo: string; email: string; password: string; confirmPassword: string }) => {
   const response = await fetch('/api/auth/register', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ pseudo, email, password })
+    body: JSON.stringify({ pseudo, email, password, confirmPassword })
   });
 
   if (!response.ok) {
     const errorData = await response.json();
-    throw { message: errorData.error || 'Erreur lors de l’inscription', status: response.status };
+    throw { message: errorData.error || "Erreur lors de l'inscription", status: response.status };
   }
 };
 
