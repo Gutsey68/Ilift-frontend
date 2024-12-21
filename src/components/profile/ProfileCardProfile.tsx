@@ -40,7 +40,7 @@ function ProfileCardProfile({ userDetails }: ProfileCardProps) {
           Suivre
         </Button>
       )}
-      <Avatar src={(userDetails.profilePhoto && '/' + userDetails.profilePhoto) || '/uploads/profil.png'} alt="" className="mr-1" size="xl" />
+      <Avatar src={userDetails.profilePhoto || '/uploads/profil.png'} alt={`Photo de ${userDetails.pseudo}`} className="mr-1" size="xl" />
       <div>
         <h1 className="text-2xl font-bold">{userDetails.pseudo}</h1>
         <p className="text-neutral-11">{userDetails.bio || ''}</p>

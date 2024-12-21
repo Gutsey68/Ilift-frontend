@@ -70,12 +70,7 @@ export default function SearchNav() {
                 ) : filteredUsers.length > 0 ? (
                   filteredUsers.map(user => (
                     <Link onClick={handleLink} className="group flex items-center gap-1 py-1" to={`/profil/${user.id}`} key={user.id}>
-                      <Avatar
-                        size="sm"
-                        src={(user.profilePhoto && '/' + user.profilePhoto) || '/uploads/profil.png'}
-                        alt={`Photo de ${user.pseudo}`}
-                        className="mr-2 size-8"
-                      />
+                      <Avatar size="sm" src={user.profilePhoto || '/uploads/profil.png'} alt={`Photo de ${user.pseudo}`} className="mr-2 size-8" />
                       <span className="text-neutral-11 group-hover:text-green-11">{user.pseudo}</span>
                     </Link>
                   ))
