@@ -11,3 +11,8 @@ export const fetchCurrentUser = async () => {
 export const fetchSuggestedUsers = async () => {
   return fetchWithToken('/api/users/suggested');
 };
+
+export const fetchUsers = async () => {
+  const response = await fetchWithToken('/api/users');
+  return response.data;
+};
