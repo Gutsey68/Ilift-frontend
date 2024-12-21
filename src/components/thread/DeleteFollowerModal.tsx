@@ -18,6 +18,7 @@ function DeleteFollowerModal({ closeModal, follower }: DeleteFollowerModalProps)
     mutationFn: () => deleteFollower(follower.id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['followers'] });
+      queryClient.invalidateQueries({ queryKey: ['currentUser'] });
       closeModal();
     }
   });
