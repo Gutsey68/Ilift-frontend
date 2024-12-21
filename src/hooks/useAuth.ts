@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
@@ -8,6 +8,7 @@ import { fetchCurrentUser } from '../services/usersService';
 const useAuth = () => {
   const navigate = useNavigate();
   const { setUser } = useContext(AuthContext);
+  const queryClient = useQueryClient();
 
   const loginMutation = useMutation({
     mutationFn: login,
@@ -17,6 +18,7 @@ const useAuth = () => {
       localStorage.setItem('isAuthenticated', 'true');
       const userData = await fetchCurrentUser();
       setUser(userData.data);
+      await queryClient.invalidateQueries({ queryKey: ['currentUser'] });
       navigate('/accueil');
     }
   });
@@ -28,6 +30,7 @@ const useAuth = () => {
       localStorage.removeItem('token');
       localStorage.removeItem('isAuthenticated');
       setUser(null);
+      queryClient.removeQueries({ queryKey: ['currentUser'] });
       navigate('/connexion');
     }
   });

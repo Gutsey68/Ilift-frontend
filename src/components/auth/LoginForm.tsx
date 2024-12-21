@@ -22,8 +22,7 @@ function LoginForm() {
   const onSubmit = async (data: z.infer<typeof loginSchema>) => {
     try {
       await loginMutation.mutateAsync(data);
-    } catch (error) {
-      console.error('Erreur lors de la connexion:', error);
+    } catch {
       setError('root', { type: 'manual', message: 'Erreur lors de la connexion' });
     }
   };
@@ -35,7 +34,15 @@ function LoginForm() {
           {loginMutation.error?.message}
         </p>
       )}
-      <FormField label="Pseudo" name="pseudo" type="text" register={register} errors={errors} placeholder="darkSasuke" />
+      <FormField
+        disabled={isSubmitting || loginMutation.status === 'pending'}
+        label="Pseudo"
+        name="pseudo"
+        type="text"
+        register={register}
+        errors={errors}
+        placeholder="darkSasuke"
+      />
       <div>
         <div className="mb-2 flex items-center justify-between">
           <label htmlFor="password" className={`mt-1 text-sm ${errors.password && 'text-red-600'}`}>
@@ -45,7 +52,7 @@ function LoginForm() {
             <p className="text-xs text-neutral-10 underline hover:text-green-9">Mot de passe oublié ?</p>
           </Link>
         </div>
-        <FormField label="" name="password" type="password" register={register} errors={errors} />
+        <FormField disabled={isSubmitting || loginMutation.status === 'pending'} label="" name="password" type="password" register={register} errors={errors} />
       </div>
       <Button type="submit" className="mt-2 w-full" disabled={isSubmitting || loginMutation.status === 'pending'}>
         {isSubmitting || loginMutation.status === 'pending' ? <LoaderCircle className="animate-spin" size={20} /> : 'Se connecter'}

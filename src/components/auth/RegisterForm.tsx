@@ -21,25 +21,20 @@ function RegisterForm() {
   const { registerMutation } = useAuth();
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-  const onSubmit = (data: z.infer<typeof registerShema>) => {
+  const onSubmit = async (data: z.infer<typeof registerShema>) => {
     setSuccessMessage(null);
-
-    registerMutation.mutate(
-      {
+    try {
+      await registerMutation.mutateAsync({
         pseudo: data.pseudo,
         email: data.email,
-        password: data.password
-      },
-      {
-        onSuccess: () => {
-          setSuccessMessage('Inscription réussie ! Vous pouvez vous connecter');
-          reset();
-        },
-        onError: error => {
-          setError('root', { type: 'manual', message: error.message });
-        }
-      }
-    );
+        password: data.password,
+        confirmPassword: data.confirmPassword
+      });
+      reset();
+      setSuccessMessage('Inscription réussie ! Vous pouvez vous connecter');
+    } catch {
+      setError('root', { type: 'manual', message: 'Erreur lors de la création de compte' });
+    }
   };
 
   return (
@@ -54,10 +49,40 @@ function RegisterForm() {
           {successMessage}
         </p>
       )}
-      <FormField label="Pseudo" name="pseudo" type="text" register={register} errors={errors} placeholder="darkSasuke" />
-      <FormField label="Email" name="email" type="email" register={register} errors={errors} placeholder="dark.s@email.com" />
-      <FormField label="Mot de passe" name="password" type="password" register={register} errors={errors} />
-      <FormField label="Confirmer le mot de passe" name="confirmPassword" type="password" register={register} errors={errors} />
+      <FormField
+        disabled={isSubmitting || registerMutation.status === 'pending'}
+        label="Pseudo"
+        name="pseudo"
+        type="text"
+        register={register}
+        errors={errors}
+        placeholder="darkSasuke"
+      />
+      <FormField
+        disabled={isSubmitting || registerMutation.status === 'pending'}
+        label="Email"
+        name="email"
+        type="email"
+        register={register}
+        errors={errors}
+        placeholder="dark.s@email.com"
+      />
+      <FormField
+        disabled={isSubmitting || registerMutation.status === 'pending'}
+        label="Mot de passe"
+        name="password"
+        type="password"
+        register={register}
+        errors={errors}
+      />
+      <FormField
+        disabled={isSubmitting || registerMutation.status === 'pending'}
+        label="Confirmer le mot de passe"
+        name="confirmPassword"
+        type="password"
+        register={register}
+        errors={errors}
+      />
       <Button type="submit" className="mt-2 w-full" disabled={isSubmitting || registerMutation.status === 'pending'}>
         {isSubmitting || registerMutation.status === 'pending' ? <LoaderCircle className="animate-spin" size={20} /> : "S'inscrire"}
       </Button>

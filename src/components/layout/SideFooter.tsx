@@ -5,7 +5,7 @@ import { socials } from '../../lib/links';
 function SideFooter() {
   return (
     <div className="flex flex-col items-center justify-center gap-2">
-      <div className="flex gap-2 text-sm">
+      <div className="flex gap-4 text-sm">
         <NavLink to={'/mentions-legales'} className="transition-colors hover:text-green-9">
           Mentions légales
         </NavLink>
@@ -20,7 +20,7 @@ function SideFooter() {
           </a>
         ))}
       </div>
-      <p className="text-xs">
+      <p className="text-xs text-neutral-11">
         Made with ❤️ by{' '}
         <a href="https://gauthierseyzeriat.com" target="_blank" className="text-green-9 hover:underline" rel="noreferrer">
           Gauthier Seyzeriat
@@ -31,7 +31,7 @@ function SideFooter() {
           <Dumbbell className="mr-2 inline-block size-5" />
           <span className="font-semibold">ILift</span>
         </p>
-        <div className="mb-4 text-xs sm:mb-0">© {new Date().getFullYear()} ILift. Tout droits réservés.</div>
+        <p className="mb-4 text-xs text-neutral-11 sm:mb-0">© {new Date().getFullYear()} ILift. Tout droits réservés.</p>
       </div>
     </div>
   );

@@ -1,40 +1,43 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { X } from 'lucide-react';
-import { unfollow } from '../../services/followersService';
+import { deleteFollower } from '../../services/followersService';
 import { FollowingsType } from '../../types/followingsType';
 import Avatar from '../ui/Avatar';
 import Card from '../ui/Card';
 import Modal from '../ui/Modal';
 
-type UnfollowModalProps = {
+type DeleteFollowerModalProps = {
   closeModal: () => void;
-  following: FollowingsType;
+  follower: FollowingsType;
 };
 
-function UnfollowModal({ closeModal, following }: UnfollowModalProps) {
+function DeleteFollowerModal({ closeModal, follower }: DeleteFollowerModalProps) {
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
-    mutationFn: () => unfollow(following.id),
+    mutationFn: () => deleteFollower(follower.id),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['followings'] });
+      queryClient.invalidateQueries({ queryKey: ['followers'] });
       queryClient.invalidateQueries({ queryKey: ['currentUser'] });
       closeModal();
     }
   });
 
-  const handleUnfollow = () => {
+  const handleDelete = () => {
     mutation.mutate();
   };
 
   return (
     <Modal size="sm" onClose={closeModal}>
       <Card size="lg" className="max-h-[60vh] overflow-y-auto text-center">
-        <Avatar className="m-auto" size="lg" src={following.profilePhoto} alt={`Photo de ${following.pseudo}`} />
-        <p className="py-2 text-neutral-11">Ne plus suivre {following.pseudo} ?</p>
+        <Avatar className="m-auto" size="lg" src={follower.profilePhoto} alt={`Photo de ${follower.pseudo}`} />
+        <p className="mt-4">Supprimer le follower ?</p>
+        <p className="py-2 text-xs text-neutral-11">
+          Nous n'informerons pas <span className="text-neutral-12">{follower.pseudo}</span> que vous avez supprimé son compte de vos followers.
+        </p>
         <hr className="border-neutral-6" />
-        <p onClick={handleUnfollow} className="cursor-pointer py-2 text-red-600 hover:text-red-500">
-          Ne plus suivre
+        <p onClick={handleDelete} className="cursor-pointer py-2 text-red-600 hover:text-red-500">
+          Supprimer
         </p>
         <hr className="border-neutral-6" />
         <p className="cursor-pointer pt-2 text-neutral-11 hover:text-neutral-12" onClick={closeModal}>
@@ -45,4 +48,5 @@ function UnfollowModal({ closeModal, following }: UnfollowModalProps) {
     </Modal>
   );
 }
-export default UnfollowModal;
+
+export default DeleteFollowerModal;

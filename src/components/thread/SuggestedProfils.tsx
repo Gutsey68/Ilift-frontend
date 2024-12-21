@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 import ProfilPicture from '../../assets/images/profil.png';
+import { SuggestedUserType } from '../../types/suggestedUserType';
 import Avatar from '../ui/Avatar';
 import Card from '../ui/Card';
-import { SuggestedUserType } from '../../types/suggestedUserType';
 
 type SuggestedProfilsProps = {
   suggestedUsers: SuggestedUserType[];
@@ -23,7 +23,7 @@ function SuggestedProfils({ suggestedUsers }: SuggestedProfilsProps) {
               {user.commonFollowersCount > 0 ? (
                 <span>
                   Suivi(e) par {user.commonFollowers[0].pseudo}
-                  {user.commonFollowersCount > 1 ? ` et ${user.commonFollowersCount - 1} autres` : ''}
+                  {user.commonFollowersCount > 1 ? ` et ${user.commonFollowersCount - 1} autre${user.commonFollowersCount > 2 ? 's' : ''}` : ''}
                 </span>
               ) : (
                 <span>Suggestions</span>

@@ -137,6 +137,15 @@
     bottom: -200px;
     z-index: 5;
   }
+  .modal-content {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .modal-content::-webkit-scrollbar {
+    display: none;
+  }
+
   html {
     scroll-behavior: smooth;
   }
