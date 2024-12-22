@@ -5,36 +5,45 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { postShema } from '../../lib/shemas';
-import { createPostHandler } from '../../services/postsService';
+import { updatePost } from '../../services/postsService';
+import { PostType } from '../../types/postsType';
 import Badge from '../ui/Badge';
 import Button from '../ui/Button';
 import Card from '../ui/Card';
 import Modal from '../ui/Modal';
 import { Textarea } from '../ui/Textarea';
 
-type PostFormProps = {
+type EditPostModalProps = {
+  post: PostType;
   closeModal: () => void;
 };
 
-export default function PostForm({ closeModal }: PostFormProps) {
-  const [tags, setTags] = useState<string[]>([]);
+export default function EditPostModal({ post, closeModal }: EditPostModalProps) {
+  const [tags, setTags] = useState<string[]>(post.tags?.map(tag => tag.tag.name) || []);
   const [currentTag, setCurrentTag] = useState('');
-  const [preview, setPreview] = useState<string | null>(null);
+  const [preview, setPreview] = useState<string | null>(post.photo || null);
 
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-    setError,
-    reset
+    setError
   } = useForm<z.infer<typeof postShema>>({
-    resolver: zodResolver(postShema)
+    resolver: zodResolver(postShema),
+    defaultValues: {
+      content: post.content
+    }
   });
 
   const queryClient = useQueryClient();
 
-  const postMutation = useMutation({
-    mutationFn: createPostHandler
+  const editMutation = useMutation({
+    mutationFn: (formData: FormData) => updatePost(post.id, formData),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['posts'] });
+      queryClient.invalidateQueries({ queryKey: ['userPosts'] });
+      closeModal();
+    }
   });
 
   const handleAddTag = () => {
@@ -78,25 +87,15 @@ export default function PostForm({ closeModal }: PostFormProps) {
       }
 
       const fileInput = document.getElementById('file') as HTMLInputElement;
-
       if (fileInput?.files?.[0]) {
         formData.append('photo', fileInput.files[0]);
       }
 
-      await postMutation.mutateAsync(formData);
-
-      reset();
-      setTags([]);
-      setPreview(null);
-
-      queryClient.invalidateQueries({ queryKey: ['posts'] });
-      queryClient.invalidateQueries({ queryKey: ['tags'] });
-
-      closeModal();
+      await editMutation.mutateAsync(formData);
     } catch {
       setError('root', {
         type: 'manual',
-        message: 'Erreur lors de la création du post'
+        message: 'Erreur lors de la modification du post'
       });
     }
   };
@@ -104,21 +103,15 @@ export default function PostForm({ closeModal }: PostFormProps) {
   return (
     <Modal onClose={closeModal}>
       <Card className="relative" size="md">
-        <p className="text-2xl font-semibold">Nouveau post</p>
-        <p className="mb-4 text-sm text-neutral-10">Que voulez-vous partager ?</p>
+        <p className="text-2xl font-semibold">Modifier le post</p>
         <X onClick={closeModal} className="absolute right-4 top-4 cursor-pointer text-neutral-11 hover:text-neutral-12" />
-        {postMutation.isError && (
-          <p className="text-red-600" onClick={() => postMutation.reset()}>
-            {postMutation.error?.message}
-          </p>
-        )}
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
-          <label htmlFor={'content'} className={`mt-1 text-sm ${errors.content && 'text-red-600'}`}>
-            Contenu
-            <span className="ml-1 inline-block text-red-600">*</span>
-          </label>
-          <Textarea disabled={postMutation.status === 'pending' || isSubmitting} {...register('content')} />
-          {errors.content && <p className="text-red-600">{errors.content.message}</p>}
+        {editMutation.isError && <p className="text-red-600">{editMutation.error?.message}</p>}
+        <form onSubmit={handleSubmit(onSubmit)} className="mt-4 flex flex-col gap-4">
+          <div>
+            <Textarea disabled={editMutation.isPending || isSubmitting} {...register('content')} />
+            {errors.content && <p className="mt-1 text-sm text-red-600">{errors.content.message}</p>}
+          </div>
+
           <div className="flex flex-col gap-2">
             <label className="text-sm">Tags</label>
             <div className="flex flex-wrap gap-2">
@@ -131,7 +124,7 @@ export default function PostForm({ closeModal }: PostFormProps) {
             </div>
             <div className="flex gap-2">
               <input
-                disabled={postMutation.status === 'pending' || isSubmitting}
+                disabled={editMutation.isPending || isSubmitting}
                 type="text"
                 value={currentTag}
                 onChange={e => setCurrentTag(e.target.value)}
@@ -145,14 +138,7 @@ export default function PostForm({ closeModal }: PostFormProps) {
           </div>
 
           <div className="flex items-center gap-2">
-            <input
-              disabled={postMutation.status === 'pending' || isSubmitting}
-              type="file"
-              id="file"
-              className="hidden"
-              accept="image/*"
-              onChange={handleFileChange}
-            />
+            <input disabled={editMutation.isPending || isSubmitting} type="file" id="file" className="hidden" accept="image/*" onChange={handleFileChange} />
             {preview ? (
               <div className="relative">
                 <img src={preview} alt="Aperçu" className="size-32 rounded-lg object-cover" />
@@ -171,12 +157,13 @@ export default function PostForm({ closeModal }: PostFormProps) {
               </label>
             )}
           </div>
+
           <div className="flex justify-end gap-2">
-            <Button onClick={closeModal} className="w-fit border border-neutral-8 bg-neutral-1 text-neutral-11 shadow-sm hover:bg-neutral-2">
+            <Button type="button" onClick={closeModal} className="border border-neutral-8 bg-neutral-1 text-neutral-11 hover:bg-neutral-2">
               Annuler
             </Button>
-            <Button type="submit" disabled={postMutation.status === 'pending' || isSubmitting} className="w-fit">
-              {postMutation.status === 'pending' ? <LoaderCircle className="animate-spin" size={20} /> : 'Poster'}
+            <Button type="submit" disabled={editMutation.isPending || isSubmitting}>
+              {editMutation.isPending ? <LoaderCircle className="animate-spin" size={20} /> : 'Modifier'}
             </Button>
           </div>
         </form>

@@ -2,13 +2,14 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { X } from 'lucide-react';
 import { unfollow } from '../../services/followersService';
 import { FollowingsType } from '../../types/followingsType';
+import { UserDetailsType } from '../../types/userDetailsType';
 import Avatar from '../ui/Avatar';
 import Card from '../ui/Card';
 import Modal from '../ui/Modal';
 
 type UnfollowModalProps = {
   closeModal: () => void;
-  following: FollowingsType;
+  following: FollowingsType | UserDetailsType;
 };
 
 function UnfollowModal({ closeModal, following }: UnfollowModalProps) {
@@ -20,6 +21,8 @@ function UnfollowModal({ closeModal, following }: UnfollowModalProps) {
       queryClient.invalidateQueries({ queryKey: ['followings'] });
       queryClient.invalidateQueries({ queryKey: ['currentUser'] });
       queryClient.invalidateQueries({ queryKey: ['suggested'] });
+      queryClient.invalidateQueries({ queryKey: ['currentUser'] });
+      queryClient.invalidateQueries({ queryKey: ['userProfile'] });
       closeModal();
     }
   });

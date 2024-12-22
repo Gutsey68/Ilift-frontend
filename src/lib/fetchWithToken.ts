@@ -16,12 +16,19 @@ export const fetchWithToken = async (url: string, options: RequestInit = {}) => 
   }
 
   const makeRequest = async (token: string) => {
+    const headers: HeadersInit = {
+      Authorization: `Bearer ${token}`
+    };
+
+    if (!(options.body instanceof FormData)) {
+      headers['Content-Type'] = 'application/json';
+    }
+
     const response = await fetch(url, {
       ...options,
       headers: {
         ...options.headers,
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`
+        ...headers
       }
     });
     return response;

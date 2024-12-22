@@ -20,4 +20,5 @@ export type UserDetailsType = {
     following: number;
     workouts: number;
   };
+  amIFollowing?: boolean;
 };
