@@ -7,3 +7,10 @@ export const fetchPostsOfUserAndHisFollowingsHandler = async (id: string, page: 
 export const fetchPostsByUserHandler = async (id: string) => {
   return fetchWithToken(`/api/posts/users/${id}`);
 };
+
+export const createPostHandler = async (formData: FormData) => {
+  return fetchWithToken('/api/posts', {
+    method: 'POST',
+    body: formData
+  });
+};

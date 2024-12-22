@@ -22,5 +22,7 @@ export const registerShema = z
   });
 
 export const postShema = z.object({
-  content: z.string().min(1, 'Le contenu est requis')
+  content: z.string().min(1, 'Le contenu est requis'),
+  photo: z.string().optional(),
+  tags: z.array(z.string()).optional()
 });

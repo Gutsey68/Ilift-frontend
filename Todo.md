@@ -11,5 +11,6 @@
 -Routes shares
 -Changer le jwt
 -Changer la validation des mots de passes
+-Ajouter des toasts
 
 ---
