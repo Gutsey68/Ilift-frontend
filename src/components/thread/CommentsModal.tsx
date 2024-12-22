@@ -46,8 +46,9 @@ function CommentsModal({ closeModal, postId }: CommentsModalProps) {
     }
   });
 
-  const handleSubmit = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && newComment.trim() !== '') {
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (newComment.trim() !== '') {
       createCommentMutation.mutate();
     }
   };
@@ -91,18 +92,31 @@ function CommentsModal({ closeModal, postId }: CommentsModalProps) {
               </>
             ))
           )}
-          <div className="flex items-center gap-4">
-            <div>
-              <Avatar size="sm" src={user?.profilePhoto} alt="" />
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            <div className="flex items-center gap-4">
+              <div>
+                <Avatar size="sm" src={user?.profilePhoto} alt="" />
+              </div>
+              <Input
+                placeholder="Ajouter un commentaire..."
+                value={newComment}
+                onChange={e => setNewComment(e.target.value)}
+                disabled={createCommentMutation.isPending}
+              />
             </div>
-            <Input
-              placeholder="Ajouter un commentaire..."
-              value={newComment}
-              onChange={e => setNewComment(e.target.value)}
-              onKeyDown={handleSubmit}
-              disabled={createCommentMutation.isPending}
-            />
-          </div>
+            <div className="flex justify-end gap-2">
+              <button type="button" onClick={closeModal} className="rounded-md bg-neutral-4 px-4 py-2 text-sm font-medium text-neutral-12 hover:bg-neutral-5">
+                Annuler
+              </button>
+              <button
+                type="submit"
+                disabled={createCommentMutation.isPending || !newComment.trim()}
+                className="rounded-md bg-green-9 px-4 py-2 text-sm font-medium text-neutral-1 hover:bg-green-8 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {createCommentMutation.isPending ? 'En cours...' : 'Commenter'}
+              </button>
+            </div>
+          </form>
         </Card>
       </Modal>
 
