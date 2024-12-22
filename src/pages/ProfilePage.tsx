@@ -59,7 +59,7 @@ function ProfilePage() {
             <div className="flex cursor-pointer items-center justify-center text-center text-neutral-11">
               <div className="w-1/3 border-b-2 border-green-9 py-2 hover:text-green-9 ">Publications</div>
               <div className="w-1/3 border-b border-neutral-6 py-2 hover:text-green-9">J'aime</div>
-              <div className="w-1/3 border-b border-neutral-6 py-2 hover:text-green-9">Partages</div>
+              <div className="w-1/3 border-b border-neutral-6 py-2 hover:text-green-9">Republications</div>
             </div>
             {userPostsPending ? <AllPostsProfileSkeletons /> : <AllPostsProfile posts={userPosts} />}
           </Card>

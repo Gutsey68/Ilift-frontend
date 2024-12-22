@@ -1,4 +1,4 @@
-import { Earth, Heart, LoaderCircle, MessageCircle, Send } from 'lucide-react';
+import { Earth, Heart, LoaderCircle, MessageCircle, Repeat } from 'lucide-react';
 import { useState } from 'react';
 import useInfiniteScroll from '../../hooks/useInfiniteScroll';
 import { formatRelativeTime } from '../../lib/formatRelativeTime';
@@ -51,7 +51,7 @@ function AllPosts({ posts, fetchNextPage, hasNextPage, isFetchingNextPage }: All
               )}
             </div>
             {post.photo && <img className="mx-auto w-11/12 rounded-lg sm:w-3/4" src={post.photo} alt={`Photo de ${post.author.pseudo}`} />}
-            <div className="px-4">
+            <div>
               <div className="mx-auto flex w-11/12 items-center gap-1 border-b border-gray-600 pb-2 text-xs text-neutral-11 sm:w-3/4">
                 <Heart size={14} />
                 <p>{post._count?.likes}</p>
@@ -66,8 +66,8 @@ function AllPosts({ posts, fetchNextPage, hasNextPage, isFetchingNextPage }: All
                   <span className="max-sm:text-xs">Commenter</span>
                 </button>
                 <button className="xs:gap-2 flex items-center gap-1 hover:text-green-9">
-                  <Send size={16} />
-                  <span className="max-sm:text-xs">Partager</span>
+                  <Repeat size={16} />
+                  <span className="max-sm:text-xs">Republier</span>
                 </button>
               </div>
             </div>
