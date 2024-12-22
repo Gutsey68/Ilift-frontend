@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Earth, Heart, LoaderCircle, MessageCircle, Repeat } from 'lucide-react';
+import { Earth, Heart, LoaderCircle, MessageCircle, Pencil, Repeat } from 'lucide-react';
 import { useState } from 'react';
 import useInfiniteScroll from '../../hooks/useInfiniteScroll';
 import { formatRelativeTime } from '../../lib/formatRelativeTime';
@@ -9,6 +9,7 @@ import Avatar from '../ui/Avatar';
 import Badge from '../ui/Badge';
 import Card from '../ui/Card';
 import CommentsModal from './CommentsModal';
+import EditPostModal from './EditPostModal';
 
 type AllPostsProps = {
   posts: PostType[];
@@ -19,6 +20,7 @@ type AllPostsProps = {
 
 function AllPosts({ posts, fetchNextPage, hasNextPage, isFetchingNextPage }: AllPostsProps) {
   const [selectedPostId, setSelectedPostId] = useState<string | null>(null);
+  const [postToEdit, setPostToEdit] = useState<PostType | null>(null);
   const queryClient = useQueryClient();
 
   useInfiniteScroll(fetchNextPage, hasNextPage, isFetchingNextPage);
@@ -57,15 +59,22 @@ function AllPosts({ posts, fetchNextPage, hasNextPage, isFetchingNextPage }: All
         const user = post.author;
         return (
           <Card size="xs" key={post.id} className="mt-4 flex flex-col gap-4">
-            <div className="flex gap-4 px-2 pt-4">
-              <Avatar alt="" size="sm" src={user.profilePhoto ?? ''} />
-              <div className="flex flex-col">
-                <p className="font-semibold text-neutral-12">{user?.pseudo}</p>
-                <div className="flex items-center gap-1 text-xs text-neutral-11">
-                  <p>{formatRelativeTime(post.createdAt)} • </p>
-                  <Earth size={14} />
+            <div className="flex justify-between px-2 pt-4">
+              <div className="flex gap-4">
+                <Avatar alt="" size="sm" src={user.profilePhoto ?? ''} />
+                <div className="flex flex-col">
+                  <p className="font-semibold text-neutral-12">{user?.pseudo}</p>
+                  <div className="flex items-center gap-1 text-xs text-neutral-11">
+                    <p>{formatRelativeTime(post.createdAt)} • </p>
+                    <Earth size={14} />
+                  </div>
                 </div>
               </div>
+              {post.isMyPost && (
+                <button onClick={() => setPostToEdit(post)} className="text-green-11 hover:text-green-8">
+                  <Pencil size={16} />
+                </button>
+              )}
             </div>
             <div className="mx-auto flex w-11/12 flex-col sm:w-3/4">
               <p className="text-neutral-11 max-sm:text-sm">{post.content}</p>
@@ -108,6 +117,7 @@ function AllPosts({ posts, fetchNextPage, hasNextPage, isFetchingNextPage }: All
         );
       })}
       {selectedPostId && <CommentsModal postId={selectedPostId} closeModal={() => setSelectedPostId(null)} />}
+      {postToEdit && <EditPostModal post={postToEdit} closeModal={() => setPostToEdit(null)} />}
       {isFetchingNextPage && <LoaderCircle className="m-auto mt-4 w-fit animate-spin text-neutral-11" size={30} />}
     </>
   );

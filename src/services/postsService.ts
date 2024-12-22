@@ -14,3 +14,14 @@ export const createPostHandler = async (formData: FormData) => {
     body: formData
   });
 };
+
+export const updatePost = async (id: string, content: string) => {
+  try {
+    return fetchWithToken(`/api/posts/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify({ content })
+    });
+  } catch {
+    throw new Error('Erreur lors de la modification du post');
+  }
+};

@@ -6,6 +6,7 @@ export type PostType = {
   updatedAt: string;
   authorId: string;
   doILike?: boolean;
+  isMyPost?: boolean;
   tags: TagType[];
   author: {
     id: string;
