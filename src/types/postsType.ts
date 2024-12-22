@@ -5,6 +5,7 @@ export type PostType = {
   createdAt: string;
   updatedAt: string;
   authorId: string;
+  doILike?: boolean;
   tags: TagType[];
   author: {
     id: string;
@@ -20,6 +21,7 @@ export type PostType = {
   };
   _count?: {
     likes: number;
+    comments: number;
   };
 };
 

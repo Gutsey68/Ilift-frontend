@@ -52,14 +52,20 @@ function AllPosts({ posts, fetchNextPage, hasNextPage, isFetchingNextPage }: All
             </div>
             {post.photo && <img className="mx-auto w-11/12 rounded-lg sm:w-3/4" src={post.photo} alt={`Photo de ${post.author.pseudo}`} />}
             <div>
-              <div className="mx-auto flex w-11/12 items-center gap-1 border-b border-gray-600 pb-2 text-xs text-neutral-11 sm:w-3/4">
-                <Heart size={14} />
-                <p>{post._count?.likes}</p>
+              <div className="mx-auto flex w-11/12 items-center gap-4 border-b border-neutral-6 pb-2 text-xs text-neutral-11 sm:w-3/4">
+                <div className="flex items-center gap-1">
+                  <Heart size={14} />
+                  <p>{post._count?.likes}</p>
+                </div>
+                <div onClick={() => setShowModal(true)} className="flex cursor-pointer items-center gap-1 hover:text-green-11">
+                  <MessageCircle size={14} />
+                  <p>{post._count?.comments} commentaires</p>
+                </div>
               </div>
               <div className="mx-auto flex w-11/12 justify-between pb-4 pt-2 sm:w-3/4">
                 <button className="xs:gap-2 flex items-center gap-1 hover:text-green-9">
                   <Heart size={16} />
-                  <span className="max-sm:text-xs">J'aime</span>
+                  {post.doILike ? <span className="max-sm:text-xs">Je n'aime plus</span> : <span className="max-sm:text-xs">J'aime</span>}
                 </button>
                 <button onClick={() => setShowModal(true)} className="xs:gap-2 flex items-center gap-1 hover:text-green-9">
                   <MessageCircle size={16} />
