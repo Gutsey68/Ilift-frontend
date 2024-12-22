@@ -2,6 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { LoaderCircle } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { Link } from 'react-router-dom';
 import { z } from 'zod';
 import useAuth from '../../hooks/useAuth';
 import { registerShema } from '../../lib/shemas';
@@ -83,6 +84,11 @@ function RegisterForm() {
         register={register}
         errors={errors}
       />
+      <Link to="/mentions-legales" className="py-2 text-xs text-neutral-10">
+        En vous inscrivant, vous acceptez nos <span className="underline">conditions d'utilisation</span> et notre{' '}
+        <span className="underline">politique de confidentialité</span>.
+      </Link>
+      <hr className="border-neutral-6" />
       <Button type="submit" className="mt-2 w-full" disabled={isSubmitting || registerMutation.status === 'pending'}>
         {isSubmitting || registerMutation.status === 'pending' ? <LoaderCircle className="animate-spin" size={20} /> : "S'inscrire"}
       </Button>

@@ -1,5 +1,6 @@
 import { Camera, Pencil } from 'lucide-react';
 import { useContext } from 'react';
+import { Link } from 'react-router-dom';
 import ProfilPicture from '../assets/images/profil.png';
 import Avatar from '../components/ui/Avatar';
 import { Spacing } from '../components/ui/Spacing';
@@ -42,6 +43,22 @@ function ParametresPage() {
             {user?.bio}
             <Pencil size={16} className="ml-2 inline-block opacity-0 group-hover:opacity-100" />
           </span>{' '}
+        </p>
+        <hr className="border-neutral-6" />
+        <p className="text-xs text-neutral-10">
+          Vous pouvez demander une copie de vos données personnelles en nous contactant à l'adresse suivante :{' '}
+          <a href="mailto:support@example.com" className="text-green-11 hover:underline">
+            support@example.com
+          </a>
+          .
+        </p>
+        <p className="text-xs text-neutral-10">
+          Pour en savoir plus sur notre politique de protection des données, veuillez consulter notre
+          <Link to="/mentions-legales" className="text-green-11 hover:underline">
+            {' '}
+            Politique de protection des données
+          </Link>
+          .
         </p>
       </div>
       <Spacing />
