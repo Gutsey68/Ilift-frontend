@@ -1,76 +1,121 @@
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { Trash, X } from 'lucide-react';
 import { useContext, useState } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { formatRelativeTime } from '../../lib/formatRelativeTime';
+import { createComment, deleteComment, getCommentsOfAPost } from '../../services/commentsService';
+import { CommentType } from '../../types/commentsType';
+import CommentsSkeletons from '../skeletons/CommentsSkeletons';
 import Avatar from '../ui/Avatar';
 import Card from '../ui/Card';
+import ConfirmDeleteModal from '../ui/ConfirmDeleteModal';
 import { Input } from '../ui/Input';
 import Modal from '../ui/Modal';
 
-type Comment = {
-  id: string;
-  content: string;
-  author: {
-    pseudo: string;
-    profilePhoto: string;
-  };
-  createdAt: Date;
-};
-
 type CommentsModalProps = {
   closeModal: () => void;
+  postId: string;
 };
 
-const dummyComments: Comment[] = [
-  {
-    id: '1',
-    content: 'Super post !',
-    author: {
-      pseudo: 'User1',
-      profilePhoto:
-        'https://images.unsplash.com/photo-1434682881908-b43d0467b798?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fGd5bXxlbnwwfHwwfHx8MA%3D%3D'
-    },
-    createdAt: new Date()
-  },
-  {
-    id: '2',
-    content: 'Merci pour le partage.',
-    author: {
-      pseudo: 'User2',
-      profilePhoto:
-        'https://images.unsplash.com/photo-1434682772747-f16d3ea162c3?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjR8fGd5bXxlbnwwfHwwfHx8MA%3D%3D'
-    },
-    createdAt: new Date()
-  }
-];
-
-function CommentsModal({ closeModal }: CommentsModalProps) {
-  const [comments] = useState(dummyComments);
+function CommentsModal({ closeModal, postId }: CommentsModalProps) {
   const { user } = useContext(AuthContext);
+  const [newComment, setNewComment] = useState('');
+  const [commentToDelete, setCommentToDelete] = useState<{ postsId: string; usersId: string } | null>(null);
+  const queryClient = useQueryClient();
+
+  const { data: commentsData, isPending } = useQuery({
+    queryKey: ['comments', postId],
+    queryFn: () => getCommentsOfAPost(postId)
+  });
+
+  const createCommentMutation = useMutation({
+    mutationFn: () => createComment(postId, newComment),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['comments', postId] });
+      queryClient.invalidateQueries({ queryKey: ['posts'] });
+      setNewComment('');
+    }
+  });
+
+  const deleteCommentMutation = useMutation({
+    mutationFn: (commentId: string) => deleteComment(commentId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['comments', postId] });
+      queryClient.invalidateQueries({ queryKey: ['posts'] });
+      setCommentToDelete(null);
+    }
+  });
+
+  const handleSubmit = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && newComment.trim() !== '') {
+      createCommentMutation.mutate();
+    }
+  };
+
+  const handleDeleteComment = (postsId: string, usersId: string) => {
+    setCommentToDelete({ postsId, usersId });
+  };
+
+  const comments = commentsData?.data;
 
   return (
-    <Modal onClose={closeModal}>
-      <Card size="md" className="flex flex-col gap-4">
-        {comments.map(comment => (
-          <div key={comment.id} className="flex items-start justify-between gap-2">
-            <div className="flex items-center gap-2">
-              <Avatar size="sm" src={comment.author.profilePhoto} alt="" />
-              <div>
-                <p className="font-semibold">{comment.author.pseudo}</p>
-                <p className="text-sm text-neutral-11">{comment.content}</p>
-              </div>
+    <>
+      <Modal onClose={closeModal}>
+        <Card size="md" className="relative flex flex-col gap-4">
+          <div className="relative flex w-full justify-center">
+            <h2 className="text-xl font-semibold">Commentaires</h2>
+            <X onClick={closeModal} className="absolute right-0 cursor-pointer text-neutral-11 hover:text-neutral-12" />
+          </div>
+          <hr className="border-neutral-6" />
+          {isPending ? (
+            <CommentsSkeletons />
+          ) : (
+            comments.map((comment: CommentType) => (
+              <>
+                <div key={comment.postsId} className="flex flex-col items-start justify-between gap-2">
+                  <div className="flex w-full items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Avatar size="sm" src={comment.users.profilePhoto} alt="" />
+                      <div className="flex flex-col">
+                        <p className="font-semibold">{comment.users.pseudo}</p>
+                        <p className="text-xs text-neutral-10">{formatRelativeTime(comment.createdAt)}</p>
+                      </div>
+                    </div>
+                    {comment.isMyComment && (
+                      <Trash onClick={() => handleDeleteComment(comment.postsId, comment.usersId)} className="cursor-pointer text-red-600 hover:text-red-300" />
+                    )}
+                  </div>
+                  <p className="ml-12 mt-2 text-sm text-neutral-11">{comment.content}</p>
+                </div>
+                <hr className="border-neutral-6" />
+              </>
+            ))
+          )}
+          <div className="flex items-center gap-4">
+            <div>
+              <Avatar size="sm" src={user?.profilePhoto} alt="" />
             </div>
-            <p className="text-xs text-neutral-11">{formatRelativeTime(comment.createdAt.toISOString())}</p>
+            <Input
+              placeholder="Ajouter un commentaire..."
+              value={newComment}
+              onChange={e => setNewComment(e.target.value)}
+              onKeyDown={handleSubmit}
+              disabled={createCommentMutation.isPending}
+            />
           </div>
-        ))}
-        <hr className="border-neutral-6" />
-        <div className="flex items-center gap-4">
-          <div>
-            <Avatar size="sm" src={user?.profilePhoto} alt="" />
-          </div>
-          <Input placeholder="Ajouter un commentaire..." />
-        </div>
-      </Card>
-    </Modal>
+        </Card>
+      </Modal>
+
+      {commentToDelete && (
+        <ConfirmDeleteModal
+          title="Supprimer le commentaire"
+          message="Êtes-vous sûr de vouloir supprimer ce commentaire ?"
+          onClose={() => setCommentToDelete(null)}
+          onConfirm={() => deleteCommentMutation.mutate(commentToDelete?.postsId)}
+          isLoading={deleteCommentMutation.isPending}
+        />
+      )}
+    </>
   );
 }
 

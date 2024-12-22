@@ -18,7 +18,7 @@ type AllPostsProps = {
 };
 
 function AllPosts({ posts, fetchNextPage, hasNextPage, isFetchingNextPage }: AllPostsProps) {
-  const [showModal, setShowModal] = useState(false);
+  const [selectedPostId, setSelectedPostId] = useState<string | null>(null);
   const queryClient = useQueryClient();
 
   useInfiniteScroll(fetchNextPage, hasNextPage, isFetchingNextPage);
@@ -84,7 +84,7 @@ function AllPosts({ posts, fetchNextPage, hasNextPage, isFetchingNextPage }: All
                   <Heart size={14} />
                   <p>{post._count?.likes}</p>
                 </div>
-                <div onClick={() => setShowModal(true)} className="flex cursor-pointer items-center gap-1 hover:text-green-11">
+                <div onClick={() => setSelectedPostId(post.id)} className="flex cursor-pointer items-center gap-1 hover:text-green-11">
                   <MessageCircle size={14} />
                   <p>{post._count?.comments} commentaires</p>
                 </div>
@@ -94,7 +94,7 @@ function AllPosts({ posts, fetchNextPage, hasNextPage, isFetchingNextPage }: All
                   <Heart size={16} />
                   {post.doILike ? <span className="max-sm:text-xs">Je n'aime plus</span> : <span className="max-sm:text-xs">J'aime</span>}
                 </button>
-                <button onClick={() => setShowModal(true)} className="xs:gap-2 flex items-center gap-1 hover:text-green-9">
+                <button onClick={() => setSelectedPostId(post.id)} className="xs:gap-2 flex items-center gap-1 hover:text-green-9">
                   <MessageCircle size={16} />
                   <span className="max-sm:text-xs">Commenter</span>
                 </button>
@@ -107,7 +107,7 @@ function AllPosts({ posts, fetchNextPage, hasNextPage, isFetchingNextPage }: All
           </Card>
         );
       })}
-      {showModal && <CommentsModal closeModal={() => setShowModal(false)} />}
+      {selectedPostId && <CommentsModal postId={selectedPostId} closeModal={() => setSelectedPostId(null)} />}
       {isFetchingNextPage && <LoaderCircle className="m-auto mt-4 w-fit animate-spin text-neutral-11" size={30} />}
     </>
   );
