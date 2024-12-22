@@ -70,23 +70,28 @@ export default function PostForm({ closeModal }: PostFormProps) {
       const formData = new FormData();
       formData.append('content', data.content);
 
-      // Ajouter les tags seulement s'il y en a
-      if (tags.length > 0) {
-        // Pour raw JSON, on doit stringifier le tableau
-        formData.append('tags', JSON.stringify(tags));
+      if (tags && tags.length > 0) {
+        const filteredTags = tags.filter(tag => tag.trim() !== '');
+        if (filteredTags.length > 0) {
+          formData.append('tags', JSON.stringify(filteredTags));
+        }
       }
 
-      // Ajouter la photo seulement si elle existe
       const fileInput = document.getElementById('file') as HTMLInputElement;
-      if (fileInput && fileInput.files && fileInput.files[0]) {
+
+      if (fileInput?.files?.[0]) {
         formData.append('photo', fileInput.files[0]);
       }
 
       await postMutation.mutateAsync(formData);
+
       reset();
       setTags([]);
       setPreview(null);
+
       queryClient.invalidateQueries({ queryKey: ['posts'] });
+      queryClient.invalidateQueries({ queryKey: ['tags'] });
+
       closeModal();
     } catch {
       setError('root', {
