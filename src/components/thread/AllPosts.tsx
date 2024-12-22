@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Earth, Heart, LoaderCircle, MessageCircle, Pencil, Repeat } from 'lucide-react';
+import { Earth, Ellipsis, Heart, LoaderCircle, MessageCircle, Repeat } from 'lucide-react';
 import { useState } from 'react';
 import useInfiniteScroll from '../../hooks/useInfiniteScroll';
 import { formatRelativeTime } from '../../lib/formatRelativeTime';
@@ -71,8 +71,8 @@ function AllPosts({ posts, fetchNextPage, hasNextPage, isFetchingNextPage }: All
                 </div>
               </div>
               {post.isMyPost && (
-                <button onClick={() => setPostToEdit(post)} className="text-green-11 hover:text-green-8">
-                  <Pencil size={16} />
+                <button onClick={() => setPostToEdit(post)} className="text-neutral-11 hover:text-green-9">
+                  <Ellipsis size={16} />
                 </button>
               )}
             </div>
