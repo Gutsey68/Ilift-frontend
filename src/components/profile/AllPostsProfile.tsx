@@ -1,15 +1,46 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Earth, Heart, MessageCircle, Repeat } from 'lucide-react';
+import { useState } from 'react';
 import { formatRelativeTime } from '../../lib/formatRelativeTime';
+import { like, unLike } from '../../services/likesService';
 import { PostType } from '../../types/postsType';
+import CommentsModal from '../thread/CommentsModal';
 import Avatar from '../ui/Avatar';
 import Badge from '../ui/Badge';
 
 type AllPostsProps = { posts: PostType[] };
 
 function AllPosts({ posts }: AllPostsProps) {
+  const [showModal, setShowModal] = useState(false);
+  const queryClient = useQueryClient();
+
   if (!Array.isArray(posts) || posts.length === 0) {
     return null;
   }
+
+  const likeMutation = useMutation({
+    mutationFn: (id: string) => like(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['userPosts'] });
+    }
+  });
+
+  const unlikeMutation = useMutation({
+    mutationFn: (id: string) => unLike(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['userPosts'] });
+    }
+  });
+
+  const handleLike = (posts: PostType) => {
+    if (posts.doILike) {
+      unlikeMutation.mutate(posts.id);
+    }
+
+    if (!posts.doILike) {
+      likeMutation.mutate(posts.id);
+    }
+  };
 
   return (
     <>
@@ -40,16 +71,22 @@ function AllPosts({ posts }: AllPostsProps) {
               </div>
               {post.photo && <img className="mx-auto w-11/12 rounded-lg sm:w-3/4" src={post.photo} alt={`Photo de ${post.author.pseudo}`} />}
               <div>
-                <div className="mx-auto flex w-11/12 items-center gap-1 border-b border-gray-600 pb-2 text-xs text-neutral-11 sm:w-3/4">
-                  <Heart size={14} />
-                  <p>{post._count?.likes}</p>
+                <div className="mx-auto flex w-11/12 items-center gap-4 border-b border-neutral-6 pb-2 text-xs text-neutral-11 sm:w-3/4">
+                  <div className="flex items-center gap-1">
+                    <Heart size={14} />
+                    <p>{post._count?.likes}</p>
+                  </div>
+                  <div onClick={() => setShowModal(true)} className="flex cursor-pointer items-center gap-1 hover:text-green-11">
+                    <MessageCircle size={14} />
+                    <p>{post._count?.comments} commentaires</p>
+                  </div>
                 </div>
                 <div className="mx-auto flex w-11/12 justify-between pb-4 pt-2 sm:w-3/4">
-                  <button className="xs:gap-2 flex items-center gap-1 hover:text-green-9">
+                  <button onClick={() => handleLike(post)} className="xs:gap-2 flex items-center gap-1 hover:text-green-9">
                     <Heart size={16} />
-                    <span className="max-sm:text-xs">J'aime</span>
+                    {post.doILike ? <span className="max-sm:text-xs">Je n'aime plus</span> : <span className="max-sm:text-xs">J'aime</span>}
                   </button>
-                  <button className="xs:gap-2 flex items-center gap-1 hover:text-green-9">
+                  <button onClick={() => setShowModal(true)} className="xs:gap-2 flex items-center gap-1 hover:text-green-9">
                     <MessageCircle size={16} />
                     <span className="max-sm:text-xs">Commenter</span>
                   </button>
@@ -63,6 +100,7 @@ function AllPosts({ posts }: AllPostsProps) {
           </div>
         );
       })}
+      {showModal && <CommentsModal closeModal={() => setShowModal(false)} />}
     </>
   );
 }

@@ -1,7 +1,9 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Earth, Heart, LoaderCircle, MessageCircle, Repeat } from 'lucide-react';
 import { useState } from 'react';
 import useInfiniteScroll from '../../hooks/useInfiniteScroll';
 import { formatRelativeTime } from '../../lib/formatRelativeTime';
+import { like, unLike } from '../../services/likesService';
 import { PostType } from '../../types/postsType';
 import Avatar from '../ui/Avatar';
 import Badge from '../ui/Badge';
@@ -17,12 +19,37 @@ type AllPostsProps = {
 
 function AllPosts({ posts, fetchNextPage, hasNextPage, isFetchingNextPage }: AllPostsProps) {
   const [showModal, setShowModal] = useState(false);
+  const queryClient = useQueryClient();
 
   useInfiniteScroll(fetchNextPage, hasNextPage, isFetchingNextPage);
 
   if (!Array.isArray(posts) || posts.length === 0) {
     return null;
   }
+
+  const likeMutation = useMutation({
+    mutationFn: (id: string) => like(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['posts'] });
+    }
+  });
+
+  const unlikeMutation = useMutation({
+    mutationFn: (id: string) => unLike(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['posts'] });
+    }
+  });
+
+  const handleLike = (posts: PostType) => {
+    if (posts.doILike) {
+      unlikeMutation.mutate(posts.id);
+    }
+
+    if (!posts.doILike) {
+      likeMutation.mutate(posts.id);
+    }
+  };
 
   return (
     <>
@@ -63,7 +90,7 @@ function AllPosts({ posts, fetchNextPage, hasNextPage, isFetchingNextPage }: All
                 </div>
               </div>
               <div className="mx-auto flex w-11/12 justify-between pb-4 pt-2 sm:w-3/4">
-                <button className="xs:gap-2 flex items-center gap-1 hover:text-green-9">
+                <button onClick={() => handleLike(post)} className="xs:gap-2 flex items-center gap-1 hover:text-green-9">
                   <Heart size={16} />
                   {post.doILike ? <span className="max-sm:text-xs">Je n'aime plus</span> : <span className="max-sm:text-xs">J'aime</span>}
                 </button>
