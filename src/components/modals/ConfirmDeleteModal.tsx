@@ -1,6 +1,6 @@
 import { LoaderCircle, X } from 'lucide-react';
-import Card from './Card';
-import Modal from './Modal';
+import Card from '../ui/Card';
+import Modal from '../ui/Modal';
 
 type ConfirmDeleteModalProps = {
   onClose: () => void;

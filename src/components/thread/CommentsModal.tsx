@@ -5,10 +5,10 @@ import { AuthContext } from '../../context/AuthContext';
 import { formatRelativeTime } from '../../lib/formatRelativeTime';
 import { createComment, deleteComment, getCommentsOfAPost } from '../../services/commentsService';
 import { CommentType } from '../../types/commentsType';
+import ConfirmDeleteModal from '../modals/ConfirmDeleteModal';
 import CommentsSkeletons from '../skeletons/CommentsSkeletons';
 import Avatar from '../ui/Avatar';
 import Card from '../ui/Card';
-import ConfirmDeleteModal from '../ui/ConfirmDeleteModal';
 import { Input } from '../ui/Input';
 import Modal from '../ui/Modal';
 

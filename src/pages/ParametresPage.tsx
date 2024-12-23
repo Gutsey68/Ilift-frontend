@@ -1,15 +1,70 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Camera, Pencil } from 'lucide-react';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
+import { Link } from 'react-router-dom';
 import ProfilPicture from '../assets/images/profil.png';
+import AddPhotoModal from '../components/modals/AddPhotoModal';
+import ConfirmDeleteModal from '../components/modals/ConfirmDeleteModal';
+import EditModal from '../components/modals/EditModal';
 import Avatar from '../components/ui/Avatar';
 import { Spacing } from '../components/ui/Spacing';
 import { AuthContext } from '../context/AuthContext';
+import { removeUserPhoto, updateUser } from '../services/usersService';
 
 function ParametresPage() {
   const { user } = useContext(AuthContext);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showAddPhotoModal, setShowAddPhotoModal] = useState(false);
+  const [editField, setEditField] = useState<{ type: 'bio' | 'city' | null; value: string }>({
+    type: null,
+    value: ''
+  });
 
-  const handleDeletePicture = () => {
-    // ajouter une modale
+  const queryClient = useQueryClient();
+
+  const removePhotoMutation = useMutation({
+    mutationFn: () => removeUserPhoto(user!.id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['currentUser'] });
+      setShowDeleteModal(false);
+    }
+  });
+
+  const updateBioMutation = useMutation({
+    mutationFn: (data: { bio: string }) => updateUser(user!.id, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['currentUser'] });
+      setEditField({ type: null, value: '' });
+    }
+  });
+
+  const updateCityMutation = useMutation({
+    mutationFn: (data: { city: string }) => updateUser(user!.id, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['currentUser'] });
+      setEditField({ type: null, value: '' });
+    }
+  });
+
+  const handleDeletePicture = async () => {
+    if (!user) return;
+    removePhotoMutation.mutate();
+  };
+
+  const handleEditField = (type: 'bio' | 'city', value: string) => {
+    setEditField({ type, value });
+  };
+
+  const handleEditSubmit = async (value: string) => {
+    if (!user || !editField.type) return;
+
+    if (editField.type === 'bio') {
+      await updateBioMutation.mutateAsync({ bio: value });
+    } else {
+      await updateCityMutation.mutateAsync({ city: value });
+    }
+
+    setEditField({ type: null, value: '' });
   };
 
   return (
@@ -20,32 +75,83 @@ function ParametresPage() {
         <p>Photo actuelle</p>
         <div className="relative flex w-fit flex-col items-center lg:ml-24">
           <Avatar src={user?.profilePhoto || ProfilPicture} alt="" size="xl" />
-          <button className="absolute bottom-10 right-1 flex size-7 cursor-pointer items-center justify-center rounded-full border-2 border-neutral-1 bg-neutral-10 shadow-md hover:bg-neutral-9">
+          <button
+            onClick={() => setShowAddPhotoModal(true)}
+            className="absolute bottom-10 right-1 flex size-7 cursor-pointer items-center justify-center rounded-full border-2 border-neutral-1 bg-neutral-10 shadow-md hover:bg-neutral-9"
+          >
             <Camera size={20} className="text-neutral-1" />
           </button>
-          <button onClick={handleDeletePicture} className="pt-4 text-green-11 hover:underline">
+          <button onClick={() => setShowDeleteModal(true)} className="pt-4 text-green-11 hover:underline">
             Supprimer
           </button>
         </div>
         <hr className="border-neutral-6" />
-        <p className="group cursor-pointer">
-          Lieu{' '}
-          <span className="ml-4 text-neutral-12 group-hover:text-green-11">
-            {user?.city?.name}
-            <Pencil size={16} className="ml-2 inline-block opacity-0 group-hover:opacity-100" />
-          </span>{' '}
-        </p>
+
+        <div className="group">
+          <p className="cursor-pointer" onClick={() => handleEditField('city', user?.city?.name || '')}>
+            Lieu{' '}
+            <span className="ml-4 text-neutral-12 group-hover:text-green-11">
+              {user?.city?.name}
+              <Pencil size={16} className="ml-2 inline-block opacity-0 group-hover:opacity-100" />
+            </span>
+          </p>
+        </div>
+
         <hr className="border-neutral-6" />
-        <p className="group cursor-pointer">
-          Bio{' '}
-          <span className="ml-4 text-neutral-12 group-hover:text-green-11">
-            {user?.bio}
-            <Pencil size={16} className="ml-2 inline-block opacity-0 group-hover:opacity-100" />
-          </span>{' '}
+
+        <div className="group">
+          <p className="cursor-pointer" onClick={() => handleEditField('bio', user?.bio || '')}>
+            Bio{' '}
+            <span className="ml-4 text-neutral-12 group-hover:text-green-11">
+              {user?.bio}
+              <Pencil size={16} className="ml-2 inline-block opacity-0 group-hover:opacity-100" />
+            </span>
+          </p>
+        </div>
+
+        <hr className="border-neutral-6" />
+        <p className="text-xs text-neutral-10">
+          Vous pouvez demander une copie de vos données personnelles en nous contactant à l'adresse suivante :{' '}
+          <a href="mailto:support@example.com" className="text-green-11 hover:underline">
+            support@example.com
+          </a>
+          .
+        </p>
+        <p className="text-xs text-neutral-10">
+          Pour en savoir plus sur notre politique de protection des données, veuillez consulter notre
+          <Link to="/mentions-legales" className="text-green-11 hover:underline">
+            {' '}
+            Politique de protection des données
+          </Link>
+          .
         </p>
       </div>
       <Spacing />
+
+      {showDeleteModal && (
+        <ConfirmDeleteModal
+          title="Supprimer la photo de profil"
+          message="Êtes-vous sûr de vouloir supprimer votre photo de profil ?"
+          onClose={() => setShowDeleteModal(false)}
+          onConfirm={handleDeletePicture}
+          isLoading={removePhotoMutation.isPending}
+        />
+      )}
+
+      {showAddPhotoModal && <AddPhotoModal onClose={() => setShowAddPhotoModal(false)} />}
+
+      {editField.type && (
+        <EditModal
+          title={`Modifier ${editField.type === 'bio' ? 'la bio' : 'la ville'}`}
+          fieldName={editField.type}
+          initialValue={editField.value}
+          onClose={() => setEditField({ type: null, value: '' })}
+          onConfirm={handleEditSubmit}
+          isLoading={editField.type === 'bio' ? updateBioMutation.isPending : updateCityMutation.isPending}
+        />
+      )}
     </>
   );
 }
+
 export default ParametresPage;

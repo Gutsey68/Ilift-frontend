@@ -14,6 +14,7 @@ import { AuthContext } from '../context/AuthContext';
 import usePostsOfUsers from '../hooks/usePostsOfUsers';
 import useSuggestedUsers from '../hooks/useSuggestedUsers';
 import { fetchTagsHandler } from '../services/tagsService.ts';
+import TagsThreadSkeleton from '../components/skeletons/TagsThreadSkeleton.tsx';
 
 function Thread() {
   const { userPending, user } = useContext(AuthContext);
@@ -45,7 +46,7 @@ function Thread() {
         <div className="w-1/4 max-lg:hidden">
           <div className="sticky top-20 flex flex-col gap-4">
             {suggestedPending ? <ProfileThreadSkeleton /> : <>{suggestedData && <SuggestedProfiles suggestedUsers={suggestedData} />}</>}
-            {tagsPending ? <ProfileThreadSkeleton /> : <>{tagsData && <Trends tags={tags} />}</>}
+            {tagsPending ? <TagsThreadSkeleton /> : <>{tagsData && <Trends tags={tags} />}</>}
             <SideFooter />
           </div>
         </div>
