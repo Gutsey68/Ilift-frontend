@@ -10,10 +10,10 @@ import ConfirmDeleteModal from '../components/ui/ConfirmDeleteModal';
 import { Input } from '../components/ui/Input';
 import { Spacing } from '../components/ui/Spacing';
 import { AuthContext } from '../context/AuthContext';
-import { removeUserPhoto, updateUser, updateUserPhoto } from '../services/usersService';
+import { removeUserPhoto, updateUser } from '../services/usersService';
 
 function ParametresPage() {
-  const { user, setUser } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const [isEditingBio, setIsEditingBio] = useState(false);
   const [isEditingCity, setIsEditingCity] = useState(false);
   const [bio, setBio] = useState(user?.bio || '');
@@ -23,20 +23,10 @@ function ParametresPage() {
 
   const queryClient = useQueryClient();
 
-  const updatePhotoMutation = useMutation({
-    mutationFn: (file: File) => updateUserPhoto(user!.id, file),
-    onSuccess: data => {
-      setUser(prev => (prev ? { ...prev, ...data } : null));
-      queryClient.invalidateQueries({ queryKey: ['user'] });
-      setShowAddPhotoModal(false);
-    }
-  });
-
   const removePhotoMutation = useMutation({
     mutationFn: () => removeUserPhoto(user!.id),
-    onSuccess: data => {
-      setUser(prev => (prev ? { ...prev, ...data } : null));
-      queryClient.invalidateQueries({ queryKey: ['user'] });
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['currentUser'] });
       setShowDeleteModal(false);
     }
   });
@@ -44,8 +34,8 @@ function ParametresPage() {
   const updateBioMutation = useMutation({
     mutationFn: () => updateUser(user!.id, { bio }),
     onSuccess: data => {
-      setUser(prev => (prev ? { ...prev, bio: data.bio } : null));
-      queryClient.invalidateQueries({ queryKey: ['user'] });
+      //
+      queryClient.invalidateQueries({ queryKey: ['currentUser'] });
       setIsEditingBio(false);
     }
   });
@@ -53,16 +43,11 @@ function ParametresPage() {
   const updateCityMutation = useMutation({
     mutationFn: () => updateUser(user!.id, { city: { name: city } }),
     onSuccess: data => {
-      setUser(prev => (prev ? { ...prev, city: { name: city } } : null));
-      queryClient.invalidateQueries({ queryKey: ['user'] });
+      //
+      queryClient.invalidateQueries({ queryKey: ['currentUser'] });
       setIsEditingCity(false);
     }
   });
-
-  const handlePhotoChange = async (file: File) => {
-    if (!user) return;
-    updatePhotoMutation.mutate(file);
-  };
 
   const handleDeletePicture = async () => {
     if (!user) return;
@@ -170,9 +155,7 @@ function ParametresPage() {
         />
       )}
 
-      {showAddPhotoModal && (
-        <AddPhotoModal onClose={() => setShowAddPhotoModal(false)} onConfirm={handlePhotoChange} isLoading={updatePhotoMutation.isPending} />
-      )}
+      {showAddPhotoModal && <AddPhotoModal onClose={() => setShowAddPhotoModal(false)} />}
     </>
   );
 }
