@@ -3,23 +3,22 @@ import { Camera, Pencil } from 'lucide-react';
 import { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ProfilPicture from '../assets/images/profil.png';
-import AddPhotoModal from '../components/ui/AddPhotoModal';
+import AddPhotoModal from '../components/modals/AddPhotoModal';
+import ConfirmDeleteModal from '../components/modals/ConfirmDeleteModal';
+import EditModal from '../components/modals/EditModal';
 import Avatar from '../components/ui/Avatar';
-import Button from '../components/ui/Button';
-import ConfirmDeleteModal from '../components/ui/ConfirmDeleteModal';
-import { Input } from '../components/ui/Input';
 import { Spacing } from '../components/ui/Spacing';
 import { AuthContext } from '../context/AuthContext';
 import { removeUserPhoto, updateUser } from '../services/usersService';
 
 function ParametresPage() {
   const { user } = useContext(AuthContext);
-  const [isEditingBio, setIsEditingBio] = useState(false);
-  const [isEditingCity, setIsEditingCity] = useState(false);
-  const [bio, setBio] = useState(user?.bio || '');
-  const [city, setCity] = useState(user?.city?.name || '');
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showAddPhotoModal, setShowAddPhotoModal] = useState(false);
+  const [editField, setEditField] = useState<{ type: 'bio' | 'city' | null; value: string }>({
+    type: null,
+    value: ''
+  });
 
   const queryClient = useQueryClient();
 
@@ -32,20 +31,18 @@ function ParametresPage() {
   });
 
   const updateBioMutation = useMutation({
-    mutationFn: () => updateUser(user!.id, { bio }),
-    onSuccess: data => {
-      //
+    mutationFn: (data: { bio: string }) => updateUser(user!.id, data),
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['currentUser'] });
-      setIsEditingBio(false);
+      setEditField({ type: null, value: '' });
     }
   });
 
   const updateCityMutation = useMutation({
-    mutationFn: () => updateUser(user!.id, { city: { name: city } }),
-    onSuccess: data => {
-      //
+    mutationFn: (data: { city: string }) => updateUser(user!.id, data),
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['currentUser'] });
-      setIsEditingCity(false);
+      setEditField({ type: null, value: '' });
     }
   });
 
@@ -54,14 +51,20 @@ function ParametresPage() {
     removePhotoMutation.mutate();
   };
 
-  const handleBioSubmit = async () => {
-    if (!user) return;
-    updateBioMutation.mutate();
+  const handleEditField = (type: 'bio' | 'city', value: string) => {
+    setEditField({ type, value });
   };
 
-  const handleCitySubmit = async () => {
-    if (!user) return;
-    updateCityMutation.mutate();
+  const handleEditSubmit = async (value: string) => {
+    if (!user || !editField.type) return;
+
+    if (editField.type === 'bio') {
+      await updateBioMutation.mutateAsync({ bio: value });
+    } else {
+      await updateCityMutation.mutateAsync({ city: value });
+    }
+
+    setEditField({ type: null, value: '' });
   };
 
   return (
@@ -85,45 +88,25 @@ function ParametresPage() {
         <hr className="border-neutral-6" />
 
         <div className="group">
-          {isEditingCity ? (
-            <div className="flex items-center gap-2">
-              <Input value={city} onChange={e => setCity(e.target.value)} placeholder="Votre ville" />
-              <Button onClick={handleCitySubmit} disabled={updateCityMutation.isPending}>
-                {updateCityMutation.isPending ? 'Sauvegarde...' : 'Sauvegarder'}
-              </Button>
-              <Button onClick={() => setIsEditingCity(false)}>Annuler</Button>
-            </div>
-          ) : (
-            <p className="cursor-pointer" onClick={() => setIsEditingCity(true)}>
-              Lieu{' '}
-              <span className="ml-4 text-neutral-12 group-hover:text-green-11">
-                {user?.city?.name}
-                <Pencil size={16} className="ml-2 inline-block opacity-0 group-hover:opacity-100" />
-              </span>
-            </p>
-          )}
+          <p className="cursor-pointer" onClick={() => handleEditField('city', user?.city?.name || '')}>
+            Lieu{' '}
+            <span className="ml-4 text-neutral-12 group-hover:text-green-11">
+              {user?.city?.name}
+              <Pencil size={16} className="ml-2 inline-block opacity-0 group-hover:opacity-100" />
+            </span>
+          </p>
         </div>
 
         <hr className="border-neutral-6" />
 
         <div className="group">
-          {isEditingBio ? (
-            <div className="flex items-center gap-2">
-              <Input value={bio} onChange={e => setBio(e.target.value)} placeholder="Votre bio" />
-              <Button onClick={handleBioSubmit} disabled={updateBioMutation.isPending}>
-                {updateBioMutation.isPending ? 'Sauvegarde...' : 'Sauvegarder'}
-              </Button>
-              <Button onClick={() => setIsEditingBio(false)}>Annuler</Button>
-            </div>
-          ) : (
-            <p className="cursor-pointer" onClick={() => setIsEditingBio(true)}>
-              Bio{' '}
-              <span className="ml-4 text-neutral-12 group-hover:text-green-11">
-                {user?.bio}
-                <Pencil size={16} className="ml-2 inline-block opacity-0 group-hover:opacity-100" />
-              </span>
-            </p>
-          )}
+          <p className="cursor-pointer" onClick={() => handleEditField('bio', user?.bio || '')}>
+            Bio{' '}
+            <span className="ml-4 text-neutral-12 group-hover:text-green-11">
+              {user?.bio}
+              <Pencil size={16} className="ml-2 inline-block opacity-0 group-hover:opacity-100" />
+            </span>
+          </p>
         </div>
 
         <hr className="border-neutral-6" />
@@ -156,6 +139,17 @@ function ParametresPage() {
       )}
 
       {showAddPhotoModal && <AddPhotoModal onClose={() => setShowAddPhotoModal(false)} />}
+
+      {editField.type && (
+        <EditModal
+          title={`Modifier ${editField.type === 'bio' ? 'la bio' : 'la ville'}`}
+          fieldName={editField.type}
+          initialValue={editField.value}
+          onClose={() => setEditField({ type: null, value: '' })}
+          onConfirm={handleEditSubmit}
+          isLoading={editField.type === 'bio' ? updateBioMutation.isPending : updateCityMutation.isPending}
+        />
+      )}
     </>
   );
 }

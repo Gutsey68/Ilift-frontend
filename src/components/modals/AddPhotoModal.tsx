@@ -3,9 +3,9 @@ import { Image, LoaderCircle, X } from 'lucide-react';
 import { useContext, useState } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { updateUserPhoto } from '../../services/usersService';
-import Button from './Button';
-import Card from './Card';
-import Modal from './Modal';
+import Button from '../ui/Button';
+import Card from '../ui/Card';
+import Modal from '../ui/Modal';
 
 type AddPhotoModalProps = {
   onClose: () => void;

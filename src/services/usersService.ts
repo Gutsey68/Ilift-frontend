@@ -18,7 +18,7 @@ export const fetchUsers = async () => {
 
 export const updateUser = async (
   id: string,
-  data: { pseudo?: string; email?: string; bio?: string; isBan?: boolean; passwordHash?: string; profilePhoto?: string; city?: { name: string } }
+  data: { pseudo?: string; email?: string; bio?: string; isBan?: boolean; passwordHash?: string; profilePhoto?: string; city?: string }
 ) => {
   return await fetchWithToken(`/api/users/${id}`, {
     method: 'PUT',
