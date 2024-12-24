@@ -10,9 +10,7 @@
 
 ---
 
--Routes republications
--Page profile changé les posts likés/republi
--Ajouter les republications dans all posts
+-Bug republication
 
 ---
 
@@ -29,10 +27,8 @@ Notifications
 ---
 
 -Page About
--Recherche en mode mobile
 -Suggestions et tag en mode mobile
--Ajouter des toasts
--Tags ?
+-Filter par tags ?
 
 ---
 

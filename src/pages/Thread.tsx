@@ -5,6 +5,7 @@ import MobileBottomNav from '../components/layout/navbar/MobileBottomNav.tsx';
 import SideFooter from '../components/layout/SideFooter.tsx';
 import PostsThreadSkeleton from '../components/skeletons/PostsThreadSkeletons';
 import ProfileThreadSkeleton from '../components/skeletons/ProfileThreadSkeletons';
+import TagsThreadSkeleton from '../components/skeletons/TagsThreadSkeleton.tsx';
 import AllPosts from '../components/thread/AllPosts';
 import InputPost from '../components/thread/InputPost';
 import ProfileCard from '../components/thread/ProfilCard';
@@ -14,7 +15,6 @@ import { AuthContext } from '../context/AuthContext';
 import usePostsOfUsers from '../hooks/usePostsOfUsers';
 import useSuggestedUsers from '../hooks/useSuggestedUsers';
 import { fetchTagsHandler } from '../services/tagsService.ts';
-import TagsThreadSkeleton from '../components/skeletons/TagsThreadSkeleton.tsx';
 
 function Thread() {
   const { userPending, user } = useContext(AuthContext);
@@ -22,7 +22,7 @@ function Thread() {
   const { suggestedPending, suggestedData } = useSuggestedUsers();
 
   const { isPending: tagsPending, data: tagsData } = useQuery({
-    queryKey: ['results'],
+    queryKey: ['tags'],
     queryFn: () => {
       return fetchTagsHandler();
     }

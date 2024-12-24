@@ -12,6 +12,6 @@ export const unLike = async (id: string) => {
   });
 };
 
-export const getLikedPostOfAUser = async (id: string) => {
-  return fetchWithToken(`/api/likes/users/${id}`);
+export const getLikedPostOfAUser = async (id: string, page: number) => {
+  return fetchWithToken(`/api/likes/users/${id}?page=${page}`);
 };
