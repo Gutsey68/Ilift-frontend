@@ -1,16 +1,17 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Earth, Heart, MessageCircle, Repeat } from 'lucide-react';
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 import { useParams } from 'react-router-dom';
 import { formatRelativeTime } from '../../lib/formatRelativeTime';
 import { like, unLike } from '../../services/likesService';
 import { sharePost, unsharePost } from '../../services/sharesService';
 import { PostType } from '../../types/postsType';
+import ConfirmDeleteModal from '../modals/ConfirmDeleteModal';
+import ConfirmShareModal from '../modals/ConfirmShareModal';
 import CommentsModal from '../thread/CommentsModal';
 import Avatar from '../ui/Avatar';
 import Badge from '../ui/Badge';
-import ConfirmDeleteModal from '../modals/ConfirmDeleteModal';
-import ConfirmShareModal from '../modals/ConfirmShareModal';
 
 type CommonPost = {
   id: string;
@@ -103,15 +104,25 @@ function AllPosts({ posts }: AllPostsProps) {
 
   const handleConfirmShare = () => {
     if (postToShare) {
-      shareMutation.mutate(postToShare.id);
-      setPostToShare(null);
+      try {
+        shareMutation.mutate(postToShare.id);
+        setPostToShare(null);
+        toast.success('La publication a bien été republiée');
+      } catch {
+        toast.error('Une erreur est survenue lors de la republication');
+      }
     }
   };
 
   const handleConfirmUnshare = () => {
     if (postToUnshare) {
-      unshareMutation.mutate(postToUnshare.id);
-      setPostToUnshare(null);
+      try {
+        unshareMutation.mutate(postToUnshare.id);
+        setPostToUnshare(null);
+        toast.success('La republication a bien été supprimée');
+      } catch {
+        toast.error('Une erreur est survenue lors de la suppression de la republication');
+      }
     }
   };
 
