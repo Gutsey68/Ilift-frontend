@@ -4,8 +4,8 @@ export const fetchPostsOfUserAndHisFollowingsHandler = async (id: string, page: 
   return fetchWithToken(`/api/posts/users/${id}/accueil?page=${page}`);
 };
 
-export const fetchPostsByUserHandler = async (id: string) => {
-  return fetchWithToken(`/api/posts/users/${id}`);
+export const fetchPostsByUserHandler = async (id: string, page: number) => {
+  return fetchWithToken(`/api/posts/users/${id}?page=${page}`);
 };
 
 export const createPostHandler = async (formData: FormData) => {

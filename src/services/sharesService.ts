@@ -1,19 +1,17 @@
 import { fetchWithToken } from '../lib/fetchWithToken';
 
-export const getSharedPostsOfUser = async (userId: string) => {
-  return fetchWithToken(`/api/shares/user/${userId}`, {
-    method: 'GET'
-  });
+export const getSharedPostsOfUser = async (id: string, page: number) => {
+  return fetchWithToken(`/api/shares/users/${id}?page=${page}`);
 };
 
-export const sharePost = async (postId: string) => {
-  return fetchWithToken(`/api/shares/post/${postId}`, {
+export const sharePost = async (id: string) => {
+  return fetchWithToken(`/api/shares/posts/${id}`, {
     method: 'POST'
   });
 };
 
-export const unsharePost = async (postId: string) => {
-  return fetchWithToken(`/api/shares/post/${postId}`, {
+export const unsharePost = async (id: string) => {
+  return fetchWithToken(`/api/shares/posts/${id}`, {
     method: 'DELETE'
   });
 };

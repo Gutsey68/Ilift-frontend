@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Header from '../components/layout/Header.tsx';
@@ -42,35 +42,74 @@ function ProfilePage() {
 
   const tags = tagsData?.data;
 
-  const { isPending: userPostsPending, data: userPostsData } = useQuery({
+  const {
+    data: userPostsData,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    status: userPostsStatus
+  } = useInfiniteQuery({
     queryKey: ['userPosts', id],
-    queryFn: () => {
+    queryFn: ({ pageParam = 1 }) => {
       if (id) {
-        return fetchPostsByUserHandler(id);
+        return fetchPostsByUserHandler(id, pageParam);
       }
     },
+    getNextPageParam: lastPage => {
+      if (lastPage?.data.length === 10) {
+        return lastPage.pageParam + 1;
+      }
+      return undefined;
+    },
+    initialPageParam: 1,
     enabled: activeTab === 'posts'
   });
 
-  const userPosts = userPostsData?.data;
+  const userPosts = userPostsData?.pages.flatMap(page => page.data) || [];
 
-  const { isPending: likedPostsPending, data: likedPostsData } = useQuery({
+  const {
+    data: likedPostsData,
+    fetchNextPage: fetchNextLikePage,
+    hasNextPage: hasNextLikePage,
+    isFetchingNextPage: isFetchingNextLikePage,
+    status: likedPostsStatus
+  } = useInfiniteQuery({
     queryKey: ['likedPosts', id],
-    queryFn: () => {
+    queryFn: ({ pageParam = 1 }) => {
       if (id) {
-        return getLikedPostOfAUser(id);
+        return getLikedPostOfAUser(id, pageParam);
       }
     },
+    getNextPageParam: lastPage => {
+      if (lastPage?.data.length === 10) {
+        return lastPage.pageParam + 1;
+      }
+      return undefined;
+    },
+    initialPageParam: 1,
     enabled: activeTab === 'likes'
   });
 
-  const { isPending: sharedPostsPending, data: sharedPostsData } = useQuery({
+  const {
+    data: sharedPostsData,
+    fetchNextPage: fetchNextSharedPage,
+    hasNextPage: hasNextSharedPage,
+    isFetchingNextPage: isFetchingNextSharedPage,
+    status: sharedPostsStatus
+  } = useInfiniteQuery({
     queryKey: ['sharedPosts', id],
-    queryFn: () => {
+    queryFn: ({ pageParam = 1 }) => {
       if (id) {
-        return getSharedPostsOfUser(id);
+        return getSharedPostsOfUser(id, pageParam);
       }
     },
+    getNextPageParam: lastPage => {
+      if (lastPage?.data.length === 10) {
+        return lastPage.pageParam + 1;
+      }
+      return undefined;
+    },
+    initialPageParam: 1,
     enabled: activeTab === 'shares'
   });
 
@@ -102,21 +141,31 @@ function ProfilePage() {
               </div>
             </div>
             {activeTab === 'likes' ? (
-              likedPostsPending ? (
+              likedPostsStatus === 'pending' ? (
                 <AllPostsProfileSkeletons />
               ) : (
-                <AllPostsProfile posts={likedPostsData?.data || []} />
+                <AllPostsProfile
+                  posts={likedPostsData?.pages.flatMap(page => page.data) || []}
+                  fetchNextPage={fetchNextLikePage}
+                  hasNextPage={hasNextLikePage}
+                  isFetchingNextPage={isFetchingNextLikePage}
+                />
               )
             ) : activeTab === 'shares' ? (
-              sharedPostsPending ? (
+              sharedPostsStatus === 'pending' ? (
                 <AllPostsProfileSkeletons />
               ) : (
-                <AllPostsProfile posts={sharedPostsData?.data || []} />
+                <AllPostsProfile
+                  posts={sharedPostsData?.pages.flatMap(page => page.data) || []}
+                  fetchNextPage={fetchNextSharedPage}
+                  hasNextPage={hasNextSharedPage}
+                  isFetchingNextPage={isFetchingNextSharedPage}
+                />
               )
-            ) : userPostsPending ? (
+            ) : userPostsStatus === 'pending' ? (
               <AllPostsProfileSkeletons />
             ) : (
-              <AllPostsProfile posts={userPosts || []} />
+              <AllPostsProfile posts={userPosts} fetchNextPage={fetchNextPage} hasNextPage={hasNextPage} isFetchingNextPage={isFetchingNextPage} />
             )}
           </Card>
         </div>

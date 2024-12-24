@@ -1,8 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Earth, Heart, MessageCircle, Repeat } from 'lucide-react';
+import { Earth, Heart, LoaderCircle, MessageCircle, Repeat } from 'lucide-react';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { useParams } from 'react-router-dom';
+import useInfiniteScroll from '../../hooks/useInfiniteScroll';
 import { formatRelativeTime } from '../../lib/formatRelativeTime';
 import { like, unLike } from '../../services/likesService';
 import { sharePost, unsharePost } from '../../services/sharesService';
@@ -49,14 +50,19 @@ type CommonPost = {
 
 type AllPostsProps = {
   posts: (PostType | CommonPost)[];
+  fetchNextPage: () => void;
+  hasNextPage: boolean | undefined;
+  isFetchingNextPage: boolean;
 };
 
-function AllPosts({ posts }: AllPostsProps) {
+function AllPosts({ posts, fetchNextPage, hasNextPage, isFetchingNextPage }: AllPostsProps) {
   const [selectedPostId, setSelectedPostId] = useState<string | null>(null);
   const [postToShare, setPostToShare] = useState<CommonPost | null>(null);
   const [postToUnshare, setPostToUnshare] = useState<CommonPost | null>(null);
   const queryClient = useQueryClient();
   const { id } = useParams();
+
+  useInfiniteScroll(fetchNextPage, hasNextPage || false, isFetchingNextPage);
 
   const likeMutation = useMutation({
     mutationFn: (id: string) => like(id),
@@ -213,6 +219,7 @@ function AllPosts({ posts }: AllPostsProps) {
           </div>
         );
       })}
+      {isFetchingNextPage && <LoaderCircle className="m-auto mt-4 w-fit animate-spin text-neutral-11" size={30} />}
       {selectedPostId && <CommentsModal postId={selectedPostId} closeModal={() => setSelectedPostId(null)} />}
       {postToShare && <ConfirmShareModal onClose={() => setPostToShare(null)} onConfirm={handleConfirmShare} isLoading={shareMutation.isPending} />}
       {postToUnshare && (
