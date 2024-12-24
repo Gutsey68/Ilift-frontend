@@ -17,7 +17,7 @@ createRoot(document.getElementById('root')!).render(
       <AuthProvider>
         <ThemeProvider>
           <RouterProvider router={router} />
-          <Toaster toastOptions={{ className: 'border-neutral-6 border text-neutral-12 bg-neutral-1' }} />
+          <Toaster toastOptions={{ className: 'border-neutral-6 border text-neutral-11 bg-neutral-1' }} />
         </ThemeProvider>
       </AuthProvider>
     </QueryClientProvider>

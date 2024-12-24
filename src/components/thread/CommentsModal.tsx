@@ -34,6 +34,7 @@ function CommentsModal({ closeModal, postId }: CommentsModalProps) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['comments', postId] });
       queryClient.invalidateQueries({ queryKey: ['posts'] });
+      queryClient.invalidateQueries({ queryKey: ['likedPosts'] });
       setNewComment('');
     }
   });
@@ -43,6 +44,7 @@ function CommentsModal({ closeModal, postId }: CommentsModalProps) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['comments', postId] });
       queryClient.invalidateQueries({ queryKey: ['posts'] });
+      queryClient.invalidateQueries({ queryKey: ['likedPosts'] });
       setCommentToDelete(null);
       toast.success('Commentaire supprimé avec succès');
     },

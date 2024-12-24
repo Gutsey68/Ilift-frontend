@@ -3,25 +3,45 @@ import { Earth, Heart, MessageCircle, Repeat } from 'lucide-react';
 import { useState } from 'react';
 import { formatRelativeTime } from '../../lib/formatRelativeTime';
 import { like, unLike } from '../../services/likesService';
+import { LikedPostType } from '../../types/likedPostsType';
 import { PostType } from '../../types/postsType';
 import CommentsModal from '../thread/CommentsModal';
 import Avatar from '../ui/Avatar';
 import Badge from '../ui/Badge';
 
-type AllPostsProps = { posts: PostType[] };
+type CommonPost = {
+  id: string;
+  photo?: string;
+  content: string;
+  createdAt: string;
+  updatedAt: string;
+  authorId: string;
+  doILike?: boolean;
+  isMyPost?: boolean;
+  _count?: {
+    likes: number;
+    comments: number;
+  };
+  author: {
+    id: string;
+    pseudo: string;
+    profilePhoto?: string;
+  };
+};
+
+type AllPostsProps = {
+  posts: (PostType | LikedPostType['posts'])[];
+};
 
 function AllPosts({ posts }: AllPostsProps) {
   const [selectedPostId, setSelectedPostId] = useState<string | null>(null);
   const queryClient = useQueryClient();
 
-  if (!Array.isArray(posts) || posts.length === 0) {
-    return null;
-  }
-
   const likeMutation = useMutation({
     mutationFn: (id: string) => like(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['userPosts'] });
+      queryClient.invalidateQueries({ queryKey: ['likedPosts'] });
     }
   });
 
@@ -29,25 +49,34 @@ function AllPosts({ posts }: AllPostsProps) {
     mutationFn: (id: string) => unLike(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['userPosts'] });
+      queryClient.invalidateQueries({ queryKey: ['likedPosts'] });
     }
   });
 
-  const handleLike = (posts: PostType) => {
-    if (posts.doILike) {
-      unlikeMutation.mutate(posts.id);
-    }
-
-    if (!posts.doILike) {
-      likeMutation.mutate(posts.id);
+  const handleLike = (post: CommonPost) => {
+    if (post.doILike) {
+      unlikeMutation.mutate(post.id);
+    } else {
+      likeMutation.mutate(post.id);
     }
   };
 
+  if (!Array.isArray(posts) || posts.length === 0) {
+    return null;
+  }
+
   return (
     <>
-      {posts.map((post: PostType) => {
-        const user = post.author;
+      {posts?.map(post => {
+        if (!post) return null;
+
+        const commonPost = post as CommonPost;
+        const user = commonPost.author;
+
+        if (!user) return null;
+
         return (
-          <div key={post.id} className="border-t border-neutral-6 p-4">
+          <div key={commonPost.id} className="border-t border-neutral-6 p-4">
             <div className="flex flex-col gap-4 sm:w-4/5">
               <div className="flex gap-4 px-4 pt-4">
                 <Avatar src={user.profilePhoto || '/uploads/profil.png'} alt={`Photo de ${user.pseudo}`} size="sm" />
@@ -82,9 +111,9 @@ function AllPosts({ posts }: AllPostsProps) {
                   </div>
                 </div>
                 <div className="mx-auto flex w-11/12 justify-between pb-4 pt-2 sm:w-3/4">
-                  <button onClick={() => handleLike(post)} className="xs:gap-2 flex items-center gap-1 hover:text-green-9">
+                  <button onClick={() => handleLike(commonPost)} className="xs:gap-2 flex items-center gap-1 hover:text-green-9">
                     <Heart size={16} />
-                    {post.doILike ? <span className="max-sm:text-xs">Je n'aime plus</span> : <span className="max-sm:text-xs">J'aime</span>}
+                    {commonPost.doILike ? <span className="max-sm:text-xs">Je n'aime plus</span> : <span className="max-sm:text-xs">J'aime</span>}
                   </button>
                   <button onClick={() => setSelectedPostId(post.id)} className="xs:gap-2 flex items-center gap-1 hover:text-green-9">
                     <MessageCircle size={16} />

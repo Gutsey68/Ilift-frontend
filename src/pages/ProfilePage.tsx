@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Header from '../components/layout/Header.tsx';
 import MobileBottomNav from '../components/layout/navbar/MobileBottomNav.tsx';
@@ -13,12 +14,14 @@ import Trends from '../components/thread/Trends';
 import Card from '../components/ui/Card';
 import { Spacing } from '../components/ui/Spacing.tsx';
 import useSuggestedUsers from '../hooks/useSuggestedUsers';
+import { getLikedPostOfAUser } from '../services/likesService';
 import { fetchPostsByUserHandler } from '../services/postsService.ts';
 import { fetchTagsHandler } from '../services/tagsService.ts';
 import { fetchCurrentUser, fetchUserById } from '../services/usersService';
 
 function ProfilePage() {
   const { id } = useParams();
+  const [showLikedPosts, setShowLikedPosts] = useState(false);
 
   const { isPending: userPending, data: userData } = useQuery({
     queryKey: ['userProfile', id],
@@ -49,6 +52,15 @@ function ProfilePage() {
 
   const userPosts = userPostsData?.data;
 
+  const { isPending: likedPostsPending, data: likedPostsData } = useQuery({
+    queryKey: ['likedPosts', id],
+    queryFn: () => {
+      if (id) {
+        return getLikedPostOfAUser(id);
+      }
+    }
+  });
+
   return (
     <main className="flex min-h-screen flex-col justify-between bg-neutral-1 max-lg:px-4">
       <Header />
@@ -57,11 +69,31 @@ function ProfilePage() {
           <Card size="xxs" className="flex flex-col">
             {userPending ? <ProfileCardProfileSkeletons /> : <ProfileCardProfile userDetails={user} />}
             <div className="flex cursor-pointer items-center justify-center text-center text-neutral-11">
-              <div className="w-1/3 border-b-2 border-green-9 py-2 hover:text-green-9 ">Publications</div>
-              <div className="w-1/3 border-b border-neutral-6 py-2 hover:text-green-9">J'aime</div>
+              <div
+                onClick={() => setShowLikedPosts(false)}
+                className={`w-1/3 py-2 hover:text-green-9 ${!showLikedPosts ? 'border-b-2 border-green-9 text-green-9' : 'border-b border-neutral-6'}`}
+              >
+                Publications
+              </div>
+              <div
+                onClick={() => setShowLikedPosts(true)}
+                className={`w-1/3 py-2 hover:text-green-9 ${showLikedPosts ? 'border-b-2 border-green-9 text-green-9' : 'border-b border-neutral-6'}`}
+              >
+                J'aime
+              </div>
               <div className="w-1/3 border-b border-neutral-6 py-2 hover:text-green-9">Republications</div>
             </div>
-            {userPostsPending ? <AllPostsProfileSkeletons /> : <AllPostsProfile posts={userPosts} />}
+            {showLikedPosts ? (
+              likedPostsPending ? (
+                <AllPostsProfileSkeletons />
+              ) : (
+                <AllPostsProfile posts={likedPostsData?.data || []} />
+              )
+            ) : userPostsPending ? (
+              <AllPostsProfileSkeletons />
+            ) : (
+              <AllPostsProfile posts={userPosts || []} />
+            )}
           </Card>
         </div>
         <div className="w-1/3 max-lg:hidden">
