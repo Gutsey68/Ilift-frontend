@@ -152,7 +152,7 @@ function AllPosts({ posts }: AllPostsProps) {
                   <div className="flex flex-col gap-1 px-4 pt-4 text-neutral-11">
                     <div className="flex items-center gap-2 text-sm ">
                       <Repeat size={16} />
-                      <span>{commonPost.sharedBy === id ? 'Vous avez' : `${commonPost.sharedByUser?.pseudo} a`} republié</span>
+                      <span>{`${commonPost.sharedByUser?.pseudo} a`} republié</span>
                     </div>
                     <div className="ml-7 flex items-center gap-1 text-xs text-neutral-10">
                       <p>{commonPost.sharedAt ? formatRelativeTime(commonPost.sharedAt) : ''} • </p>
