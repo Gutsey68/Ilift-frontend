@@ -1,13 +1,14 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Image, LoaderCircle, X } from 'lucide-react';
+import { Image, LoaderCircle, Trash2, X } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { z } from 'zod';
 import { postShema } from '../../lib/shemas';
-import { updatePost } from '../../services/postsService';
+import { deletePost, updatePost } from '../../services/postsService';
 import { PostType } from '../../types/postsType';
+import ConfirmDeleteModal from '../modals/ConfirmDeleteModal';
 import Badge from '../ui/Badge';
 import Button from '../ui/Button';
 import Card from '../ui/Card';
@@ -23,6 +24,7 @@ export default function EditPostModal({ post, closeModal }: EditPostModalProps) 
   const [tags, setTags] = useState<string[]>(post.tags?.map(tag => tag.tag.name) || []);
   const [currentTag, setCurrentTag] = useState('');
   const [preview, setPreview] = useState<string | null>(post.photo || null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const {
     register,
@@ -38,13 +40,24 @@ export default function EditPostModal({ post, closeModal }: EditPostModalProps) 
   const queryClient = useQueryClient();
 
   const editMutation = useMutation({
-    mutationFn: (formData: FormData) => updatePost(post.id, formData),
-    onSuccess: () => {
+    mutationFn: (formData: FormData) => updatePost(post.id, formData)
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: (postId: string) => deletePost(postId)
+  });
+
+  const onDeleteHandler = async (postId: string) => {
+    try {
+      await deleteMutation.mutateAsync(postId);
       queryClient.invalidateQueries({ queryKey: ['posts'] });
       queryClient.invalidateQueries({ queryKey: ['userPosts'] });
+      toast.success('Post supprimé avec succès');
       closeModal();
+    } catch {
+      toast.error('Une erreur est survenue lors de la suppression du post');
     }
-  });
+  };
 
   const handleAddTag = () => {
     if (currentTag && !tags.includes(currentTag)) {
@@ -92,6 +105,9 @@ export default function EditPostModal({ post, closeModal }: EditPostModalProps) 
       }
 
       await editMutation.mutateAsync(formData);
+      queryClient.invalidateQueries({ queryKey: ['posts'] });
+      queryClient.invalidateQueries({ queryKey: ['userPosts'] });
+      closeModal();
       toast.success('Post modifié avec succès');
     } catch {
       toast.error('Une erreur est survenue lors de la modification du post');
@@ -99,73 +115,90 @@ export default function EditPostModal({ post, closeModal }: EditPostModalProps) 
   };
 
   return (
-    <Modal onClose={closeModal}>
-      <Card className="relative" size="md">
-        <p className="text-2xl font-semibold">Modifier le post</p>
-        <X onClick={closeModal} className="absolute right-4 top-4 cursor-pointer text-neutral-11 hover:text-neutral-12" />
-        {editMutation.isError && <p className="text-red-600">{editMutation.error?.message}</p>}
-        <form onSubmit={handleSubmit(onSubmit)} className="mt-4 flex flex-col gap-4">
-          <div>
-            <Textarea disabled={editMutation.isPending || isSubmitting} {...register('content')} />
-            {errors.content && <p className="mt-1 text-sm text-red-600">{errors.content.message}</p>}
-          </div>
-
-          <div className="flex flex-col gap-2">
-            <label className="text-sm">Tags</label>
-            <div className="flex flex-wrap gap-2">
-              {tags.map(tag => (
-                <Badge onClick={() => handleRemoveTag(tag)} className="cursor-pointer hover:bg-red-950 hover:text-red-300" key={tag}>
-                  {tag}
-                  <X size={13} className="ml-1 inline-block" />
-                </Badge>
-              ))}
+    <>
+      <Modal onClose={closeModal}>
+        <Card className="relative" size="md">
+          <div className="flex items-center justify-between">
+            <p className="text-2xl font-semibold">Modifier le post</p>
+            <div className="flex items-center gap-2">
+              Toto
+              <button type="button" onClick={() => setShowDeleteModal(true)} className="text-red-600">
+                <Trash2 size={20} />
+              </button>
+              <X onClick={closeModal} className="cursor-pointer text-neutral-11 hover:text-neutral-12" />
             </div>
-            <div className="flex gap-2">
-              <input
-                disabled={editMutation.isPending || isSubmitting}
-                type="text"
-                value={currentTag}
-                onChange={e => setCurrentTag(e.target.value)}
-                className="rounded-md border border-neutral-7 bg-neutral-3 px-3 py-1 text-sm"
-                placeholder="Ajouter un tag"
-              />
-              <Button type="button" onClick={handleAddTag} className="px-3 py-1 text-sm">
-                Ajouter
+          </div>
+          <form onSubmit={handleSubmit(onSubmit)} className="mt-4 flex flex-col gap-4">
+            <div>
+              <Textarea disabled={editMutation.isPending || isSubmitting} {...register('content')} />
+              {errors.content && <p className="mt-1 text-sm text-red-600">{errors.content.message}</p>}
+            </div>
+            <div className="flex flex-col gap-2">
+              <label className="text-sm">Tags</label>
+              <div className="flex flex-wrap gap-2">
+                {tags.map(tag => (
+                  <Badge onClick={() => handleRemoveTag(tag)} className="cursor-pointer hover:bg-red-950 hover:text-red-300" key={tag}>
+                    {tag}
+                    <X size={13} className="ml-1 inline-block" />
+                  </Badge>
+                ))}
+              </div>
+              <div className="flex gap-2">
+                <input
+                  disabled={editMutation.isPending || isSubmitting}
+                  type="text"
+                  value={currentTag}
+                  onChange={e => setCurrentTag(e.target.value)}
+                  className="rounded-md border border-neutral-7 bg-neutral-3 px-3 py-1 text-sm"
+                  placeholder="Ajouter un tag"
+                />
+                <Button type="button" onClick={handleAddTag} className="px-3 py-1 text-sm">
+                  Ajouter
+                </Button>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <input disabled={editMutation.isPending || isSubmitting} type="file" id="file" className="hidden" accept="image/*" onChange={handleFileChange} />
+              {preview ? (
+                <div className="relative">
+                  <img src={preview} alt="Aperçu" className="size-32 rounded-lg object-cover" />
+                  <button
+                    type="button"
+                    onClick={handleRemoveImage}
+                    className="absolute -right-2 -top-2 rounded-full bg-neutral-12 p-1 text-neutral-1 hover:bg-red-500"
+                  >
+                    <X size={14} />
+                  </button>
+                </div>
+              ) : (
+                <label htmlFor="file" className="my-2 flex cursor-pointer items-center gap-2 text-neutral-11 hover:text-green-11">
+                  <Image />
+                  <span>Ajouter une photo</span>
+                </label>
+              )}
+            </div>
+            <div className="flex justify-end gap-2">
+              <Button type="button" onClick={closeModal} className="border border-neutral-8 bg-neutral-1 text-neutral-11 hover:bg-neutral-2">
+                Annuler
+              </Button>
+              <Button type="submit" disabled={editMutation.isPending || isSubmitting}>
+                {editMutation.isPending ? <LoaderCircle className="animate-spin" size={20} /> : 'Modifier'}
               </Button>
             </div>
-          </div>
+          </form>
+        </Card>
+      </Modal>
 
-          <div className="flex items-center gap-2">
-            <input disabled={editMutation.isPending || isSubmitting} type="file" id="file" className="hidden" accept="image/*" onChange={handleFileChange} />
-            {preview ? (
-              <div className="relative">
-                <img src={preview} alt="Aperçu" className="size-32 rounded-lg object-cover" />
-                <button
-                  type="button"
-                  onClick={handleRemoveImage}
-                  className="absolute -right-2 -top-2 rounded-full bg-neutral-12 p-1 text-neutral-1 hover:bg-red-500"
-                >
-                  <X size={14} />
-                </button>
-              </div>
-            ) : (
-              <label htmlFor="file" className="my-2 flex cursor-pointer items-center gap-2 text-neutral-11 hover:text-green-11">
-                <Image />
-                <span>Ajouter une photo</span>
-              </label>
-            )}
-          </div>
-
-          <div className="flex justify-end gap-2">
-            <Button type="button" onClick={closeModal} className="border border-neutral-8 bg-neutral-1 text-neutral-11 hover:bg-neutral-2">
-              Annuler
-            </Button>
-            <Button type="submit" disabled={editMutation.isPending || isSubmitting}>
-              {editMutation.isPending ? <LoaderCircle className="animate-spin" size={20} /> : 'Modifier'}
-            </Button>
-          </div>
-        </form>
-      </Card>
-    </Modal>
+      {showDeleteModal && (
+        <ConfirmDeleteModal
+          title="Supprimer le post"
+          message="Êtes-vous sûr de vouloir supprimer ce post ?"
+          onClose={() => setShowDeleteModal(false)}
+          onConfirm={() => onDeleteHandler(post.id)}
+          isLoading={deleteMutation.isPending}
+        />
+      )}
+    </>
   );
 }

@@ -5,6 +5,7 @@ import { AuthContext } from '../../../context/AuthContext';
 import RightNavSkeleton from '../../skeletons/RightNavSkeleton';
 import Avatar from '../../ui/Avatar';
 import NotificationBell from './NotificationBell';
+import SearchNav from './SearchNav';
 import UserAvatarModal from './UserAvatarModal';
 
 function UserNavInfos() {
@@ -21,6 +22,9 @@ function UserNavInfos() {
 
   return (
     <div className="flex items-center gap-4">
+      <div className="sm:hidden">
+        <SearchNav />
+      </div>
       <NotificationBell />
       <div onClick={() => setShowModal(true)} className="cursor-pointer">
         <Avatar src={user?.profilePhoto || ProfilPicture} alt="" size="sm" />

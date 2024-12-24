@@ -2,7 +2,7 @@
 
 ---
 
--Modifier et supprimer un post
+-Modifier un post
 
 ---
 
