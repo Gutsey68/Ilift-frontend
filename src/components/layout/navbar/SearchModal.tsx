@@ -27,7 +27,7 @@ function SearchModal({ closeModal }: SearchModalProps) {
     queryFn: fetchUsers
   });
 
-  const users = usersData.data;
+  const users = usersData?.data;
   const filteredUsers = searchTerm.length >= 2 ? users.filter((user: UserDetailsType) => user.pseudo.toLowerCase().includes(searchTerm.toLowerCase())) : [];
 
   return (

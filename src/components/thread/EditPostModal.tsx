@@ -121,7 +121,6 @@ export default function EditPostModal({ post, closeModal }: EditPostModalProps) 
           <div className="flex items-center justify-between">
             <p className="text-2xl font-semibold">Modifier le post</p>
             <div className="flex items-center gap-2">
-              Toto
               <button type="button" onClick={() => setShowDeleteModal(true)} className="text-red-600">
                 <Trash2 size={20} />
               </button>
