@@ -2,7 +2,7 @@
 
 ---
 
--Modifier et supprimer un post
+-Modifier un post
 
 ---
 
@@ -28,6 +28,7 @@ Notifications
 
 ---
 
+-Page About
 -Recherche en mode mobile
 -Suggestions et tag en mode mobile
 -Ajouter des toasts

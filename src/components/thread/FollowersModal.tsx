@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { X } from 'lucide-react';
 import { useContext, useState } from 'react';
+import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import { fetchFollowers, follow } from '../../services/followersService';
@@ -51,8 +52,13 @@ function FollowersModal({ closeModal }: FollowersModalProps) {
     }
   });
 
-  const handleFollow = (followerId: string) => {
-    mutation.mutate(followerId);
+  const handleFollow = (followerId: string, followerPseudo: string) => {
+    try {
+      mutation.mutate(followerId);
+      toast.success(`Vous suivez désormais ${followerPseudo}`);
+    } catch {
+      toast.error("Une erreur est survenue lors de l'ajout de l'abonné");
+    }
   };
 
   return (
@@ -77,7 +83,7 @@ function FollowersModal({ closeModal }: FollowersModalProps) {
                       <p className="text-sm text-neutral-11 group-hover:text-green-11">{follower.pseudo}</p>
                     </Link>
                     {!follower.isFollowing && (
-                      <button onClick={() => handleFollow(follower.id)} className="text-sm text-green-11 hover:underline">
+                      <button onClick={() => handleFollow(follower.id, follower.pseudo)} className="text-sm text-green-11 hover:underline">
                         Suivre
                       </button>
                     )}

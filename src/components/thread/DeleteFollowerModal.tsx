@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { X } from 'lucide-react';
+import toast from 'react-hot-toast';
 import { deleteFollower } from '../../services/followersService';
 import { FollowingsType } from '../../types/followingsType';
 import Avatar from '../ui/Avatar';
@@ -24,7 +25,12 @@ function DeleteFollowerModal({ closeModal, follower }: DeleteFollowerModalProps)
   });
 
   const handleDelete = () => {
-    mutation.mutate();
+    try {
+      mutation.mutate();
+      toast.success('Abonné supprimé avec succès');
+    } catch {
+      toast.error("Une erreur est survenue lors de la suppression de l'abonné");
+    }
   };
 
   return (

@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { CalendarDays, MapPin } from 'lucide-react';
 import { useContext, useState } from 'react';
+import toast from 'react-hot-toast';
 import { AuthContext } from '../../context/AuthContext';
 import { formatRelativeTime } from '../../lib/formatRelativeTime';
 import { follow } from '../../services/followersService';
@@ -38,7 +39,12 @@ function ProfileCardProfile({ userDetails }: ProfileCardProps) {
     }
 
     if (!userDetails.amIFollowing) {
-      mutation.mutate();
+      try {
+        mutation.mutate();
+        toast.success(`Vous suivez désormais ${userDetails.pseudo}`);
+      } catch {
+        toast.error("Une erreur est survenue lors de l'ajout de l'utilisateur");
+      }
     }
   };
 

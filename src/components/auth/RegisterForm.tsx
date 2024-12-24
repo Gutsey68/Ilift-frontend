@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LoaderCircle } from 'lucide-react';
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import { z } from 'zod';
 import useAuth from '../../hooks/useAuth';
@@ -13,17 +13,13 @@ function RegisterForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
-    setError,
-    reset
+    formState: { errors, isSubmitting }
   } = useForm<z.infer<typeof registerShema>>({
     resolver: zodResolver(registerShema)
   });
   const { registerMutation } = useAuth();
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const onSubmit = async (data: z.infer<typeof registerShema>) => {
-    setSuccessMessage(null);
     try {
       await registerMutation.mutateAsync({
         pseudo: data.pseudo,
@@ -31,25 +27,14 @@ function RegisterForm() {
         password: data.password,
         confirmPassword: data.confirmPassword
       });
-      reset();
-      setSuccessMessage('Inscription réussie ! Vous pouvez vous connecter');
+      toast.success('Inscription réussie ! Vous pouvez vous connecter');
     } catch {
-      setError('root', { type: 'manual', message: 'Erreur lors de la création de compte' });
+      toast.error('Erreur lors de la création de compte');
     }
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
-      {registerMutation.isError && (
-        <p className="text-red-600" onClick={() => registerMutation.reset()}>
-          {registerMutation.error?.message}
-        </p>
-      )}
-      {registerMutation.isSuccess && (
-        <p className="text-green-9" onClick={() => registerMutation.reset()}>
-          {successMessage}
-        </p>
-      )}
       <FormField
         disabled={isSubmitting || registerMutation.status === 'pending'}
         label="Pseudo"

@@ -3,6 +3,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Image, LoaderCircle, X } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import { z } from 'zod';
 import { postShema } from '../../lib/shemas';
 import { createPostHandler } from '../../services/postsService';
@@ -24,9 +25,7 @@ export default function PostForm({ closeModal }: PostFormProps) {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
-    setError,
-    reset
+    formState: { errors, isSubmitting }
   } = useForm<z.infer<typeof postShema>>({
     resolver: zodResolver(postShema)
   });
@@ -84,8 +83,8 @@ export default function PostForm({ closeModal }: PostFormProps) {
       }
 
       await postMutation.mutateAsync(formData);
+      toast.success('Post créé avec succès');
 
-      reset();
       setTags([]);
       setPreview(null);
 
@@ -94,10 +93,7 @@ export default function PostForm({ closeModal }: PostFormProps) {
 
       closeModal();
     } catch {
-      setError('root', {
-        type: 'manual',
-        message: 'Erreur lors de la création du post'
-      });
+      toast.error('Erreur lors de la création du post');
     }
   };
 

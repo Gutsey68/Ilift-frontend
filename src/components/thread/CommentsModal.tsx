@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Trash, X } from 'lucide-react';
 import { useContext, useState } from 'react';
+import toast from 'react-hot-toast';
 import { AuthContext } from '../../context/AuthContext';
 import { formatRelativeTime } from '../../lib/formatRelativeTime';
 import { createComment, deleteComment, getCommentsOfAPost } from '../../services/commentsService';
@@ -33,6 +34,7 @@ function CommentsModal({ closeModal, postId }: CommentsModalProps) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['comments', postId] });
       queryClient.invalidateQueries({ queryKey: ['posts'] });
+      queryClient.invalidateQueries({ queryKey: ['likedPosts'] });
       setNewComment('');
     }
   });
@@ -42,19 +44,35 @@ function CommentsModal({ closeModal, postId }: CommentsModalProps) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['comments', postId] });
       queryClient.invalidateQueries({ queryKey: ['posts'] });
+      queryClient.invalidateQueries({ queryKey: ['likedPosts'] });
       setCommentToDelete(null);
+      toast.success('Commentaire supprimé avec succès');
+    },
+    onError: () => {
+      toast.error('Une erreur est survenue lors de la suppression du commentaire');
     }
   });
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (newComment.trim() !== '') {
-      createCommentMutation.mutate();
+    try {
+      e.preventDefault();
+      if (newComment.trim() !== '') {
+        createCommentMutation.mutate();
+      }
+      toast.success('Commentaire ajouté avec succès');
+    } catch {
+      toast.error("Une erreur est survenue lors de l'ajout du commentaire");
     }
   };
 
   const handleDeleteComment = (postsId: string, usersId: string) => {
     setCommentToDelete({ postsId, usersId });
+  };
+
+  const deleteCommentHandler = () => {
+    if (commentToDelete) {
+      deleteCommentMutation.mutate(commentToDelete.postsId);
+    }
   };
 
   const comments = commentsData?.data;
@@ -83,7 +101,11 @@ function CommentsModal({ closeModal, postId }: CommentsModalProps) {
                       </div>
                     </div>
                     {comment.isMyComment && (
-                      <Trash onClick={() => handleDeleteComment(comment.postsId, comment.usersId)} className="cursor-pointer text-red-600 hover:text-red-300" />
+                      <Trash
+                        size={20}
+                        onClick={() => handleDeleteComment(comment.postsId, comment.usersId)}
+                        className="cursor-pointer text-red-600 hover:text-red-300"
+                      />
                     )}
                   </div>
                   <p className="ml-12 mt-2 text-sm text-neutral-11">{comment.content}</p>
@@ -125,7 +147,7 @@ function CommentsModal({ closeModal, postId }: CommentsModalProps) {
           title="Supprimer le commentaire"
           message="Êtes-vous sûr de vouloir supprimer ce commentaire ?"
           onClose={() => setCommentToDelete(null)}
-          onConfirm={() => deleteCommentMutation.mutate(commentToDelete?.postsId)}
+          onConfirm={deleteCommentHandler}
           isLoading={deleteCommentMutation.isPending}
         />
       )}
