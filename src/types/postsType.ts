@@ -8,6 +8,12 @@ export type PostType = {
   doILike?: boolean;
   isMyPost?: boolean;
   isShared?: boolean;
+  sharedBy?: string;
+  sharedByUser?: {
+    id: string;
+    pseudo: string;
+  };
+  sharedAt?: string;
   tags: TagType[];
   author: {
     id: string;

@@ -22,6 +22,12 @@ type CommonPost = {
   authorId: string;
   doILike?: boolean;
   isShared?: boolean;
+  sharedAt?: string;
+  sharedBy?: string;
+  sharedByUser?: {
+    id: string;
+    pseudo: string;
+  };
   tags: Array<{
     postId: string;
     tagId: string;
@@ -95,7 +101,7 @@ function AllPosts({ posts }: AllPostsProps) {
   };
 
   const handleShareClick = (post: CommonPost) => {
-    if (post.isShared) {
+    if (post.isShared && post.sharedBy === id) {
       setPostToUnshare(post);
     } else {
       setPostToShare(post);
@@ -141,6 +147,21 @@ function AllPosts({ posts }: AllPostsProps) {
         return (
           <div key={commonPost.id} className="border-t border-neutral-6 p-4">
             <div className="flex flex-col gap-4 sm:w-4/5">
+              {commonPost.isShared && (
+                <>
+                  <div className="flex flex-col gap-1 px-4 pt-4 text-neutral-11">
+                    <div className="flex items-center gap-2 text-sm ">
+                      <Repeat size={16} />
+                      <span>{commonPost.sharedBy === id ? 'Vous avez' : `${commonPost.sharedByUser?.pseudo} a`} republié</span>
+                    </div>
+                    <div className="ml-7 flex items-center gap-1 text-xs text-neutral-10">
+                      <p>{commonPost.sharedAt ? formatRelativeTime(commonPost.sharedAt) : ''} • </p>
+                      <Earth size={14} />
+                    </div>
+                  </div>
+                  <hr className="border-neutral-6" />
+                </>
+              )}
               <div className="flex gap-4 px-4 pt-4">
                 <Avatar src={user.profilePhoto || '/uploads/profil.png'} alt={`Photo de ${user.pseudo}`} size="sm" />
                 <div className="flex flex-col">
@@ -184,7 +205,7 @@ function AllPosts({ posts }: AllPostsProps) {
                   </button>
                   <button onClick={() => handleShareClick(commonPost)} className="xs:gap-2 flex items-center gap-1 hover:text-green-9">
                     <Repeat size={16} />
-                    <span className="max-sm:text-xs">{commonPost.isShared ? 'Ne plus republier' : 'Republier'}</span>
+                    <span className="max-sm:text-xs">{commonPost.isShared && commonPost.sharedBy === id ? 'Ne plus republier' : 'Republier'}</span>
                   </button>
                 </div>
               </div>

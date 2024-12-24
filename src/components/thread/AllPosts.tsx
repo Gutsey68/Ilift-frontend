@@ -94,7 +94,7 @@ function AllPosts({ posts, fetchNextPage, hasNextPage, isFetchingNextPage }: All
   };
 
   const handleShareClick = (post: PostType) => {
-    if (post.isShared) {
+    if (post.isShared && post.sharedBy === userId) {
       setPostToUnshare(post);
     } else {
       setPostToShare(post);
@@ -119,8 +119,24 @@ function AllPosts({ posts, fetchNextPage, hasNextPage, isFetchingNextPage }: All
     <>
       {posts.map((post: PostType) => {
         const user = post.author;
+
         return (
           <Card size="xs" key={post.id} className="mt-4 flex flex-col gap-4">
+            {post.isShared && (
+              <>
+                <div className="flex flex-col gap-1 px-4 pt-4 text-neutral-11">
+                  <div className="flex items-center gap-2 text-sm ">
+                    <Repeat size={16} />
+                    <span>{post.sharedBy === userId ? 'Vous avez' : `${post.sharedByUser?.pseudo} a`} republié</span>
+                  </div>
+                  <div className="ml-7 flex items-center gap-1 text-xs text-neutral-10">
+                    <p>{post.sharedAt ? formatRelativeTime(post.sharedAt) : ''} • </p>
+                    <Earth size={14} />
+                  </div>
+                </div>
+                <hr className="border-neutral-6" />
+              </>
+            )}
             <div className="flex justify-between px-2 pt-4">
               <div className="flex gap-4">
                 <Avatar alt="" size="sm" src={user.profilePhoto ?? ''} />
@@ -163,15 +179,15 @@ function AllPosts({ posts, fetchNextPage, hasNextPage, isFetchingNextPage }: All
               <div className="mx-auto flex w-11/12 justify-between pb-4 pt-2 sm:w-3/4">
                 <button onClick={() => handleLike(post)} className="xs:gap-2 flex items-center gap-1 hover:text-green-9">
                   <Heart size={16} />
-                  {post.doILike ? <span className="max-sm:text-xs">Je n'aime plus</span> : <span className="max-sm:text-xs">J'aime</span>}
+                  {post.doILike ? <span className="text-sm max-sm:text-xs">Je n'aime plus</span> : <span className="text-sm max-sm:text-xs">J'aime</span>}
                 </button>
                 <button onClick={() => setSelectedPostId(post.id)} className="xs:gap-2 flex items-center gap-1 hover:text-green-9">
                   <MessageCircle size={16} />
-                  <span className="max-sm:text-xs">Commenter</span>
+                  <span className="text-sm max-sm:text-xs">Commenter</span>
                 </button>
                 <button onClick={() => handleShareClick(post)} className="xs:gap-2 flex items-center gap-1 hover:text-green-9">
                   <Repeat size={16} />
-                  <span className="max-sm:text-xs">{post.isShared ? 'Ne plus republier' : 'Republier'}</span>
+                  <span className="text-sm max-sm:text-xs">{post.isShared && post.sharedBy === userId ? 'Ne plus republier' : 'Republier'}</span>
                 </button>
               </div>
             </div>
