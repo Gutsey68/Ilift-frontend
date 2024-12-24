@@ -16,12 +16,13 @@ import { Spacing } from '../components/ui/Spacing.tsx';
 import useSuggestedUsers from '../hooks/useSuggestedUsers';
 import { getLikedPostOfAUser } from '../services/likesService';
 import { fetchPostsByUserHandler } from '../services/postsService.ts';
+import { getSharedPostsOfUser } from '../services/sharesService';
 import { fetchTagsHandler } from '../services/tagsService.ts';
 import { fetchCurrentUser, fetchUserById } from '../services/usersService';
 
 function ProfilePage() {
   const { id } = useParams();
-  const [showLikedPosts, setShowLikedPosts] = useState(false);
+  const [activeTab, setActiveTab] = useState<'posts' | 'likes' | 'shares'>('posts');
 
   const { isPending: userPending, data: userData } = useQuery({
     queryKey: ['userProfile', id],
@@ -47,7 +48,8 @@ function ProfilePage() {
       if (id) {
         return fetchPostsByUserHandler(id);
       }
-    }
+    },
+    enabled: activeTab === 'posts'
   });
 
   const userPosts = userPostsData?.data;
@@ -58,7 +60,18 @@ function ProfilePage() {
       if (id) {
         return getLikedPostOfAUser(id);
       }
-    }
+    },
+    enabled: activeTab === 'likes'
+  });
+
+  const { isPending: sharedPostsPending, data: sharedPostsData } = useQuery({
+    queryKey: ['sharedPosts', id],
+    queryFn: () => {
+      if (id) {
+        return getSharedPostsOfUser(id);
+      }
+    },
+    enabled: activeTab === 'shares'
   });
 
   return (
@@ -70,24 +83,35 @@ function ProfilePage() {
             {userPending ? <ProfileCardProfileSkeletons /> : <ProfileCardProfile userDetails={user} />}
             <div className="flex cursor-pointer items-center justify-center text-center text-neutral-11">
               <div
-                onClick={() => setShowLikedPosts(false)}
-                className={`w-1/3 py-2 hover:text-green-9 ${!showLikedPosts ? 'border-b-2 border-green-9 text-green-9' : 'border-b border-neutral-6'}`}
+                onClick={() => setActiveTab('posts')}
+                className={`w-1/3 py-2 hover:text-green-9 ${activeTab === 'posts' ? 'border-b-2 border-green-9 text-green-9' : 'border-b border-neutral-6'}`}
               >
                 Publications
               </div>
               <div
-                onClick={() => setShowLikedPosts(true)}
-                className={`w-1/3 py-2 hover:text-green-9 ${showLikedPosts ? 'border-b-2 border-green-9 text-green-9' : 'border-b border-neutral-6'}`}
+                onClick={() => setActiveTab('likes')}
+                className={`w-1/3 py-2 hover:text-green-9 ${activeTab === 'likes' ? 'border-b-2 border-green-9 text-green-9' : 'border-b border-neutral-6'}`}
               >
                 J'aime
               </div>
-              <div className="w-1/3 border-b border-neutral-6 py-2 hover:text-green-9">Republications</div>
+              <div
+                onClick={() => setActiveTab('shares')}
+                className={`w-1/3 py-2 hover:text-green-9 ${activeTab === 'shares' ? 'border-b-2 border-green-9 text-green-9' : 'border-b border-neutral-6'}`}
+              >
+                Republications
+              </div>
             </div>
-            {showLikedPosts ? (
+            {activeTab === 'likes' ? (
               likedPostsPending ? (
                 <AllPostsProfileSkeletons />
               ) : (
                 <AllPostsProfile posts={likedPostsData?.data || []} />
+              )
+            ) : activeTab === 'shares' ? (
+              sharedPostsPending ? (
+                <AllPostsProfileSkeletons />
+              ) : (
+                <AllPostsProfile posts={sharedPostsData?.data || []} />
               )
             ) : userPostsPending ? (
               <AllPostsProfileSkeletons />

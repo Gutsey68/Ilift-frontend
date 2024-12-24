@@ -1,13 +1,16 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Earth, Heart, MessageCircle, Repeat } from 'lucide-react';
 import { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { formatRelativeTime } from '../../lib/formatRelativeTime';
 import { like, unLike } from '../../services/likesService';
-import { LikedPostType } from '../../types/likedPostsType';
+import { sharePost, unsharePost } from '../../services/sharesService';
 import { PostType } from '../../types/postsType';
 import CommentsModal from '../thread/CommentsModal';
 import Avatar from '../ui/Avatar';
 import Badge from '../ui/Badge';
+import ConfirmDeleteModal from '../modals/ConfirmDeleteModal';
+import ConfirmShareModal from '../modals/ConfirmShareModal';
 
 type CommonPost = {
   id: string;
@@ -17,7 +20,15 @@ type CommonPost = {
   updatedAt: string;
   authorId: string;
   doILike?: boolean;
-  isMyPost?: boolean;
+  isShared?: boolean;
+  tags: Array<{
+    postId: string;
+    tagId: string;
+    tag: {
+      id: string;
+      name: string;
+    };
+  }>;
   _count?: {
     likes: number;
     comments: number;
@@ -30,26 +41,47 @@ type CommonPost = {
 };
 
 type AllPostsProps = {
-  posts: (PostType | LikedPostType['posts'])[];
+  posts: (PostType | CommonPost)[];
 };
 
 function AllPosts({ posts }: AllPostsProps) {
   const [selectedPostId, setSelectedPostId] = useState<string | null>(null);
+  const [postToShare, setPostToShare] = useState<CommonPost | null>(null);
+  const [postToUnshare, setPostToUnshare] = useState<CommonPost | null>(null);
   const queryClient = useQueryClient();
+  const { id } = useParams();
 
   const likeMutation = useMutation({
     mutationFn: (id: string) => like(id),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['userPosts'] });
-      queryClient.invalidateQueries({ queryKey: ['likedPosts'] });
+      queryClient.invalidateQueries({ queryKey: ['userPosts', id] });
+      queryClient.invalidateQueries({ queryKey: ['likedPosts', id] });
+      queryClient.invalidateQueries({ queryKey: ['sharedPosts', id] });
     }
   });
 
   const unlikeMutation = useMutation({
     mutationFn: (id: string) => unLike(id),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['userPosts'] });
-      queryClient.invalidateQueries({ queryKey: ['likedPosts'] });
+      queryClient.invalidateQueries({ queryKey: ['userPosts', id] });
+      queryClient.invalidateQueries({ queryKey: ['likedPosts', id] });
+      queryClient.invalidateQueries({ queryKey: ['sharedPosts', id] });
+    }
+  });
+
+  const shareMutation = useMutation({
+    mutationFn: (id: string) => sharePost(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['userPosts', id] });
+      queryClient.invalidateQueries({ queryKey: ['sharedPosts', id] });
+    }
+  });
+
+  const unshareMutation = useMutation({
+    mutationFn: (id: string) => unsharePost(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['userPosts', id] });
+      queryClient.invalidateQueries({ queryKey: ['sharedPosts', id] });
     }
   });
 
@@ -61,15 +93,35 @@ function AllPosts({ posts }: AllPostsProps) {
     }
   };
 
+  const handleShareClick = (post: CommonPost) => {
+    if (post.isShared) {
+      setPostToUnshare(post);
+    } else {
+      setPostToShare(post);
+    }
+  };
+
+  const handleConfirmShare = () => {
+    if (postToShare) {
+      shareMutation.mutate(postToShare.id);
+      setPostToShare(null);
+    }
+  };
+
+  const handleConfirmUnshare = () => {
+    if (postToUnshare) {
+      unshareMutation.mutate(postToUnshare.id);
+      setPostToUnshare(null);
+    }
+  };
+
   if (!Array.isArray(posts) || posts.length === 0) {
-    return null;
+    return <div className="p-4 text-center text-neutral-11">Aucune publication à afficher</div>;
   }
 
   return (
     <>
       {posts?.map(post => {
-        if (!post) return null;
-
         const commonPost = post as CommonPost;
         const user = commonPost.author;
 
@@ -119,9 +171,9 @@ function AllPosts({ posts }: AllPostsProps) {
                     <MessageCircle size={16} />
                     <span className="max-sm:text-xs">Commenter</span>
                   </button>
-                  <button className="xs:gap-2 flex items-center gap-1 hover:text-green-9">
+                  <button onClick={() => handleShareClick(commonPost)} className="xs:gap-2 flex items-center gap-1 hover:text-green-9">
                     <Repeat size={16} />
-                    <span className="max-sm:text-xs">Republier</span>
+                    <span className="max-sm:text-xs">{commonPost.isShared ? 'Ne plus republier' : 'Republier'}</span>
                   </button>
                 </div>
               </div>
@@ -130,6 +182,16 @@ function AllPosts({ posts }: AllPostsProps) {
         );
       })}
       {selectedPostId && <CommentsModal postId={selectedPostId} closeModal={() => setSelectedPostId(null)} />}
+      {postToShare && <ConfirmShareModal onClose={() => setPostToShare(null)} onConfirm={handleConfirmShare} isLoading={shareMutation.isPending} />}
+      {postToUnshare && (
+        <ConfirmDeleteModal
+          onClose={() => setPostToUnshare(null)}
+          onConfirm={handleConfirmUnshare}
+          isLoading={unshareMutation.isPending}
+          title="Supprimer la republication"
+          message="Voulez-vous vraiment supprimer cette republication ?"
+        />
+      )}
     </>
   );
 }
