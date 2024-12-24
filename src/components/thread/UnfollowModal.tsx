@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { X } from 'lucide-react';
+import toast from 'react-hot-toast';
 import { unfollow } from '../../services/followersService';
 import { FollowingsType } from '../../types/followingsType';
 import { UserDetailsType } from '../../types/userDetailsType';
@@ -28,7 +29,12 @@ function UnfollowModal({ closeModal, following }: UnfollowModalProps) {
   });
 
   const handleUnfollow = () => {
-    mutation.mutate();
+    try {
+      mutation.mutate();
+      toast.success(`Vous ne suivez plus ${following.pseudo}`);
+    } catch {
+      toast.error("Une erreur est survenue lors de l'arrêt du suivi de l'utilisateur");
+    }
   };
 
   return (

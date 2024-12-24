@@ -3,6 +3,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Image, LoaderCircle, X } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import { z } from 'zod';
 import { postShema } from '../../lib/shemas';
 import { updatePost } from '../../services/postsService';
@@ -26,8 +27,7 @@ export default function EditPostModal({ post, closeModal }: EditPostModalProps) 
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
-    setError
+    formState: { errors, isSubmitting }
   } = useForm<z.infer<typeof postShema>>({
     resolver: zodResolver(postShema),
     defaultValues: {
@@ -92,11 +92,9 @@ export default function EditPostModal({ post, closeModal }: EditPostModalProps) 
       }
 
       await editMutation.mutateAsync(formData);
+      toast.success('Post modifié avec succès');
     } catch {
-      setError('root', {
-        type: 'manual',
-        message: 'Erreur lors de la modification du post'
-      });
+      toast.error('Une erreur est survenue lors de la modification du post');
     }
   };
 

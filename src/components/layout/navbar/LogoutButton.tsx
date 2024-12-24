@@ -1,5 +1,6 @@
 import { LogOutIcon } from 'lucide-react';
 import { useContext } from 'react';
+import toast from 'react-hot-toast';
 import { AuthContext } from '../../../context/AuthContext';
 import useAuth from '../../../hooks/useAuth';
 
@@ -10,8 +11,9 @@ function LogoutButton() {
   const handleLogout = async () => {
     try {
       await logoutMutation.mutateAsync();
-    } catch (error) {
-      console.error('Erreur lors de la déconnexion', error);
+      toast('Déconnexion réussie', { icon: '👋' });
+    } catch {
+      toast.error('Erreur lors de la déconnexion');
     }
   };
 

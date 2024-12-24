@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Image, LoaderCircle, X } from 'lucide-react';
 import { useContext, useState } from 'react';
+import toast from 'react-hot-toast';
 import { AuthContext } from '../../context/AuthContext';
 import { updateUserPhoto } from '../../services/usersService';
 import Button from '../ui/Button';
@@ -57,8 +58,9 @@ function AddPhotoModal({ onClose }: AddPhotoModalProps) {
       }
 
       await updatePhotoMutation.mutateAsync(formData);
-    } catch (error) {
-      console.error('Une erreur est survenue lors de la mise à jour de la photo de profil:', error);
+      toast.success('Photo de profil mise à jour avec succès');
+    } catch {
+      toast.error('Erreur lors de la mise à jour de la photo de profil');
     }
   };
 

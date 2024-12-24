@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Camera, Pencil } from 'lucide-react';
 import { useContext, useState } from 'react';
+import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import ProfilPicture from '../assets/images/profil.png';
 import AddPhotoModal from '../components/modals/AddPhotoModal';
@@ -48,7 +49,11 @@ function ParametresPage() {
 
   const handleDeletePicture = async () => {
     if (!user) return;
-    removePhotoMutation.mutate();
+    try {
+      removePhotoMutation.mutate();
+    } catch {
+      toast.error('Erreur lors de la suppression de la photo');
+    }
   };
 
   const handleEditField = (type: 'bio' | 'city', value: string) => {
@@ -59,9 +64,19 @@ function ParametresPage() {
     if (!user || !editField.type) return;
 
     if (editField.type === 'bio') {
-      await updateBioMutation.mutateAsync({ bio: value });
+      try {
+        await updateBioMutation.mutateAsync({ bio: value });
+        toast.success('Bio mise à jour avec succès');
+      } catch {
+        toast.error('Erreur lors de la mise à jour de la bio');
+      }
     } else {
-      await updateCityMutation.mutateAsync({ city: value });
+      try {
+        await updateCityMutation.mutateAsync({ city: value });
+        toast.success('Ville mise à jour avec succès');
+      } catch {
+        toast.error('Erreur lors de la mise à jour de la ville');
+      }
     }
 
     setEditField({ type: null, value: '' });
@@ -86,7 +101,6 @@ function ParametresPage() {
           </button>
         </div>
         <hr className="border-neutral-6" />
-
         <div className="group">
           <p className="cursor-pointer" onClick={() => handleEditField('city', user?.city?.name || '')}>
             Lieu{' '}
@@ -96,9 +110,7 @@ function ParametresPage() {
             </span>
           </p>
         </div>
-
         <hr className="border-neutral-6" />
-
         <div className="group">
           <p className="cursor-pointer" onClick={() => handleEditField('bio', user?.bio || '')}>
             Bio{' '}
@@ -108,7 +120,6 @@ function ParametresPage() {
             </span>
           </p>
         </div>
-
         <hr className="border-neutral-6" />
         <p className="text-xs text-neutral-10">
           Vous pouvez demander une copie de vos données personnelles en nous contactant à l'adresse suivante :{' '}
@@ -127,7 +138,6 @@ function ParametresPage() {
         </p>
       </div>
       <Spacing />
-
       {showDeleteModal && (
         <ConfirmDeleteModal
           title="Supprimer la photo de profil"
@@ -137,9 +147,7 @@ function ParametresPage() {
           isLoading={removePhotoMutation.isPending}
         />
       )}
-
       {showAddPhotoModal && <AddPhotoModal onClose={() => setShowAddPhotoModal(false)} />}
-
       {editField.type && (
         <EditModal
           title={`Modifier ${editField.type === 'bio' ? 'la bio' : 'la ville'}`}

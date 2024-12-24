@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LoaderCircle } from 'lucide-react';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import { z } from 'zod';
 import useAuth from '../../hooks/useAuth';
@@ -12,8 +13,7 @@ function LoginForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
-    setError
+    formState: { errors, isSubmitting }
   } = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema)
   });
@@ -22,18 +22,14 @@ function LoginForm() {
   const onSubmit = async (data: z.infer<typeof loginSchema>) => {
     try {
       await loginMutation.mutateAsync(data);
+      toast('Connexion réussie', { icon: '🎉' });
     } catch {
-      setError('root', { type: 'manual', message: 'Erreur lors de la connexion' });
+      toast.error(loginMutation.error?.message || 'Erreur lors de la connexion');
     }
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
-      {loginMutation.isError && (
-        <p className="text-red-600" onClick={() => loginMutation.reset()}>
-          {loginMutation.error?.message}
-        </p>
-      )}
       <FormField
         disabled={isSubmitting || loginMutation.status === 'pending'}
         label="Pseudo"

@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Trash, X } from 'lucide-react';
 import { useContext, useState } from 'react';
+import toast from 'react-hot-toast';
 import { AuthContext } from '../../context/AuthContext';
 import { formatRelativeTime } from '../../lib/formatRelativeTime';
 import { createComment, deleteComment, getCommentsOfAPost } from '../../services/commentsService';
@@ -47,14 +48,24 @@ function CommentsModal({ closeModal, postId }: CommentsModalProps) {
   });
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (newComment.trim() !== '') {
-      createCommentMutation.mutate();
+    try {
+      e.preventDefault();
+      if (newComment.trim() !== '') {
+        createCommentMutation.mutate();
+      }
+      toast.success('Commentaire ajouté avec succès');
+    } catch {
+      toast.error("Une erreur est survenue lors de l'ajout du commentaire");
     }
   };
 
   const handleDeleteComment = (postsId: string, usersId: string) => {
-    setCommentToDelete({ postsId, usersId });
+    try {
+      setCommentToDelete({ postsId, usersId });
+      toast.success('Commentaire supprimé avec succès');
+    } catch {
+      toast.error('Une erreur est survenue lors de la suppression du commentaire');
+    }
   };
 
   const comments = commentsData?.data;
