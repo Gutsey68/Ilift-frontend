@@ -17,6 +17,7 @@ import ProfilPage from '../pages/ProfilePage.tsx';
 import ProgramDetailPage from '../pages/ProgramDetailPage';
 import ProgramsPage from '../pages/ProgramsPage';
 import RegisterPage from '../pages/RegisterPage';
+import ResetPasswordPage from '../pages/ResetPasswordPage.tsx';
 import Thread from '../pages/Thread';
 
 export const router = createBrowserRouter([
@@ -172,6 +173,16 @@ export const router = createBrowserRouter([
       {
         path: '',
         element: <ForgotPasswordPage />
+      }
+    ]
+  },
+  {
+    path: 'reset-password',
+    element: <NotAuthenticatedRoute />,
+    children: [
+      {
+        path: '',
+        element: <ResetPasswordPage />
       }
     ]
   }

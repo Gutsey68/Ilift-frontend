@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-import { login, logout, register } from '../services/authService';
+import { login, logout, register, requestPasswordReset, resetPassword } from '../services/authService';
 import { fetchCurrentUser } from '../services/usersService';
 
 const useAuth = () => {
@@ -39,10 +39,20 @@ const useAuth = () => {
     mutationFn: register
   });
 
+  const forgotPasswordMutation = useMutation({
+    mutationFn: (data: { email: string }) => requestPasswordReset(data.email)
+  });
+
+  const resetPasswordMutation = useMutation({
+    mutationFn: resetPassword
+  });
+
   return {
     loginMutation,
     registerMutation,
-    logoutMutation
+    logoutMutation,
+    forgotPasswordMutation,
+    resetPasswordMutation
   };
 };
 

@@ -45,3 +45,33 @@ export const checkTokenExpiration = (token: string) => {
     throw new Error('Le jeton a expiré. Veuillez vous reconnecter.');
   }
 };
+
+export const requestPasswordReset = async (email: string) => {
+  const response = await fetch('/api/auth/reset-password', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email })
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw { message: errorData.error || 'Erreur lors de la demande de réinitialisation', status: response.status };
+  }
+
+  return response.json();
+};
+
+export const resetPassword = async ({ token, newPassword }: { token: string; newPassword: string }) => {
+  const response = await fetch('/api/auth/update-password', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ token, newPassword })
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw { message: errorData.error || 'Erreur lors de la réinitialisation du mot de passe', status: response.status };
+  }
+
+  return response.json();
+};

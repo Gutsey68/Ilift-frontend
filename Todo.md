@@ -2,27 +2,14 @@
 
 ---
 
--Modifier un post
-
----
-
--Exercices
-
----
-
--Bug republication
-
----
-
+-Exercices : recherche multicritère
 -Ajouter l'administration
 
 ---
 
-Notifications
-
----
-
--Forgot password
+-Notifications
+-Modifier un post
+-Bug republication
 
 ---
 

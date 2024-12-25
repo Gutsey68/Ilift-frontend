@@ -26,3 +26,13 @@ export const postShema = z.object({
   photo: z.string().optional(),
   tags: z.array(z.string()).optional()
 });
+
+export const resetPasswordSchema = z
+  .object({
+    newPassword: z.string().min(3, 'Le mot de passe doit comporter au moins 3 caractères'),
+    confirmPassword: z.string().min(1, 'La confirmation du mot de passe est requise')
+  })
+  .refine(data => data.newPassword === data.confirmPassword, {
+    message: 'Les mots de passe ne correspondent pas',
+    path: ['confirmPassword']
+  });
