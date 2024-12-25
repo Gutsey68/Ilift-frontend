@@ -5,6 +5,7 @@ import ErrorBoundary from '../components/error/ErrorBoundary.tsx';
 import ErrorBoundaryWithLayout from '../components/error/ErrorBoundaryWithLayout.tsx';
 import Layout from '../components/layout/Layout';
 import AboutPage from '../pages/AboutPage.tsx';
+import AdminPage from '../pages/AdminPage';
 import ExerciceDetailPage from '../pages/ExerciceDetailPage';
 import ExercicesPage from '../pages/ExercicesPage';
 import ForgotPasswordPage from '../pages/ForgotPasswordPage';
@@ -183,6 +184,26 @@ export const router = createBrowserRouter([
       {
         path: '',
         element: <ResetPasswordPage />
+      }
+    ]
+  },
+  {
+    path: 'admin',
+    element: <Layout />,
+    children: [
+      {
+        path: '',
+        element: <PrivateRoute />,
+        children: [
+          {
+            path: '',
+            element: (
+              <ErrorBoundary>
+                <AdminPage />
+              </ErrorBoundary>
+            )
+          }
+        ]
       }
     ]
   }
