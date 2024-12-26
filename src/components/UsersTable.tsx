@@ -1,6 +1,7 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { ColumnDef, flexRender, getCoreRowModel, getSortedRowModel, OnChangeFn, SortingState, useReactTable } from '@tanstack/react-table';
 import { useVirtualizer } from '@tanstack/react-virtual';
+import { LoaderCircle } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { fetchUsersAdmin } from '../services/usersService';
 import { UserAdminType } from '../types/usersAdminType';
@@ -18,7 +19,7 @@ const UsersTable = () => {
       {
         accessorKey: 'id',
         header: 'ID',
-        size: 100
+        size: 250
       },
       {
         accessorKey: 'pseudo',
@@ -46,9 +47,7 @@ const UsersTable = () => {
         header: 'Statut',
         size: 100,
         cell: info => (
-          <span
-            className={`inline-flex rounded-full px-2 text-xs font-semibold ${info.getValue() ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'}`}
-          >
+          <span className={`inline-flex rounded-full px-2 text-xs font-semibold ${info.getValue() ? 'bg-red-100 text-red-800' : 'bg-green-3 text-green-11'}`}>
             {info.getValue() ? 'Banni' : 'Actif'}
           </span>
         )
@@ -67,16 +66,10 @@ const UsersTable = () => {
     []
   );
 
-  const { data, fetchNextPage, isFetching, isLoading, error } = useInfiniteQuery({
+  const { data, fetchNextPage, isFetching, isLoading } = useInfiniteQuery({
     queryKey: ['usersAdmin', sorting],
     queryFn: async ({ pageParam = 1 }) => {
-      try {
-        const response = await fetchUsersAdmin((pageParam - 1) * FETCH_SIZE, FETCH_SIZE, sorting);
-        return response;
-      } catch (error) {
-        console.error('Erreur lors du chargement des utilisateurs:', error);
-        throw error;
-      }
+      return await fetchUsersAdmin((pageParam - 1) * FETCH_SIZE, FETCH_SIZE, sorting);
     },
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
@@ -117,8 +110,7 @@ const UsersTable = () => {
             align: 'start',
             behavior: 'smooth'
           });
-        } catch (error) {
-          console.error('Erreur lors du scroll:', error);
+        } catch {
           tableContainerRef.current.scrollTop = 0;
         }
       } else {
@@ -161,45 +153,24 @@ const UsersTable = () => {
     setSelectedUser(user);
   };
 
-  if (error) return <div>Erreur lors du chargement des données: {error.message}</div>;
-  if (isLoading) return <div>Chargement...</div>;
+  if (isLoading) return <LoaderCircle className="animate-spin" size={20} />;
 
   return (
-    <div>
-      <div className="mb-4">
+    <div className="text-neutral-12">
+      <div className="mb-4 text-neutral-11">
         {totalFetched} sur {totalDBRowCount} lignes chargées
       </div>
       <div
         ref={tableContainerRef}
-        className="rounded-lg border border-gray-200"
+        className="relative h-[600px] overflow-auto rounded-lg border border-neutral-4 bg-neutral-2"
         onScroll={e => fetchMoreOnBottomReached(e.target as HTMLDivElement)}
-        style={{
-          overflow: 'auto',
-          position: 'relative',
-          height: '600px'
-        }}
       >
-        <table className="min-w-full" style={{ display: 'grid' }}>
-          <thead
-            style={{
-              display: 'grid',
-              position: 'sticky',
-              top: 0,
-              zIndex: 1,
-              backgroundColor: 'white'
-            }}
-          >
+        <table className="grid min-w-full">
+          <thead className="sticky top-0 z-10 grid bg-neutral-3">
             {table.getHeaderGroups().map(headerGroup => (
-              <tr key={headerGroup.id} style={{ display: 'flex', width: '100%' }}>
+              <tr key={headerGroup.id} className="flex w-full">
                 {headerGroup.headers.map(header => (
-                  <th
-                    key={header.id}
-                    style={{
-                      display: 'flex',
-                      width: header.getSize()
-                    }}
-                    className="px-6 py-3 text-left text-xs font-medium uppercase text-gray-500"
-                  >
+                  <th key={header.id} className={`flex px-6 py-3 text-left text-xs font-medium uppercase text-neutral-11`} style={{ width: header.getSize() }}>
                     <div className={header.column.getCanSort() ? 'cursor-pointer select-none' : ''} onClick={header.column.getToggleSortingHandler()}>
                       {flexRender(header.column.columnDef.header, header.getContext())}
                       {{
@@ -212,13 +183,7 @@ const UsersTable = () => {
               </tr>
             ))}
           </thead>
-          <tbody
-            style={{
-              display: 'grid',
-              height: `${rowVirtualizer.getTotalSize()}px`,
-              position: 'relative'
-            }}
-          >
+          <tbody className="relative grid" style={{ height: `${rowVirtualizer.getTotalSize()}px` }}>
             {rowVirtualizer.getVirtualItems().map(virtualRow => {
               const row = rows[virtualRow.index];
               return (
@@ -227,13 +192,8 @@ const UsersTable = () => {
                   ref={node => rowVirtualizer.measureElement(node)}
                   data-index={virtualRow.index}
                   onClick={() => handleRowClick(row.original)}
-                  style={{
-                    display: 'flex',
-                    position: 'absolute',
-                    transform: `translateY(${virtualRow.start}px)`,
-                    width: '100%'
-                  }}
-                  className="cursor-pointer hover:bg-gray-50"
+                  className="absolute flex w-full cursor-pointer hover:bg-neutral-4"
+                  style={{ transform: `translateY(${virtualRow.start}px)` }}
                 >
                   {row.getVisibleCells().map(cell => (
                     <td
@@ -253,7 +213,11 @@ const UsersTable = () => {
           </tbody>
         </table>
       </div>
-      {isFetching && <div className="mt-4">Chargement des données supplémentaires...</div>}
+      {isFetching && (
+        <div className="flex w-full justify-center">
+          <LoaderCircle className="animate-spin" size={20} />
+        </div>
+      )}
       {selectedUser && <UserDetailsModal user={selectedUser} onClose={() => setSelectedUser(null)} />}
     </div>
   );

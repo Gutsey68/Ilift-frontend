@@ -1,8 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Earth } from 'lucide-react';
-import { useState } from 'react';
+import { Earth, LoaderCircle } from 'lucide-react';
 import toast from 'react-hot-toast';
-import { formatRelativeTime } from '../../lib/formatRelativeTime';
 import { updatePost } from '../../services/postsService';
 import { PostType } from '../../types/postsType';
 import Avatar from '../ui/Avatar';
@@ -17,44 +15,52 @@ type PostDetailsModalProps = {
 };
 
 const PostDetailsModal = ({ post, onClose }: PostDetailsModalProps) => {
-  const [isLoading, setIsLoading] = useState(false);
   const queryClient = useQueryClient();
 
-  const updatePostMutation = useMutation({
+  const { mutate: toggleValidPost, isPending } = useMutation({
     mutationFn: async () => {
-      return await updatePost(post.id, new FormData());
+      const newIsValid = !post.isValid;
+
+      const response = await updatePost(post.id, { isValid: newIsValid });
+
+      return response.data;
     },
-    onSuccess: () => {
-      toast.success('Post mis à jour avec succès');
+    onSuccess: updatedPost => {
+      queryClient.setQueryData(['postsAdmin'], (oldData: { pages: { data: PostType[] }[] }) => {
+        if (!oldData?.pages) return oldData;
+        return {
+          ...oldData,
+          pages: oldData.pages.map((page: { data: PostType[] }) => ({
+            ...page,
+            data: page.data.map((p: PostType) => (p.id === updatedPost.id ? updatedPost : p))
+          }))
+        };
+      });
+
       queryClient.invalidateQueries({ queryKey: ['postsAdmin'] });
       onClose();
-    },
-    onError: () => {
-      toast.error('Erreur lors de la mise à jour du post');
     }
   });
 
-  const handleUnvalidate = async () => {
-    setIsLoading(true);
+  const handleToggleValid = () => {
     try {
-      await updatePostMutation.mutateAsync();
-    } finally {
-      setIsLoading(false);
+      toggleValidPost();
+      toast.success(`Post ${post.isValid ? 'in' : ''}validé avec succès`);
+    } catch {
+      toast.error('Une erreur est survenue lors de la modification du statut du post');
     }
   };
 
   return (
     <Modal onClose={onClose}>
       <Card size="xs" className="flex flex-col gap-4">
-        <div className="flex justify-between px-2 pt-4">
-          <div className="flex gap-4">
-            <Avatar alt="" size="sm" src={post.author.profilePhoto ?? ''} />
-            <div className="flex flex-col">
-              <p className="font-semibold text-neutral-12">{post.author?.pseudo}</p>
-              <div className="flex items-center gap-1 text-xs text-neutral-11">
-                <p>{formatRelativeTime(post.createdAt)} • </p>
-                <Earth size={14} />
-              </div>
+        <div className="flex items-center gap-4 p-4">
+          <Avatar alt="" size="lg" src={post.author.profilePhoto ?? ''} />
+          <div>
+            <h3 className="text-lg font-semibold">{post.author.pseudo}</h3>
+            <div className="flex items-center gap-1 text-xs text-neutral-11">
+              <p>{new Date(post.createdAt).toLocaleDateString('fr-FR')} • </p>
+              <Earth size={14} />
             </div>
           </div>
         </div>
@@ -69,14 +75,13 @@ const PostDetailsModal = ({ post, onClose }: PostDetailsModalProps) => {
           )}
         </div>
         {post.photo && <img className="mx-auto w-11/12 rounded-lg sm:w-3/4" src={post.photo} alt="" />}
-        <div className="flex justify-end gap-4 p-4">
+        <div className="flex justify-end gap-4 border-t border-neutral-6 p-4">
           <Button onClick={onClose}>Annuler</Button>
-          <Button onClick={handleUnvalidate}>
-            {isLoading ? 'Chargement...' : 'Invalider'}
-            Invalider
-          </Button>
-        </div>
-      </Card>
+          <Button onClick={handleToggleValid} disabled={isPending}>
+            {isPending ? <LoaderCircle className="animate-spin" size={20} /> : post.isValid ? 'Invalider' : 'Valider'}{' '}
+          </Button>{' '}
+        </div>{' '}
+      </Card>{' '}
     </Modal>
   );
 };

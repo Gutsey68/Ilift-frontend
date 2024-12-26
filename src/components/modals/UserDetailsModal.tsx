@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useState } from 'react';
+import { LoaderCircle } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { updateUser } from '../../services/usersService';
 import { UserAdminType } from '../../types/usersAdminType';
@@ -14,29 +14,24 @@ type UserDetailsModalProps = {
 };
 
 const UserDetailsModal = ({ user, onClose }: UserDetailsModalProps) => {
-  const [isLoading, setIsLoading] = useState(false);
   const queryClient = useQueryClient();
 
-  const updateUserMutation = useMutation({
+  const { mutate: toggleBanUser, isPending } = useMutation({
     mutationFn: async () => {
       return await updateUser(user.id, { isBan: !user.isBan });
     },
     onSuccess: () => {
-      toast.success('Utilisateur mis à jour avec succès');
       queryClient.invalidateQueries({ queryKey: ['usersAdmin'] });
       onClose();
-    },
-    onError: () => {
-      toast.error("Erreur lors de la mise à jour de l'utilisateur");
     }
   });
 
-  const handleToggleBan = async () => {
-    setIsLoading(true);
+  const handleToggleBan = () => {
     try {
-      await updateUserMutation.mutateAsync();
-    } finally {
-      setIsLoading(false);
+      toggleBanUser();
+      toast.success(`Utilisateur ${user.isBan ? 'débanni' : 'banni'} avec succès`);
+    } catch {
+      toast.error("Une erreur est survenue lors de la modification du statut de l'utilisateur");
     }
   };
 
@@ -77,7 +72,9 @@ const UserDetailsModal = ({ user, onClose }: UserDetailsModalProps) => {
         </div>
         <div className="flex justify-end gap-4 border-t border-neutral-6 p-4">
           <Button onClick={onClose}>Annuler</Button>
-          <Button onClick={handleToggleBan}>{user.isBan ? 'Débannir' : 'Bannir'}</Button>
+          <Button onClick={handleToggleBan} disabled={isPending}>
+            {isPending ? <LoaderCircle className="animate-spin" size={20} /> : user.isBan ? 'Débannir' : 'Bannir'}
+          </Button>
         </div>
       </Card>
     </Modal>

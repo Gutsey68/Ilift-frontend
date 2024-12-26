@@ -17,17 +17,20 @@ export const fetchUsers = async () => {
   return await fetchWithToken('/api/users');
 };
 
-export const updateUser = async (
-  id: string,
-  data: { pseudo?: string; email?: string; bio?: string; isBan?: boolean; passwordHash?: string; profilePhoto?: string; city?: string }
-) => {
-  return await fetchWithToken(`/api/users/${id}`, {
+export const updateUser = async (id: string, data: { isBan?: boolean }) => {
+  const response = await fetchWithToken(`/api/users/${id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(data)
   });
+
+  if (!response) {
+    throw new Error("Erreur lors de la mise à jour de l'utilisateur");
+  }
+
+  return response;
 };
 
 export const updateUserPhoto = async (id: string, formData: FormData) => {
@@ -51,6 +54,7 @@ export const fetchUsersAdmin = async (start: number, size: number, sorting: Sort
   const page = Math.floor(start / size) + 1;
 
   let sortParam = '';
+
   if (sorting.length) {
     const sort = {
       field: sorting[0].id,
@@ -59,14 +63,5 @@ export const fetchUsersAdmin = async (start: number, size: number, sorting: Sort
     sortParam = `&sort=${encodeURIComponent(JSON.stringify(sort))}`;
   }
 
-  try {
-    const response = await fetchWithToken(`/api/users/admin?page=${page}&size=${size}${sortParam}`);
-    if (!response.data) {
-      throw new Error('Réponse invalide du serveur');
-    }
-    return response;
-  } catch (error) {
-    console.error('Erreur dans fetchUsersAdmin:', error);
-    throw error;
-  }
+  return await fetchWithToken(`/api/users/admin?page=${page}&size=${size}${sortParam}`);
 };

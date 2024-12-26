@@ -1,6 +1,7 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { ColumnDef, flexRender, getCoreRowModel, getSortedRowModel, OnChangeFn, SortingState, useReactTable } from '@tanstack/react-table';
 import { useVirtualizer } from '@tanstack/react-virtual';
+import { LoaderCircle } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { fetchPosts } from '../services/postsService';
 import { PostType } from '../types/postsType';
@@ -18,7 +19,7 @@ const PostsTable = () => {
       {
         accessorKey: 'id',
         header: 'ID',
-        size: 100
+        size: 300
       },
       {
         accessorKey: 'content',
@@ -28,7 +29,7 @@ const PostsTable = () => {
       },
       {
         accessorKey: 'author.pseudo',
-        id: 'author.pseudo', // Changer l'id pour correspondre au chemin complet
+        id: 'author.pseudo',
         header: 'Auteur',
         size: 150
       },
@@ -43,9 +44,7 @@ const PostsTable = () => {
         header: 'Statut',
         size: 100,
         cell: info => (
-          <span
-            className={`inline-flex rounded-full px-2 text-xs font-semibold ${info.getValue() ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}
-          >
+          <span className={`inline-flex rounded-full px-2 text-xs font-semibold ${info.getValue() ? 'bg-green-3 text-green-11' : 'bg-red-100 text-red-800'}`}>
             {info.getValue() ? 'Valide' : 'Non valide'}
           </span>
         )
@@ -54,16 +53,10 @@ const PostsTable = () => {
     []
   );
 
-  const { data, fetchNextPage, isFetching, isLoading, error } = useInfiniteQuery({
+  const { data, fetchNextPage, isFetching } = useInfiniteQuery({
     queryKey: ['postsAdmin', sorting],
     queryFn: async ({ pageParam = 1 }) => {
-      try {
-        const response = await fetchPosts((pageParam - 1) * FETCH_SIZE, FETCH_SIZE, sorting);
-        return response;
-      } catch (error) {
-        console.error('Erreur lors du chargement des posts:', error);
-        throw error;
-      }
+      return await fetchPosts((pageParam - 1) * FETCH_SIZE, FETCH_SIZE, sorting);
     },
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
@@ -74,8 +67,6 @@ const PostsTable = () => {
     },
     refetchOnWindowFocus: false
   });
-
-  console.log('Response structure:', data?.pages?.[0]);
 
   const flatData = useMemo(() => data?.pages?.flatMap(page => page.data) ?? [], [data]);
 
@@ -100,7 +91,7 @@ const PostsTable = () => {
 
   const handleSortingChange: OnChangeFn<SortingState> = updater => {
     setSorting(updater);
-    // Attendre le prochain tick pour s'assurer que le virtualizer est initialisé
+
     setTimeout(() => {
       if (rowVirtualizer?.scrollToIndex && tableContainerRef.current) {
         try {
@@ -108,13 +99,10 @@ const PostsTable = () => {
             align: 'start',
             behavior: 'smooth'
           });
-        } catch (error) {
-          console.error('Erreur lors du scroll:', error);
-          // Fallback : scroll manuel si le virtualizer échoue
+        } catch {
           tableContainerRef.current.scrollTop = 0;
         }
       } else {
-        // Fallback si le virtualizer n'est pas disponible
         tableContainerRef.current?.scrollTo({
           top: 0,
           behavior: 'smooth'
@@ -154,46 +142,22 @@ const PostsTable = () => {
     setSelectedPost(post);
   };
 
-  // Ajouter la gestion des erreurs dans le rendu
-  if (error) return <div>Erreur lors du chargement des données: {error.message}</div>;
-  if (isLoading) return <div>Chargement...</div>;
-
   return (
-    <div>
-      <div className="mb-4">
+    <div className="text-neutral-12">
+      <div className="mb-4 text-neutral-11">
         {totalFetched} sur {totalDBRowCount} lignes chargées
       </div>
       <div
         ref={tableContainerRef}
-        className="rounded-lg border border-gray-200"
+        className="relative h-[600px] overflow-auto rounded-lg border border-neutral-4 bg-neutral-2"
         onScroll={e => fetchMoreOnBottomReached(e.target as HTMLDivElement)}
-        style={{
-          overflow: 'auto',
-          position: 'relative',
-          height: '600px'
-        }}
       >
-        <table className="min-w-full" style={{ display: 'grid' }}>
-          <thead
-            style={{
-              display: 'grid',
-              position: 'sticky',
-              top: 0,
-              zIndex: 1,
-              backgroundColor: 'white'
-            }}
-          >
+        <table className="grid min-w-full">
+          <thead className="sticky top-0 z-10 grid bg-neutral-3">
             {table.getHeaderGroups().map(headerGroup => (
-              <tr key={headerGroup.id} style={{ display: 'flex', width: '100%' }}>
+              <tr key={headerGroup.id} className="flex w-full">
                 {headerGroup.headers.map(header => (
-                  <th
-                    key={header.id}
-                    style={{
-                      display: 'flex',
-                      width: header.getSize()
-                    }}
-                    className="px-6 py-3 text-left text-xs font-medium uppercase text-gray-500"
-                  >
+                  <th key={header.id} className={`flex px-6 py-3 text-left text-xs font-medium uppercase text-neutral-11`} style={{ width: header.getSize() }}>
                     <div className={header.column.getCanSort() ? 'cursor-pointer select-none' : ''} onClick={header.column.getToggleSortingHandler()}>
                       {flexRender(header.column.columnDef.header, header.getContext())}
                       {{
@@ -206,13 +170,7 @@ const PostsTable = () => {
               </tr>
             ))}
           </thead>
-          <tbody
-            style={{
-              display: 'grid',
-              height: `${rowVirtualizer.getTotalSize()}px`,
-              position: 'relative'
-            }}
-          >
+          <tbody className="relative grid" style={{ height: `${rowVirtualizer.getTotalSize()}px` }}>
             {rowVirtualizer.getVirtualItems().map(virtualRow => {
               const row = rows[virtualRow.index];
               return (
@@ -221,34 +179,26 @@ const PostsTable = () => {
                   ref={node => rowVirtualizer.measureElement(node)}
                   data-index={virtualRow.index}
                   onClick={() => handleRowClick(row.original)}
-                  style={{
-                    display: 'flex',
-                    position: 'absolute',
-                    transform: `translateY(${virtualRow.start}px)`,
-                    width: '100%'
-                  }}
-                  className="cursor-pointer hover:bg-gray-50"
+                  className="absolute flex w-full cursor-pointer hover:bg-neutral-4"
+                  style={{ transform: `translateY(${virtualRow.start}px)` }}
                 >
                   {row.getVisibleCells().map(cell => (
-                    <td
-                      key={cell.id}
-                      style={{
-                        display: 'flex',
-                        width: cell.column.getSize()
-                      }}
-                      className="whitespace-nowrap px-6 py-4 text-sm"
-                    >
+                    <td key={cell.id} className="whitespace-nowrap px-6 py-4 text-sm text-neutral-12" style={{ width: cell.column.getSize(), display: 'flex' }}>
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </td>
                   ))}
                 </tr>
               );
             })}
-            {isFetching && <div className="mt-4">Chargement des données supplémentaires...</div>}
+            {isFetching && <LoaderCircle className="animate-spin" size={20} />}
           </tbody>
         </table>
       </div>
-      {isFetching && <div className="mt-4">Chargement des données supplémentaires...</div>}
+      {isFetching && (
+        <div className="flex w-full justify-center">
+          <LoaderCircle className="animate-spin" size={20} />
+        </div>
+      )}
       {selectedPost && <PostDetailsModal post={selectedPost} onClose={() => setSelectedPost(null)} />}
     </div>
   );

@@ -16,12 +16,20 @@ export const createPostHandler = async (formData: FormData) => {
   });
 };
 
-export const updatePost = async (id: string, formData: FormData) => {
-  formData.append('isValid', 'false'); // Ajouter le champ isValid
-  return fetchWithToken(`/api/posts/${id}`, {
+export const updatePost = async (id: string, data: { isValid?: boolean }) => {
+  const response = await fetchWithToken(`/api/posts/${id}`, {
     method: 'PUT',
-    body: formData
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
   });
+
+  if (!response) {
+    throw new Error('Erreur lors de la mise à jour du post');
+  }
+
+  return response;
 };
 
 export const deletePost = async (id: string) => {
@@ -36,25 +44,16 @@ export const getPosts = async (page: number) => {
 
 export const fetchPosts = async (start: number, size: number, sorting: SortingState) => {
   const page = Math.floor(start / size) + 1;
-  console.log('Fetching page:', page);
 
   let sortParam = '';
+
   if (sorting.length) {
     const sort = {
-      field: sorting[0].id, // Utilise l'ID complet (ex: "author.pseudo")
+      field: sorting[0].id,
       order: sorting[0].desc ? 'desc' : 'asc'
     };
     sortParam = `&sort=${encodeURIComponent(JSON.stringify(sort))}`;
   }
 
-  try {
-    const response = await fetchWithToken(`/api/posts?page=${page}&size=${size}${sortParam}`);
-    if (!response.data) {
-      throw new Error('Réponse invalide du serveur');
-    }
-    return response;
-  } catch (error) {
-    console.error('Erreur dans fetchPosts:', error);
-    throw error;
-  }
+  return await fetchWithToken(`/api/posts?page=${page}&size=${size}${sortParam}`);
 };
