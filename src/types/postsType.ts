@@ -15,6 +15,7 @@ export type PostType = {
   };
   sharedAt?: string;
   tags: TagType[];
+  isValid: boolean;
   author: {
     id: string;
     pseudo: string;

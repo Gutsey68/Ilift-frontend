@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import ProfilPicture from '../../../assets/images/profil.png';
 import { AuthContext } from '../../../context/AuthContext';
@@ -11,6 +11,7 @@ import UserAvatarModal from './UserAvatarModal';
 function UserNavInfos() {
   const { userPending, userError, user } = useContext(AuthContext);
   const [showModal, setShowModal] = useState(false);
+  const avatarRef = useRef<HTMLDivElement>(null);
 
   if (userPending) {
     return <RightNavSkeleton />;
@@ -26,10 +27,10 @@ function UserNavInfos() {
         <SearchNav />
       </div>
       <NotificationBell />
-      <div onClick={() => setShowModal(true)} className="cursor-pointer">
+      <div ref={avatarRef} onClick={() => setShowModal(true)} className="cursor-pointer">
         <Avatar src={user?.profilePhoto || ProfilPicture} alt="" size="sm" />
       </div>
-      {showModal && createPortal(<UserAvatarModal closeModal={() => setShowModal(false)} />, document.body)}
+      {showModal && createPortal(<UserAvatarModal closeModal={() => setShowModal(false)} avatarRef={avatarRef} />, document.body)}
     </div>
   );
 }

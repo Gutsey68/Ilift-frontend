@@ -1,11 +1,36 @@
+import { useEffect, useState } from 'react';
 import { NotificationType } from '../../../types/notificationType';
 import NotificationItem from './NotificationItem';
 
 type NotificationModalProps = {
   closeModal: () => void;
+  bellRef: React.RefObject<HTMLDivElement>;
 };
 
-function NotificationModal({ closeModal }: NotificationModalProps) {
+function NotificationModal({ closeModal, bellRef }: NotificationModalProps) {
+  const [position, setPosition] = useState({ top: 0, right: 0 });
+
+  const updatePosition = () => {
+    const rect = bellRef.current?.getBoundingClientRect();
+    if (rect) {
+      setPosition({
+        top: rect.bottom + window.scrollY + 4,
+        right: window.innerWidth - rect.right - 13
+      });
+    }
+  };
+
+  useEffect(() => {
+    updatePosition();
+    window.addEventListener('scroll', updatePosition);
+    window.addEventListener('resize', updatePosition);
+
+    return () => {
+      window.removeEventListener('scroll', updatePosition);
+      window.removeEventListener('resize', updatePosition);
+    };
+  }, []);
+
   const notifications: NotificationType[] = [
     {
       id: '1',
@@ -30,9 +55,15 @@ function NotificationModal({ closeModal }: NotificationModalProps) {
   ];
 
   return (
-    <div onClick={closeModal} className="fixed inset-0 z-30 flex items-center justify-center bg-transparent">
-      <div onClick={e => e.stopPropagation()} className="relative mb-[10vh] w-full max-sm:px-4 sm:w-1/3"></div>
-      <div className="absolute top-12 flex max-w-96 flex-col gap-2 rounded-md border border-neutral-6 bg-neutral-1 shadow-lg md:right-16 lg:right-48">
+    <div onClick={closeModal} className="fixed inset-0 z-30 bg-transparent">
+      <div
+        onClick={e => e.stopPropagation()}
+        className="fixed z-40 flex max-w-96 flex-col gap-2 rounded-md border border-neutral-6 bg-neutral-1 shadow-lg"
+        style={{
+          top: position.top,
+          right: position.right
+        }}
+      >
         <p className="mx-3 mt-2 text-neutral-11">Notifications</p>
         <hr className="border-neutral-6" />
         <div className="m-2">
