@@ -19,7 +19,6 @@ const Modal = ({ children, onClose, size = 'lg', className }: ModalProps) => {
   useEffect(() => {
     const modalRoot = document.getElementById('modal');
     if (!modalRoot) {
-      console.error('Modal root element not found');
       return;
     }
 

@@ -121,7 +121,7 @@ function AllPosts({ posts, fetchNextPage, hasNextPage, isFetchingNextPage }: All
         const user = post.author;
 
         return (
-          <Card size="xs" key={post.id} className="mt-4 flex flex-col gap-4">
+          <Card size="xs" key={post.id + Date.now()} className="mt-4 flex flex-col gap-4">
             {post.isShared && (
               <>
                 <div className="flex flex-col gap-1 px-4 pt-4 text-neutral-11">

@@ -1,8 +1,8 @@
 import { useContext, useState } from 'react';
 import { Navigate } from 'react-router-dom';
-import PostsTable from '../components/PostsTable';
+import PostsTable from '../components/tables/PostsTable';
+import UsersTable from '../components/tables/UsersTable';
 import { Spacing } from '../components/ui/Spacing';
-import UsersTable from '../components/UsersTable';
 import { AuthContext } from '../context/AuthContext';
 
 const AdminPage = () => {

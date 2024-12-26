@@ -8,6 +8,10 @@ module.exports = {
         sans: ['Inter', 'sans-serif']
       },
       colors: {
+        red: {
+          3: 'hsl(var(--red-3))',
+          11: 'hsl(var(--red-11))'
+        },
         green: {
           1: 'hsl(var(--green-1))',
           2: 'hsl(var(--green-2))',

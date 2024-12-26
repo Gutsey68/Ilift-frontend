@@ -4,6 +4,7 @@ import toast from 'react-hot-toast';
 import { updateUser } from '../../services/usersService';
 import { UserAdminType } from '../../types/usersAdminType';
 import Avatar from '../ui/Avatar';
+import Badge from '../ui/Badge';
 import Button from '../ui/Button';
 import Card from '../ui/Card';
 import Modal from '../ui/Modal';
@@ -65,9 +66,7 @@ const UserDetailsModal = ({ user, onClose }: UserDetailsModalProps) => {
           </div>
           <div className="flex justify-between">
             <span>Statut :</span>
-            <span className={`rounded-full px-2 text-xs font-semibold ${user.isBan ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'}`}>
-              {user.isBan ? 'Banni' : 'Actif'}
-            </span>
+            <Badge variant={user.isBan ? 'destructive' : 'default'}>{user.isBan ? 'Banni' : 'Actif'}</Badge>
           </div>
         </div>
         <div className="flex justify-end gap-4 border-t border-neutral-6 p-4">

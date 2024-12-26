@@ -3,9 +3,10 @@ import { ColumnDef, flexRender, getCoreRowModel, getSortedRowModel, OnChangeFn, 
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { LoaderCircle } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { fetchPosts } from '../services/postsService';
-import { PostType } from '../types/postsType';
-import PostDetailsModal from './modals/PostDetailsModal';
+import { fetchPosts } from '../../services/postsService';
+import { PostType } from '../../types/postsType';
+import PostDetailsModal from '../modals/PostDetailsModal';
+import Badge from '../ui/Badge';
 
 const FETCH_SIZE = 50;
 
@@ -43,11 +44,7 @@ const PostsTable = () => {
         accessorKey: 'isValid',
         header: 'Statut',
         size: 100,
-        cell: info => (
-          <span className={`inline-flex rounded-full px-2 text-xs font-semibold ${info.getValue() ? 'bg-green-3 text-green-11' : 'bg-red-100 text-red-800'}`}>
-            {info.getValue() ? 'Valide' : 'Non valide'}
-          </span>
-        )
+        cell: info => <Badge variant={info.getValue() ? 'default' : 'destructive'}>{info.getValue() ? 'Valide' : 'Non valide'}</Badge>
       }
     ],
     []
@@ -143,8 +140,8 @@ const PostsTable = () => {
   };
 
   return (
-    <div className="text-neutral-12">
-      <div className="mb-4 text-neutral-11">
+    <div>
+      <div className="mb-4">
         {totalFetched} sur {totalDBRowCount} lignes chargées
       </div>
       <div
@@ -153,7 +150,7 @@ const PostsTable = () => {
         onScroll={e => fetchMoreOnBottomReached(e.target as HTMLDivElement)}
       >
         <table className="grid min-w-full">
-          <thead className="sticky top-0 z-10 grid bg-neutral-3">
+          <thead className="sticky top-0 z-10 grid bg-neutral-3 text-neutral-12">
             {table.getHeaderGroups().map(headerGroup => (
               <tr key={headerGroup.id} className="flex w-full">
                 {headerGroup.headers.map(header => (
@@ -179,7 +176,7 @@ const PostsTable = () => {
                   ref={node => rowVirtualizer.measureElement(node)}
                   data-index={virtualRow.index}
                   onClick={() => handleRowClick(row.original)}
-                  className="absolute flex w-full cursor-pointer hover:bg-neutral-4"
+                  className="absolute flex w-full cursor-pointer text-neutral-11 hover:bg-neutral-4"
                   style={{ transform: `translateY(${virtualRow.start}px)` }}
                 >
                   {row.getVisibleCells().map(cell => (
