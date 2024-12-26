@@ -2,8 +2,8 @@
 
 ---
 
+-Exercices : CRUD
 -Exercices : recherche multicritère
--Ajouter l'administration
 
 ---
 
@@ -14,7 +14,7 @@
 ---
 
 -Page About
--Suggestions et tag en mode mobile
+-Suggestions et tag en mode mobile ?
 -Filter par tags ?
 
 ---
