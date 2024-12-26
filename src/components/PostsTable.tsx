@@ -4,12 +4,14 @@ import { useVirtualizer } from '@tanstack/react-virtual';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { fetchPosts } from '../services/postsService';
 import { PostType } from '../types/postsType';
+import PostDetailsModal from './modals/PostDetailsModal';
 
 const FETCH_SIZE = 50;
 
 const PostsTable = () => {
   const tableContainerRef = useRef<HTMLDivElement>(null);
   const [sorting, setSorting] = useState<SortingState>([]);
+  const [selectedPost, setSelectedPost] = useState<PostType | null>(null);
 
   const columns = useMemo<ColumnDef<PostType>[]>(
     () => [
@@ -148,6 +150,10 @@ const PostsTable = () => {
     }
   });
 
+  const handleRowClick = (post: PostType) => {
+    setSelectedPost(post);
+  };
+
   // Ajouter la gestion des erreurs dans le rendu
   if (error) return <div>Erreur lors du chargement des données: {error.message}</div>;
   if (isLoading) return <div>Chargement...</div>;
@@ -214,13 +220,14 @@ const PostsTable = () => {
                   key={row.id}
                   ref={node => rowVirtualizer.measureElement(node)}
                   data-index={virtualRow.index}
+                  onClick={() => handleRowClick(row.original)}
                   style={{
                     display: 'flex',
                     position: 'absolute',
                     transform: `translateY(${virtualRow.start}px)`,
                     width: '100%'
                   }}
-                  className="hover:bg-gray-50"
+                  className="cursor-pointer hover:bg-gray-50"
                 >
                   {row.getVisibleCells().map(cell => (
                     <td
@@ -242,6 +249,7 @@ const PostsTable = () => {
         </table>
       </div>
       {isFetching && <div className="mt-4">Chargement des données supplémentaires...</div>}
+      {selectedPost && <PostDetailsModal post={selectedPost} onClose={() => setSelectedPost(null)} />}
     </div>
   );
 };

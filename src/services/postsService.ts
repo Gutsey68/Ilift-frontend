@@ -17,6 +17,7 @@ export const createPostHandler = async (formData: FormData) => {
 };
 
 export const updatePost = async (id: string, formData: FormData) => {
+  formData.append('isValid', 'false'); // Ajouter le champ isValid
   return fetchWithToken(`/api/posts/${id}`, {
     method: 'PUT',
     body: formData
