@@ -14,11 +14,21 @@ function NotificationModal({ closeModal, bellRef }: NotificationModalProps) {
     const rect = bellRef.current?.getBoundingClientRect();
     if (rect) {
       setPosition({
-        top: rect.bottom + window.scrollY + 4,
+        top: rect.bottom + 4,
         right: window.innerWidth - rect.right - 13
       });
     }
   };
+
+  useEffect(() => {
+    const rect = bellRef.current?.getBoundingClientRect();
+    if (rect) {
+      setPosition({
+        top: rect.bottom + 4,
+        right: window.innerWidth - rect.right - 13
+      });
+    }
+  }, []);
 
   useEffect(() => {
     updatePosition();
