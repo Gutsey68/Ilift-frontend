@@ -49,10 +49,6 @@ const UserDetailsModal = ({ user, onClose }: UserDetailsModalProps) => {
         </div>
         <div className="space-y-2 p-4">
           <div className="flex justify-between">
-            <span>Rôle :</span>
-            <span>{user.roleId}</span>
-          </div>
-          <div className="flex justify-between">
             <span>Posts :</span>
             <span>{user._count.posts}</span>
           </div>
