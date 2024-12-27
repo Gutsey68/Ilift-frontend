@@ -9,6 +9,7 @@ import { postShema } from '../../lib/shemas';
 import { deletePost, updatePost } from '../../services/postsService';
 import { PostType } from '../../types/postsType';
 import ConfirmDeleteModal from '../modals/ConfirmDeleteModal';
+import { CommonPost } from '../profile/AllPostsProfile';
 import Badge from '../ui/Badge';
 import Button from '../ui/Button';
 import Card from '../ui/Card';
@@ -16,7 +17,7 @@ import Modal from '../ui/Modal';
 import { Textarea } from '../ui/Textarea';
 
 type EditPostModalProps = {
-  post: PostType;
+  post: PostType | CommonPost;
   closeModal: () => void;
 };
 
@@ -67,7 +68,9 @@ export default function EditPostModal({ post, closeModal }: EditPostModalProps) 
   };
 
   const handleRemoveTag = (tagToRemove: string) => {
-    setTags(tags.filter(tag => tag !== tagToRemove));
+    // Utilisation d'une nouvelle référence pour forcer le re-render
+    const newTags = tags.filter(tag => tag !== tagToRemove);
+    setTags(newTags);
   };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -93,10 +96,9 @@ export default function EditPostModal({ post, closeModal }: EditPostModalProps) 
       formData.append('content', data.content);
 
       if (tags && tags.length > 0) {
-        const filteredTags = tags.filter(tag => tag.trim() !== '');
-        if (filteredTags.length > 0) {
-          formData.append('tags', JSON.stringify(filteredTags));
-        }
+        formData.append('tags', JSON.stringify(tags));
+      } else if (post.tags && post.tags.length > 0) {
+        formData.append('removeTags', 'true');
       }
 
       const fileInput = document.getElementById('file') as HTMLInputElement;
@@ -104,7 +106,11 @@ export default function EditPostModal({ post, closeModal }: EditPostModalProps) 
         formData.append('photo', fileInput.files[0]);
       }
 
-      await editMutation.mutateAsync(formData);
+      if (preview === null && post.photo) {
+        formData.append('removePhoto', 'true');
+      }
+
+      await editMutation.mutateAsync(formData as FormData);
       queryClient.invalidateQueries({ queryKey: ['posts'] });
       queryClient.invalidateQueries({ queryKey: ['userPosts'] });
       closeModal();
@@ -136,10 +142,19 @@ export default function EditPostModal({ post, closeModal }: EditPostModalProps) 
               <label className="text-sm">Tags</label>
               <div className="flex flex-wrap gap-2">
                 {tags.map(tag => (
-                  <Badge onClick={() => handleRemoveTag(tag)} className="cursor-pointer hover:bg-red-950 hover:text-red-300" key={tag}>
-                    {tag}
-                    <X size={13} className="ml-1 inline-block" />
-                  </Badge>
+                  <div
+                    key={tag}
+                    onClick={e => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      handleRemoveTag(tag);
+                    }}
+                  >
+                    <Badge className="cursor-pointer hover:bg-red-3 hover:text-red-11">
+                      {tag}
+                      <X size={13} className="ml-1 inline-block" />
+                    </Badge>
+                  </div>
                 ))}
               </div>
               <div className="flex gap-2">

@@ -16,20 +16,17 @@ export const createPostHandler = async (formData: FormData) => {
   });
 };
 
-export const updatePost = async (id: string, data: { isValid?: boolean }) => {
-  const response = await fetchWithToken(`/api/posts/${id}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
-  });
-
-  if (!response) {
-    throw new Error('Erreur lors de la mise à jour du post');
+export const updatePost = async (id: string, data: { isValid?: boolean } | FormData) => {
+  const headers: HeadersInit = {};
+  if (!(data instanceof FormData)) {
+    headers['Content-Type'] = 'application/json';
   }
 
-  return response;
+  return await fetchWithToken(`/api/posts/${id}`, {
+    method: 'PUT',
+    headers,
+    body: data instanceof FormData ? data : JSON.stringify(data)
+  });
 };
 
 export const deletePost = async (id: string) => {

@@ -25,23 +25,18 @@ const UsersTable = () => {
       {
         accessorKey: 'pseudo',
         header: 'Pseudo',
-        size: 150
+        size: 200
       },
       {
         accessorKey: 'email',
         header: 'Email',
-        size: 200
+        size: 300
       },
       {
         accessorKey: 'createdAt',
         header: 'Date création',
         size: 120,
         cell: info => new Date(info.getValue<string>()).toLocaleDateString('fr-FR')
-      },
-      {
-        accessorKey: 'roleId',
-        header: 'Rôle',
-        size: 100
       },
       {
         accessorKey: 'isBan',

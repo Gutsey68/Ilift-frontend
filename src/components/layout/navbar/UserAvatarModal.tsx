@@ -14,20 +14,27 @@ type UserAvatarModalProps = {
 function UserAvatarModal({ closeModal, avatarRef }: UserAvatarModalProps) {
   const { user } = useContext(AuthContext);
   const { isDark, toggleTheme } = useContext(ThemeContext);
-  const [position, setPosition] = useState({ top: 0, right: 0 });
+  const [position, setPosition] = useState(() => {
+    const rect = avatarRef.current?.getBoundingClientRect();
+    return rect
+      ? {
+          top: rect.bottom + 4,
+          right: window.innerWidth - rect.right - 13
+        }
+      : { top: 0, right: 0 };
+  });
 
   const updatePosition = () => {
     const rect = avatarRef.current?.getBoundingClientRect();
     if (rect) {
       setPosition({
-        top: rect.bottom + window.scrollY + 4,
+        top: rect.bottom + 4,
         right: window.innerWidth - rect.right - 13
       });
     }
   };
 
   useEffect(() => {
-    updatePosition();
     window.addEventListener('scroll', updatePosition);
     window.addEventListener('resize', updatePosition);
 

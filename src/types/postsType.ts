@@ -5,32 +5,32 @@ export type PostType = {
   createdAt: string;
   updatedAt: string;
   authorId: string;
-  doILike?: boolean;
+  isValid?: boolean;
   isMyPost?: boolean;
+  doILike?: boolean;
   isShared?: boolean;
+  sharedAt?: string;
   sharedBy?: string;
   sharedByUser?: {
     id: string;
     pseudo: string;
   };
-  sharedAt?: string;
-  tags: TagType[];
-  isValid: boolean;
-  author: {
-    id: string;
-    pseudo: string;
-    email: string;
-    passwordHash: string;
-    bio?: string;
-    createdAt: string;
-    updatedAt: string;
-    profilePhoto?: string;
-    roleId?: string;
-    cityId?: string;
-  };
+  tags: Array<{
+    postId: string;
+    tagId: string;
+    tag: {
+      id: string;
+      name: string;
+    };
+  }>;
   _count?: {
     likes: number;
     comments: number;
+  };
+  author: {
+    id: string;
+    pseudo: string;
+    profilePhoto?: string;
   };
 };
 

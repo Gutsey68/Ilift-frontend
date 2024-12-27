@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Earth, Heart, LoaderCircle, MessageCircle, Repeat } from 'lucide-react';
+import { Earth, Ellipsis, Heart, LoaderCircle, MessageCircle, Repeat } from 'lucide-react';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { useParams } from 'react-router-dom';
@@ -11,16 +11,18 @@ import { PostType } from '../../types/postsType';
 import ConfirmDeleteModal from '../modals/ConfirmDeleteModal';
 import ConfirmShareModal from '../modals/ConfirmShareModal';
 import CommentsModal from '../thread/CommentsModal';
+import EditPostModal from '../thread/EditPostModal';
 import Avatar from '../ui/Avatar';
 import Badge from '../ui/Badge';
 
-type CommonPost = {
+export type CommonPost = {
   id: string;
   photo?: string;
   content: string;
   createdAt: string;
   updatedAt: string;
   authorId: string;
+  isValid?: boolean;
   doILike?: boolean;
   isShared?: boolean;
   sharedAt?: string;
@@ -59,6 +61,7 @@ function AllPosts({ posts, fetchNextPage, hasNextPage, isFetchingNextPage }: All
   const [selectedPostId, setSelectedPostId] = useState<string | null>(null);
   const [postToShare, setPostToShare] = useState<CommonPost | null>(null);
   const [postToUnshare, setPostToUnshare] = useState<CommonPost | null>(null);
+  const [postToEdit, setPostToEdit] = useState<CommonPost | null>(null);
   const queryClient = useQueryClient();
   const { id } = useParams();
 
@@ -168,15 +171,22 @@ function AllPosts({ posts, fetchNextPage, hasNextPage, isFetchingNextPage }: All
                   <hr className="border-neutral-6" />
                 </>
               )}
-              <div className="flex gap-4 px-4 pt-4">
-                <Avatar src={user.profilePhoto || '/uploads/profil.png'} alt={`Photo de ${user.pseudo}`} size="sm" />
-                <div className="flex flex-col">
-                  <h1 className="font-semibold text-neutral-12">{user?.pseudo}</h1>
-                  <div className="flex items-center gap-1 text-xs text-neutral-11">
-                    <p>{formatRelativeTime(post.createdAt)} • </p>
-                    <Earth size={14} />
+              <div className="flex justify-between gap-4 px-4 pt-4">
+                <div className="flex gap-4">
+                  <Avatar src={user.profilePhoto || '/uploads/profil.png'} alt={`Photo de ${user.pseudo}`} size="sm" />
+                  <div className="flex flex-col">
+                    <h1 className="font-semibold text-neutral-12">{user?.pseudo}</h1>
+                    <div className="flex items-center gap-1 text-xs text-neutral-11">
+                      <p>{formatRelativeTime(post.createdAt)} • </p>
+                      <Earth size={14} />
+                    </div>
                   </div>
                 </div>
+                {post.authorId === id && (
+                  <button onClick={() => setPostToEdit(commonPost)} className="text-neutral-11 hover:text-green-9">
+                    <Ellipsis size={16} />
+                  </button>
+                )}
               </div>
               <div className="mx-auto flex w-11/12 flex-col sm:w-3/4">
                 <p className="text-neutral-11 max-sm:text-sm">{post.content}</p>
@@ -231,6 +241,7 @@ function AllPosts({ posts, fetchNextPage, hasNextPage, isFetchingNextPage }: All
           message="Voulez-vous vraiment supprimer cette republication ?"
         />
       )}
+      {postToEdit && <EditPostModal post={postToEdit} closeModal={() => setPostToEdit(null)} />}
     </>
   );
 }

@@ -13,6 +13,13 @@ function UserNavInfos() {
   const [showModal, setShowModal] = useState(false);
   const avatarRef = useRef<HTMLDivElement>(null);
 
+  const handleClick = () => {
+    const rect = avatarRef.current?.getBoundingClientRect();
+    if (rect) {
+      setShowModal(true);
+    }
+  };
+
   if (userPending) {
     return <RightNavSkeleton />;
   }
@@ -27,7 +34,7 @@ function UserNavInfos() {
         <SearchNav />
       </div>
       <NotificationBell />
-      <div ref={avatarRef} onClick={() => setShowModal(true)} className="cursor-pointer">
+      <div ref={avatarRef} onClick={handleClick} className="cursor-pointer">
         <Avatar src={user?.profilePhoto || ProfilPicture} alt="" size="sm" />
       </div>
       {showModal && createPortal(<UserAvatarModal closeModal={() => setShowModal(false)} avatarRef={avatarRef} />, document.body)}
