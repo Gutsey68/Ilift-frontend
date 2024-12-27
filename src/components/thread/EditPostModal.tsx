@@ -9,6 +9,7 @@ import { postShema } from '../../lib/shemas';
 import { deletePost, updatePost } from '../../services/postsService';
 import { PostType } from '../../types/postsType';
 import ConfirmDeleteModal from '../modals/ConfirmDeleteModal';
+import { CommonPost } from '../profile/AllPostsProfile';
 import Badge from '../ui/Badge';
 import Button from '../ui/Button';
 import Card from '../ui/Card';
@@ -16,7 +17,7 @@ import Modal from '../ui/Modal';
 import { Textarea } from '../ui/Textarea';
 
 type EditPostModalProps = {
-  post: PostType;
+  post: PostType | CommonPost;
   closeModal: () => void;
 };
 

@@ -2,6 +2,7 @@
 
 ---
 
+-bug modale
 -Exercices : CRUD
 -Exercices : recherche multicritère
 
