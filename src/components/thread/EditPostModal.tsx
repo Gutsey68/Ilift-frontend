@@ -93,13 +93,12 @@ export default function EditPostModal({ post, closeModal }: EditPostModalProps) 
   const onSubmit = async (data: z.infer<typeof postShema>) => {
     try {
       const formData = new FormData();
-
       formData.append('content', data.content);
 
       if (tags && tags.length > 0) {
         formData.append('tags', JSON.stringify(tags));
-      } else {
-        formData.append('tags', JSON.stringify([]));
+      } else if (post.tags && post.tags.length > 0) {
+        formData.append('removeTags', 'true');
       }
 
       const fileInput = document.getElementById('file') as HTMLInputElement;
