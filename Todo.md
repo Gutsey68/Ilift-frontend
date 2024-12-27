@@ -2,14 +2,12 @@
 
 ---
 
--bug modale
 -Exercices : CRUD
 -Exercices : recherche multicritère
 
 ---
 
 -Notifications
--Modifier un post
 -Bug republication
 
 ---

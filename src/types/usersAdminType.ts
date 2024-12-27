@@ -3,7 +3,6 @@ export type UserAdminType = {
   pseudo: string;
   email: string;
   createdAt: string;
-  roleId: string;
   profilePhoto: string;
   isBan: boolean;
   _count: {

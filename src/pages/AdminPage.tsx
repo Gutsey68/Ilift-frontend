@@ -16,8 +16,7 @@ const AdminPage = () => {
   return (
     <>
       <div className="mx-auto mb-auto flex w-full max-w-6xl flex-col gap-4">
-        <h1 className="mb-6 text-2xl font-bold">Administration</h1>
-
+        <h1 className="mb-4 text-2xl font-bold">Administration</h1>
         <div className="mb-6">
           <div className="border-b border-neutral-6">
             <nav className="flex space-x-8" aria-label="Tabs">
