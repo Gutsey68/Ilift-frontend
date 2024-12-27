@@ -18,19 +18,13 @@ export const fetchUsers = async () => {
 };
 
 export const updateUser = async (id: string, data: { isBan?: boolean }) => {
-  const response = await fetchWithToken(`/api/users/${id}`, {
+  return await fetchWithToken(`/api/users/${id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(data)
   });
-
-  if (!response) {
-    throw new Error("Erreur lors de la mise à jour de l'utilisateur");
-  }
-
-  return response;
 };
 
 export const updateUserPhoto = async (id: string, formData: FormData) => {
