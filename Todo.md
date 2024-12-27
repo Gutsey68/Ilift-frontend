@@ -9,7 +9,6 @@
 ## Bugs
 
 -Bug republication
--Bug key dans AllPost
 
 ## UI
 
@@ -17,11 +16,15 @@
 -Modale modifier un post
 -Modales administration
 -Changer les couleurs d'erreur
--Page profile (ui des posts)
+-Posts page profile
+-Rendre disable les champs et les boutons quand ils sont pas remplis
+-Modale commentaires
+-Changer le bouton secondaire (comme modale commentaires ?)
 
 ## Facultatif
 
 -Page About
+-Partage résultats d'entraînements
 -Suggestions et tag en mode mobile
 -Filter par tags
 
