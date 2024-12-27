@@ -16,10 +16,16 @@ export const createPostHandler = async (formData: FormData) => {
   });
 };
 
-export const updatePost = async (id: string, formData: FormData) => {
+export const updatePost = async (id: string, data: { isValid?: boolean } | FormData) => {
+  const headers: HeadersInit = {};
+  if (!(data instanceof FormData)) {
+    headers['Content-Type'] = 'application/json';
+  }
+
   return await fetchWithToken(`/api/posts/${id}`, {
     method: 'PUT',
-    body: formData
+    headers,
+    body: data instanceof FormData ? data : JSON.stringify(data)
   });
 };
 
