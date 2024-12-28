@@ -19,3 +19,10 @@ export const deleteWorkout = async (id: string) => {
     method: 'DELETE'
   });
 };
+
+export const updateWorkoutExercices = async (workoutId: string, exerciceIds: string[]) => {
+  return fetchWithToken(`/api/workouts/${workoutId}/exercices`, {
+    method: 'PUT',
+    body: JSON.stringify({ exerciceIds })
+  });
+};

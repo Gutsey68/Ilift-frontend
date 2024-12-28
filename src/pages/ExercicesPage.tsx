@@ -64,7 +64,7 @@ function ExercicesPage() {
         </div>
       </div>
       <Spacing size="xl" />
-      {showModal && <AddExerciceModal closeModal={() => setShowModal(false)} />}
+      {showModal && <AddExerciceModal closeModal={() => setShowModal(false)} currentExercices={exercicesData ? exercicesData.exercices : []} />}
     </>
   );
 }
