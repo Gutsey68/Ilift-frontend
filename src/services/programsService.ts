@@ -25,3 +25,9 @@ export const updateProgram = async (id: string, data: { name?: string; descripti
     body: JSON.stringify(data)
   });
 };
+
+export const deleteProgram = async (id: string) => {
+  return fetchWithToken(`/api/programs/${id}`, {
+    method: 'DELETE'
+  });
+};
