@@ -1,4 +1,5 @@
 import { fetchWithToken } from '../lib/fetchWithToken';
+import { ExerciseResponseType } from '../types/exercicesType';
 
 export const createWorkout = async (data: { name: string }) => {
   return fetchWithToken('/api/workouts', {
@@ -20,7 +21,7 @@ export const deleteWorkout = async (id: string) => {
   });
 };
 
-export const updateWorkoutExercices = async (workoutId: string, exerciceIds: string[]) => {
+export const updateWorkoutExercices = async (workoutId: string, exerciceIds: string[]): Promise<ExerciseResponseType> => {
   return fetchWithToken(`/api/workouts/${workoutId}/exercices`, {
     method: 'PUT',
     body: JSON.stringify({ exerciceIds })

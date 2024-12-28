@@ -3,9 +3,10 @@ import { LoaderCircle, X } from 'lucide-react';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { useParams } from 'react-router-dom';
+import MuscleGroupSelect from '../../pages/MusclesPage';
 import { fetchExercices } from '../../services/exercicesService';
 import { updateWorkoutExercices } from '../../services/workoutsService';
-import { ExerciseType } from '../../types/exercicesType';
+import { AllExercisesResponseType, ExerciseType } from '../../types/exercicesType';
 import Card from '../ui/Card';
 import { Input } from '../ui/Input';
 import Modal from '../ui/Modal';
@@ -15,12 +16,29 @@ type AddExerciceModalProps = {
   currentExercices: ExerciseType[];
 };
 
+const filterExercices = (exercices: ExerciseType[], currentExercices: ExerciseType[], searchTerm: string, selectedMuscleGroup: string) => {
+  return exercices?.filter(exercice => {
+    const matchesSearch = exercice.name.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesMuscleGroup = selectedMuscleGroup === 'all' || exercice.musclesGroups?.some(mg => mg.muscleGroups?.id === selectedMuscleGroup);
+
+    console.log({
+      exerciceName: exercice.name,
+      muscleGroups: exercice.musclesGroups,
+      selectedGroup: selectedMuscleGroup,
+      matches: matchesMuscleGroup
+    });
+
+    return matchesSearch && matchesMuscleGroup && !currentExercices.some(current => current.id === exercice.id);
+  });
+};
+
 function AddExerciceModal({ closeModal, currentExercices }: AddExerciceModalProps) {
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedMuscleGroup, setSelectedMuscleGroup] = useState<string>('all');
   const { id: workoutId } = useParams();
   const queryClient = useQueryClient();
 
-  const { data: exercicesData, isPending } = useQuery({
+  const { data: exercicesData, isPending } = useQuery<AllExercisesResponseType>({
     queryKey: ['exercices'],
     queryFn: fetchExercices
   });
@@ -34,17 +52,14 @@ function AddExerciceModal({ closeModal, currentExercices }: AddExerciceModalProp
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['exercices', workoutId] });
       toast.success('Exercice ajouté avec succès');
-      closeModal(); // Ajout de cette ligne pour fermer la modale après succès
+      closeModal();
     },
     onError: () => {
       toast.error("Erreur lors de l'ajout de l'exercice");
     }
   });
 
-  // Filtrer les exercices déjà ajoutés
-  const filteredExercices = exercicesData?.data.filter(
-    (exercice: ExerciseType) => !currentExercices.some(current => current.id === exercice.id) && exercice.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredExercices = exercicesData?.data ? filterExercices(exercicesData.data, currentExercices, searchTerm, selectedMuscleGroup) : [];
 
   return (
     <Modal onClose={closeModal}>
@@ -54,7 +69,10 @@ function AddExerciceModal({ closeModal, currentExercices }: AddExerciceModalProp
           <X onClick={closeModal} className="absolute right-4 cursor-pointer text-neutral-11 hover:text-neutral-12" />
         </div>
         <hr className="mb-6 border-neutral-6" />
-        <Input className="mb-8" placeholder="Rechercher un exercice" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
+        <div className="mb-4 flex flex-col gap-4">
+          <Input className="mb-4" placeholder="Rechercher un exercice" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
+          <MuscleGroupSelect value={selectedMuscleGroup} onChange={setSelectedMuscleGroup} />
+        </div>
         {isPending ? (
           <div className="flex justify-center">
             <LoaderCircle className="animate-spin" size={24} />
@@ -63,7 +81,10 @@ function AddExerciceModal({ closeModal, currentExercices }: AddExerciceModalProp
           <div className="flex flex-col gap-4">
             {filteredExercices?.map((exercice: ExerciseType) => (
               <div key={exercice.id} className="flex items-center justify-between">
-                <p className="text-sm text-neutral-11">{exercice.name}</p>
+                <div>
+                  <p className="text-sm text-neutral-11">{exercice.name}</p>
+                  <p className="text-xs text-neutral-10">{exercice.musclesGroups?.map(mg => mg.muscleGroups.name).join(', ')}</p>
+                </div>
                 <button
                   onClick={() => addExerciceMutation.mutate(exercice.id)}
                   disabled={addExerciceMutation.isPending}

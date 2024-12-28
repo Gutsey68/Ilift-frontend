@@ -5,6 +5,7 @@
 -Exercices : CRUD
 -Exercices : recherche multicritère
 -Notifications
+-Responsive
 
 ## Bugs
 
