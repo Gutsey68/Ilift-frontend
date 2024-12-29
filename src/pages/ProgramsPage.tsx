@@ -19,7 +19,7 @@ function ProgramsPage() {
 
   return (
     <>
-      <div className="mt-4 min-h-96">
+      <div className="mb-auto mt-4 min-h-96">
         <div className="mx-auto mb-4 flex w-full max-w-6xl justify-start">
           <BreadCrumb items={breadcrumbItems} />
         </div>

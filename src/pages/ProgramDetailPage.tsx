@@ -1,7 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import { Plus } from 'lucide-react';
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import toast from 'react-hot-toast';
+import { useNavigate, useParams } from 'react-router-dom';
 import BreadCrumb from '../components/layout/BreadCrumb';
 import CreateWorkoutModal from '../components/programs/CreateWorkoutModal';
 import WorkoutsList from '../components/programs/WorkoutsList';
@@ -12,15 +13,23 @@ import { fetchWorkoutsOfProgram } from '../services/programsService';
 
 function ProgramDetailPage() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
 
   const { isPending: workoutsPending, data: workouts } = useQuery({
     queryKey: ['workouts', id],
-    queryFn: () => {
-      if (!id) {
-        throw new Error('Utilisateur non connecté');
+    queryFn: async () => {
+      if (!id) throw new Error('ID du programme manquant');
+      try {
+        const response = await fetchWorkoutsOfProgram(id);
+        return response;
+      } catch (error) {
+        if ((error as { status?: number }).status === 403) {
+          toast.error("Vous n'avez pas accès à ce programme");
+          navigate('/programmes');
+        }
+        throw error;
       }
-      return fetchWorkoutsOfProgram(id);
     },
     enabled: !!id
   });
@@ -35,7 +44,7 @@ function ProgramDetailPage() {
 
   return (
     <>
-      <div className="mt-4 min-h-96">
+      <div className="mb-auto mt-4 min-h-96">
         <div className="mx-auto mb-4 flex w-full max-w-6xl justify-start">
           <BreadCrumb items={breadcrumbItems} />
         </div>

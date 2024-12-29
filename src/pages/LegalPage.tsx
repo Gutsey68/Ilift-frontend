@@ -4,7 +4,7 @@ function LegalPage() {
   return (
     <>
       <Spacing size="sm" />
-      <div className="mx-auto flex min-h-screen w-full max-w-6xl flex-col justify-between bg-neutral-1 text-neutral-11 max-md:px-4">
+      <div className="mx-auto mb-auto flex min-h-screen w-full max-w-6xl flex-col justify-between bg-neutral-1 text-neutral-11 max-md:px-4">
         <h1 className="pb-1 text-3xl text-green-9">Mentions légales</h1>
         <hr className="border-neutral-6" />
         <section className="mt-4 flex flex-col gap-2">

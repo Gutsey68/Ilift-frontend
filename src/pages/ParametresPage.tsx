@@ -106,7 +106,8 @@ function ParametresPage() {
 
   return (
     <>
-      <div className="m-auto flex w-full max-w-6xl flex-col gap-4 text-neutral-11">
+      <Spacing size="sm" />
+      <div className="mx-auto mb-auto flex w-full max-w-6xl flex-col gap-4 text-neutral-11">
         <h1 className="text-3xl font-bold tracking-wider text-neutral-12">Mon profil</h1>
         <hr className="border-neutral-6" />
         <p>Photo actuelle</p>

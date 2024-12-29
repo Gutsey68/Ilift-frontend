@@ -1,7 +1,7 @@
 import { fetchWithToken } from '../lib/fetchWithToken';
 
-export const fetchProgramsOfUser = async (id: string) => {
-  return fetchWithToken(`/api/programs/users/${id}`);
+export const fetchProgramsOfUser = async () => {
+  return fetchWithToken('/api/programs/me');
 };
 
 export const fetchWorkoutsOfProgram = async (id: string) => {

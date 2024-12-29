@@ -35,7 +35,7 @@ function ExerciceResults({ results }: ExerciceResultsProps) {
         <div key={result.id} className="group">
           <hr className="mb-5 border-neutral-6" />
           <div className="flex items-center justify-between">
-            <Badge className="w-fit border-b border-green-9">{new Date(result.createdAt).toLocaleDateString()}</Badge>
+            <Badge>{new Date(result.createdAt).toLocaleDateString()}</Badge>
             <div className="flex gap-4 opacity-0 transition-opacity group-hover:opacity-100">
               <Pencil size={20} className="cursor-pointer text-neutral-11 transition-colors hover:text-green-11" onClick={() => setResultToEdit(result)} />
               <Trash size={20} className="cursor-pointer text-neutral-11 transition-colors hover:text-red-11" onClick={() => setResultToDelete(result)} />

@@ -18,7 +18,9 @@ function WorkoutsList({ workouts }: WorkoutsListProps) {
   const queryClient = useQueryClient();
 
   const deleteWorkoutMutation = useMutation({
-    mutationFn: (id: string) => deleteWorkout(id),
+    mutationFn: async (id: string) => {
+      return await deleteWorkout(id);
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['workouts'] });
       toast.success('Séance supprimée avec succès');

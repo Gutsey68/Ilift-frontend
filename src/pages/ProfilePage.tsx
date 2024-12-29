@@ -116,7 +116,7 @@ function ProfilePage() {
   return (
     <main className="flex min-h-screen flex-col justify-between bg-neutral-1 max-lg:px-4">
       <Header />
-      <div className="mx-auto flex w-full max-w-6xl gap-6 max-sm:flex-col">
+      <div className="mx-auto mb-auto flex w-full max-w-6xl gap-6 max-sm:flex-col">
         <div className=" flex min-h-96 flex-col lg:w-2/3">
           <Card size="xxs" className="flex flex-col">
             {userPending ? <ProfileCardProfileSkeletons /> : <ProfileCardProfile userDetails={user} />}
