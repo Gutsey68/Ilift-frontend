@@ -21,13 +21,6 @@ const filterExercices = (exercices: ExerciseType[], currentExercices: ExerciseTy
     const matchesSearch = exercice.name.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesMuscleGroup = selectedMuscleGroup === 'all' || exercice.musclesGroups?.some(mg => mg.muscleGroups?.id === selectedMuscleGroup);
 
-    console.log({
-      exerciceName: exercice.name,
-      muscleGroups: exercice.musclesGroups,
-      selectedGroup: selectedMuscleGroup,
-      matches: matchesMuscleGroup
-    });
-
     return matchesSearch && matchesMuscleGroup && !currentExercices.some(current => current.id === exercice.id);
   });
 };

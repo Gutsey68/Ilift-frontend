@@ -29,6 +29,7 @@
 -Suggestions et tag en mode mobile
 -Filter par tags
 -Voir les abbonnées et abonnements sur la page profile
+-Drag n drop pour changer l'ordre des exercices et programmes
 
 ## À faire à la fin
 
