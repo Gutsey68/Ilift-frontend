@@ -15,7 +15,7 @@ function ProfilCard() {
       <ProfilUser />
       <UserStats />
       <div className="mx-2 border-y border-neutral-6 py-4">
-        <p className="pb-2 text-xs text-neutral-11">Dernière activité</p>
+        <p className="pb-2 text-xs text-neutral-11">Dernière séance</p>
         <p className="font-semibold text-neutral-12">{user && user.workouts && user.workouts[0] ? user.workouts[0].name : 'Dodo'}</p>
         <p className="text-xs text-neutral-11">{user && user.workouts && user.workouts[0] ? formatRelativeTime(user.workouts[0].createdAt) : '💤'}</p>
       </div>

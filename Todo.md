@@ -2,8 +2,6 @@
 
 ## Features
 
--Exercices : CRUD
--Exercices : recherche multicritère
 -Notifications
 -Responsive
 
@@ -16,11 +14,12 @@
 -Modale ajouter un post
 -Modale modifier un post
 -Modales administration
--Changer les couleurs d'erreur
+-Lien vers le profile dans allPost
 -Posts page profile
 -Rendre disable les champs et les boutons quand ils sont pas remplis
 -Modale commentaires
 -Changer le bouton secondaire (comme modale commentaires ?)
+-Changer les couleurs de tailwind
 
 ## Facultatif
 
