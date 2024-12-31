@@ -33,7 +33,7 @@ function Thread() {
   return (
     <main className="flex min-h-screen flex-col justify-between bg-neutral-1 max-lg:px-4">
       <Header />
-      <div className="mx-auto flex w-full max-w-6xl gap-6">
+      <div className="mx-auto mb-auto flex w-full max-w-6xl gap-6">
         <div className="flex w-1/4 flex-col max-lg:hidden">{userPending ? <ProfileThreadSkeleton /> : <>{user && <ProfileCard />}</>}</div>
         {status === 'pending' ? (
           <PostsThreadSkeleton />

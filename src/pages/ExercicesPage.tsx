@@ -9,12 +9,13 @@ import ExercicesSkeletons from '../components/skeletons/ExercicesSkeletons';
 import Button from '../components/ui/Button';
 import { Spacing } from '../components/ui/Spacing';
 import { fetchExercicesOfWorkout } from '../services/programsService';
+import { WorkoutExercisesResponseType } from '../types/exercicesType';
 
 function ExercicesPage() {
   const { id } = useParams();
   const [showModal, setShowModal] = useState(false);
 
-  const { isPending: exercicesPending, data: exercices } = useQuery({
+  const { isPending: exercicesPending, data: exercices } = useQuery<WorkoutExercisesResponseType>({
     queryKey: ['exercices', id],
     queryFn: () => {
       if (!id) {
@@ -42,7 +43,7 @@ function ExercicesPage() {
 
   return (
     <>
-      <div className="mt-4 min-h-96">
+      <div className="mb-auto mt-4 min-h-96">
         <div className="mx-auto mb-4 flex w-full max-w-6xl justify-start">
           <BreadCrumb items={breadcrumbItems} />
         </div>
@@ -60,11 +61,11 @@ function ExercicesPage() {
             </div>
           </div>
           {exercicesData && exercicesData.exercices.length === 0 && <hr className="border-neutral-6" />}
-          {exercicesPending ? <ExercicesSkeletons /> : <ExercicesList workout={exercicesData.workout} exercices={exercicesData.exercices} />}
+          {exercicesPending ? <ExercicesSkeletons /> : exercicesData && <ExercicesList workout={exercicesData.workout} exercices={exercicesData.exercices} />}
         </div>
       </div>
       <Spacing size="xl" />
-      {showModal && <AddExerciceModal closeModal={() => setShowModal(false)} />}
+      {showModal && <AddExerciceModal closeModal={() => setShowModal(false)} currentExercices={exercicesData ? exercicesData.exercices : []} />}
     </>
   );
 }

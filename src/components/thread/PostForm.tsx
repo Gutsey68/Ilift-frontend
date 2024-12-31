@@ -5,8 +5,8 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { z } from 'zod';
-import { postShema } from '../../lib/shemas';
 import { createPostHandler } from '../../services/postsService';
+import { createPostSchema } from '../../validators/posts.validation';
 import Badge from '../ui/Badge';
 import Button from '../ui/Button';
 import Card from '../ui/Card';
@@ -26,8 +26,8 @@ export default function PostForm({ closeModal }: PostFormProps) {
     register,
     handleSubmit,
     formState: { errors, isSubmitting }
-  } = useForm<z.infer<typeof postShema>>({
-    resolver: zodResolver(postShema)
+  } = useForm<z.infer<typeof createPostSchema>>({
+    resolver: zodResolver(createPostSchema)
   });
 
   const queryClient = useQueryClient();
@@ -64,7 +64,7 @@ export default function PostForm({ closeModal }: PostFormProps) {
     if (fileInput) fileInput.value = '';
   };
 
-  const onSubmit = async (data: z.infer<typeof postShema>) => {
+  const onSubmit = async (data: z.infer<typeof createPostSchema>) => {
     try {
       const formData = new FormData();
       formData.append('content', data.content);

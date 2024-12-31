@@ -5,7 +5,7 @@ import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import { z } from 'zod';
 import useAuth from '../../hooks/useAuth';
-import { registerShema } from '../../lib/shemas';
+import { registerSchema } from '../../validators/auth.validation';
 import Button from '../ui/Button';
 import FormField from './FormField';
 
@@ -14,12 +14,12 @@ function RegisterForm() {
     register,
     handleSubmit,
     formState: { errors, isSubmitting }
-  } = useForm<z.infer<typeof registerShema>>({
-    resolver: zodResolver(registerShema)
+  } = useForm<z.infer<typeof registerSchema>>({
+    resolver: zodResolver(registerSchema)
   });
   const { registerMutation } = useAuth();
 
-  const onSubmit = async (data: z.infer<typeof registerShema>) => {
+  const onSubmit = async (data: z.infer<typeof registerSchema>) => {
     try {
       await registerMutation.mutateAsync({
         pseudo: data.pseudo,

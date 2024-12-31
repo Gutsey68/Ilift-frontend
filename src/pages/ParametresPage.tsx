@@ -3,6 +3,7 @@ import { Camera, Pencil } from 'lucide-react';
 import { useContext, useState } from 'react';
 import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
+import { z } from 'zod';
 import ProfilPicture from '../assets/images/profil.png';
 import AddPhotoModal from '../components/modals/AddPhotoModal';
 import ConfirmDeleteModal from '../components/modals/ConfirmDeleteModal';
@@ -11,6 +12,7 @@ import Avatar from '../components/ui/Avatar';
 import { Spacing } from '../components/ui/Spacing';
 import { AuthContext } from '../context/AuthContext';
 import { removeUserPhoto, updateUser } from '../services/usersService';
+import { updateUserSchema } from '../validators/users.validation';
 
 function ParametresPage() {
   const { user } = useContext(AuthContext);
@@ -32,18 +34,38 @@ function ParametresPage() {
   });
 
   const updateBioMutation = useMutation({
-    mutationFn: (data: { bio: string }) => updateUser(user!.id, data),
+    mutationFn: (data: { bio: string }) => {
+      const validatedData = updateUserSchema.parse({ body: { bio: data.bio } });
+      return updateUser(user!.id, validatedData.body);
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['currentUser'] });
       setEditField({ type: null, value: '' });
+    },
+    onError: error => {
+      if (error instanceof z.ZodError) {
+        toast.error(error.errors[0].message);
+      } else {
+        toast.error('Erreur lors de la mise à jour de la bio');
+      }
     }
   });
 
   const updateCityMutation = useMutation({
-    mutationFn: (data: { city: string }) => updateUser(user!.id, data),
+    mutationFn: (data: { city: string }) => {
+      const validatedData = updateUserSchema.parse({ body: { city: data.city } });
+      return updateUser(user!.id, validatedData.body);
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['currentUser'] });
       setEditField({ type: null, value: '' });
+    },
+    onError: error => {
+      if (error instanceof z.ZodError) {
+        toast.error(error.errors[0].message);
+      } else {
+        toast.error('Erreur lors de la mise à jour de la ville');
+      }
     }
   });
 
@@ -84,7 +106,8 @@ function ParametresPage() {
 
   return (
     <>
-      <div className="m-auto flex w-full max-w-6xl flex-col gap-4 text-neutral-11">
+      <Spacing size="sm" />
+      <div className="mx-auto mb-auto flex w-full max-w-6xl flex-col gap-4 text-neutral-11">
         <h1 className="text-3xl font-bold tracking-wider text-neutral-12">Mon profil</h1>
         <hr className="border-neutral-6" />
         <p>Photo actuelle</p>

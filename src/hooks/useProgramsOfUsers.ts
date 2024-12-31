@@ -7,26 +7,19 @@ const useProgramsOfUser = () => {
   const { user } = useContext(AuthContext);
 
   const {
+    data: programsData,
     isPending: programsPending,
-    error: programsError,
-    data: programs
+    error: programsError
   } = useQuery({
     queryKey: ['programs', user?.id],
-    queryFn: () => {
-      if (!user) {
-        throw new Error('Utilisateur non connecté');
-      }
-      return fetchProgramsOfUser(user.id);
-    },
-    enabled: !!user
+    queryFn: () => fetchProgramsOfUser(),
+    enabled: !!user?.id
   });
 
-  const programsData = programs?.data;
-
   return {
+    programsData: programsData?.data,
     programsPending,
-    programsError,
-    programsData
+    programsError
   };
 };
 

@@ -1,16 +1,20 @@
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Trash, X } from 'lucide-react';
 import { useContext, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
+import { z } from 'zod';
 import { AuthContext } from '../../context/AuthContext';
 import { formatRelativeTime } from '../../lib/formatRelativeTime';
 import { createComment, deleteComment, getCommentsOfAPost } from '../../services/commentsService';
 import { CommentType } from '../../types/commentsType';
+import { createCommentSchema } from '../../validators/posts.validation';
+import FormField from '../auth/FormField';
 import ConfirmDeleteModal from '../modals/ConfirmDeleteModal';
 import CommentsSkeletons from '../skeletons/CommentsSkeletons';
 import Avatar from '../ui/Avatar';
 import Card from '../ui/Card';
-import { Input } from '../ui/Input';
 import Modal from '../ui/Modal';
 
 type CommentsModalProps = {
@@ -18,11 +22,21 @@ type CommentsModalProps = {
   postId: string;
 };
 
+type CommentFormData = z.infer<typeof createCommentSchema>;
+
 function CommentsModal({ closeModal, postId }: CommentsModalProps) {
   const { user } = useContext(AuthContext);
-  const [newComment, setNewComment] = useState('');
   const [commentToDelete, setCommentToDelete] = useState<{ postsId: string; usersId: string } | null>(null);
   const queryClient = useQueryClient();
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors }
+  } = useForm<CommentFormData>({
+    resolver: zodResolver(createCommentSchema)
+  });
 
   const { data: commentsData, isPending } = useQuery({
     queryKey: ['comments', postId],
@@ -30,12 +44,16 @@ function CommentsModal({ closeModal, postId }: CommentsModalProps) {
   });
 
   const createCommentMutation = useMutation({
-    mutationFn: () => createComment(postId, newComment),
+    mutationFn: (data: CommentFormData) => createComment(postId, data.content),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['comments', postId] });
       queryClient.invalidateQueries({ queryKey: ['posts'] });
       queryClient.invalidateQueries({ queryKey: ['likedPosts'] });
-      setNewComment('');
+      reset();
+      toast.success('Commentaire ajouté avec succès');
+    },
+    onError: () => {
+      toast.error("Une erreur est survenue lors de l'ajout du commentaire");
     }
   });
 
@@ -53,17 +71,9 @@ function CommentsModal({ closeModal, postId }: CommentsModalProps) {
     }
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    try {
-      e.preventDefault();
-      if (newComment.trim() !== '') {
-        createCommentMutation.mutate();
-      }
-      toast.success('Commentaire ajouté avec succès');
-    } catch {
-      toast.error("Une erreur est survenue lors de l'ajout du commentaire");
-    }
-  };
+  const onSubmit = handleSubmit((data: CommentFormData) => {
+    createCommentMutation.mutate(data);
+  });
 
   const handleDeleteComment = (postsId: string, usersId: string) => {
     setCommentToDelete({ postsId, usersId });
@@ -104,7 +114,7 @@ function CommentsModal({ closeModal, postId }: CommentsModalProps) {
                       <Trash
                         size={20}
                         onClick={() => handleDeleteComment(comment.postsId, comment.usersId)}
-                        className="cursor-pointer text-red-600 hover:text-red-300"
+                        className="cursor-pointer text-red-11 hover:text-red-300"
                       />
                     )}
                   </div>
@@ -114,17 +124,22 @@ function CommentsModal({ closeModal, postId }: CommentsModalProps) {
               </>
             ))
           )}
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <form onSubmit={onSubmit} className="flex flex-col gap-4">
             <div className="flex items-center gap-4">
               <div>
                 <Avatar size="sm" src={user?.profilePhoto} alt="" />
               </div>
-              <Input
-                placeholder="Ajouter un commentaire..."
-                value={newComment}
-                onChange={e => setNewComment(e.target.value)}
-                disabled={createCommentMutation.isPending}
-              />
+              <div className="flex w-full flex-col gap-2">
+                <FormField
+                  label="Commentaire"
+                  name="content"
+                  type="text"
+                  register={register}
+                  errors={errors as Record<string, { message?: string }>}
+                  disabled={createCommentMutation.isPending}
+                  placeholder="Ajouter un commentaire..."
+                />
+              </div>
             </div>
             <div className="flex justify-end gap-2">
               <button type="button" onClick={closeModal} className="rounded-md bg-neutral-4 px-4 py-2 text-sm font-medium text-neutral-12 hover:bg-neutral-5">
@@ -132,7 +147,7 @@ function CommentsModal({ closeModal, postId }: CommentsModalProps) {
               </button>
               <button
                 type="submit"
-                disabled={createCommentMutation.isPending || !newComment.trim()}
+                disabled={createCommentMutation.isPending}
                 className="rounded-md bg-green-9 px-4 py-2 text-sm font-medium text-neutral-1 hover:bg-green-8 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {createCommentMutation.isPending ? 'En cours...' : 'Commenter'}

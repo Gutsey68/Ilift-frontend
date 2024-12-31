@@ -12,7 +12,7 @@ export type ExerciseResult = {
     updatedAt: string;
     exerciceResultId: string;
   }[];
-  user: {
+  user?: {
     id: string;
     pseudo: string;
     email: string;

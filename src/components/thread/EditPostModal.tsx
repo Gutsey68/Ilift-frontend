@@ -5,9 +5,9 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { z } from 'zod';
-import { postShema } from '../../lib/shemas';
 import { deletePost, updatePost } from '../../services/postsService';
 import { PostType } from '../../types/postsType';
+import { updatePostSchema } from '../../validators/posts.validation';
 import ConfirmDeleteModal from '../modals/ConfirmDeleteModal';
 import { CommonPost } from '../profile/AllPostsProfile';
 import Badge from '../ui/Badge';
@@ -31,8 +31,8 @@ export default function EditPostModal({ post, closeModal }: EditPostModalProps) 
     register,
     handleSubmit,
     formState: { errors, isSubmitting }
-  } = useForm<z.infer<typeof postShema>>({
-    resolver: zodResolver(postShema),
+  } = useForm<z.infer<typeof updatePostSchema>>({
+    resolver: zodResolver(updatePostSchema),
     defaultValues: {
       content: post.content
     }
@@ -68,7 +68,6 @@ export default function EditPostModal({ post, closeModal }: EditPostModalProps) 
   };
 
   const handleRemoveTag = (tagToRemove: string) => {
-    // Utilisation d'une nouvelle référence pour forcer le re-render
     const newTags = tags.filter(tag => tag !== tagToRemove);
     setTags(newTags);
   };
@@ -90,10 +89,13 @@ export default function EditPostModal({ post, closeModal }: EditPostModalProps) 
     if (fileInput) fileInput.value = '';
   };
 
-  const onSubmit = async (data: z.infer<typeof postShema>) => {
+  const onSubmit = async (data: z.infer<typeof updatePostSchema>) => {
     try {
       const formData = new FormData();
-      formData.append('content', data.content);
+
+      if (data.content) {
+        formData.append('content', data.content);
+      }
 
       if (tags && tags.length > 0) {
         formData.append('tags', JSON.stringify(tags));

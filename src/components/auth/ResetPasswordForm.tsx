@@ -5,7 +5,7 @@ import toast from 'react-hot-toast';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { z } from 'zod';
 import useAuth from '../../hooks/useAuth';
-import { resetPasswordSchema } from '../../lib/shemas';
+import { updatePasswordSchema } from '../../validators/auth.validation';
 import Button from '../ui/Button';
 import FormField from './FormField';
 
@@ -18,13 +18,13 @@ function ResetPasswordForm() {
     register,
     handleSubmit,
     formState: { errors, isSubmitting }
-  } = useForm<z.infer<typeof resetPasswordSchema>>({
-    resolver: zodResolver(resetPasswordSchema)
+  } = useForm<z.infer<typeof updatePasswordSchema>>({
+    resolver: zodResolver(updatePasswordSchema)
   });
 
   const { resetPasswordMutation } = useAuth();
 
-  const onSubmit = async (data: z.infer<typeof resetPasswordSchema>) => {
+  const onSubmit = async (data: z.infer<typeof updatePasswordSchema>) => {
     if (!token) {
       toast.error('Token manquant');
       return;

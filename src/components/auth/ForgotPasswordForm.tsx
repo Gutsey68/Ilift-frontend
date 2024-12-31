@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { z } from 'zod';
 import useAuth from '../../hooks/useAuth';
-import { forgotPasswordSchema } from '../../lib/shemas';
+import { resetPasswordRequestSchema } from '../../validators/auth.validation';
 import Button from '../ui/Button';
 import FormField from './FormField';
 
@@ -13,13 +13,13 @@ function ForgotPasswordForm() {
     register,
     handleSubmit,
     formState: { errors, isSubmitting }
-  } = useForm<z.infer<typeof forgotPasswordSchema>>({
-    resolver: zodResolver(forgotPasswordSchema)
+  } = useForm<z.infer<typeof resetPasswordRequestSchema>>({
+    resolver: zodResolver(resetPasswordRequestSchema)
   });
 
   const { forgotPasswordMutation } = useAuth();
 
-  const onSubmit = async (data: z.infer<typeof forgotPasswordSchema>) => {
+  const onSubmit = async (data: z.infer<typeof resetPasswordRequestSchema>) => {
     try {
       await forgotPasswordMutation.mutateAsync(data);
       toast.success('Un email de réinitialisation a été envoyé si le compte existe');

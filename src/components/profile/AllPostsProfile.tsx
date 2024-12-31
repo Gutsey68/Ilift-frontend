@@ -1,8 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Earth, Ellipsis, Heart, LoaderCircle, MessageCircle, Repeat } from 'lucide-react';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useParams } from 'react-router-dom';
+import { AuthContext } from '../../context/AuthContext';
 import useInfiniteScroll from '../../hooks/useInfiniteScroll';
 import { formatRelativeTime } from '../../lib/formatRelativeTime';
 import { like, unLike } from '../../services/likesService';
@@ -63,6 +64,7 @@ function AllPosts({ posts, fetchNextPage, hasNextPage, isFetchingNextPage }: All
   const [postToUnshare, setPostToUnshare] = useState<CommonPost | null>(null);
   const [postToEdit, setPostToEdit] = useState<CommonPost | null>(null);
   const queryClient = useQueryClient();
+  const { user } = useContext(AuthContext);
   const { id } = useParams();
 
   useInfiniteScroll(fetchNextPage, hasNextPage || false, isFetchingNextPage);
@@ -149,9 +151,9 @@ function AllPosts({ posts, fetchNextPage, hasNextPage, isFetchingNextPage }: All
     <>
       {posts?.map(post => {
         const commonPost = post as CommonPost;
-        const user = commonPost.author;
+        const author = commonPost.author;
 
-        if (!user) return null;
+        if (!author) return null;
 
         return (
           <div key={commonPost.id} className="border-t border-neutral-6 p-4">
@@ -173,7 +175,7 @@ function AllPosts({ posts, fetchNextPage, hasNextPage, isFetchingNextPage }: All
               )}
               <div className="flex justify-between gap-4 px-4 pt-4">
                 <div className="flex gap-4">
-                  <Avatar src={user.profilePhoto || '/uploads/profil.png'} alt={`Photo de ${user.pseudo}`} size="sm" />
+                  <Avatar src={author.profilePhoto || '/uploads/profil.png'} alt={`Photo de ${author.pseudo}`} size="sm" />
                   <div className="flex flex-col">
                     <h1 className="font-semibold text-neutral-12">{user?.pseudo}</h1>
                     <div className="flex items-center gap-1 text-xs text-neutral-11">
@@ -182,7 +184,7 @@ function AllPosts({ posts, fetchNextPage, hasNextPage, isFetchingNextPage }: All
                     </div>
                   </div>
                 </div>
-                {post.authorId === id && (
+                {post.authorId === user?.id && (
                   <button onClick={() => setPostToEdit(commonPost)} className="text-neutral-11 hover:text-green-9">
                     <Ellipsis size={16} />
                   </button>

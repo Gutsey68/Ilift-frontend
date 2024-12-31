@@ -5,7 +5,7 @@ import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import { z } from 'zod';
 import useAuth from '../../hooks/useAuth';
-import { loginSchema } from '../../lib/shemas';
+import { loginSchema } from '../../validators/auth.validation';
 import Button from '../ui/Button';
 import FormField from './FormField';
 
@@ -41,7 +41,7 @@ function LoginForm() {
       />
       <div>
         <div className="mb-2 flex items-center justify-between">
-          <label htmlFor="password" className={`mt-1 text-sm ${errors.password && 'text-red-600'}`}>
+          <label htmlFor="password" className={`mt-1 text-sm ${errors.password && 'text-red-11'}`}>
             Mot de passe
           </label>
           <Link className="" to="/mot-de-passe-oublie">
