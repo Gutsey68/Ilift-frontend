@@ -7,6 +7,7 @@ import { formatRelativeTime } from '../../lib/formatRelativeTime';
 import { follow } from '../../services/followersService';
 
 import { UserDetailsType } from '@/types/userDetailsType';
+import UnfollowModal from '../thread/UnfollowModal';
 import Avatar from '../ui/Avatar';
 import Button from '../ui/Button';
 

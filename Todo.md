@@ -2,7 +2,6 @@
 
 ## Features
 
--Notifications
 -Responsive
 
 ## Bugs

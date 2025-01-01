@@ -1,11 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 import { useContext } from 'react';
-import Header from '../components/layout/Header.tsx';
-import MobileBottomNav from '../components/layout/navbar/MobileBottomNav.tsx';
-import SideFooter from '../components/layout/SideFooter.tsx';
+import Header from '../components/layout/Header';
+import MobileBottomNav from '../components/layout/navbar/MobileBottomNav';
+import SideFooter from '../components/layout/SideFooter';
 import PostsThreadSkeleton from '../components/skeletons/PostsThreadSkeletons';
 import ProfileThreadSkeleton from '../components/skeletons/ProfileThreadSkeletons';
-import TagsThreadSkeleton from '../components/skeletons/TagsThreadSkeleton.tsx';
+import TagsThreadSkeleton from '../components/skeletons/TagsThreadSkeleton';
 import AllPosts from '../components/thread/AllPosts';
 import InputPost from '../components/thread/InputPost';
 import ProfileCard from '../components/thread/ProfilCard';
@@ -14,7 +14,7 @@ import Trends from '../components/thread/Trends';
 import { AuthContext } from '../context/AuthContext';
 import usePostsOfUsers from '../hooks/usePostsOfUsers';
 import useSuggestedUsers from '../hooks/useSuggestedUsers';
-import { fetchTagsHandler } from '../services/tagsService.ts';
+import { fetchTagsHandler } from '../services/tagsService';
 
 function Thread() {
   const { userPending, user } = useContext(AuthContext);

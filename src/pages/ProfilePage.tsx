@@ -1,23 +1,23 @@
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import Header from '../components/layout/Header.tsx';
-import MobileBottomNav from '../components/layout/navbar/MobileBottomNav.tsx';
-import SideFooter from '../components/layout/SideFooter.tsx';
-import AllPostsProfile from '../components/profile/AllPostsProfile.tsx';
-import ProfileCardProfile from '../components/profile/ProfileCardProfile.tsx';
-import AllPostsProfileSkeletons from '../components/skeletons/AllPostsProfileSkeletons.tsx';
-import ProfileCardProfileSkeletons from '../components/skeletons/ProfileCardProfileSkeletons.tsx';
-import ProfileThreadSkeleton from '../components/skeletons/ProfileThreadSkeletons.tsx';
-import SuggestedProfiles from '../components/thread/SuggestedProfils.tsx';
+import Header from '../components/layout/Header';
+import MobileBottomNav from '../components/layout/navbar/MobileBottomNav';
+import SideFooter from '../components/layout/SideFooter';
+import AllPostsProfile from '../components/profile/AllPostsProfile';
+import ProfileCardProfile from '../components/profile/ProfileCardProfile';
+import AllPostsProfileSkeletons from '../components/skeletons/AllPostsProfileSkeletons';
+import ProfileCardProfileSkeletons from '../components/skeletons/ProfileCardProfileSkeletons';
+import ProfileThreadSkeleton from '../components/skeletons/ProfileThreadSkeletons';
+import SuggestedProfiles from '../components/thread/SuggestedProfils';
 import Trends from '../components/thread/Trends';
 import Card from '../components/ui/Card';
-import { Spacing } from '../components/ui/Spacing.tsx';
+import { Spacing } from '../components/ui/Spacing';
 import useSuggestedUsers from '../hooks/useSuggestedUsers';
 import { getLikedPostOfAUser } from '../services/likesService';
-import { fetchPostsByUserHandler } from '../services/postsService.ts';
+import { fetchPostsByUserHandler } from '../services/postsService';
 import { getSharedPostsOfUser } from '../services/sharesService';
-import { fetchTagsHandler } from '../services/tagsService.ts';
+import { fetchTagsHandler } from '../services/tagsService';
 import { fetchCurrentUser, fetchUserById } from '../services/usersService';
 
 function ProfilePage() {

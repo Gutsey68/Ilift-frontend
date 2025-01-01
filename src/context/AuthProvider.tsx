@@ -1,4 +1,4 @@
-import { useCurrentUser } from '@/hooks/useCurrentUser';
+import { useCurrentUser } from '../hooks/useCurrentUser';
 import { checkTokenExpiration } from '../services/authService';
 import { AuthContext, AuthProviderProps } from './AuthContext';
 
