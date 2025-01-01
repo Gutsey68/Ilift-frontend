@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
+import OnboardingFlow from '../Onboarding/OnboardingFlow';
 import Spinner from '../ui/Spinner';
 
 function PrivateRoute() {
@@ -10,7 +11,16 @@ function PrivateRoute() {
     return <Spinner />;
   }
 
-  return user ? <Outlet /> : <Navigate to="/connexion" />;
+  if (!user) {
+    return <Navigate to="/connexion" />;
+  }
+
+  return (
+    <>
+      {!user.isOnboardingCompleted && <OnboardingFlow />}
+      <Outlet />
+    </>
+  );
 }
 
 export default PrivateRoute;

@@ -5,6 +5,8 @@ export type UserDetailsType = {
   bio?: string;
   createdAt: string;
   profilePhoto?: string;
+  isOnboardingCompleted?: boolean;
+  onboardingStep?: number;
   roleId?: string;
   city?: {
     name?: string;

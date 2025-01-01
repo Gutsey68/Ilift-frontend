@@ -2,6 +2,8 @@
 
 ## Features
 
+-unboarding
+-posts après unboarding (si ya pas de followings)
 -Responsive
 
 ## Bugs
@@ -12,12 +14,10 @@
 
 -Modale ajouter un post
 -Modale modifier un post
--Modales administration
 -Lien vers le profile dans allPost
 -Posts page profile
--Rendre disable les champs et les boutons quand ils sont pas remplis
+-Rendre disable les champs quand ils sont pas remplis
 -Modale commentaires
--Changer le bouton secondaire (comme modale commentaires ?)
 -Changer les couleurs de tailwind
 
 ## Facultatif

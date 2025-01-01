@@ -2,7 +2,7 @@ import { LoaderCircle } from 'lucide-react';
 import { cn } from '../../lib/cn';
 
 type ButtonProps = React.ComponentPropsWithoutRef<'button'> & {
-  variant?: 'default' | 'outline' | 'destructive' | 'secondary';
+  variant?: 'default' | 'outline' | 'destructive' | 'secondary' | 'ghost';
   isPending?: boolean;
 };
 
@@ -17,7 +17,8 @@ function Button({ children, className, variant = 'default', isPending, ...props 
           'bg-green-9 text-neutral-950 hover:bg-green-7': variant === 'default',
           'bg-neutral-3 text-neutral-12 hover:bg-neutral-4': variant === 'secondary',
           'border border-green-11 bg-transparent text-green-11 hover:bg-green-2': variant === 'outline',
-          'bg-red-9 text-white hover:bg-red-7': variant === 'destructive'
+          'bg-red-9 text-white hover:bg-red-7': variant === 'destructive',
+          'bg-transparent text-neutral-12 hover:bg-neutral-4 underline': variant === 'ghost'
         },
         className
       )}
