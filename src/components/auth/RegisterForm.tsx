@@ -1,5 +1,4 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { LoaderCircle } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
@@ -74,8 +73,13 @@ function RegisterForm() {
         <span className="underline">politique de confidentialité</span>.
       </Link>
       <hr className="border-neutral-6" />
-      <Button type="submit" className="mt-2 w-full" disabled={isSubmitting || registerMutation.status === 'pending'}>
-        {isSubmitting || registerMutation.status === 'pending' ? <LoaderCircle className="animate-spin" size={20} /> : "S'inscrire"}
+      <Button
+        type="submit"
+        className="mt-2 w-full"
+        isPending={isSubmitting || registerMutation.status === 'pending'}
+        disabled={isSubmitting || registerMutation.status === 'pending'}
+      >
+        S'inscrire
       </Button>
     </form>
   );

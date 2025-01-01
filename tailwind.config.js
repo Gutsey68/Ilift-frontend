@@ -10,6 +10,8 @@ module.exports = {
       colors: {
         red: {
           3: 'hsl(var(--red-3))',
+          7: 'hsl(var(--red-7))',
+          9: 'hsl(var(--red-9))',
           10: 'hsl(var(--red-10))',
           11: 'hsl(var(--red-11))'
         },

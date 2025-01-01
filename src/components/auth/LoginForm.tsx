@@ -1,5 +1,4 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { LoaderCircle } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
@@ -50,8 +49,13 @@ function LoginForm() {
         </div>
         <FormField disabled={isSubmitting || loginMutation.status === 'pending'} label="" name="password" type="password" register={register} errors={errors} />
       </div>
-      <Button type="submit" className="mt-2 w-full" disabled={isSubmitting || loginMutation.status === 'pending'}>
-        {isSubmitting || loginMutation.status === 'pending' ? <LoaderCircle className="animate-spin" size={20} /> : 'Se connecter'}
+      <Button
+        type="submit"
+        className="mt-2 w-full"
+        isPending={isSubmitting || loginMutation.status === 'pending'}
+        disabled={isSubmitting || loginMutation.status === 'pending'}
+      >
+        Se connecter
       </Button>
     </form>
   );

@@ -1,5 +1,4 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { LoaderCircle } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { z } from 'zod';
@@ -39,8 +38,13 @@ function ForgotPasswordForm() {
         errors={errors}
         placeholder="dark.s@email.com"
       />
-      <Button type="submit" className="mt-2 w-full" disabled={isSubmitting || forgotPasswordMutation.status === 'pending'}>
-        {isSubmitting || forgotPasswordMutation.status === 'pending' ? <LoaderCircle className="animate-spin" size={20} /> : 'Réinitialiser le mot de passe'}
+      <Button
+        type="submit"
+        className="mt-2 w-full"
+        isPending={isSubmitting || forgotPasswordMutation.status === 'pending'}
+        disabled={isSubmitting || forgotPasswordMutation.status === 'pending'}
+      >
+        Réinitialiser le mot de passe
       </Button>
     </form>
   );

@@ -40,11 +40,11 @@ function UnfollowModal({ closeModal, following }: UnfollowModalProps) {
   return (
     <Modal size="sm" onClose={closeModal}>
       <Card size="lg" className="max-h-[60vh] overflow-y-auto text-center">
-        <Avatar className="m-auto" size="lg" src={following.profilePhoto} alt={`Photo de ${following.pseudo}`} />
+        <Avatar className="m-auto" size="lg" src={following.profilePhoto || '/uploads/profil.png'} alt={`Photo de ${following.pseudo}`} />
         <p className="py-2 text-neutral-11">Ne plus suivre {following.pseudo} ?</p>
         <hr className="border-neutral-6" />
-        <button onClick={handleUnfollow} className="cursor-pointer py-2 text-red-600 hover:text-red-500">
-          Ne plus suivre
+        <button disabled={mutation.status === 'pending'} onClick={handleUnfollow} className="cursor-pointer py-2 text-red-600 hover:text-red-500">
+          {mutation.status === 'pending' ? 'Suppression en cours...' : 'Ne plus suivre'}
         </button>
         <hr className="border-neutral-6" />
         <button className="cursor-pointer pt-2 text-neutral-11 hover:text-neutral-12" onClick={closeModal}>

@@ -1,4 +1,5 @@
 import { LoaderCircle, X } from 'lucide-react';
+import Button from '../ui/Button';
 import Card from '../ui/Card';
 import Modal from '../ui/Modal';
 
@@ -19,12 +20,12 @@ function ConfirmShareModal({ onClose, onConfirm, isLoading }: ConfirmShareModalP
         <hr className="border-neutral-6" />
         <p className="text-center text-neutral-11">Voulez-vous republier cette publication ?</p>
         <div className="flex justify-end gap-2">
-          <button onClick={onClose} className="rounded-md bg-neutral-4 px-4 py-2 text-sm font-medium text-neutral-12 hover:bg-neutral-5">
+          <Button onClick={onClose} variant="secondary">
             Annuler
-          </button>
-          <button onClick={onConfirm} disabled={isLoading} className="rounded-md bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-500">
+          </Button>
+          <Button onClick={onConfirm} disabled={isLoading} isPending={isLoading}>
             {isLoading ? <LoaderCircle className="animate-spin" size={20} /> : 'Republier'}
-          </button>
+          </Button>
         </div>
       </Card>
     </Modal>

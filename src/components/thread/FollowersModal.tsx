@@ -78,8 +78,8 @@ function FollowersModal({ closeModal }: FollowersModalProps) {
               {filteredFollowers.map((follower: FollowersType) => (
                 <div key={follower.id} className="flex items-center justify-between">
                   <div className="flex items-center gap-4">
-                    <Link to={`/profil/${follower.id}`} className="group flex w-full cursor-pointer items-center gap-2">
-                      <Avatar size="sm" src={follower.profilePhoto} alt={`Photo de ${follower.pseudo}`} />
+                    <Link to={`/profil/${follower.id}`} className="group flex w-full cursor-pointer items-center gap-3">
+                      <Avatar size="sm" src={follower.profilePhoto || '/uploads/profil.png'} alt={`Photo de ${follower.pseudo}`} />
                       <p className="text-sm text-neutral-11 group-hover:text-green-11">{follower.pseudo}</p>
                     </Link>
                     {!follower.isFollowing && (
@@ -88,10 +88,7 @@ function FollowersModal({ closeModal }: FollowersModalProps) {
                       </button>
                     )}
                   </div>
-                  <Button
-                    onClick={() => setSelectedFollower(follower)}
-                    className="w-fit border border-neutral-6 bg-neutral-1 text-neutral-11 shadow-sm hover:bg-neutral-2"
-                  >
+                  <Button onClick={() => setSelectedFollower(follower)} variant="secondary">
                     Supprimer
                   </Button>
                 </div>

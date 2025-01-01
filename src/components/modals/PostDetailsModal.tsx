@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Earth, LoaderCircle } from 'lucide-react';
+import { Earth } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { updatePost } from '../../services/postsService';
 import { PostType } from '../../types/postsType';
@@ -53,9 +53,9 @@ const PostDetailsModal = ({ post, onClose }: PostDetailsModalProps) => {
 
   return (
     <Modal onClose={onClose}>
-      <Card size="xs" className="flex flex-col gap-4">
-        <div className="flex items-center gap-4 p-4">
-          <Avatar alt="" size="lg" src={post.author.profilePhoto ?? ''} />
+      <Card size="xs" className="flex flex-col gap-2">
+        <div className="flex items-center gap-3 p-4">
+          <Avatar alt={`Avatar de ${post.author.pseudo}`} size="sm" src={post.author.profilePhoto || '/uploads/profil.png'} />
           <div>
             <h3 className="text-lg font-semibold">{post.author.pseudo}</h3>
             <div className="flex items-center gap-1 text-xs text-neutral-11">
@@ -64,7 +64,7 @@ const PostDetailsModal = ({ post, onClose }: PostDetailsModalProps) => {
             </div>
           </div>
         </div>
-        <div className="mx-auto flex w-11/12 flex-col sm:w-3/4">
+        <div className="mx-auto flex w-11/12 flex-col px-1 sm:w-3/4">
           <p className="text-neutral-11">{post.content}</p>
           {post.tags && post.tags.length > 0 && (
             <div className="mt-2 flex flex-wrap gap-2">
@@ -74,11 +74,13 @@ const PostDetailsModal = ({ post, onClose }: PostDetailsModalProps) => {
             </div>
           )}
         </div>
-        {post.photo && <img className="mx-auto w-11/12 rounded-lg sm:w-3/4" src={post.photo} alt="" />}
-        <div className="flex justify-end gap-4 border-t border-neutral-6 p-4">
-          <Button onClick={onClose}>Annuler</Button>
-          <Button onClick={handleToggleValid} disabled={isPending}>
-            {isPending ? <LoaderCircle className="animate-spin" size={20} /> : post.isValid ? 'Invalider' : 'Valider'}{' '}
+        {post.photo && <img className="mx-auto w-11/12 rounded-lg px-1 sm:w-3/4" src={post.photo} alt="" />}
+        <div className="mt-2 flex justify-end gap-4 border-t border-neutral-6 p-4">
+          <Button variant="secondary" onClick={onClose}>
+            Annuler
+          </Button>
+          <Button isPending={isPending} variant={post.isValid ? 'destructive' : 'default'} onClick={handleToggleValid} disabled={isPending}>
+            {post.isValid ? 'Invalider' : 'Valider'}
           </Button>{' '}
         </div>{' '}
       </Card>{' '}

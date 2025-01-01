@@ -14,6 +14,7 @@ import FormField from '../auth/FormField';
 import ConfirmDeleteModal from '../modals/ConfirmDeleteModal';
 import CommentsSkeletons from '../skeletons/CommentsSkeletons';
 import Avatar from '../ui/Avatar';
+import Button from '../ui/Button';
 import Card from '../ui/Card';
 import Modal from '../ui/Modal';
 
@@ -142,16 +143,16 @@ function CommentsModal({ closeModal, postId }: CommentsModalProps) {
               </div>
             </div>
             <div className="flex justify-end gap-2">
-              <button type="button" onClick={closeModal} className="rounded-md bg-neutral-4 px-4 py-2 text-sm font-medium text-neutral-12 hover:bg-neutral-5">
+              <Button onClick={closeModal} variant="secondary">
                 Annuler
-              </button>
-              <button
-                type="submit"
+              </Button>
+              <Button
                 disabled={createCommentMutation.isPending}
-                className="rounded-md bg-green-9 px-4 py-2 text-sm font-medium text-neutral-1 hover:bg-green-8 disabled:cursor-not-allowed disabled:opacity-50"
+                isPending={createCommentMutation.isPending}
+                className="disabled:cursor-not-allowed disabled:opacity-50"
               >
-                {createCommentMutation.isPending ? 'En cours...' : 'Commenter'}
-              </button>
+                Commenter
+              </Button>
             </div>
           </form>
         </Card>
