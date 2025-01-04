@@ -10,6 +10,7 @@ export type PostType = {
   doILike?: boolean;
   isShared?: boolean;
   sharedAt?: string;
+  isSuggested?: boolean;
   sharedBy?: string;
   sharedByUser?: {
     id: string;

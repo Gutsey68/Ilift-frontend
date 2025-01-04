@@ -1,7 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Earth, Ellipsis, Heart, LoaderCircle, MessageCircle, Repeat } from 'lucide-react';
+import { Earth, Ellipsis, Heart, LoaderCircle, MessageCircle, Repeat, Zap } from 'lucide-react';
 import { useContext, useState } from 'react';
 import toast from 'react-hot-toast';
+import { Link } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import useInfiniteScroll from '../../hooks/useInfiniteScroll';
 import { formatRelativeTime } from '../../lib/formatRelativeTime';
@@ -123,6 +124,17 @@ function AllPosts({ posts, fetchNextPage, hasNextPage, isFetchingNextPage }: All
 
         return (
           <Card size="xs" key={uniqueKey} className="mt-4 flex flex-col gap-4">
+            {post.isSuggested && (
+              <>
+                <div className="flex flex-col gap-1 px-4 pt-4 text-neutral-11">
+                  <div className="flex items-center gap-2 text-sm">
+                    <Zap size={16} />
+                    <span>Séléctionné pour vous</span>
+                  </div>
+                </div>
+                <hr className="border-neutral-6" />
+              </>
+            )}
             {post.isShared && (
               <>
                 <div className="flex flex-col gap-1 px-4 pt-4 text-neutral-11">
@@ -142,7 +154,9 @@ function AllPosts({ posts, fetchNextPage, hasNextPage, isFetchingNextPage }: All
               <div className="flex gap-4">
                 <Avatar alt="" size="sm" src={user.profilePhoto ?? ''} />
                 <div className="flex flex-col">
-                  <p className="font-semibold text-neutral-12">{user?.pseudo}</p>
+                  <Link to={`/profil/${user?.id}`} className="font-semibold text-neutral-12">
+                    {user?.pseudo}
+                  </Link>
                   <div className="flex items-center gap-1 text-xs text-neutral-11">
                     <p>{formatRelativeTime(post.createdAt)} • </p>
                     <Earth size={14} />
@@ -186,6 +200,7 @@ function AllPosts({ posts, fetchNextPage, hasNextPage, isFetchingNextPage }: All
                   <MessageCircle size={16} />
                   <span className="text-sm max-sm:text-xs">Commenter</span>
                 </button>
+                {postToShare && <ConfirmShareModal onClose={() => setPostToShare(null)} onConfirm={handleConfirmShare} isLoading={shareMutation.isPending} />}
                 <button onClick={() => handleShareClick(post)} className="xs:gap-2 flex items-center gap-1 hover:text-green-9">
                   <Repeat size={16} />
                   <span className="text-sm max-sm:text-xs">{post.isShared && post.sharedBy === userId ? 'Ne plus republier' : 'Republier'}</span>
