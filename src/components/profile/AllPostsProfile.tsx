@@ -173,7 +173,7 @@ function AllPosts({ posts, fetchNextPage, hasNextPage, isFetchingNextPage }: All
                   <hr className="border-neutral-6" />
                 </>
               )}
-              <div className="flex justify-between gap-4 px-4 pt-4">
+              <div className="relative flex gap-4 px-4 pt-4">
                 <div className="flex gap-4">
                   <Avatar src={author.profilePhoto || '/uploads/profil.png'} alt={`Photo de ${author.pseudo}`} size="sm" />
                   <div className="flex flex-col">
@@ -185,7 +185,7 @@ function AllPosts({ posts, fetchNextPage, hasNextPage, isFetchingNextPage }: All
                   </div>
                 </div>
                 {post.authorId === user?.id && (
-                  <button onClick={() => setPostToEdit(commonPost)} className="text-neutral-11 hover:text-green-9">
+                  <button onClick={() => setPostToEdit(commonPost)} className="absolute right-4 top-4 text-neutral-11 hover:text-green-9 sm:right-20 sm:top-6">
                     <Ellipsis size={16} />
                   </button>
                 )}

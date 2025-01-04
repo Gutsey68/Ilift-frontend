@@ -89,6 +89,13 @@ export default function EditPostModal({ post, closeModal }: EditPostModalProps) 
     if (fileInput) fileInput.value = '';
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleAddTag();
+    }
+  };
+
   const onSubmit = async (data: z.infer<typeof updatePostSchema>) => {
     try {
       const formData = new FormData();
@@ -126,86 +133,104 @@ export default function EditPostModal({ post, closeModal }: EditPostModalProps) 
     <>
       <Modal onClose={closeModal}>
         <Card className="relative" size="md">
-          <div className="flex items-center justify-between">
-            <p className="text-2xl font-semibold">Modifier le post</p>
-            <div className="flex items-center gap-2">
-              <button type="button" onClick={() => setShowDeleteModal(true)} className="text-red-600">
-                <Trash2 size={20} />
-              </button>
-              <X onClick={closeModal} className="cursor-pointer text-neutral-11 hover:text-neutral-12" />
+          <div className="border-b border-neutral-6 p-4">
+            <div className="flex items-center justify-between">
+              <p className="text-2xl font-semibold">Modifier le post</p>
+              <div className="flex items-center gap-4">
+                <button type="button" onClick={() => setShowDeleteModal(true)} className="text-red-11 hover:text-red-10">
+                  <Trash2 size={20} />
+                </button>
+                <X onClick={closeModal} className="cursor-pointer text-neutral-11 hover:text-neutral-12" />
+              </div>
             </div>
           </div>
-          <form onSubmit={handleSubmit(onSubmit)} className="mt-4 flex flex-col gap-4">
-            <div>
-              <Textarea disabled={editMutation.isPending || isSubmitting} {...register('content')} />
-              {errors.content && <p className="mt-1 text-sm text-red-600">{errors.content.message}</p>}
-            </div>
+          <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6 p-6">
+            {preview && (
+              <div className="relative mx-auto">
+                <img src={preview} alt="Aperçu" className="h-[200px] rounded-lg object-contain" />
+                <button
+                  type="button"
+                  onClick={handleRemoveImage}
+                  className="absolute -right-2 -top-2 rounded-full bg-neutral-12 p-1.5 text-neutral-1 shadow-sm transition-colors hover:bg-red-9"
+                >
+                  <X size={16} />
+                </button>
+              </div>
+            )}
             <div className="flex flex-col gap-2">
-              <label className="text-sm">Tags</label>
-              <div className="flex flex-wrap gap-2">
-                {tags.map(tag => (
-                  <div
-                    key={tag}
-                    onClick={e => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      handleRemoveTag(tag);
-                    }}
-                  >
-                    <Badge className="cursor-pointer hover:bg-red-3 hover:text-red-11">
-                      {tag}
-                      <X size={13} className="ml-1 inline-block" />
-                    </Badge>
-                  </div>
-                ))}
-              </div>
-              <div className="flex gap-2">
-                <input
-                  disabled={editMutation.isPending || isSubmitting}
-                  type="text"
-                  value={currentTag}
-                  onChange={e => setCurrentTag(e.target.value)}
-                  className="rounded-md border border-neutral-7 bg-neutral-3 px-3 py-1 text-sm"
-                  placeholder="Ajouter un tag"
-                />
-                <Button type="button" onClick={handleAddTag} className="px-3 py-1 text-sm">
-                  Ajouter
-                </Button>
-              </div>
+              <label htmlFor="content" className={`text-sm ${errors.content ? 'text-red-11' : 'text-neutral-11'}`}>
+                Contenu
+                <span className="ml-1 text-red-11">*</span>
+              </label>
+              <Textarea disabled={editMutation.isPending || isSubmitting} {...register('content')} className="min-h-[120px]" />
+              {errors.content && <p className="text-sm text-red-11">{errors.content.message}</p>}
             </div>
-
-            <div className="flex items-center gap-2">
-              <input disabled={editMutation.isPending || isSubmitting} type="file" id="file" className="hidden" accept="image/*" onChange={handleFileChange} />
-              {preview ? (
-                <div className="relative">
-                  <img src={preview} alt="Aperçu" className="size-32 rounded-lg object-cover" />
-                  <button
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <label className="text-sm text-neutral-11">Tags</label>
+                <div className="mb-2 flex items-center gap-2">
+                  <input
+                    type="text"
+                    value={currentTag}
+                    onChange={e => setCurrentTag(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    className="w-40 rounded-md border border-neutral-7 bg-neutral-3 px-3 py-1.5 text-sm"
+                    placeholder="Ajouter un tag"
+                    disabled={editMutation.isPending || isSubmitting}
+                  />
+                  <Button
+                    variant="outline"
                     type="button"
-                    onClick={handleRemoveImage}
-                    className="absolute -right-2 -top-2 rounded-full bg-neutral-12 p-1 text-neutral-1 hover:bg-red-500"
+                    onClick={handleAddTag}
+                    size="sm"
+                    disabled={!currentTag}
+                    isPending={editMutation.isPending || isSubmitting}
                   >
-                    <X size={14} />
-                  </button>
+                    Ajouter
+                  </Button>
                 </div>
-              ) : (
-                <label htmlFor="file" className="my-2 flex cursor-pointer items-center gap-2 text-neutral-11 hover:text-green-11">
-                  <Image />
-                  <span>Ajouter une photo</span>
-                </label>
+              </div>
+              {tags.length > 0 && (
+                <div className="flex flex-wrap gap-2">
+                  {tags.map(tag => (
+                    <div
+                      key={tag}
+                      onClick={e => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        handleRemoveTag(tag);
+                      }}
+                    >
+                      <Badge className="cursor-pointer transition-colors hover:bg-red-3 hover:text-red-11">
+                        {tag}
+                        <X size={14} className="ml-0.5 inline-block" />
+                      </Badge>
+                    </div>
+                  ))}
+                </div>
               )}
             </div>
-            <div className="flex justify-end gap-2">
-              <Button type="button" onClick={closeModal} className="border border-neutral-8 bg-neutral-1 text-neutral-11 hover:bg-neutral-2">
-                Annuler
-              </Button>
-              <Button type="submit" disabled={editMutation.isPending || isSubmitting}>
-                {editMutation.isPending ? <LoaderCircle className="animate-spin" size={20} /> : 'Modifier'}
-              </Button>
+            <div className="flex items-center justify-between border-t border-neutral-6 pt-4">
+              <label
+                htmlFor="file"
+                className="flex cursor-pointer items-center gap-2 rounded-md px-3 py-2 text-sm text-neutral-11 transition-colors hover:text-green-11"
+              >
+                <Image size={18} />
+                <span>Ajouter une photo</span>
+              </label>
+              <input type="file" id="file" className="hidden" accept="image/*" onChange={handleFileChange} />
+              <div className="flex gap-2">
+                <Button variant="secondary" onClick={closeModal} disabled={editMutation.isPending || isSubmitting}>
+                  Annuler
+                </Button>
+                <Button type="submit" isPending={editMutation.isPending || isSubmitting}>
+                  {editMutation.isPending ? <LoaderCircle className="animate-spin" size={20} /> : 'Modifier'}
+                </Button>
+              </div>
             </div>
           </form>
         </Card>
       </Modal>
-
       {showDeleteModal && (
         <ConfirmDeleteModal
           title="Supprimer le post"

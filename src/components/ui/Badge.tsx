@@ -3,13 +3,13 @@ import { cn } from '../../lib/cn';
 type BadgeProps = {
   children: React.ReactNode;
   className?: string;
-  onClick?: () => void;
   variant?: 'default' | 'destructive';
 };
 
-function Badge({ children, className, variant = 'default' }: BadgeProps) {
+function Badge({ children, className, variant = 'default', ...props }: BadgeProps) {
   return (
     <div
+      {...props}
       className={cn(
         {
           'text-green-11 bg-green-3': variant === 'default',
