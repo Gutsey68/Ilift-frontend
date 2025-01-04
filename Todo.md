@@ -2,9 +2,9 @@
 
 ## Features
 
--unboarding
--posts après unboarding (si ya pas de followings)
+-Posts après unboarding (si ya pas de followings)
 -Responsive
+-Optimiser les photos
 
 ## Bugs
 

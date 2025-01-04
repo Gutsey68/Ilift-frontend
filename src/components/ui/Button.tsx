@@ -18,7 +18,7 @@ function Button({ children, className, variant = 'default', isPending, ...props 
           'bg-neutral-3 text-neutral-12 hover:bg-neutral-4': variant === 'secondary',
           'border border-green-11 bg-transparent text-green-11 hover:bg-green-2': variant === 'outline',
           'bg-red-9 text-white hover:bg-red-7': variant === 'destructive',
-          'bg-transparent text-neutral-12 hover:bg-neutral-4 underline': variant === 'ghost'
+          'bg-transparent text-green-11 hover:bg-neutral-4': variant === 'ghost'
         },
         className
       )}

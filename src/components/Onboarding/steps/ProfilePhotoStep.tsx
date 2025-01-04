@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Plus } from 'lucide-react';
-import { useContext, useRef, useState } from 'react'; // Ajout de useRef
+import { useContext, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import { AuthContext } from '../../../context/AuthContext';
 import { updateUserPhoto } from '../../../services/usersService';
@@ -17,7 +17,7 @@ const ProfilePhotoStep = ({ onComplete }: ProfilePhotoStepProps) => {
   const { user } = useContext(AuthContext);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const { mutate: uploadPhoto } = useMutation({
+  const { mutate: uploadPhoto, isPending } = useMutation({
     mutationFn: async () => {
       if (!photo) return;
       const formData = new FormData();
@@ -51,12 +51,16 @@ const ProfilePhotoStep = ({ onComplete }: ProfilePhotoStepProps) => {
       }
       setPhoto(file);
       setPreview(URL.createObjectURL(file));
-      uploadPhoto();
     }
   };
 
   const handleButtonClick = () => {
     fileInputRef.current?.click();
+  };
+
+  const handleCancel = () => {
+    setPhoto(null);
+    setPreview(null);
   };
 
   return (
@@ -73,9 +77,20 @@ const ProfilePhotoStep = ({ onComplete }: ProfilePhotoStepProps) => {
 
       <input ref={fileInputRef} type="file" accept="image/*" onChange={handleFileChange} className="hidden" />
 
-      <Button variant="outline" className="w-full" onClick={handleButtonClick} type="button">
-        {photo ? 'Changer la photo' : 'Choisir une photo'}
-      </Button>
+      {preview ? (
+        <div className="flex w-full gap-2">
+          <Button variant="secondary" className="flex-1" onClick={handleCancel} type="button">
+            Annuler
+          </Button>
+          <Button className="flex-1" onClick={() => uploadPhoto()} disabled={isPending} isPending={isPending}>
+            Confirmer
+          </Button>
+        </div>
+      ) : (
+        <Button variant="outline" className="w-full" onClick={handleButtonClick} type="button">
+          Choisir une photo
+        </Button>
+      )}
     </div>
   );
 };

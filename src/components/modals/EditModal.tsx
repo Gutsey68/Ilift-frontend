@@ -1,9 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { LoaderCircle, X } from 'lucide-react';
+import { X } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { updateUserSchema } from '../../validators/users.validation';
 import FormField from '../auth/FormField';
+import Button from '../ui/Button';
 import Card from '../ui/Card';
 import Modal from '../ui/Modal';
 
@@ -58,7 +59,7 @@ function EditModal({ onClose, onConfirm, title, initialValue, fieldName, isLoadi
         <hr className="border-neutral-6" />
         <form onSubmit={onSubmit} className="flex flex-col gap-4">
           <FormField
-            label={fieldName === 'bio' ? 'Biographie' : 'Ville'}
+            label={fieldName === 'bio' ? 'Bio' : 'Ville'}
             name="value"
             type="text"
             register={register}
@@ -66,12 +67,10 @@ function EditModal({ onClose, onConfirm, title, initialValue, fieldName, isLoadi
             disabled={isLoading}
           />
           <div className="flex justify-end gap-2">
-            <button type="button" onClick={onClose} className="rounded-md bg-neutral-4 px-4 py-2 text-sm font-medium text-neutral-12 hover:bg-neutral-5">
+            <Button type="button" onClick={onClose} variant="secondary">
               Annuler
-            </button>
-            <button type="submit" disabled={isLoading} className="rounded-md bg-green-600 px-4 py-2 text-sm font-medium text-neutral-1 hover:bg-green-500">
-              {isLoading ? <LoaderCircle className="animate-spin" size={20} /> : 'Sauvegarder'}
-            </button>
+            </Button>
+            <Button>Sauvegarder</Button>
           </div>
         </form>
       </Card>

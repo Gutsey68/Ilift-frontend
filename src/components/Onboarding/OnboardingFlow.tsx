@@ -1,6 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useContext, useEffect, useState } from 'react';
-import toast from 'react-hot-toast';
+import { useContext, useState } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { completeOnboarding, updateOnboardingStep } from '../../services/onBoardingService';
 import Button from '../ui/Button';
@@ -11,7 +10,7 @@ import ProfilePhotoStep from './steps/ProfilePhotoStep';
 import UserInfoStep from './steps/UserInfoStep';
 
 const OnboardingFlow = () => {
-  const { user } = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext);
   const [currentStep, setCurrentStep] = useState(user?.onboardingStep || 0);
   const queryClient = useQueryClient();
 
@@ -24,20 +23,17 @@ const OnboardingFlow = () => {
 
   const { mutate: complete } = useMutation({
     mutationFn: completeOnboarding,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['currentUser'] });
-      toast.success('Profil complété avec succès!');
-    },
-    onError: () => {
-      toast.error("Erreur lors de la finalisation de l'onboarding");
+    onSuccess: async () => {
+      if (user) {
+        setUser({
+          ...user,
+          isOnboardingCompleted: true,
+          onboardingStep: 3
+        });
+      }
+      await queryClient.invalidateQueries({ queryKey: ['currentUser'] });
     }
   });
-
-  useEffect(() => {
-    if (user?.onboardingStep !== undefined && user.onboardingStep !== currentStep) {
-      setCurrentStep(user.onboardingStep);
-    }
-  }, [user?.onboardingStep]);
 
   const handleNextStep = () => {
     if (currentStep === steps.length - 1) {
@@ -52,6 +48,14 @@ const OnboardingFlow = () => {
     if (currentStep > 0) {
       updateStep(currentStep - 1);
       setCurrentStep(prev => prev - 1);
+    }
+  };
+
+  const handleSkip = () => {
+    if (currentStep === steps.length - 1) {
+      complete();
+    } else {
+      handleNextStep();
     }
   };
 
@@ -79,9 +83,15 @@ const OnboardingFlow = () => {
     <Modal>
       <Card size="lg" className="flex flex-col gap-6">
         <div className="flex flex-col gap-2 p-6">
-          <div className="mb-4 justify-between text-sm text-neutral-11">
-            Étape {currentStep + 1} sur {steps.length}
+          <div className="mb-4 flex items-center justify-between">
+            <div className="text-sm text-neutral-11">
+              Étape {currentStep + 1} sur {steps.length}
+            </div>
+            <Button variant="ghost" onClick={handleSkip}>
+              {currentStep === steps.length - 1 ? 'Terminer' : 'Passer cette étape'}
+            </Button>
           </div>
+
           <div className="mb-4 flex gap-2">
             {steps.map((_, index) => (
               <div

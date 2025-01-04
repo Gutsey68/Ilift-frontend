@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Image, LoaderCircle, X } from 'lucide-react';
-import { useContext, useState } from 'react';
+import { Plus, X } from 'lucide-react';
+import { useContext, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import { AuthContext } from '../../context/AuthContext';
 import { updateUserPhoto } from '../../services/usersService';
@@ -14,95 +14,96 @@ type AddPhotoModalProps = {
 
 function AddPhotoModal({ onClose }: AddPhotoModalProps) {
   const [preview, setPreview] = useState<string | null>(null);
+  const [photo, setPhoto] = useState<File | null>(null);
   const { user } = useContext(AuthContext);
   const queryClient = useQueryClient();
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   if (!user) return null;
 
-  const handleRemoveImage = () => {
-    setPreview(null);
-
-    const fileInput = document.getElementById('file') as HTMLInputElement;
-    if (fileInput) fileInput.value = '';
-  };
-
-  const updatePhotoMutation = useMutation({
-    mutationFn: (formData: FormData) => updateUserPhoto(user.id, formData),
+  const { mutate: uploadPhoto, isPending } = useMutation({
+    mutationFn: async () => {
+      if (!photo) return;
+      const formData = new FormData();
+      formData.append('profilePhoto', photo);
+      return updateUserPhoto(user.id, formData);
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['currentUser'] });
+      toast.success('Photo de profil mise à jour');
       onClose();
+    },
+    onError: () => {
+      toast.error("Erreur lors de l'upload de la photo");
     }
   });
 
-  const handlePhotoChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
+      if (!file.type.startsWith('image/')) {
+        toast.error('Veuillez sélectionner une image');
+        return;
+      }
+      if (file.size > 5 * 1024 * 1024) {
+        toast.error("L'image ne doit pas dépasser 5MB");
+        return;
+      }
+      setPhoto(file);
+      setPreview(URL.createObjectURL(file));
     }
   };
 
-  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleCancel = () => {
+    setPhoto(null);
+    setPreview(null);
+  };
 
-    try {
-      const formData = new FormData();
-
-      const fileInput = document.getElementById('profilePhoto') as HTMLInputElement;
-      if (fileInput?.files?.[0]) {
-        formData.append('profilePhoto', fileInput.files[0]);
-      }
-
-      await updatePhotoMutation.mutateAsync(formData);
-      toast.success('Photo de profil mise à jour avec succès');
-    } catch {
-      toast.error('Erreur lors de la mise à jour de la photo de profil');
-    }
+  const handleButtonClick = () => {
+    fileInputRef.current?.click();
   };
 
   return (
     <Modal onClose={onClose}>
-      <Card size="sm" className="relative flex flex-col gap-4">
-        <div className="relative flex w-full justify-center">
-          <h2 className="text-xl font-semibold">Changer la photo de profil</h2>
-          <X onClick={onClose} className="absolute right-0 cursor-pointer text-neutral-11 hover:text-neutral-12" />
+      <Card size="sm" className="flex flex-col gap-6">
+        <div className="relative border-b border-neutral-6 p-4">
+          <h2 className="text-center text-xl font-semibold">Changer la photo de profil</h2>
+          <X onClick={onClose} className="absolute right-4 top-4 cursor-pointer text-neutral-11 hover:text-neutral-12" />
         </div>
-        <hr className="border-neutral-6" />
-        <form onSubmit={onSubmit} className="flex flex-col gap-4">
-          <div className="flex items-center gap-2">
-            <input disabled={updatePhotoMutation.isPending} type="file" id="profilePhoto" className="hidden" accept="image/*" onChange={handlePhotoChange} />
+
+        <div className="flex flex-col items-center gap-6 p-6">
+          <div className="relative">
             {preview ? (
-              <div className="relative">
-                <img src={preview} alt="Aperçu" className="size-32 rounded-lg object-cover" />
-                <button
-                  type="button"
-                  onClick={handleRemoveImage}
-                  className="absolute -right-2 -top-2 rounded-full bg-neutral-12 p-1 text-neutral-1 hover:bg-red-500"
-                >
-                  <X size={14} />
-                </button>
-              </div>
+              <img src={preview} alt="Preview" className="size-32 rounded-full object-cover" />
             ) : (
-              <label htmlFor="profilePhoto" className="my-2 flex cursor-pointer items-center gap-2 text-neutral-11 hover:text-green-11">
-                <Image />
-                <span>Ajouter une photo</span>
-              </label>
+              <div className="flex size-32 items-center justify-center rounded-full bg-neutral-3">
+                <Plus className="text-neutral-11" />
+              </div>
             )}
           </div>
 
-          <div className="flex justify-end gap-2">
-            <Button onClick={onClose} className="border border-neutral-8 bg-neutral-1 text-neutral-11 hover:bg-neutral-2">
-              Annuler
-            </Button>
-            <Button type="submit" disabled={!preview || updatePhotoMutation.isPending}>
-              {updatePhotoMutation.isPending ? <LoaderCircle className="animate-spin" size={20} /> : 'Sauvegarder'}
-            </Button>
-          </div>
-        </form>
+          <input ref={fileInputRef} type="file" accept="image/*" onChange={handleFileChange} className="hidden" />
+
+          {preview ? (
+            <div className="mt-2 flex w-full gap-2">
+              <Button variant="secondary" className="flex-1" onClick={handleCancel} type="button">
+                Annuler
+              </Button>
+              <Button className="flex-1" onClick={() => uploadPhoto()} disabled={isPending} isPending={isPending}>
+                Confirmer
+              </Button>
+            </div>
+          ) : (
+            <div className="mt-2 flex w-full gap-2">
+              <Button variant="secondary" className="flex-1" onClick={onClose} type="button">
+                Annuler
+              </Button>
+              <Button className="flex-1" onClick={handleButtonClick} type="button">
+                Choisir une photo
+              </Button>
+            </div>
+          )}
+        </div>
       </Card>
     </Modal>
   );
