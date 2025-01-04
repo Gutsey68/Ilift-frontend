@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { LoaderCircle, X } from 'lucide-react';
+import { X } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import type { z } from 'zod';
@@ -8,6 +8,7 @@ import { updateProgram } from '../../services/programsService';
 import { ProgramType } from '../../types/programsType';
 import { updateProgramSchema } from '../../validators/programs.validation';
 import FormField from '../auth/FormField';
+import Button from '../ui/Button';
 import Card from '../ui/Card';
 import Modal from '../ui/Modal';
 import TextareaField from '../ui/TextareaField';
@@ -62,16 +63,12 @@ function EditProgramModal({ program, onClose }: EditProgramModalProps) {
           <FormField label="Nom du programme" name="name" type="text" register={register} errors={errors} disabled={updateProgramMutation.isPending} />
           <TextareaField label="Description" name="description" register={register} errors={errors} disabled={updateProgramMutation.isPending} />
           <div className="flex justify-end gap-2">
-            <button type="button" onClick={onClose} className="rounded-md bg-neutral-4 px-4 py-2 text-sm font-medium text-neutral-12 hover:bg-neutral-5">
+            <Button disabled={updateProgramMutation.isPending} type="button" onClick={onClose} variant="secondary">
               Annuler
-            </button>
-            <button
-              type="submit"
-              disabled={updateProgramMutation.isPending}
-              className="rounded-md bg-green-600 px-4 py-2 text-sm font-medium text-neutral-1 hover:bg-green-500"
-            >
-              {updateProgramMutation.isPending ? <LoaderCircle className="animate-spin" size={20} /> : 'Modifier'}
-            </button>
+            </Button>
+            <Button type="submit" isPending={updateProgramMutation.isPending}>
+              Modifier
+            </Button>
           </div>
         </form>
       </Card>

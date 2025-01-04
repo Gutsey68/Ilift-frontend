@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { LoaderCircle, X } from 'lucide-react';
+import { X } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import type { z } from 'zod';
@@ -8,6 +8,7 @@ import { updateWorkout } from '../../services/workoutsService';
 import { WorkoutType } from '../../types/workoutsType';
 import { updateWorkoutSchema } from '../../validators/workouts.validation';
 import FormField from '../auth/FormField';
+import Button from '../ui/Button';
 import Card from '../ui/Card';
 import Modal from '../ui/Modal';
 
@@ -59,16 +60,12 @@ function EditWorkoutModal({ workout, onClose }: EditWorkoutModalProps) {
         <form onSubmit={onSubmit} className="flex flex-col gap-4">
           <FormField label="Nom de la séance" name="name" type="text" register={register} errors={errors} disabled={updateWorkoutMutation.isPending} />
           <div className="flex justify-end gap-2">
-            <button type="button" onClick={onClose} className="rounded-md bg-neutral-4 px-4 py-2 text-sm font-medium text-neutral-12 hover:bg-neutral-5">
+            <Button type="button" onClick={onClose} disabled={updateWorkoutMutation.isPending} variant="secondary">
               Annuler
-            </button>
-            <button
-              type="submit"
-              disabled={updateWorkoutMutation.isPending}
-              className="rounded-md bg-green-600 px-4 py-2 text-sm font-medium text-neutral-1 hover:bg-green-500"
-            >
-              {updateWorkoutMutation.isPending ? <LoaderCircle className="animate-spin" size={20} /> : 'Modifier'}
-            </button>
+            </Button>
+            <Button type="submit" isPending={updateWorkoutMutation.isPending}>
+              Modifier
+            </Button>
           </div>
         </form>
       </Card>

@@ -1,9 +1,10 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { LoaderCircle, Plus, Trash } from 'lucide-react';
+import { Plus, Trash } from 'lucide-react';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { useParams } from 'react-router-dom';
 import { createResult } from '../../services/resultsService';
+import Button from '../ui/Button';
 import NumberInput from '../ui/NumberInput';
 
 type SetInputProps = {
@@ -80,16 +81,12 @@ function SetInput({ onClose }: SetInputProps) {
           Ajouter une série
         </button>
         <div className="flex gap-2">
-          <button type="button" onClick={onClose} className="rounded-md bg-neutral-4 px-4 py-2 text-sm font-medium text-neutral-12 hover:bg-neutral-5">
+          <Button size="sm" variant="secondary" onClick={onClose} disabled={createResultMutation.isPending}>
             Annuler
-          </button>
-          <button
-            type="submit"
-            disabled={createResultMutation.isPending}
-            className="rounded-md bg-green-9 px-4 py-2 text-sm font-medium text-neutral-950 hover:bg-green-8"
-          >
-            {createResultMutation.isPending ? <LoaderCircle className="animate-spin" /> : 'Ajouter'}
-          </button>
+          </Button>
+          <Button size="sm" type="submit" isPending={createResultMutation.isPending}>
+            Ajouter
+          </Button>
         </div>
       </div>
     </form>

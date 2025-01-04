@@ -52,9 +52,7 @@ function ExerciceResults({ results }: ExerciceResultsProps) {
           ))}
         </div>
       ))}
-
       {resultToEdit && <EditResultModal result={resultToEdit} onClose={() => setResultToEdit(null)} />}
-
       {resultToDelete && (
         <ConfirmDeleteModal
           title="Supprimer le résultat"

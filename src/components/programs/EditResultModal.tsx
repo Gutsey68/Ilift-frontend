@@ -1,9 +1,10 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { LoaderCircle, X } from 'lucide-react';
+import { X } from 'lucide-react';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { updateResult } from '../../services/resultsService';
 import { ExerciseResult } from '../../types/exerciceResultsType';
+import Button from '../ui/Button';
 import Card from '../ui/Card';
 import Modal from '../ui/Modal';
 import NumberInput from '../ui/NumberInput';
@@ -80,16 +81,12 @@ function EditResultModal({ result, onClose }: EditResultModalProps) {
             </div>
           ))}
           <div className="flex justify-end gap-2">
-            <button type="button" onClick={onClose} className="rounded-md bg-neutral-4 px-4 py-2 text-sm font-medium text-neutral-12 hover:bg-neutral-5">
+            <Button onClick={onClose} variant="secondary">
               Annuler
-            </button>
-            <button
-              type="submit"
-              disabled={updateResultMutation.isPending}
-              className="rounded-md bg-green-600 px-4 py-2 text-sm font-medium text-neutral-1 hover:bg-green-500"
-            >
-              {updateResultMutation.isPending ? <LoaderCircle className="animate-spin" /> : 'Modifier'}
-            </button>
+            </Button>
+            <Button type="submit" isPending={updateResultMutation.isPending}>
+              Modifier
+            </Button>
           </div>
         </form>
       </Card>
