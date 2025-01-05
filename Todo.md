@@ -3,8 +3,6 @@
 ## Facultatif
 
 -Partage résultats d'entraînements
--Abbonés page profil
--Suggestions et tag en mode mobile
 
 ## À faire à la fin
 

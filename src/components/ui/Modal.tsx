@@ -36,10 +36,10 @@ const Modal = ({ children, onClose, size = 'lg', className }: ModalProps) => {
       <div
         className={cn(
           {
-            'sm:w-1/5': size === 'sm',
-            'sm:w-1/4': size === 'md',
-            'sm:w-1/3': size === 'lg',
-            'sm:w-1/2': size === 'xl',
+            'md:w-1/2 lg:w-1/5': size === 'sm',
+            'md:w-3/4 lg:w-1/4': size === 'md',
+            'md:w-3/4 lg:w-1/3': size === 'lg',
+            'md:w-3/4 lg:w-1/2': size === 'xl',
             'relative mb-[10vh] w-full max-sm:px-4 top-40': true
           },
           className

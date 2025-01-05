@@ -57,7 +57,7 @@ function ProfileCardProfile({ userDetails }: ProfileCardProps) {
     <>
       <div className="relative flex items-center gap-4 border-b border-neutral-6 p-6 shadow-sm max-sm:flex-col max-sm:text-center">
         {user && user.id !== userDetails.id && (
-          <Button variant="outline" onClick={handleFollow} className="absolute right-10 top-10">
+          <Button variant="outline" onClick={handleFollow} className="absolute right-4 top-4 md:right-10 md:top-10">
             {userDetails.amIFollowing ? 'Suivi(e)' : 'Suivre'}
           </Button>
         )}

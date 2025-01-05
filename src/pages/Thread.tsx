@@ -40,6 +40,9 @@ function Thread() {
         ) : (
           <div className="mb-10 flex flex-col lg:w-2/4">
             <InputPost />
+            <div className="mt-4 lg:hidden">
+              {suggestedPending ? <ProfileThreadSkeleton /> : <>{suggestedData && <SuggestedProfiles suggestedUsers={suggestedData} />}</>}
+            </div>
             {user && <AllPosts posts={postsData} fetchNextPage={fetchNextPage} hasNextPage={hasNextPage} isFetchingNextPage={isFetchingNextPage} />}
           </div>
         )}

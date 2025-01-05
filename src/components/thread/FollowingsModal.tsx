@@ -55,13 +55,15 @@ function FollowingsModal({ closeModal, userId }: FollowingsModalProps) {
             <div className="flex flex-col gap-4">
               {filteredFollowings.map((following: FollowingsType) => (
                 <div key={following.id} className="flex items-center justify-between">
-                  <Link to={`/profil/${following.id}`} className="group flex w-full cursor-pointer items-center gap-2">
+                  <Link to={`/profil/${following.id}`} onClick={closeModal} className="group flex w-full cursor-pointer items-center gap-2">
                     <Avatar size="sm" src={following.profilePhoto || '/uploads/profil.png'} alt={`Photo de ${following.pseudo}`} />
                     <p className="text-sm text-neutral-11 group-hover:text-green-11">{following.pseudo}</p>
                   </Link>
-                  <Button variant="secondary" onClick={() => setSelectedFollowing(following)}>
-                    Suivie(e)
-                  </Button>
+                  {user && user.id === id && (
+                    <Button variant="secondary" onClick={() => setSelectedFollowing(following)}>
+                      Suivie(e)
+                    </Button>
+                  )}
                 </div>
               ))}
             </div>

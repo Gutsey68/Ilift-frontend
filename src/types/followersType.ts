@@ -3,4 +3,5 @@ export type FollowersType = {
   pseudo: string;
   profilePhoto: string;
   isFollowing: boolean;
+  amIFollowing: boolean;
 };
