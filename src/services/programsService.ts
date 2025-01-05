@@ -19,7 +19,7 @@ export const createProgram = async (data: { name: string; description: string })
   });
 };
 
-export const updateProgram = async (id: string, data: { name?: string; description?: string }) => {
+export const updateProgram = async (id: string, data: { name?: string; description?: string; position?: number }) => {
   return fetchWithToken(`/api/programs/${id}`, {
     method: 'PUT',
     body: JSON.stringify(data)

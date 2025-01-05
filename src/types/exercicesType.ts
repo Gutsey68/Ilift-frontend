@@ -13,6 +13,11 @@ export type ExerciseMuscleGroupType = {
 
 export type ExerciseType = BaseEntityType & {
   musclesGroups: ExerciseMuscleGroupType[];
+  position?: number;
+};
+
+export type WorkoutExerciseType = ExerciseType & {
+  position: number;
 };
 
 export type WorkoutType = {
@@ -30,7 +35,7 @@ export type ResponseType<T> = {
 };
 
 export type ExerciseResponseType = ResponseType<{
-  exercices: ExerciseType[];
+  exercices: WorkoutExerciseType[];
   workout: WorkoutType;
 }>;
 

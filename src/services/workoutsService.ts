@@ -8,10 +8,13 @@ export const createWorkout = async (data: { name: string }) => {
   });
 };
 
-export const updateWorkout = async (id: string, data: { name: string }) => {
+export const updateWorkout = async (id: string, name?: string, position?: number) => {
   return fetchWithToken(`/api/workouts/${id}`, {
     method: 'PUT',
-    body: JSON.stringify(data)
+    body: JSON.stringify({
+      ...(name && { name }),
+      ...(typeof position === 'number' && { position })
+    })
   });
 };
 
