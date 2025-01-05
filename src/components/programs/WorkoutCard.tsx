@@ -53,14 +53,14 @@ export default function WorkoutCard({ workout, index, onEdit, onDelete, moveWork
               e.preventDefault();
               onEdit(workout);
             }}
-            className="ml-2 inline-block cursor-pointer opacity-0 hover:text-green-11 group-hover:opacity-100"
+            className="ml-2 inline-block cursor-pointer hover:text-green-11 max-lg:text-green-11"
           />
           <Trash
             onClick={e => {
               e.preventDefault();
               onDelete(workout);
             }}
-            className="inline-block cursor-pointer opacity-0 hover:text-red-11 group-hover:opacity-100"
+            className="inline-block cursor-pointer hover:text-red-11 max-lg:text-red-11"
           />
           <GripVertical className="cursor-grab" />
         </div>

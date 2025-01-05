@@ -1,6 +1,5 @@
 import { useContext, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import ProfilPicture from '../../../assets/images/profil.png';
 import { AuthContext } from '../../../context/AuthContext';
 import RightNavSkeleton from '../../skeletons/RightNavSkeleton';
 import Avatar from '../../ui/Avatar';
@@ -35,7 +34,7 @@ function UserNavInfos() {
       </div>
       <NotificationBell />
       <div ref={avatarRef} onClick={handleClick} className="cursor-pointer">
-        <Avatar src={user?.profilePhoto || ProfilPicture} alt="" size="sm" />
+        <Avatar src={user?.profilePhoto || '/uploads.profil.webp'} alt="" size="sm" />
       </div>
       {showModal && createPortal(<UserAvatarModal closeModal={() => setShowModal(false)} avatarRef={avatarRef} />, document.body)}
     </div>

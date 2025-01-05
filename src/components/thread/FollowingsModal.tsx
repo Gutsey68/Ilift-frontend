@@ -15,13 +15,14 @@ import UnfollowModal from './UnfollowModal';
 
 type FollowingsModalProps = {
   closeModal: () => void;
+  userId?: string;
 };
 
-function FollowingsModal({ closeModal }: FollowingsModalProps) {
+function FollowingsModal({ closeModal, userId }: FollowingsModalProps) {
   const { user } = useContext(AuthContext);
   const [selectedFollowing, setSelectedFollowing] = useState<FollowingsType | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
-  const id = user?.id;
+  const id = userId || user?.id;
 
   const { isPending: followingsPending, data: followings } = useQuery({
     queryKey: ['followings', id],

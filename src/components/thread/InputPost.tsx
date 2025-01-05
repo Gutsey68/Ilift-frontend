@@ -1,5 +1,4 @@
 import { useContext, useState } from 'react';
-import ProfilPicture from '../../assets/images/profil.png';
 import { AuthContext } from '../../context/AuthContext';
 import Avatar from '../ui/Avatar';
 import Card from '../ui/Card';
@@ -14,7 +13,7 @@ function InputPost() {
       <div onClick={() => setShowModal(true)}>
         <Card size="md" className="flex cursor-pointer gap-4">
           <div>
-            <Avatar alt="" size="sm" src={user?.profilePhoto || ProfilPicture} />
+            <Avatar alt="" size="sm" src={user?.profilePhoto || '/uploads.profil.webp'} />
           </div>
           <p className="my-2 w-full border-b border-neutral-6 pb-1 text-neutral-10">Ecrire un post...</p>
         </Card>

@@ -1,6 +1,5 @@
 import { Dumbbell } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import registerPhoto from '../assets/images/registerPhoto.jpg';
 import RegisterForm from '../components/auth/RegisterForm';
 
 function RegisterPage() {
@@ -21,7 +20,7 @@ function RegisterPage() {
         </div>
       </div>
       <div className="w-1/2 max-lg:hidden">
-        <img src={registerPhoto} className="size-full bg-neutral-1 object-cover" alt="" />
+        <img src={'/uploads/registerPhoto.webp'} className="size-full bg-neutral-1 object-cover" alt="" />
       </div>
       <Link to="/">
         <Dumbbell size={36} className="absolute left-8 top-8 text-green-9" />

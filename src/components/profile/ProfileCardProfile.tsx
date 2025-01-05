@@ -7,6 +7,8 @@ import { formatRelativeTime } from '../../lib/formatRelativeTime';
 import { follow } from '../../services/followersService';
 
 import { UserDetailsType } from '@/types/userDetailsType';
+import FollowersModal from '../thread/FollowersModal';
+import FollowingsModal from '../thread/FollowingsModal';
 import UnfollowModal from '../thread/UnfollowModal';
 import Avatar from '../ui/Avatar';
 import Button from '../ui/Button';
@@ -18,6 +20,8 @@ type ProfileCardProps = {
 function ProfileCardProfile({ userDetails }: ProfileCardProps) {
   const { user } = useContext(AuthContext);
   const [selectedFollowing, setSelectedFollowing] = useState<UserDetailsType | null>(null);
+  const [showFollowersModal, setShowFollowersModal] = useState(false);
+  const [showFollowingsModal, setShowFollowingsModal] = useState(false);
   const queryClient = useQueryClient();
 
   if (!userDetails) {
@@ -71,11 +75,11 @@ function ProfileCardProfile({ userDetails }: ProfileCardProps) {
             </p>
           </div>
           <div className="mt-2 flex items-center gap-6 text-sm text-neutral-10">
-            <p className="flex items-center gap-1">
+            <p onClick={() => setShowFollowingsModal(true)} className="flex cursor-pointer items-center gap-1 hover:text-green-9">
               <span className="text-lg font-semibold text-green-9">{userDetails._count?.followedBy || 0}</span>
               abonnements
             </p>
-            <p className="flex items-center gap-1">
+            <p onClick={() => setShowFollowersModal(true)} className="flex cursor-pointer items-center gap-1 hover:text-green-9">
               <span className="text-lg font-semibold text-green-9">{userDetails._count?.following || 0}</span>
               abonnés
             </p>
@@ -87,6 +91,8 @@ function ProfileCardProfile({ userDetails }: ProfileCardProps) {
         </div>
       </div>
       {selectedFollowing && <UnfollowModal following={selectedFollowing} closeModal={() => setSelectedFollowing(null)} />}
+      {showFollowersModal && <FollowersModal userId={userDetails.id} closeModal={() => setShowFollowersModal(false)} />}
+      {showFollowingsModal && <FollowingsModal userId={userDetails.id} closeModal={() => setShowFollowingsModal(false)} />}
     </>
   );
 }

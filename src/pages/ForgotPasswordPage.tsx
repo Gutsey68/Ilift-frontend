@@ -1,6 +1,5 @@
 import { Dumbbell } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import forgetPhoto from '../assets/images/forgotPhoto.jpg';
 import ForgotPasswordForm from '../components/auth/ForgotPasswordForm';
 
 function ForgotPasswordPage() {
@@ -23,7 +22,7 @@ function ForgotPasswordPage() {
         </div>
       </div>
       <div className="w-1/2 max-lg:hidden">
-        <img className="size-full bg-neutral-1 object-cover" src={forgetPhoto} alt="" />
+        <img className="size-full bg-neutral-1 object-cover" src={'/uploads/forgotPhoto.webp'} alt="" />
       </div>
       <Link to="/">
         <Dumbbell size={36} className="absolute left-8 top-8 text-green-9" />

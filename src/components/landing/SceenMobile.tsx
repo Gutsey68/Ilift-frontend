@@ -1,7 +1,5 @@
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import ScreenDark from '../../assets/images/mobileDark.png';
-import ScreenLight from '../../assets/images/mobileLight.png';
 import { ThemeContext } from '../../context/ThemeContext';
 import Button from '../ui/Button';
 
@@ -19,7 +17,7 @@ function SceenMobile() {
         </Link>
       </div>
       <div className="max-sm:mt-10 md:w-1/2">
-        {isDark ? <img src={ScreenDark} className="w-[500px] rounded-t-lg" alt="" /> : <img src={ScreenLight} className="w-[500px] rounded-t-lg" alt="" />}
+        <img src={isDark ? '/uploads/mobileDark.webp' : '/uploads/mobileLight.webp'} className="w-[500px] rounded-t-lg" alt="" />
       </div>
     </div>
   );

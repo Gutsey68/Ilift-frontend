@@ -17,15 +17,16 @@ import DeleteFollowerModal from './DeleteFollowerModal';
 
 type FollowersModalProps = {
   closeModal: () => void;
+  userId?: string;
 };
 
-function FollowersModal({ closeModal }: FollowersModalProps) {
+function FollowersModal({ closeModal, userId }: FollowersModalProps) {
   const { user } = useContext(AuthContext);
   const [selectedFollower, setSelectedFollower] = useState<FollowingsType | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const queryClient = useQueryClient();
 
-  const id = user?.id;
+  const id = userId || user?.id;
 
   const { isPending: followersPending, data: followers } = useQuery({
     queryKey: ['followers', id],
@@ -80,15 +81,15 @@ function FollowersModal({ closeModal }: FollowersModalProps) {
                   <div className="flex items-center gap-4">
                     <Link to={`/profil/${follower.id}`} className="group flex w-full cursor-pointer items-center gap-3">
                       <Avatar size="sm" src={follower.profilePhoto || '/uploads/profil.png'} alt={`Photo de ${follower.pseudo}`} />
-                      <p className="text-sm text-neutral-11 group-hover:text-green-11">{follower.pseudo}</p>
+                      <p className="text-sm text-neutral-11 group-hover:text-green-11 max-md:text-xs">{follower.pseudo}</p>
                     </Link>
                     {!follower.isFollowing && (
-                      <button onClick={() => handleFollow(follower.id, follower.pseudo)} className="text-sm text-green-11 hover:underline">
+                      <button onClick={() => handleFollow(follower.id, follower.pseudo)} className="text-sm text-green-11 hover:underline max-md:text-xs">
                         Suivre
                       </button>
                     )}
                   </div>
-                  <Button onClick={() => setSelectedFollower(follower)} variant="secondary">
+                  <Button onClick={() => setSelectedFollower(follower)} variant="secondary" className="px-3 max-md:text-xs">
                     Supprimer
                   </Button>
                 </div>

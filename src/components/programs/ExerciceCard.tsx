@@ -52,7 +52,7 @@ export default function ExerciceCard({ exercice, index, workoutId, onDelete, mov
             e.preventDefault();
             onDelete(exercice);
           }}
-          className="inline-block cursor-pointer text-neutral-11 opacity-0 hover:text-red-11 group-hover:opacity-100"
+          className="inline-block cursor-pointer text-neutral-11 hover:text-red-11 max-lg:text-red-11"
         />
         <GripVertical className="cursor-grab text-neutral-11" />
       </div>

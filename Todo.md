@@ -1,22 +1,10 @@
 # Todo
 
-## Features
-
--Responsive
--Optimiser les photos
-
-## Bugs
-
--Bug republication
-
-## UI
-
 ## Facultatif
 
 -Partage résultats d'entraînements
+-Abbonés page profil
 -Suggestions et tag en mode mobile
--Voir les abbonnées et abonnements sur la page profile
--Filter par tags
 
 ## À faire à la fin
 
