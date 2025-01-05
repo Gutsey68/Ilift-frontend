@@ -1,4 +1,4 @@
-import { Pencil, Trash } from 'lucide-react';
+import { GripVertical, Pencil, Trash } from 'lucide-react';
 import { useDrag, useDrop } from 'react-dnd';
 import { Link } from 'react-router-dom';
 import { ProgramType } from '../../types/programsType';
@@ -50,7 +50,7 @@ export default function ProgramCard({ program, index, onEdit, onDelete, moveProg
             <p className="text-sm text-neutral-10 max-sm:text-xs">{program.description}</p>
           </div>
         </Link>
-        <div className="flex gap-4">
+        <div className="flex gap-4 text-neutral-11">
           <Pencil
             onClick={e => {
               e.preventDefault();
@@ -65,6 +65,7 @@ export default function ProgramCard({ program, index, onEdit, onDelete, moveProg
             }}
             className="inline-block cursor-pointer opacity-0 hover:text-red-11 group-hover:opacity-100"
           />
+          <GripVertical className="cursor-grab" />
         </div>
       </div>
     </div>

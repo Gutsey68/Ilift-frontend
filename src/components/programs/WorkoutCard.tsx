@@ -1,4 +1,4 @@
-import { Pencil, Trash } from 'lucide-react';
+import { GripVertical, Pencil, Trash } from 'lucide-react';
 import { useDrag, useDrop } from 'react-dnd';
 import { Link } from 'react-router-dom';
 import { WorkoutType } from '../../types/workoutsType';
@@ -47,7 +47,7 @@ export default function WorkoutCard({ workout, index, onEdit, onDelete, moveWork
             <h2 className="font-semibold group-hover:text-green-9">{workout.name}</h2>
           </div>
         </Link>
-        <div className="flex gap-4">
+        <div className="flex gap-4 text-neutral-11">
           <Pencil
             onClick={e => {
               e.preventDefault();
@@ -62,6 +62,7 @@ export default function WorkoutCard({ workout, index, onEdit, onDelete, moveWork
             }}
             className="inline-block cursor-pointer opacity-0 hover:text-red-11 group-hover:opacity-100"
           />
+          <GripVertical className="cursor-grab" />
         </div>
       </div>
     </div>
