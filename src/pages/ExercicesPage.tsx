@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { Plus } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import BreadCrumb from '../components/layout/BreadCrumb';
 import AddExerciceModal from '../components/programs/CreateExerciceModal';
@@ -8,12 +8,14 @@ import ExercicesList from '../components/programs/ExercicesList';
 import ExercicesSkeletons from '../components/skeletons/ExercicesSkeletons';
 import Button from '../components/ui/Button';
 import { Spacing } from '../components/ui/Spacing';
+import { useProgramContext } from '../context/ProgramContext';
 import { fetchExercicesOfWorkout } from '../services/programsService';
 import { WorkoutExercisesResponseType } from '../types/exercicesType';
 
 function ExercicesPage() {
   const { id } = useParams();
   const [showModal, setShowModal] = useState(false);
+  const { setWorkoutInfo } = useProgramContext();
 
   const { isPending: exercicesPending, data: exercices } = useQuery<WorkoutExercisesResponseType>({
     queryKey: ['exercices', id],
@@ -25,6 +27,12 @@ function ExercicesPage() {
     },
     enabled: !!id
   });
+
+  useEffect(() => {
+    if (exercices?.data) {
+      setWorkoutInfo(exercices.data.workout.name, exercices.data.workout.id);
+    }
+  }, [exercices, setWorkoutInfo]);
 
   const exercicesData = exercices?.data;
 

@@ -7,11 +7,13 @@ import ExerciceResults from '../components/programs/ExerciceResults';
 import SetInput from '../components/programs/SetInput';
 import ExerciceResultsSkeletons from '../components/skeletons/ExerciceResultsSkeletons';
 import Button from '../components/ui/Button';
+import { useProgramContext } from '../context/ProgramContext';
 import { fetchExerciceAndResults } from '../services/exercicesService';
 
 function ExerciceDetailPage() {
   const { id } = useParams();
   const [showSetInput, setShowSetInput] = useState(false);
+  const { programName, programId, workoutName, workoutId } = useProgramContext();
 
   const { isPending: resultsPending, data: results } = useQuery({
     queryKey: ['results', id],
@@ -34,12 +36,12 @@ function ExerciceDetailPage() {
     { label: 'Accueil', href: '/' },
     { label: 'Programmes', href: '/programmes' },
     {
-      label: resultsData ? resultsData.workout.workouts[0].workout.program.name : '',
-      href: resultsData ? `/programmes/${resultsData.workout.workouts[0].workout.program.id}` : ''
+      label: programName,
+      href: `/programmes/${programId}`
     },
     {
-      label: resultsData ? resultsData.workout.workouts[0].workout.name : '',
-      href: resultsData ? `/programmes/${resultsData.workout.workouts[0].workout.id}/exercices` : ''
+      label: workoutName,
+      href: `/programmes/${programId}/exercices/${workoutId}`
     },
     { label: resultsData ? resultsData.exercices.name : '', current: true }
   ];

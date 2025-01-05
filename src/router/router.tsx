@@ -1,24 +1,25 @@
 import { createBrowserRouter, Outlet } from 'react-router-dom';
 import NotAuthenticatedRoute from '../components/auth/NotAuthenticatedRoute';
 import PrivateRoute from '../components/auth/PrivateRoute';
-import ErrorBoundary from '../components/error/ErrorBoundary.tsx';
-import ErrorBoundaryWithLayout from '../components/error/ErrorBoundaryWithLayout.tsx';
+import ErrorBoundary from '../components/error/ErrorBoundary';
+import ErrorBoundaryWithLayout from '../components/error/ErrorBoundaryWithLayout';
 import Layout from '../components/layout/Layout';
-import AboutPage from '../pages/AboutPage.tsx';
+import { ProgramProvider } from '../context/ProgramContext';
+import AboutPage from '../pages/AboutPage';
 import AdminPage from '../pages/AdminPage';
 import ExerciceDetailPage from '../pages/ExerciceDetailPage';
 import ExercicesPage from '../pages/ExercicesPage';
 import ForgotPasswordPage from '../pages/ForgotPasswordPage';
 import LandingPage from '../pages/LandingPage';
-import LegalPage from '../pages/LegalPage.tsx';
+import LegalPage from '../pages/LegalPage';
 import LoginPage from '../pages/LoginPage';
 import Page404 from '../pages/Page404';
-import ParametresPage from '../pages/ParametresPage.tsx';
-import ProfilPage from '../pages/ProfilePage.tsx';
+import ParametresPage from '../pages/ParametresPage';
+import ProfilPage from '../pages/ProfilePage';
 import ProgramDetailPage from '../pages/ProgramDetailPage';
 import ProgramsPage from '../pages/ProgramsPage';
 import RegisterPage from '../pages/RegisterPage';
-import ResetPasswordPage from '../pages/ResetPasswordPage.tsx';
+import ResetPasswordPage from '../pages/ResetPasswordPage';
 import Thread from '../pages/Thread';
 
 export const router = createBrowserRouter([
@@ -69,7 +70,11 @@ export const router = createBrowserRouter([
       },
       {
         path: 'programmes',
-        element: <PrivateRoute />,
+        element: (
+          <ProgramProvider>
+            <PrivateRoute />
+          </ProgramProvider>
+        ),
         children: [
           {
             path: '',

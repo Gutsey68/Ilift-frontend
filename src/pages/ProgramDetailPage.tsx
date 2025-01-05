@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { Plus } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useNavigate, useParams } from 'react-router-dom';
 import BreadCrumb from '../components/layout/BreadCrumb';
@@ -9,12 +9,14 @@ import WorkoutsList from '../components/programs/WorkoutsList';
 import ExercicesSkeletons from '../components/skeletons/ExercicesSkeletons';
 import Button from '../components/ui/Button';
 import { Spacing } from '../components/ui/Spacing';
+import { useProgramContext } from '../context/ProgramContext';
 import { fetchWorkoutsOfProgram } from '../services/programsService';
 
 function ProgramDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
+  const { setProgramInfo } = useProgramContext();
 
   const { isPending: workoutsPending, data: workouts } = useQuery({
     queryKey: ['workouts', id],
@@ -33,6 +35,12 @@ function ProgramDetailPage() {
     },
     enabled: !!id
   });
+
+  useEffect(() => {
+    if (workouts?.data) {
+      setProgramInfo(workouts.data.program.name, workouts.data.program.id);
+    }
+  }, [workouts, setProgramInfo]);
 
   const workoutsData = workouts?.data;
 
