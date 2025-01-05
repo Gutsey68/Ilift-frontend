@@ -49,7 +49,7 @@ function NotificationBell() {
       <div ref={bellRef} onClick={handleClick} className="group relative cursor-pointer">
         <IconButton icon={<Bell className="size-5 group-hover:text-green-9" />} />
         {unreadCount > 0 && (
-          <div className="absolute left-[18px] top-0 flex size-5 items-center justify-center rounded-full border-2 border-neutral-1 bg-red-600">
+          <div className="absolute left-[18px] top-0 flex size-5 items-center justify-center rounded-full border-2 border-neutral-1 bg-red-9">
             <span className="text-xs text-white">{displayCount}</span>
           </div>
         )}

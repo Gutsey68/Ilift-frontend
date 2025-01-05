@@ -1,12 +1,13 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { LoaderCircle, X } from 'lucide-react';
+import { X } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import type { z } from 'zod';
 import { createProgram } from '../../services/programsService';
 import { createProgramSchema } from '../../validators/programs.validation';
 import FormField from '../auth/FormField';
+import Button from '../ui/Button';
 import Card from '../ui/Card';
 import Modal from '../ui/Modal';
 import TextareaField from '../ui/TextareaField';
@@ -84,16 +85,12 @@ function CreateProgramModal({ closeModal }: CreateProgramModalProps) {
             placeholder="Décrivez votre programme..."
           />
           <div className="flex justify-end gap-2">
-            <button type="button" onClick={closeModal} className="rounded-md bg-neutral-4 px-4 py-2 text-sm font-medium text-neutral-12 hover:bg-neutral-5">
+            <Button variant="secondary" type="button" onClick={closeModal}>
               Annuler
-            </button>
-            <button
-              type="submit"
-              disabled={createProgramMutation.isPending}
-              className="rounded-md bg-green-600 px-4 py-2 text-sm font-medium text-neutral-1 hover:bg-green-500"
-            >
-              {createProgramMutation.isPending ? <LoaderCircle className="animate-spin" size={20} /> : 'Créer'}
-            </button>
+            </Button>
+            <Button type="submit" isPending={createProgramMutation.isPending}>
+              Créer
+            </Button>
           </div>
         </form>
       </Card>

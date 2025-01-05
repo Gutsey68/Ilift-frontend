@@ -1,13 +1,14 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { LoaderCircle, X } from 'lucide-react';
+import { X } from 'lucide-react';
 import { useForm } from 'react-hook-form';
-import { useParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import { useParams } from 'react-router-dom';
 import type { z } from 'zod';
 import { createWorkout } from '../../services/workoutsService';
 import { createWorkoutSchema } from '../../validators/workouts.validation';
 import FormField from '../auth/FormField';
+import Button from '../ui/Button';
 import Card from '../ui/Card';
 import Modal from '../ui/Modal';
 
@@ -68,16 +69,12 @@ function CreateWorkoutModal({ closeModal }: CreateWorkoutModalProps) {
             placeholder="Ex: Séance pectoraux"
           />
           <div className="flex justify-end gap-2">
-            <button type="button" onClick={closeModal} className="rounded-md bg-neutral-4 px-4 py-2 text-sm font-medium text-neutral-12 hover:bg-neutral-5">
+            <Button onClick={closeModal} variant="secondary">
               Annuler
-            </button>
-            <button
-              type="submit"
-              disabled={createWorkoutMutation.isPending}
-              className="rounded-md bg-green-600 px-4 py-2 text-sm font-medium text-neutral-1 hover:bg-green-500"
-            >
-              {createWorkoutMutation.isPending ? <LoaderCircle className="animate-spin" size={20} /> : 'Créer'}
-            </button>
+            </Button>
+            <Button type="submit" isPending={createWorkoutMutation.isPending}>
+              Créer
+            </Button>
           </div>
         </form>
       </Card>

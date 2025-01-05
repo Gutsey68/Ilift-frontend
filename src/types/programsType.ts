@@ -5,4 +5,5 @@ export type ProgramType = {
   createdAt: string;
   updatedAt: string;
   authorId: string;
+  position: number;
 };

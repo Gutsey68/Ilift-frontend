@@ -43,7 +43,7 @@ function UnfollowModal({ closeModal, following }: UnfollowModalProps) {
         <Avatar className="m-auto" size="lg" src={following.profilePhoto || '/uploads/profil.png'} alt={`Photo de ${following.pseudo}`} />
         <p className="py-2 text-neutral-11">Ne plus suivre {following.pseudo} ?</p>
         <hr className="border-neutral-6" />
-        <button disabled={mutation.status === 'pending'} onClick={handleUnfollow} className="cursor-pointer py-2 text-red-600 hover:text-red-500">
+        <button disabled={mutation.status === 'pending'} onClick={handleUnfollow} className="cursor-pointer py-2 text-red-11 hover:text-red-10">
           {mutation.status === 'pending' ? 'Suppression en cours...' : 'Ne plus suivre'}
         </button>
         <hr className="border-neutral-6" />

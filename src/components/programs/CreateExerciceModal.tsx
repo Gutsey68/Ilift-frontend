@@ -7,6 +7,7 @@ import MuscleGroupSelect from '../../pages/MusclesPage';
 import { fetchExercices } from '../../services/exercicesService';
 import { updateWorkoutExercices } from '../../services/workoutsService';
 import { AllExercisesResponseType, ExerciseType } from '../../types/exercicesType';
+import Button from '../ui/Button';
 import Card from '../ui/Card';
 import { Input } from '../ui/Input';
 import Modal from '../ui/Modal';
@@ -78,13 +79,9 @@ function AddExerciceModal({ closeModal, currentExercices }: AddExerciceModalProp
                   <p className="text-sm text-neutral-11">{exercice.name}</p>
                   <p className="text-xs text-neutral-10">{exercice.musclesGroups?.map(mg => mg.muscleGroups.name).join(', ')}</p>
                 </div>
-                <button
-                  onClick={() => addExerciceMutation.mutate(exercice.id)}
-                  disabled={addExerciceMutation.isPending}
-                  className="rounded-md bg-green-600 px-4 py-2 text-sm font-medium text-neutral-1 hover:bg-green-500"
-                >
+                <Button onClick={() => addExerciceMutation.mutate(exercice.id)} isPending={addExerciceMutation.isPending} size="sm" variant="secondary">
                   Ajouter
-                </button>
+                </Button>
               </div>
             ))}
           </div>

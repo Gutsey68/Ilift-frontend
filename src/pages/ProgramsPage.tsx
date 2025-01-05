@@ -17,6 +17,8 @@ function ProgramsPage() {
     { label: 'Programmes', current: true }
   ];
 
+  console.log(programsData);
+
   return (
     <>
       <div className="mb-auto mt-4 min-h-96">

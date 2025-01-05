@@ -42,7 +42,7 @@ function DeleteFollowerModal({ closeModal, follower }: DeleteFollowerModalProps)
           Nous n'informerons pas <span className="text-neutral-12">{follower.pseudo}</span> que vous avez supprimé son compte de vos followers.
         </p>
         <hr className="border-neutral-6" />
-        <button onClick={handleDelete} className="cursor-pointer py-2 text-red-600 hover:text-red-500">
+        <button onClick={handleDelete} className="cursor-pointer py-2 text-red-11 hover:text-red-10">
           {mutation.status === 'pending' ? 'Suppression en cours...' : 'Supprimer'}
         </button>
         <hr className="border-neutral-6" />
