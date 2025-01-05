@@ -13,11 +13,10 @@
 
 ## Facultatif
 
--Page About
 -Partage résultats d'entraînements
 -Suggestions et tag en mode mobile
--Filter par tags
 -Voir les abbonnées et abonnements sur la page profile
+-Filter par tags
 
 ## À faire à la fin
 

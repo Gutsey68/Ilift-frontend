@@ -5,7 +5,7 @@ import { updateExercicePosition } from '../../services/exercicesService';
 import { updateWorkoutExercices } from '../../services/workoutsService';
 import { ExerciseType, WorkoutExerciseType } from '../../types/exercicesType';
 import ConfirmDeleteModal from '../modals/ConfirmDeleteModal';
-import { ExerciceCard } from './ExerciceCard';
+import ExerciceCard from './ExerciceCard';
 
 type ExercicesListProps = {
   exercices: WorkoutExerciseType[];

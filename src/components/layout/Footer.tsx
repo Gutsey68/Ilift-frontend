@@ -49,7 +49,7 @@ const Footer = ({ ...props }) => {
             </ul>
           </div>
           <div className="flex flex-col justify-center max-sm:flex">
-            <h3 className="mb-4 text-lg font-semibold text-neutral-12">Contactez nous</h3>
+            <h3 className="mb-4 text-lg font-semibold text-neutral-12">Liens utiles</h3>
             <div className="flex flex-col space-y-2">
               <NavLink to={'mentions-legales'} className="transition-colors hover:text-green-9">
                 Mentions légales

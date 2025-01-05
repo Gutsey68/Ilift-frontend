@@ -40,56 +40,59 @@ function SetInput({ onClose }: SetInputProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-4 rounded-lg border border-neutral-6 p-4">
-      {sets.map((set, index) => (
-        <div key={index} className="flex items-center gap-4">
-          <div className="flex flex-col gap-2">
-            <label className="text-sm text-neutral-11">Répétitions</label>
-            <NumberInput
-              value={set.reps}
-              onChange={value => {
-                const newSets = [...sets];
-                newSets[index] = { ...set, reps: value };
-                setSets(newSets);
-              }}
+    <>
+      <hr className="border-neutral-6" />
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4 rounded-lg border border-neutral-6 p-4">
+        {sets.map((set, index) => (
+          <div key={index} className="flex items-center gap-4">
+            <div className="flex flex-col gap-2">
+              <label className="text-sm text-neutral-11">Répétitions</label>
+              <NumberInput
+                value={set.reps}
+                onChange={value => {
+                  const newSets = [...sets];
+                  newSets[index] = { ...set, reps: value };
+                  setSets(newSets);
+                }}
+              />
+            </div>
+            <div className="flex flex-col gap-2">
+              <label className="text-sm text-neutral-11">Kilogrammes</label>
+              <NumberInput
+                value={set.weight}
+                onChange={value => {
+                  const newSets = [...sets];
+                  newSets[index] = { ...set, weight: value };
+                  setSets(newSets);
+                }}
+              />
+            </div>
+            <Trash
+              onClick={() => setSets(sets.filter((_, i) => i !== index))}
+              className="mb-2.5 ml-2 cursor-pointer self-end text-neutral-11 hover:text-red-11"
             />
           </div>
-          <div className="flex flex-col gap-2">
-            <label className="text-sm text-neutral-11">Kilogrammes</label>
-            <NumberInput
-              value={set.weight}
-              onChange={value => {
-                const newSets = [...sets];
-                newSets[index] = { ...set, weight: value };
-                setSets(newSets);
-              }}
-            />
+        ))}
+        <div className="flex justify-between">
+          <button
+            type="button"
+            onClick={() => setSets([...sets, { reps: 0, weight: 0 }])}
+            className="flex items-center gap-2 text-sm text-neutral-11 hover:text-neutral-12"
+          >
+            <Plus size={16} />
+            Ajouter une série
+          </button>
+          <div className="flex gap-2">
+            <Button size="sm" variant="secondary" onClick={onClose} disabled={createResultMutation.isPending}>
+              Annuler
+            </Button>
+            <Button size="sm" type="submit" isPending={createResultMutation.isPending}>
+              Ajouter
+            </Button>
           </div>
-          <Trash
-            onClick={() => setSets(sets.filter((_, i) => i !== index))}
-            className="mb-2.5 ml-2 cursor-pointer self-end text-neutral-11 hover:text-red-11"
-          />
         </div>
-      ))}
-      <div className="flex justify-between">
-        <button
-          type="button"
-          onClick={() => setSets([...sets, { reps: 0, weight: 0 }])}
-          className="flex items-center gap-2 text-sm text-neutral-11 hover:text-neutral-12"
-        >
-          <Plus size={16} />
-          Ajouter une série
-        </button>
-        <div className="flex gap-2">
-          <Button size="sm" variant="secondary" onClick={onClose} disabled={createResultMutation.isPending}>
-            Annuler
-          </Button>
-          <Button size="sm" type="submit" isPending={createResultMutation.isPending}>
-            Ajouter
-          </Button>
-        </div>
-      </div>
-    </form>
+      </form>
+    </>
   );
 }
 
