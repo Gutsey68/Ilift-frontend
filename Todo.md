@@ -3,6 +3,7 @@
 ## Facultatif
 
 -Partage résultats d'entraînements
+-Améliorer la gestion des erreurs dans l'api
 
 ## À faire à la fin
 
