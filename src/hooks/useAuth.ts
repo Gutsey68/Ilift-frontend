@@ -12,9 +12,7 @@ const useAuth = () => {
 
   const loginMutation = useMutation({
     mutationFn: login,
-    onSuccess: async data => {
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('refreshToken', data.refreshToken);
+    onSuccess: async () => {
       localStorage.setItem('isAuthenticated', 'true');
       const userData = await fetchCurrentUser();
       setUser(userData.data);

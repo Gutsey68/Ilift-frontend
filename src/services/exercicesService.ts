@@ -1,14 +1,11 @@
 import { fetchWithToken } from '../lib/fetchWithToken';
-import { AllExercisesResponseType } from '../types/exercicesType';
 
 export const fetchExerciceAndResults = async (id: string) => {
   return fetchWithToken(`/api/exercices/${id}`);
 };
 
-export const fetchExercices = async (): Promise<AllExercisesResponseType> => {
-  return fetchWithToken('/api/exercices', {
-    method: 'GET'
-  });
+export const fetchExercices = async () => {
+  return fetchWithToken('/api/exercices');
 };
 
 export const createExercice = async (data: { name: string }) => {

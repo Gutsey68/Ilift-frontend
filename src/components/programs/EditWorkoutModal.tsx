@@ -34,7 +34,7 @@ function EditWorkoutModal({ workout, onClose }: EditWorkoutModalProps) {
   });
 
   const updateWorkoutMutation = useMutation({
-    mutationFn: (data: FormData) => updateWorkout(workout.id, data),
+    mutationFn: (data: FormData) => updateWorkout(workout.id, { name: data.name }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['workouts'] });
       toast.success('Séance modifiée avec succès');

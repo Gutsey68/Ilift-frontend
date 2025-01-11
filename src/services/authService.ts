@@ -1,3 +1,23 @@
+interface TokenData {
+  data: {
+    token: string;
+    refreshToken: string;
+  };
+}
+
+const storeTokens = (data: TokenData) => {
+  const { token, refreshToken } = data.data;
+
+  if (token) {
+    const tokenWithBearer = token.startsWith('Bearer ') ? token : `Bearer ${token}`;
+    localStorage.setItem('token', tokenWithBearer);
+  }
+  if (refreshToken) {
+    const refreshWithBearer = refreshToken.startsWith('Bearer ') ? refreshToken : `Bearer ${refreshToken}`;
+    localStorage.setItem('refreshToken', refreshWithBearer);
+  }
+};
+
 export const login = async ({ pseudo, password }: { pseudo: string; password: string }) => {
   const response = await fetch('/api/auth/login', {
     method: 'POST',
@@ -10,14 +30,22 @@ export const login = async ({ pseudo, password }: { pseudo: string; password: st
     throw { message: errorData.error || 'Pseudo ou mot de passe incorrect', status: response.status };
   }
 
-  return response.json();
+  const data = await response.json();
+  storeTokens(data);
+  return data;
 };
 
 export const logout = async () => {
   const refreshToken = localStorage.getItem('refreshToken');
+  if (!refreshToken) return;
 
-  const response = await fetch(`/api/auth/unvalidate/${refreshToken}`, {
-    method: 'PUT'
+  const cleanToken = refreshToken.replace('Bearer ', '').trim();
+
+  const response = await fetch(`/api/auth/unvalidate/${cleanToken}`, {
+    method: 'PUT',
+    headers: {
+      Authorization: refreshToken
+    }
   });
 
   if (!response.ok) {
@@ -74,4 +102,16 @@ export const resetPassword = async ({ token, newPassword }: { token: string; new
   }
 
   return response.json();
+};
+
+export const getAuthHeader = () => {
+  const token = localStorage.getItem('token');
+  if (!token) return '';
+  return token.startsWith('Bearer ') ? token : `Bearer ${token}`;
+};
+
+export const getRefreshHeader = () => {
+  const refreshToken = localStorage.getItem('refreshToken');
+  if (!refreshToken) return '';
+  return refreshToken.startsWith('Bearer ') ? refreshToken : `Bearer ${refreshToken}`;
 };

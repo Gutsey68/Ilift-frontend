@@ -3,6 +3,7 @@
 ## Facultatif
 
 -Partage résultats d'entraînements
+-traffic docker
 
 ## À faire à la fin
 

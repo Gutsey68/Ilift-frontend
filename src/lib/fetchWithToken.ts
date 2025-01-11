@@ -16,22 +16,26 @@ export const fetchWithToken = async (url: string, options: RequestInit = {}) => 
   }
 
   const makeRequest = async (token: string) => {
+    const finalToken = token.startsWith('Bearer ') ? token : `Bearer ${token}`;
+
     const headers: HeadersInit = {
-      Authorization: `Bearer ${token}`
+      Authorization: finalToken,
+      'Content-Type': 'application/json'
     };
 
-    if (!(options.body instanceof FormData)) {
-      headers['Content-Type'] = 'application/json';
+    if (options.body instanceof FormData) {
+      delete headers['Content-Type'];
     }
 
-    const response = await fetch(url, {
+    const finalHeaders = {
+      ...headers,
+      ...options.headers
+    };
+
+    return await fetch(url, {
       ...options,
-      headers: {
-        ...options.headers,
-        ...headers
-      }
+      headers: finalHeaders
     });
-    return response;
   };
 
   const response = await makeRequest(token);

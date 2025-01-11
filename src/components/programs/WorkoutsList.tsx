@@ -31,7 +31,7 @@ function WorkoutsList({ workouts }: WorkoutsListProps) {
   });
 
   const updatePositionMutation = useMutation({
-    mutationFn: (params: { id: string; position: number }) => updateWorkout(params.id, undefined, params.position),
+    mutationFn: (params: { id: string; position: number }) => updateWorkout(params.id, { position: params.position }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['workouts'] });
     }
