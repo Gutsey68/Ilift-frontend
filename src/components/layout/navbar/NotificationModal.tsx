@@ -56,7 +56,12 @@ function NotificationModal({ closeModal, bellRef, notifications = [], isLoading 
           {isLoading ? (
             <p className="text-sm text-neutral-11">Chargement...</p>
           ) : notifications.length === 0 ? (
-            <p className="text-sm text-neutral-11">Aucune notification</p>
+            <p
+              className="m-2 text-sm text-neutral-11
+            "
+            >
+              Aucune notification
+            </p>
           ) : (
             notifications.map(notification => <NotificationItem key={notification.id} notification={notification} onClose={closeModal} />)
           )}

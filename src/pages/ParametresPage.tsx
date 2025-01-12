@@ -111,7 +111,7 @@ function ParametresPage() {
         <hr className="border-neutral-6" />
         <p>Photo actuelle</p>
         <div className="relative flex w-fit flex-col items-center lg:ml-24">
-          <Avatar src={user?.profilePhoto || '/uploads.profil.webp'} alt="" size="xl" />
+          <Avatar src={user?.profilePhoto || '/uploads/profil.webp'} alt="" size="xl" />
           <button
             onClick={() => setShowAddPhotoModal(true)}
             className="absolute bottom-10 right-1 flex size-7 cursor-pointer items-center justify-center rounded-full border-2 border-neutral-1 bg-neutral-10 shadow-md hover:bg-neutral-9"

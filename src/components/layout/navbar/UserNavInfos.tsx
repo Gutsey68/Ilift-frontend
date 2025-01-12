@@ -34,7 +34,7 @@ function UserNavInfos() {
       </div>
       <NotificationBell />
       <div ref={avatarRef} onClick={handleClick} className="cursor-pointer">
-        <Avatar src={user?.profilePhoto || '/uploads.profil.webp'} alt="" size="sm" />
+        <Avatar src={user?.profilePhoto || '/uploads/profil.webp'} alt="" size="sm" />
       </div>
       {showModal && createPortal(<UserAvatarModal closeModal={() => setShowModal(false)} avatarRef={avatarRef} />, document.body)}
     </div>

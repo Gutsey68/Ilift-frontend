@@ -1,7 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../../context/AuthContext';
 import { follow } from '../../../services/followersService';
 import { fetchUsers } from '../../../services/usersService';
 import { UserDetailsType } from '../../../types/userDetailsType';
@@ -13,13 +14,15 @@ import { Input } from '../../ui/Input';
 const FollowUsersStep = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const queryClient = useQueryClient();
+  const { user: currentUser } = useContext(AuthContext);
+  const currentUserId = currentUser?.id;
 
   const { data = [], isLoading } = useQuery({
     queryKey: ['suggestedUsers'],
     queryFn: () => fetchUsers()
   });
 
-  const users = data?.data;
+  const users = data?.data?.filter((user: UserDetailsType) => user.id !== currentUserId);
 
   const filteredUsers =
     searchTerm.length >= 1 ? users?.filter((user: UserDetailsType) => user.pseudo.toLowerCase().includes(searchTerm.toLowerCase())) : users?.slice(0, 5);

@@ -11,7 +11,7 @@ import UserInfoStep from './steps/UserInfoStep';
 
 const OnboardingFlow = () => {
   const { user, setUser } = useContext(AuthContext);
-  const [currentStep, setCurrentStep] = useState(user?.onboardingStep || 0);
+  const [currentStep, setCurrentStep] = useState(user?.onboardingStep || 1);
   const queryClient = useQueryClient();
 
   const { mutate: updateStep } = useMutation({
@@ -36,27 +36,25 @@ const OnboardingFlow = () => {
   });
 
   const handleNextStep = () => {
-    if (currentStep === steps.length - 1) {
+    const nextStep = currentStep + 1;
+    if (nextStep > steps.length) {
       complete();
     } else {
-      updateStep(currentStep + 1);
-      setCurrentStep(prev => prev + 1);
+      updateStep(nextStep);
+      setCurrentStep(nextStep);
     }
   };
 
   const handlePreviousStep = () => {
-    if (currentStep > 0) {
-      updateStep(currentStep - 1);
-      setCurrentStep(prev => prev - 1);
+    if (currentStep > 1) {
+      const prevStep = currentStep - 1;
+      updateStep(prevStep);
+      setCurrentStep(prevStep);
     }
   };
 
   const handleSkip = () => {
-    if (currentStep === steps.length - 1) {
-      complete();
-    } else {
-      handleNextStep();
-    }
+    handleNextStep();
   };
 
   const steps = [
@@ -77,7 +75,7 @@ const OnboardingFlow = () => {
     }
   ];
 
-  if (currentStep >= steps.length) return null;
+  if (!user || user.isOnboardingCompleted) return null;
 
   return (
     <Modal>
@@ -85,10 +83,10 @@ const OnboardingFlow = () => {
         <div className="flex flex-col gap-2 p-6">
           <div className="mb-4 flex items-center justify-between">
             <div className="text-sm text-neutral-11">
-              Étape {currentStep + 1} sur {steps.length}
+              Étape {currentStep} sur {steps.length}
             </div>
             <Button variant="ghost" onClick={handleSkip}>
-              {currentStep === steps.length - 1 ? 'Terminer' : 'Passer cette étape'}
+              {currentStep === steps.length ? 'Terminer' : 'Passer cette étape'}
             </Button>
           </div>
 
@@ -96,23 +94,23 @@ const OnboardingFlow = () => {
             {steps.map((_, index) => (
               <div
                 key={index}
-                className={`h-2 flex-1 rounded-full ${index === currentStep ? 'bg-green-9' : index < currentStep ? 'bg-green-8' : 'bg-green-6'}`}
+                className={`h-2 flex-1 rounded-full ${index === currentStep - 1 ? 'bg-green-9' : index < currentStep - 1 ? 'bg-green-8' : 'bg-green-6'}`}
               />
             ))}
           </div>
 
-          <h2 className="text-2xl font-bold">{steps[currentStep].title}</h2>
-          <p className="text-sm text-neutral-11">{steps[currentStep].description}</p>
+          <h2 className="text-2xl font-bold">{steps[currentStep - 1].title}</h2>
+          <p className="text-sm text-neutral-11">{steps[currentStep - 1].description}</p>
         </div>
 
-        <div className="flex-1 px-6">{steps[currentStep].component}</div>
+        <div className="flex-1 px-6">{steps[currentStep - 1].component}</div>
 
         <div className="flex items-center justify-between border-t border-neutral-6 p-6">
-          <Button variant="secondary" onClick={handlePreviousStep} className={currentStep === 0 ? 'invisible' : ''}>
+          <Button variant="secondary" onClick={handlePreviousStep} className={currentStep === 1 ? 'invisible' : ''}>
             Retour
           </Button>
 
-          <Button onClick={handleNextStep}>{currentStep === steps.length - 1 ? 'Terminer' : 'Suivant'}</Button>
+          <Button onClick={handleNextStep}>{currentStep === steps.length ? 'Terminer' : 'Suivant'}</Button>
         </div>
       </Card>
     </Modal>
