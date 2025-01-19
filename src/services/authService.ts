@@ -1,21 +1,17 @@
+import { getRefreshHeader } from '../lib/getHeaders';
+
 interface TokenData {
   data: {
     token: string;
     refreshToken: string;
+    user: unknown;
   };
 }
 
 const storeTokens = (data: TokenData) => {
   const { token, refreshToken } = data.data;
-
-  if (token) {
-    const tokenWithBearer = token.startsWith('Bearer ') ? token : `Bearer ${token}`;
-    localStorage.setItem('token', tokenWithBearer);
-  }
-  if (refreshToken) {
-    const refreshWithBearer = refreshToken.startsWith('Bearer ') ? refreshToken : `Bearer ${refreshToken}`;
-    localStorage.setItem('refreshToken', refreshWithBearer);
-  }
+  localStorage.setItem('token', token);
+  localStorage.setItem('refreshToken', refreshToken);
 };
 
 export const login = async ({ pseudo, password }: { pseudo: string; password: string }) => {
@@ -104,14 +100,24 @@ export const resetPassword = async ({ token, newPassword }: { token: string; new
   return response.json();
 };
 
-export const getAuthHeader = () => {
-  const token = localStorage.getItem('token');
-  if (!token) return '';
-  return token.startsWith('Bearer ') ? token : `Bearer ${token}`;
-};
+export const refresh = async () => {
+  const refreshHeader = getRefreshHeader();
 
-export const getRefreshHeader = () => {
-  const refreshToken = localStorage.getItem('refreshToken');
-  if (!refreshToken) return '';
-  return refreshToken.startsWith('Bearer ') ? refreshToken : `Bearer ${refreshToken}`;
+  if (!refreshHeader) {
+    throw new Error('Pas de refresh token');
+  }
+
+  const response = await fetch('/api/auth/refresh', {
+    method: 'POST',
+    headers: {
+      Authorization: refreshHeader
+    }
+  });
+
+  if (!response.ok) {
+    throw new Error('Refresh token invalide');
+  }
+
+  const data = await response.json();
+  return data;
 };
