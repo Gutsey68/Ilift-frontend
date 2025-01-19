@@ -1,6 +1,12 @@
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 
+/**
+ * Configuration de Vite pour le projet
+ * - Configuration du plugin React
+ * - Configuration de la build
+ * - Configuration du serveur de développement avec proxy
+ */
 export default defineConfig({
   plugins: [react()],
   build: {

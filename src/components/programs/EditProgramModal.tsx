@@ -13,6 +13,12 @@ import Card from '../ui/Card';
 import Modal from '../ui/Modal';
 import TextareaField from '../ui/TextareaField';
 
+/**
+ * Props du composant EditProgramModal
+ * @typedef {object} EditProgramModalProps
+ * @property {ProgramType} program - Le programme à modifier
+ * @property {() => void} onClose - Fonction de fermeture du modal
+ */
 type EditProgramModalProps = {
   program: ProgramType;
   onClose: () => void;
@@ -20,9 +26,25 @@ type EditProgramModalProps = {
 
 type FormData = z.infer<typeof updateProgramSchema>['body'];
 
+/**
+ * Modal de modification de programme d'entraînement
+ * Fonctionnalités :
+ * - Formulaire pré-rempli avec les données existantes
+ * - Validation Zod des modifications
+ * - Gestion des erreurs de validation
+ * - Mutation React Query avec retours visuels
+ * - Champs optionnels (description)
+ *
+ * @component
+ * @param {EditProgramModalProps} props - Les propriétés du composant
+ * @returns {JSX.Element} Modal d'édition de programme
+ */
 function EditProgramModal({ program, onClose }: EditProgramModalProps) {
   const queryClient = useQueryClient();
 
+  /**
+   * Configuration du formulaire avec valeurs initiales
+   */
   const {
     register,
     handleSubmit,
@@ -35,6 +57,9 @@ function EditProgramModal({ program, onClose }: EditProgramModalProps) {
     }
   });
 
+  /**
+   * Mutation pour la mise à jour du programme
+   */
   const updateProgramMutation = useMutation({
     mutationFn: (data: FormData) => updateProgram(program.id, data),
     onSuccess: () => {
@@ -47,6 +72,9 @@ function EditProgramModal({ program, onClose }: EditProgramModalProps) {
     }
   });
 
+  /**
+   * Gère la soumission du formulaire
+   */
   const onSubmit = handleSubmit(data => {
     updateProgramMutation.mutate(data);
   });

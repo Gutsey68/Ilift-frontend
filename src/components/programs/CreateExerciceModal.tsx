@@ -12,11 +12,25 @@ import Card from '../ui/Card';
 import { Input } from '../ui/Input';
 import Modal from '../ui/Modal';
 
+/**
+ * Props du composant AddExerciceModal
+ * @typedef {object} AddExerciceModalProps
+ * @property {() => void} closeModal - Fonction de fermeture du modal
+ * @property {ExerciseType[]} currentExercices - Liste des exercices actuels
+ */
 type AddExerciceModalProps = {
   closeModal: () => void;
   currentExercices: ExerciseType[];
 };
 
+/**
+ * Filtre les exercices selon les critères de recherche
+ * @param {ExerciseType[]} exercices - Liste complète des exercices
+ * @param {ExerciseType[]} currentExercices - Exercices déjà sélectionnés
+ * @param {string} searchTerm - Terme de recherche
+ * @param {string} selectedMuscleGroup - Groupe musculaire sélectionné
+ * @returns {ExerciseType[]} Liste des exercices filtrés
+ */
 const filterExercices = (exercices: ExerciseType[], currentExercices: ExerciseType[], searchTerm: string, selectedMuscleGroup: string) => {
   return exercices?.filter(exercice => {
     const matchesSearch = exercice.name.toLowerCase().includes(searchTerm.toLowerCase());
@@ -26,6 +40,19 @@ const filterExercices = (exercices: ExerciseType[], currentExercices: ExerciseTy
   });
 };
 
+/**
+ * Modal d'ajout d'exercices à une séance
+ * Fonctionnalités :
+ * - Recherche d'exercices en temps réel
+ * - Filtrage par groupe musculaire
+ * - Exclusion des exercices déjà ajoutés
+ * - Ajout avec feedback visuel
+ * - État de chargement
+ *
+ * @component
+ * @param {AddExerciceModalProps} props - Les propriétés du composant
+ * @returns {JSX.Element} Modal d'ajout d'exercices
+ */
 function AddExerciceModal({ closeModal, currentExercices }: AddExerciceModalProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedMuscleGroup, setSelectedMuscleGroup] = useState<string>('all');

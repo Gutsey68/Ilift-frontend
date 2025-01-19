@@ -1,5 +1,13 @@
 import { Spacing } from '../ui/Spacing';
 
+/**
+ * Composant de placeholder pour le fil de publications
+ * Affiche plusieurs blocs de chargement simulant les posts
+ * Adaptatif selon la taille d'écran
+ *
+ * @component
+ * @returns {JSX.Element} Animation de chargement des publications
+ */
 function PostsThreadSkeleton() {
   return (
     <>

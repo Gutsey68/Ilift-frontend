@@ -1,3 +1,9 @@
+/**
+ * Composant de placeholder animé pour la liste des exercices
+ * Affiche 4 éléments de chargement avec animation pulse
+ * @component
+ * @returns {JSX.Element} Animation de chargement des exercices
+ */
 function ExercicesSkeletons() {
   return (
     <div>

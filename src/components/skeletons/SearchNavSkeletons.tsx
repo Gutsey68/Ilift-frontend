@@ -1,3 +1,13 @@
+/**
+ * Composant de placeholder pour les résultats de recherche
+ * Affiche 5 éléments de chargement simulant :
+ * - Avatar
+ * - Nom d'utilisateur
+ * Avec animation pulse
+ *
+ * @component
+ * @returns {JSX.Element} Animation de chargement des résultats de recherche
+ */
 function SearchNavSkeletons() {
   return (
     <div className="flex flex-col gap-2">

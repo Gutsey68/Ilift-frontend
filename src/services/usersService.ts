@@ -1,22 +1,43 @@
 import { SortingState } from '@tanstack/react-table';
 import { fetchWithToken } from '../lib/fetchWithToken';
 
+/**
+ * Récupère un utilisateur par son ID
+ * @param id - Identifiant de l'utilisateur
+ */
 export const fetchUserById = async (id: string) => {
   return fetchWithToken(`/api/users/${id}`);
 };
 
+/**
+ * Récupère les informations de l'utilisateur connecté
+ * @returns Les données de l'utilisateur courant
+ */
 export const fetchCurrentUser = async () => {
   return fetchWithToken('/api/users/me');
 };
 
+/**
+ * Récupère une liste d'utilisateurs suggérés
+ * @returns Liste des utilisateurs suggérés
+ */
 export const fetchSuggestedUsers = async () => {
   return fetchWithToken('/api/users/suggested');
 };
 
+/**
+ * Récupère tous les utilisateurs
+ * @returns Liste complète des utilisateurs
+ */
 export const fetchUsers = async () => {
   return await fetchWithToken('/api/users');
 };
 
+/**
+ * Met à jour les informations d'un utilisateur
+ * @param id - Identifiant de l'utilisateur
+ * @param data - Données à mettre à jour (statut de ban, ville, biographie)
+ */
 export const updateUser = async (id: string, data: { isBan?: boolean; city?: string; bio?: string }) => {
   return await fetchWithToken(`/api/users/${id}`, {
     method: 'PUT',
@@ -27,6 +48,11 @@ export const updateUser = async (id: string, data: { isBan?: boolean; city?: str
   });
 };
 
+/**
+ * Met à jour la photo de profil d'un utilisateur
+ * @param id - Identifiant de l'utilisateur
+ * @param formData - Données du formulaire contenant la nouvelle photo
+ */
 export const updateUserPhoto = async (id: string, formData: FormData) => {
   return await fetchWithToken(`/api/users/${id}`, {
     method: 'PUT',
@@ -34,6 +60,11 @@ export const updateUserPhoto = async (id: string, formData: FormData) => {
   });
 };
 
+/**
+ * Supprime la photo de profil d'un utilisateur
+ * @param id - Identifiant de l'utilisateur
+ * @returns Réponse avec la photo de profil par défaut
+ */
 export const removeUserPhoto = async (id: string) => {
   return await fetchWithToken(`/api/users/${id}`, {
     method: 'PUT',
@@ -44,6 +75,12 @@ export const removeUserPhoto = async (id: string) => {
   });
 };
 
+/**
+ * Récupère les utilisateurs pour l'administration avec pagination et tri
+ * @param start - Index de début
+ * @param size - Nombre d'éléments par page
+ * @param sorting - Configuration du tri
+ */
 export const fetchUsersAdmin = async (start: number, size: number, sorting: SortingState) => {
   const page = Math.floor(start / size) + 1;
 

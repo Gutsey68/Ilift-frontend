@@ -1,7 +1,18 @@
 import { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
+import useEscapeKeydown from '../../hooks/useEscapeKeydown';
 import { cn } from '../../lib/cn';
 
+/**
+ * Composant Modal réutilisable avec portail React
+ * @component
+ * @param {object} props - Les propriétés du composant
+ * @param {React.ReactNode} props.children - Le contenu à afficher dans la modal
+ * @param {() => void} [props.onClose] - Fonction appelée à la fermeture de la modal
+ * @param {'sm' | 'md' | 'lg' | 'xl'} [props.size='lg'] - Taille de la modal
+ * @param {string} [props.className] - Classes CSS additionnelles
+ * @returns {React.ReactPortal | null} Composant Modal
+ */
 type ModalProps = {
   children: React.ReactNode;
   onClose?: () => void;
@@ -11,6 +22,7 @@ type ModalProps = {
 
 const Modal = ({ children, onClose, size = 'lg', className }: ModalProps) => {
   const elRef = useRef<HTMLDivElement | null>(null);
+  useEscapeKeydown(onClose);
 
   if (!elRef.current) {
     elRef.current = document.createElement('div');
@@ -18,12 +30,9 @@ const Modal = ({ children, onClose, size = 'lg', className }: ModalProps) => {
 
   useEffect(() => {
     const modalRoot = document.getElementById('modal');
-    if (!modalRoot) {
-      return;
-    }
+    if (!modalRoot) return;
 
     modalRoot.appendChild(elRef.current!);
-
     return () => {
       if (modalRoot && elRef.current) {
         modalRoot.removeChild(elRef.current);
@@ -40,7 +49,7 @@ const Modal = ({ children, onClose, size = 'lg', className }: ModalProps) => {
             'md:w-3/4 lg:w-1/4': size === 'md',
             'md:w-3/4 lg:w-1/3': size === 'lg',
             'md:w-3/4 lg:w-1/2': size === 'xl',
-            'relative mb-[10vh] w-full max-sm:px-4 top-40': true
+            'relative mb-[10vh] w-full max-sm:px-4 top-40 max-h-[80vh] overflow-y-auto': true
           },
           className
         )}

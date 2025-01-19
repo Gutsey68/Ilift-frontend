@@ -1,5 +1,12 @@
 import { Spacing } from '../ui/Spacing';
 
+/**
+ * Composant de placeholder animé pour les posts du profil
+ * Affiche des blocs de chargement pour les publications
+ * avec espacement et adaptation responsive
+ * @component
+ * @returns {JSX.Element} Animation de chargement des posts
+ */
 function AllPostsProfileSkeletons() {
   return (
     <>

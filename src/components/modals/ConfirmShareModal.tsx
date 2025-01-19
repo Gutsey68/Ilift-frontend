@@ -3,12 +3,28 @@ import Button from '../ui/Button';
 import Card from '../ui/Card';
 import Modal from '../ui/Modal';
 
+/**
+ * Props du composant ConfirmShareModal
+ * @typedef {object} ConfirmShareModalProps
+ * @property {() => void} onClose - Fonction de fermeture du modal
+ * @property {() => void} onConfirm - Fonction appelée lors de la confirmation
+ * @property {boolean} [isLoading] - État de chargement du modal
+ */
 type ConfirmShareModalProps = {
   onClose: () => void;
   onConfirm: () => void;
   isLoading?: boolean;
 };
 
+/**
+ * Modal de confirmation pour le partage d'une publication
+ * Affiche une boîte de dialogue demandant confirmation avant le partage
+ * avec gestion de l'état de chargement
+ *
+ * @component
+ * @param {ConfirmShareModalProps} props - Les propriétés du composant
+ * @returns {JSX.Element} Modal de confirmation de partage
+ */
 function ConfirmShareModal({ onClose, onConfirm, isLoading }: ConfirmShareModalProps) {
   return (
     <Modal onClose={onClose}>

@@ -1,3 +1,13 @@
+/**
+ * Composant de saisie numérique avec boutons d'incrémentation et de décrémentation
+ * @component
+ * @param {object} props - Les propriétés du composant
+ * @param {number} props.value - La valeur actuelle du champ
+ * @param {(value: number) => void} props.onChange - Fonction appelée lors du changement de valeur
+ * @param {number} [props.min=0] - Valeur minimum autorisée
+ * @param {number} [props.max=999] - Valeur maximum autorisée
+ * @returns {JSX.Element} Composant NumberInput
+ */
 type NumberInputProps = {
   value: number;
   onChange: (value: number) => void;

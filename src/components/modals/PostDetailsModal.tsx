@@ -9,14 +9,37 @@ import Button from '../ui/Button';
 import Card from '../ui/Card';
 import Modal from '../ui/Modal';
 
+/**
+ * Props du composant PostDetailsModal
+ * @typedef {object} PostDetailsModalProps
+ * @property {PostType} post - Le post à afficher dans le modal
+ * @property {() => void} onClose - Fonction de fermeture du modal
+ */
 type PostDetailsModalProps = {
   post: PostType;
   onClose: () => void;
 };
 
+/**
+ * Modal affichant les détails d'un post avec options d'administration
+ * Fonctionnalités :
+ * - Affichage du contenu complet du post
+ * - Informations sur l'auteur
+ * - Tags associés
+ * - Photo du post si présente
+ * - Validation/invalidation du post
+ *
+ * @component
+ * @param {PostDetailsModalProps} props - Les propriétés du composant
+ * @returns {JSX.Element} Modal avec les détails du post
+ */
 const PostDetailsModal = ({ post, onClose }: PostDetailsModalProps) => {
   const queryClient = useQueryClient();
 
+  /**
+   * Mutation pour basculer l'état de validation d'un post
+   * Met à jour le cache optimistiquement
+   */
   const { mutate: toggleValidPost, isPending } = useMutation({
     mutationFn: async () => {
       const newIsValid = !post.isValid;
@@ -26,6 +49,7 @@ const PostDetailsModal = ({ post, onClose }: PostDetailsModalProps) => {
       return response.data;
     },
     onSuccess: updatedPost => {
+      // Mise à jour optimiste du cache
       queryClient.setQueryData(['postsAdmin'], (oldData: { pages: { data: PostType[] }[] }) => {
         if (!oldData?.pages) return oldData;
         return {
@@ -42,6 +66,9 @@ const PostDetailsModal = ({ post, onClose }: PostDetailsModalProps) => {
     }
   });
 
+  /**
+   * Gère le basculement de la validation avec retour visuel
+   */
   const handleToggleValid = () => {
     try {
       toggleValidPost();

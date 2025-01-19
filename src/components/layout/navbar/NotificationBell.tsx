@@ -6,12 +6,27 @@ import { getUserNotifications, markAllNotificationsAsRead } from '../../../servi
 import IconButton from '../../ui/IconButton';
 import NotificationModal from './NotificationModal';
 
+/**
+ * Composant de cloche de notifications avec compteur et modal
+ * Fonctionnalités :
+ * - Affichage du nombre de notifications non lues
+ * - Actualisation automatique toutes les 30 secondes
+ * - Marquage automatique comme lu à l'ouverture
+ * - Modal de détail des notifications
+ * - Badge de compteur limité à "9+"
+ *
+ * @component
+ * @returns {JSX.Element} Bouton de notification avec compteur et modal
+ */
 function NotificationBell() {
   const [showModal, setShowModal] = useState(false);
   const bellRef = useRef<HTMLDivElement>(null);
   const { user } = useContext(AuthContext);
   const queryClient = useQueryClient();
 
+  /**
+   * Récupération des notifications avec actualisation périodique
+   */
   const { data, isLoading } = useQuery({
     queryKey: ['notifications', user?.id],
     queryFn: () => {
@@ -24,6 +39,9 @@ function NotificationBell() {
     enabled: !!user
   });
 
+  /**
+   * Mutation pour marquer toutes les notifications comme lues
+   */
   const { mutate: markAllAsRead } = useMutation({
     mutationFn: markAllNotificationsAsRead,
     onSuccess: () => {
@@ -36,6 +54,9 @@ function NotificationBell() {
   const unreadCount = data?.unreadCount ?? 0;
   const displayCount = unreadCount > 9 ? '9+' : unreadCount;
 
+  /**
+   * Gère le clic sur la cloche et marque les notifications comme lues
+   */
   const handleClick = () => {
     const rect = bellRef.current?.getBoundingClientRect();
     if (rect) {

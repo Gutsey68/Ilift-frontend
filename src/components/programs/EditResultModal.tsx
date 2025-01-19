@@ -9,40 +9,74 @@ import Card from '../ui/Card';
 import Modal from '../ui/Modal';
 import NumberInput from '../ui/NumberInput';
 
+/**
+ * Props du composant EditResultModal
+ * @typedef {object} EditResultModalProps
+ * @property {ExerciseResultType} result - Le résultat d'exercice à modifier
+ * @property {() => void} closeModal - Fonction de fermeture du modal
+ */
 type EditResultModalProps = {
-  result: ExerciseResult;
+  results: ExerciseResult[];
   onClose: () => void;
 };
 
-type SetInput = {
-  reps: number;
-  weight: number;
-};
-
-function EditResultModal({ result, onClose }: EditResultModalProps) {
-  const [sets, setSets] = useState<SetInput[]>(
-    result.sets.map(set => ({
-      reps: set.reps,
-      weight: set.weight
-    }))
+/**
+ * Modal de modification des résultats d'exercice
+ * Fonctionnalités :
+ * - Édition des séries (répétitions et poids)
+ * - Validation des données
+ * - Gestion dynamique des séries
+ * - Retours visuels des actions
+ * - Mise à jour en temps réel
+ *
+ * @component
+ * @param {EditResultModalProps} props - Les propriétés du composant
+ * @returns {JSX.Element} Modal d'édition des résultats
+ */
+function EditResultModal({ results, onClose }: EditResultModalProps) {
+  const [sets, setSets] = useState(
+    results.flatMap(result =>
+      result.sets.map(set => ({
+        id: set.id,
+        reps: set.reps,
+        weight: set.weight
+      }))
+    )
   );
   const queryClient = useQueryClient();
 
-  const updateResultMutation = useMutation({
-    mutationFn: (data: { sets: SetInput[] }) => updateResult(result.id, data),
+  /**
+   * Type de données pour la mise à jour des séries
+   */
+  type SetInput = {
+    id: string;
+    reps: number;
+    weight: number;
+  };
+
+  /**
+   * Mutation pour la mise à jour des résultats
+   */
+  const updateResultsMutation = useMutation({
+    mutationFn: async (data: { sets: SetInput[] }) => {
+      const updatePromises = results.map(result => {
+        const resultSets = data.sets.filter(set => result.sets.some(originalSet => originalSet.id === set.id));
+        return updateResult(result.id, { sets: resultSets });
+      });
+      return Promise.all(updatePromises);
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['results'] });
-      toast.success('Résultat modifié avec succès');
       onClose();
     },
     onError: () => {
-      toast.error('Erreur lors de la modification du résultat');
+      toast.error('Erreur lors de la modification des résultats');
     }
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    updateResultMutation.mutate({ sets });
+    updateResultsMutation.mutate({ sets });
   };
 
   return (
@@ -84,7 +118,7 @@ function EditResultModal({ result, onClose }: EditResultModalProps) {
             <Button onClick={onClose} variant="secondary">
               Annuler
             </Button>
-            <Button type="submit" isPending={updateResultMutation.isPending}>
+            <Button type="submit" isPending={updateResultsMutation.isPending}>
               Modifier
             </Button>
           </div>

@@ -8,16 +8,37 @@ import ConfirmDeleteModal from '../modals/ConfirmDeleteModal';
 import EditProgramModal from './EditProgramModal';
 import ProgramCard from './ProgramCard';
 
+/**
+ * Props du composant ProgramsList
+ * @typedef {object} ProgramsListProps
+ * @property {ProgramType[]} programs - Liste des programmes à afficher
+ */
 type ProgramsListProps = {
   programs: ProgramType[];
 };
 
+/**
+ * Liste des programmes avec fonctionnalités de gestion
+ * Fonctionnalités :
+ * - Affichage des programmes
+ * - Édition et suppression
+ * - Réorganisation par drag & drop
+ * - Gestion des confirmations
+ * - Mise à jour en temps réel
+ *
+ * @component
+ * @param {ProgramsListProps} props - Les propriétés du composant
+ * @returns {JSX.Element} Liste interactive des programmes
+ */
 function ProgramsList({ programs }: ProgramsListProps) {
   const [programToEdit, setProgramToEdit] = useState<ProgramType | null>(null);
   const [programToDelete, setProgramToDelete] = useState<ProgramType | null>(null);
   const queryClient = useQueryClient();
   const { user } = useContext(AuthContext);
 
+  /**
+   * Mutation pour la suppression d'un programme
+   */
   const deleteProgramMutation = useMutation({
     mutationFn: (id: string) => deleteProgram(id),
     onSuccess: () => {
@@ -30,6 +51,9 @@ function ProgramsList({ programs }: ProgramsListProps) {
     }
   });
 
+  /**
+   * Mutation pour la mise à jour de la position d'un programme
+   */
   const updatePositionMutation = useMutation({
     mutationFn: (params: { id: string; position: number }) => updateProgram(params.id, { position: params.position }),
     onSuccess: () => {
@@ -37,6 +61,9 @@ function ProgramsList({ programs }: ProgramsListProps) {
     }
   });
 
+  /**
+   * Gère le déplacement d'un programme dans la liste
+   */
   const moveProgram = (dragIndex: number, hoverIndex: number) => {
     const draggedProgram = programs[dragIndex];
 

@@ -8,6 +8,16 @@ import Button from '../ui/Button';
 import Card from '../ui/Card';
 import Modal from '../ui/Modal';
 
+/**
+ * Props du composant EditModal
+ * @typedef {object} EditModalProps
+ * @property {() => void} onClose - Fonction de fermeture du modal
+ * @property {(value: string) => void} onConfirm - Fonction appelée à la validation du formulaire
+ * @property {string} title - Titre du modal
+ * @property {string} initialValue - Valeur initiale du champ
+ * @property {'bio' | 'city'} fieldName - Type de champ à éditer
+ * @property {boolean} [isLoading] - État de chargement du formulaire
+ */
 type EditModalProps = {
   onClose: () => void;
   onConfirm: (value: string) => void;
@@ -17,7 +27,22 @@ type EditModalProps = {
   isLoading?: boolean;
 };
 
+/**
+ * Modal d'édition générique pour les champs bio et ville
+ * Fonctionnalités :
+ * - Validation des données avec Zod
+ * - Gestion des erreurs de formulaire
+ * - États de chargement
+ * - Formulaire pré-rempli
+ *
+ * @component
+ * @param {EditModalProps} props - Les propriétés du composant
+ * @returns {JSX.Element} Modal avec formulaire d'édition
+ */
 function EditModal({ onClose, onConfirm, title, initialValue, fieldName, isLoading }: EditModalProps) {
+  /**
+   * Construit le schéma de validation en fonction du champ
+   */
   const getSchema = () => {
     const baseSchema = updateUserSchema.shape.body;
 
@@ -45,6 +70,9 @@ function EditModal({ onClose, onConfirm, title, initialValue, fieldName, isLoadi
     }
   });
 
+  /**
+   * Gère la soumission du formulaire
+   */
   const onSubmit = handleSubmit((data: FormData) => {
     onConfirm(data.value);
   });

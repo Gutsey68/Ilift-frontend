@@ -9,16 +9,37 @@ import Button from '../../ui/Button';
 import { Input } from '../../ui/Input';
 import { Textarea } from '../../ui/Textarea';
 
+/**
+ * Props du composant UserInfoStep
+ * @typedef {object} UserInfoStepProps
+ * @property {() => void} onComplete - Fonction appelée lorsque l'étape est terminée
+ */
 type UserInfoStepProps = {
   onComplete: () => void;
 };
 
+/**
+ * Composant de l'étape de saisie des informations utilisateur dans le processus d'onboarding
+ * Fonctionnalités :
+ * - Saisie de la bio utilisateur
+ * - Saisie de la ville
+ * - Validation des données avec Zod
+ * - Gestion des erreurs de validation et de soumission
+ *
+ * @component
+ * @param {UserInfoStepProps} props - Les propriétés du composant
+ * @returns {JSX.Element} Formulaire de saisie des informations utilisateur
+ */
 const UserInfoStep = ({ onComplete }: UserInfoStepProps) => {
   const { user } = useContext(AuthContext);
   const queryClient = useQueryClient();
   const [bio, setBio] = useState('');
   const [city, setCity] = useState('');
 
+  /**
+   * Mutation pour mettre à jour les informations utilisateur
+   * Inclut la validation des données avec Zod
+   */
   const { mutate: updateProfile, isPending } = useMutation({
     mutationFn: async () => {
       const validatedData = updateUserSchema.parse({ body: { bio, city } });

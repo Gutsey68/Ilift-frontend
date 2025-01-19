@@ -1,3 +1,9 @@
+/**
+ * Composant de placeholder animé pour les résultats d'exercices
+ * Affiche 3 groupes de résultats en chargement avec animation pulse
+ * @component
+ * @returns {JSX.Element} Animation de chargement des résultats
+ */
 function ExerciceResultsSkeletons() {
   return (
     <div className="space-y-4">

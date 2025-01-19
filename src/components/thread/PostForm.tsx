@@ -4,9 +4,12 @@ import { Image, X } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { createPostHandler } from '../../services/postsService';
+import { ExerciseResult } from '../../types/exerciceResultsType';
 import { createPostSchema } from '../../validators/posts.validation';
+import ResultsSection from '../profile/ResultsSection';
 import Badge from '../ui/Badge';
 import Button from '../ui/Button';
 import Card from '../ui/Card';
@@ -15,12 +18,14 @@ import { Textarea } from '../ui/Textarea';
 
 type PostFormProps = {
   closeModal: () => void;
+  selectedResults: ExerciseResult[];
 };
 
-export default function PostForm({ closeModal }: PostFormProps) {
+export default function PostForm({ closeModal, selectedResults = [] }: PostFormProps) {
   const [tags, setTags] = useState<string[]>([]);
   const [currentTag, setCurrentTag] = useState('');
   const [preview, setPreview] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const {
     register,
@@ -83,6 +88,10 @@ export default function PostForm({ closeModal }: PostFormProps) {
         }
       }
 
+      if (selectedResults.length > 0) {
+        formData.append('exerciseResults', JSON.stringify(selectedResults.map(r => r.id)));
+      }
+
       const fileInput = document.getElementById('file') as HTMLInputElement;
 
       if (fileInput?.files?.[0]) {
@@ -97,6 +106,7 @@ export default function PostForm({ closeModal }: PostFormProps) {
 
       queryClient.invalidateQueries({ queryKey: ['posts'] });
       queryClient.invalidateQueries({ queryKey: ['tags'] });
+      navigate('/accueil');
 
       closeModal();
     } catch {
@@ -105,7 +115,7 @@ export default function PostForm({ closeModal }: PostFormProps) {
   };
 
   return (
-    <Modal onClose={closeModal}>
+    <Modal className="modal-content" onClose={closeModal}>
       <Card className="relative" size="md">
         <div className="border-b border-neutral-6 p-4">
           <p className="text-2xl font-semibold">Nouveau post</p>
@@ -113,6 +123,13 @@ export default function PostForm({ closeModal }: PostFormProps) {
           <X onClick={closeModal} className="absolute right-4 top-4 cursor-pointer text-neutral-11 hover:text-neutral-12" />
         </div>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6 p-6">
+          {selectedResults.length > 0 && (
+            <ResultsSection
+              exercicesResultsPosts={selectedResults.map(result => ({
+                exercicesResults: result
+              }))}
+            />
+          )}
           {preview && (
             <div className="relative mx-auto">
               <img src={preview} alt="Aperçu" className="h-[200px] rounded-lg object-contain" />

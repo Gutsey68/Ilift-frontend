@@ -7,6 +7,17 @@ import { resetPasswordRequestSchema } from '../../validators/auth.validation';
 import Button from '../ui/Button';
 import FormField from './FormField';
 
+/**
+ * Formulaire de demande de réinitialisation de mot de passe
+ * Fonctionnalités :
+ * - Validation des données avec Zod
+ * - Gestion des états de chargement
+ * - Retours visuels des erreurs
+ * - Notifications de succès/échec
+ *
+ * @component
+ * @returns {JSX.Element} Formulaire de réinitialisation de mot de passe
+ */
 function ForgotPasswordForm() {
   const {
     register,
@@ -18,6 +29,11 @@ function ForgotPasswordForm() {
 
   const { forgotPasswordMutation } = useAuth();
 
+  /**
+   * Gère la soumission du formulaire
+   * Envoie la demande de réinitialisation et affiche le résultat
+   * @param {z.infer<typeof resetPasswordRequestSchema>} data - Données du formulaire validées
+   */
   const onSubmit = async (data: z.infer<typeof resetPasswordRequestSchema>) => {
     try {
       await forgotPasswordMutation.mutateAsync(data);

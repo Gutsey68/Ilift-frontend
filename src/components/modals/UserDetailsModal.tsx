@@ -9,14 +9,35 @@ import Button from '../ui/Button';
 import Card from '../ui/Card';
 import Modal from '../ui/Modal';
 
+/**
+ * Props du composant UserDetailsModal
+ * @typedef {object} UserDetailsModalProps
+ * @property {UserAdminType} user - Les informations de l'utilisateur à afficher
+ * @property {() => void} onClose - Fonction de fermeture du modal
+ */
 type UserDetailsModalProps = {
   user: UserAdminType;
   onClose: () => void;
 };
 
+/**
+ * Modal affichant les détails d'un utilisateur avec options d'administration
+ * Fonctionnalités :
+ * - Affichage des informations utilisateur (avatar, pseudo, email, date d'inscription)
+ * - Statistiques (posts, abonnés, abonnements)
+ * - Gestion du bannissement
+ * - Lien vers le profil complet
+ *
+ * @component
+ * @param {UserDetailsModalProps} props - Les propriétés du composant
+ * @returns {JSX.Element} Modal avec les détails de l'utilisateur
+ */
 const UserDetailsModal = ({ user, onClose }: UserDetailsModalProps) => {
   const queryClient = useQueryClient();
 
+  /**
+   * Mutation pour basculer l'état de bannissement d'un utilisateur
+   */
   const { mutate: toggleBanUser, isPending } = useMutation({
     mutationFn: async () => {
       return await updateUser(user.id, { isBan: !user.isBan });
@@ -27,6 +48,9 @@ const UserDetailsModal = ({ user, onClose }: UserDetailsModalProps) => {
     }
   });
 
+  /**
+   * Gère le basculement du bannissement avec retour visuel
+   */
   const handleToggleBan = () => {
     try {
       toggleBanUser();

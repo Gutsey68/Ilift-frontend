@@ -3,6 +3,13 @@ import { Link } from 'react-router-dom';
 import { ThemeContext } from '../../context/ThemeContext';
 import Button from '../ui/Button';
 
+/**
+ * Composant affichant la section mobile de la landing page
+ * Présente une capture d'écran mobile de l'application avec texte promotionnel
+ * Adapte l'image selon le thème et gère la mise en page responsive
+ * @component
+ * @returns {JSX.Element} Section mobile avec appel à l'action
+ */
 function SceenMobile() {
   const { isDark } = useContext(ThemeContext);
   return (

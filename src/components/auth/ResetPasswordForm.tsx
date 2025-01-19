@@ -9,6 +9,19 @@ import { updatePasswordSchema } from '../../validators/auth.validation';
 import Button from '../ui/Button';
 import FormField from './FormField';
 
+/**
+ * Formulaire de réinitialisation de mot de passe
+ * Fonctionnalités :
+ * - Validation des champs avec Zod
+ * - Vérification du token dans l'URL
+ * - Vérification de la correspondance des mots de passe
+ * - Redirection après succès
+ * - Gestion des états de chargement
+ * - Messages d'erreur contextuels
+ *
+ * @component
+ * @returns {JSX.Element} Formulaire de réinitialisation de mot de passe
+ */
 function ResetPasswordForm() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -24,6 +37,11 @@ function ResetPasswordForm() {
 
   const { resetPasswordMutation } = useAuth();
 
+  /**
+   * Gère la soumission du formulaire
+   * Vérifie la présence du token et met à jour le mot de passe
+   * @param {z.infer<typeof updatePasswordSchema>} data - Données du formulaire validées
+   */
   const onSubmit = async (data: z.infer<typeof updatePasswordSchema>) => {
     if (!token) {
       toast.error('Token manquant');

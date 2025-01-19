@@ -1,5 +1,8 @@
 import { z } from 'zod';
 
+/**
+ * Schéma de validation pour la création d'un tag
+ */
 export const createTagSchema = z.object({
   // good
   body: z.object({
@@ -7,6 +10,9 @@ export const createTagSchema = z.object({
   })
 });
 
+/**
+ * Schéma de validation pour la mise à jour d'un tag
+ */
 export const updateTagSchema = z.object({
   // good
   body: z.object({
@@ -17,8 +23,10 @@ export const updateTagSchema = z.object({
   })
 });
 
+/**
+ * Schéma de validation pour la suppression d'un tag
+ */
 export const deleteTagSchema = z.object({
-  // good
   params: z.object({
     id: z.string().min(1, "L'identifiant du tag est requis")
   })

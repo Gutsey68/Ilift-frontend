@@ -1,6 +1,14 @@
 import { Link } from 'react-router-dom';
 import Button from '../ui/Button';
 
+/**
+ * Section héros principale de la landing page
+ * Affiche le message principal et les boutons d'appel à l'action
+ * - Bouton d'inscription
+ * - Bouton "En savoir plus" avec ancre vers les fonctionnalités
+ * @component
+ * @returns {JSX.Element} Section héros avec titre et CTA
+ */
 function HeroSection() {
   return (
     <div className="mx-auto max-w-6xl">

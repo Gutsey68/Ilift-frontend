@@ -1,5 +1,15 @@
 import { cn } from '../../lib/cn';
 
+/**
+ * Composant Avatar pour afficher une image de profil ou un placeholder
+ * @component
+ * @param {object} props - Les propriétés du composant
+ * @param {'sm' | 'md' | 'lg' | 'xl'} props.size - Taille de l'avatar
+ * @param {string} [props.src] - URL de l'image
+ * @param {string} props.alt - Texte alternatif pour l'image
+ * @param {string} [props.className] - Classes CSS additionnelles
+ * @returns {JSX.Element} Composant Avatar
+ */
 type AvatarProps = {
   size: 'sm' | 'md' | 'lg' | 'xl';
   src?: string;

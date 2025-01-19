@@ -2,6 +2,17 @@ import { NavLink } from 'react-router-dom';
 import { navItems } from '../../../lib/links';
 import SearchNav from './SearchNav';
 
+/**
+ * Barre de navigation desktop
+ * Fonctionnalités :
+ * - Affichage des liens de navigation
+ * - Intégration de la barre de recherche
+ * - Styles actifs sur les liens courants
+ * - Masquage automatique sur mobile
+ *
+ * @component
+ * @returns {JSX.Element} Composant de navigation desktop
+ */
 function DesktopNav() {
   return (
     <div className="hidden md:block">

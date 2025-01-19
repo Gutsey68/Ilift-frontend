@@ -3,6 +3,15 @@ import { useDrag, useDrop } from 'react-dnd';
 import { Link } from 'react-router-dom';
 import { ExerciseType } from '../../types/exercicesType';
 
+/**
+ * Props du composant ExerciceCard
+ * @typedef {object} ExerciceCardProps
+ * @property {ExerciseType} exercice - L'exercice à afficher
+ * @property {number} index - Position de l'exercice dans la liste
+ * @property {string} workoutId - ID de la séance parente
+ * @property {(exercice: ExerciseType) => void} onDelete - Fonction de suppression
+ * @property {(dragIndex: number, hoverIndex: number) => void} moveExercice - Fonction de réorganisation
+ */
 type ExerciceCardProps = {
   exercice: ExerciseType;
   index: number;
@@ -11,11 +20,26 @@ type ExerciceCardProps = {
   moveExercice: (dragIndex: number, hoverIndex: number) => void;
 };
 
+/**
+ * Type pour l'élément en cours de glisser-déposer
+ */
 type DragItem = {
   id: string;
   index: number;
 };
 
+/**
+ * Carte d'exercice avec fonctionnalités de glisser-déposer
+ * Fonctionnalités :
+ * - Affichage des informations de l'exercice
+ * - Réorganisation par drag & drop
+ * - Suppression d'exercice
+ * - Navigation vers les détails
+ *
+ * @component
+ * @param {ExerciceCardProps} props - Les propriétés du composant
+ * @returns {JSX.Element} Carte d'exercice interactive
+ */
 export default function ExerciceCard({ exercice, index, workoutId, onDelete, moveExercice }: ExerciceCardProps) {
   const [{ isDragging }, drag] = useDrag({
     type: 'EXERCICE',

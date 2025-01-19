@@ -1,5 +1,14 @@
 import { cn } from '../../lib/cn';
 
+/**
+ * Composant Card pour afficher du contenu dans un conteneur stylisé
+ * @component
+ * @param {object} props - Les propriétés du composant
+ * @param {'xxs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl'} props.size - Taille du padding de la carte
+ * @param {string} [props.className] - Classes CSS additionnelles
+ * @param {React.ReactNode} props.children - Contenu de la carte
+ * @returns {JSX.Element} Composant Card
+ */
 type CardProps = {
   size: 'xxs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   className?: string;

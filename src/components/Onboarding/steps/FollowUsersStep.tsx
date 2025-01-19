@@ -1,7 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../../context/AuthContext';
 import { follow } from '../../../services/followersService';
 import { fetchUsers } from '../../../services/usersService';
 import { UserDetailsType } from '../../../types/userDetailsType';
@@ -10,20 +11,44 @@ import Avatar from '../../ui/Avatar';
 import Button from '../../ui/Button';
 import { Input } from '../../ui/Input';
 
+/**
+ * Composant de l'étape de suivi des utilisateurs dans le processus d'onboarding
+ * Fonctionnalités :
+ * - Recherche d'utilisateurs en temps réel
+ * - Affichage des utilisateurs suggérés
+ * - Suivi/Désabonnement des utilisateurs
+ * - Gestion des états de chargement
+ *
+ * @component
+ * @returns {JSX.Element} Étape de suivi des utilisateurs avec barre de recherche et liste de suggestions
+ */
 const FollowUsersStep = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const queryClient = useQueryClient();
+  const { user: currentUser } = useContext(AuthContext);
+  const currentUserId = currentUser?.id;
 
+  /**
+   * Récupération des utilisateurs suggérés
+   */
   const { data = [], isLoading } = useQuery({
     queryKey: ['suggestedUsers'],
     queryFn: () => fetchUsers()
   });
 
-  const users = data?.data;
+  // Filtrage des utilisateurs pour exclure l'utilisateur courant
+  const users = data?.data?.filter((user: UserDetailsType) => user.id !== currentUserId);
 
+  /**
+   * Filtrage des utilisateurs selon le terme de recherche
+   * Limite à 5 suggestions si aucune recherche active
+   */
   const filteredUsers =
     searchTerm.length >= 1 ? users?.filter((user: UserDetailsType) => user.pseudo.toLowerCase().includes(searchTerm.toLowerCase())) : users?.slice(0, 5);
 
+  /**
+   * Mutation pour suivre un utilisateur
+   */
   const { mutate: followUser, isPending: isFollowPending } = useMutation({
     mutationFn: (userId: string) => follow(userId),
     onSuccess: () => {

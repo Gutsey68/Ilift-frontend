@@ -2,6 +2,18 @@ import { Dumbbell } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 import { socials } from '../../lib/links';
 
+/**
+ * Pied de page latéral compact
+ * Fonctionnalités :
+ * - Liens légaux et informations
+ * - Liens sociaux avec icônes
+ * - Credits et copyright
+ * - Logo et branding
+ * - Mise en page compacte et centrée
+ *
+ * @component
+ * @returns {JSX.Element} Pied de page compact pour affichage latéral
+ */
 function SideFooter() {
   return (
     <div className="flex flex-col items-center justify-center gap-2">
@@ -36,4 +48,5 @@ function SideFooter() {
     </div>
   );
 }
+
 export default SideFooter;

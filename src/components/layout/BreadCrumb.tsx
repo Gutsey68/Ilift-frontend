@@ -1,6 +1,11 @@
 import { ChevronRight, HomeIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
+/**
+ * Props du composant BreadCrumb
+ * @typedef {object} BreadCrumbProps
+ * @property {Array<{label: string, href?: string, current?: boolean}>} items - Éléments du fil d'Ariane
+ */
 type BreadCrumbProps = {
   items: {
     label: string;
@@ -8,6 +13,20 @@ type BreadCrumbProps = {
     current?: boolean;
   }[];
 };
+
+/**
+ * Composant de fil d'Ariane (Breadcrumb)
+ * Fonctionnalités :
+ * - Navigation hiérarchique
+ * - Icône maison pour la page d'accueil
+ * - Liens cliquables ou texte simple
+ * - Styles différents pour l'élément courant
+ * - Responsive avec défilement horizontal
+ *
+ * @component
+ * @param {BreadCrumbProps} props - Les propriétés du composant
+ * @returns {JSX.Element} Navigation en fil d'Ariane
+ */
 
 function BreadCrumb({ items }: BreadCrumbProps) {
   return (

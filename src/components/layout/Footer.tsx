@@ -4,6 +4,20 @@ import { Link, NavLink } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import { navItems, NotAuhenticatedNavItems, socials } from '../../lib/links';
 
+/**
+ * Pied de page principal de l'application
+ * Fonctionnalités :
+ * - Logo et lien vers la page d'accueil
+ * - Navigation rapide adaptée à l'authentification
+ * - Liens légaux et informations
+ * - Liens sociaux
+ * - Responsive design (mobile/desktop)
+ * - Crédit et copyright
+ *
+ * @component
+ * @param {...React.HTMLAttributes<HTMLElement>} props - Props HTML du footer
+ * @returns {JSX.Element} Pied de page complet
+ */
 const Footer = ({ ...props }) => {
   const { user } = useContext(AuthContext);
 

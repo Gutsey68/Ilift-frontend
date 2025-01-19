@@ -1,6 +1,17 @@
 import { LoaderCircle } from 'lucide-react';
 import { cn } from '../../lib/cn';
 
+/**
+ * Composant Button réutilisable avec différentes variantes et états
+ * @component
+ * @param {object} props - Les propriétés du composant
+ * @param {'default' | 'outline' | 'destructive' | 'secondary' | 'ghost'} [props.variant='default'] - Style visuel du bouton
+ * @param {boolean} [props.isPending] - État de chargement du bouton
+ * @param {'sm' | 'md'} [props.size='md'] - Taille du bouton
+ * @param {string} [props.className] - Classes CSS additionnelles
+ * @param {React.ReactNode} props.children - Contenu du bouton
+ * @returns {JSX.Element} Composant Button
+ */
 type ButtonProps = React.ComponentPropsWithoutRef<'button'> & {
   variant?: 'default' | 'outline' | 'destructive' | 'secondary' | 'ghost';
   isPending?: boolean;

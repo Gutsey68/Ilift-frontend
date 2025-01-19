@@ -5,10 +5,25 @@ import { AuthContext } from '../../context/AuthContext';
 import DesktopNav from './navbar/DesktopNav';
 import RightNav from './navbar/RightNav';
 
+/**
+ * En-tête principal de l'application
+ * Fonctionnalités :
+ * - Navigation responsive
+ * - Logo et lien d'accueil
+ * - Effet de fond au scroll
+ * - Navigation desktop/mobile adaptative
+ * - Affichage conditionnel selon l'authentification
+ *
+ * @component
+ * @returns {JSX.Element} En-tête avec navigation
+ */
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const { user } = useContext(AuthContext);
 
+  /**
+   * Gestion de l'effet de fond au scroll
+   */
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);

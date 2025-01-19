@@ -7,6 +7,9 @@ import ErrorBoundaryWithLayout from '../components/error/ErrorBoundaryWithLayout
 import Layout from '../components/layout/Layout';
 import { ProgramProvider } from '../context/ProgramContext';
 
+/**
+ * Import des composants de pages en mode lazy pour optimiser le chargement
+ */
 const AboutPage = lazy(() => import('../pages/AboutPage'));
 const AdminPage = lazy(() => import('../pages/AdminPage'));
 const ExerciceDetailPage = lazy(() => import('../pages/ExerciceDetailPage'));
@@ -24,6 +27,26 @@ const RegisterPage = lazy(() => import('../pages/RegisterPage'));
 const ResetPasswordPage = lazy(() => import('../pages/ResetPasswordPage'));
 const Thread = lazy(() => import('../pages/Thread'));
 
+/**
+ * Configuration du routeur principal de l'application
+ * Structure hiérarchique des routes avec leurs protections et leurs composants associés
+ *
+ * Routes principales :
+ * - / : Page d'accueil (accessible uniquement aux utilisateurs non authentifiés)
+ * - /mentions-legales : Mentions légales (accès public)
+ * - /a-propos : À propos (accès public)
+ * - /parametres/:id : Paramètres utilisateur (protégée)
+ * - /programmes/* : Section programmes avec sous-routes (protégée)
+ * - /profil/:id : Profil utilisateur (protégée)
+ * - /accueil : Fil d'actualité (protégée)
+ * - /connexion : Page de connexion (non-authentifiés)
+ * - /inscription : Page d'inscription (non-authentifiés)
+ * - /mot-de-passe-oublie : Récupération de mot de passe (non-authentifiés)
+ * - /reset-password : Réinitialisation de mot de passe (non-authentifiés)
+ * - /admin : Interface d'administration (protégée)
+ *
+ * @type {ReturnType<typeof createBrowserRouter>}
+ */
 export const router = createBrowserRouter([
   {
     path: '/',
