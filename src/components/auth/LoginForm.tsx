@@ -38,17 +38,15 @@ function LoginForm() {
         errors={errors}
         placeholder="darkSasuke"
       />
-      <div>
-        <div className="mb-2 flex items-center justify-between">
-          <label htmlFor="password" className={`mt-1 text-sm ${errors.password && 'text-red-11'}`}>
-            Mot de passe
-          </label>
-          <Link className="" to="/mot-de-passe-oublie">
-            <p className="text-xs text-neutral-10 underline hover:text-green-9">Mot de passe oublié ?</p>
-          </Link>
-        </div>
-        <FormField disabled={isSubmitting || loginMutation.status === 'pending'} label="" name="password" type="password" register={register} errors={errors} />
+      <div className="-mb-2 flex items-center justify-between">
+        <label htmlFor="password" className={`mt-1 text-sm ${errors.password && 'text-red-11'}`}>
+          Mot de passe
+        </label>
+        <Link className="" to="/mot-de-passe-oublie">
+          <p className="text-xs text-neutral-10 underline hover:text-green-9">Mot de passe oublié ?</p>
+        </Link>
       </div>
+      <FormField disabled={isSubmitting || loginMutation.status === 'pending'} label="" name="password" type="password" register={register} errors={errors} />
       <Button
         type="submit"
         className="mt-2 w-full"
