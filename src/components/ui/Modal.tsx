@@ -40,7 +40,7 @@ const Modal = ({ children, onClose, size = 'lg', className }: ModalProps) => {
             'md:w-3/4 lg:w-1/4': size === 'md',
             'md:w-3/4 lg:w-1/3': size === 'lg',
             'md:w-3/4 lg:w-1/2': size === 'xl',
-            'relative mb-[10vh] w-full max-sm:px-4 top-40': true
+            'relative mb-[10vh] w-full max-sm:px-4 top-40 max-h-[80vh] overflow-y-auto': true
           },
           className
         )}

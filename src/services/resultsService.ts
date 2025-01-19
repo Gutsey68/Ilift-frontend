@@ -19,3 +19,9 @@ export const deleteResult = async (id: string) => {
     method: 'DELETE'
   });
 };
+
+export const deleteSet = async (resultId: string, setId: string) => {
+  return fetchWithToken(`/api/results/${resultId}/sets/${setId}`, {
+    method: 'DELETE'
+  });
+};

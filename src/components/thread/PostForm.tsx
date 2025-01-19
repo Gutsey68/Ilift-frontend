@@ -4,6 +4,7 @@ import { Image, X } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { createPostHandler } from '../../services/postsService';
 import { ExerciseResult } from '../../types/exerciceResultsType';
@@ -24,6 +25,7 @@ export default function PostForm({ closeModal, selectedResults = [] }: PostFormP
   const [tags, setTags] = useState<string[]>([]);
   const [currentTag, setCurrentTag] = useState('');
   const [preview, setPreview] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const {
     register,
@@ -104,6 +106,7 @@ export default function PostForm({ closeModal, selectedResults = [] }: PostFormP
 
       queryClient.invalidateQueries({ queryKey: ['posts'] });
       queryClient.invalidateQueries({ queryKey: ['tags'] });
+      navigate('/accueil');
 
       closeModal();
     } catch {
@@ -112,7 +115,7 @@ export default function PostForm({ closeModal, selectedResults = [] }: PostFormP
   };
 
   return (
-    <Modal onClose={closeModal}>
+    <Modal className="modal-content" onClose={closeModal}>
       <Card className="relative" size="md">
         <div className="border-b border-neutral-6 p-4">
           <p className="text-2xl font-semibold">Nouveau post</p>
