@@ -25,7 +25,6 @@ function SetInput({ onClose }: SetInputProps) {
     mutationFn: (data: { exerciceId: string; sets: SetInput[] }) => createResult(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['results'] });
-      toast.success('Résultat ajouté avec succès');
       onClose();
     },
     onError: () => {

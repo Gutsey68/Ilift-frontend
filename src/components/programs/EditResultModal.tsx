@@ -10,39 +10,49 @@ import Modal from '../ui/Modal';
 import NumberInput from '../ui/NumberInput';
 
 type EditResultModalProps = {
-  result: ExerciseResult;
+  results: ExerciseResult[];
   onClose: () => void;
 };
 
 type SetInput = {
+  id: string;
   reps: number;
   weight: number;
 };
 
-function EditResultModal({ result, onClose }: EditResultModalProps) {
+function EditResultModal({ results, onClose }: EditResultModalProps) {
   const [sets, setSets] = useState<SetInput[]>(
-    result.sets.map(set => ({
-      reps: set.reps,
-      weight: set.weight
-    }))
+    results.flatMap(result =>
+      result.sets.map(set => ({
+        id: set.id,
+        reps: set.reps,
+        weight: set.weight
+      }))
+    )
   );
   const queryClient = useQueryClient();
 
-  const updateResultMutation = useMutation({
-    mutationFn: (data: { sets: SetInput[] }) => updateResult(result.id, data),
+  const updateResultsMutation = useMutation({
+    mutationFn: async (data: { sets: SetInput[] }) => {
+      // Grouper les sets par résultat et mettre à jour chaque résultat
+      const updatePromises = results.map(result => {
+        const resultSets = data.sets.filter(set => result.sets.some(originalSet => originalSet.id === set.id));
+        return updateResult(result.id, { sets: resultSets });
+      });
+      return Promise.all(updatePromises);
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['results'] });
-      toast.success('Résultat modifié avec succès');
       onClose();
     },
     onError: () => {
-      toast.error('Erreur lors de la modification du résultat');
+      toast.error('Erreur lors de la modification des résultats');
     }
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    updateResultMutation.mutate({ sets });
+    updateResultsMutation.mutate({ sets });
   };
 
   return (
@@ -84,7 +94,7 @@ function EditResultModal({ result, onClose }: EditResultModalProps) {
             <Button onClick={onClose} variant="secondary">
               Annuler
             </Button>
-            <Button type="submit" isPending={updateResultMutation.isPending}>
+            <Button type="submit" isPending={updateResultsMutation.isPending}>
               Modifier
             </Button>
           </div>

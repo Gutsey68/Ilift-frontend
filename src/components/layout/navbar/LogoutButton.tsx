@@ -11,7 +11,7 @@ function LogoutButton() {
   const handleLogout = async () => {
     try {
       await logoutMutation.mutateAsync();
-      toast('Déconnexion réussie', { icon: '👋' });
+      toast('Bon entraînement', { icon: '👋' });
     } catch {
       toast.error('Erreur lors de la déconnexion');
     }

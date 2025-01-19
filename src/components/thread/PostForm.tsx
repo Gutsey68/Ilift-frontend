@@ -8,6 +8,7 @@ import { z } from 'zod';
 import { createPostHandler } from '../../services/postsService';
 import { ExerciseResult } from '../../types/exerciceResultsType';
 import { createPostSchema } from '../../validators/posts.validation';
+import ResultsSection from '../profile/ResultsSection';
 import Badge from '../ui/Badge';
 import Button from '../ui/Button';
 import Card from '../ui/Card';
@@ -16,7 +17,7 @@ import { Textarea } from '../ui/Textarea';
 
 type PostFormProps = {
   closeModal: () => void;
-  selectedResults?: ExerciseResult[];
+  selectedResults: ExerciseResult[];
 };
 
 export default function PostForm({ closeModal, selectedResults = [] }: PostFormProps) {
@@ -120,14 +121,11 @@ export default function PostForm({ closeModal, selectedResults = [] }: PostFormP
         </div>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6 p-6">
           {selectedResults.length > 0 && (
-            <div className="rounded-lg bg-neutral-3 p-4">
-              <p className="mb-2 text-sm text-neutral-11">Résultats sélectionnés :</p>
-              {selectedResults.map(result => (
-                <div key={result.id} className="text-sm text-neutral-11">
-                  {new Date(result.createdAt).toLocaleDateString()} - {result.exercice.name}
-                </div>
-              ))}
-            </div>
+            <ResultsSection
+              exercicesResultsPosts={selectedResults.map(result => ({
+                exercicesResults: result
+              }))}
+            />
           )}
           {preview && (
             <div className="relative mx-auto">
