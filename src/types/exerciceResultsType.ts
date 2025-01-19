@@ -12,6 +12,10 @@ export type ExerciseResult = {
     updatedAt: string;
     exerciceResultId: string;
   }[];
+  exercice: {
+    id: string;
+    name: string;
+  };
   user?: {
     id: string;
     pseudo: string;
@@ -24,4 +28,22 @@ export type ExerciseResult = {
     roleId: string | null;
     cityId: string | null;
   };
+};
+
+export type SimpleExerciseResult = {
+  id: string;
+  createdAt: string;
+  exercice: {
+    id: string;
+    name: string;
+  };
+  sets: Array<{
+    id: string;
+    reps: number;
+    weight: number;
+  }>;
+};
+
+export type ExerciseResultPost = {
+  exercicesResults: SimpleExerciseResult;
 };

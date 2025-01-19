@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { z } from 'zod';
 import { createPostHandler } from '../../services/postsService';
+import { ExerciseResult } from '../../types/exerciceResultsType';
 import { createPostSchema } from '../../validators/posts.validation';
 import Badge from '../ui/Badge';
 import Button from '../ui/Button';
@@ -15,9 +16,10 @@ import { Textarea } from '../ui/Textarea';
 
 type PostFormProps = {
   closeModal: () => void;
+  selectedResults?: ExerciseResult[];
 };
 
-export default function PostForm({ closeModal }: PostFormProps) {
+export default function PostForm({ closeModal, selectedResults = [] }: PostFormProps) {
   const [tags, setTags] = useState<string[]>([]);
   const [currentTag, setCurrentTag] = useState('');
   const [preview, setPreview] = useState<string | null>(null);
@@ -83,6 +85,10 @@ export default function PostForm({ closeModal }: PostFormProps) {
         }
       }
 
+      if (selectedResults.length > 0) {
+        formData.append('exerciseResults', JSON.stringify(selectedResults.map(r => r.id)));
+      }
+
       const fileInput = document.getElementById('file') as HTMLInputElement;
 
       if (fileInput?.files?.[0]) {
@@ -113,6 +119,16 @@ export default function PostForm({ closeModal }: PostFormProps) {
           <X onClick={closeModal} className="absolute right-4 top-4 cursor-pointer text-neutral-11 hover:text-neutral-12" />
         </div>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6 p-6">
+          {selectedResults.length > 0 && (
+            <div className="rounded-lg bg-neutral-3 p-4">
+              <p className="mb-2 text-sm text-neutral-11">Résultats sélectionnés :</p>
+              {selectedResults.map(result => (
+                <div key={result.id} className="text-sm text-neutral-11">
+                  {new Date(result.createdAt).toLocaleDateString()} - {result.exercice.name}
+                </div>
+              ))}
+            </div>
+          )}
           {preview && (
             <div className="relative mx-auto">
               <img src={preview} alt="Aperçu" className="h-[200px] rounded-lg object-contain" />

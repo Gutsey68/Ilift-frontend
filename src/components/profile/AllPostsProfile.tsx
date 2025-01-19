@@ -8,48 +8,14 @@ import useInfiniteScroll from '../../hooks/useInfiniteScroll';
 import { formatRelativeTime } from '../../lib/formatRelativeTime';
 import { like, unLike } from '../../services/likesService';
 import { sharePost, unsharePost } from '../../services/sharesService';
-import { PostType } from '../../types/postsType';
+import { CommonPost, PostType } from '../../types/postsType';
 import ConfirmDeleteModal from '../modals/ConfirmDeleteModal';
 import ConfirmShareModal from '../modals/ConfirmShareModal';
 import CommentsModal from '../thread/CommentsModal';
 import EditPostModal from '../thread/EditPostModal';
 import Avatar from '../ui/Avatar';
 import Badge from '../ui/Badge';
-
-export type CommonPost = {
-  id: string;
-  photo?: string;
-  content: string;
-  createdAt: string;
-  updatedAt: string;
-  authorId: string;
-  isValid?: boolean;
-  doILike?: boolean;
-  isShared?: boolean;
-  sharedAt?: string;
-  sharedBy?: string;
-  sharedByUser?: {
-    id: string;
-    pseudo: string;
-  };
-  tags: Array<{
-    postId: string;
-    tagId: string;
-    tag: {
-      id: string;
-      name: string;
-    };
-  }>;
-  _count?: {
-    likes: number;
-    comments: number;
-  };
-  author: {
-    id: string;
-    pseudo: string;
-    profilePhoto?: string;
-  };
-};
+import ResultsSection from './ResultsSection';
 
 type AllPostsProps = {
   posts: (PostType | CommonPost)[];
@@ -199,6 +165,7 @@ function AllPosts({ posts, fetchNextPage, hasNextPage, isFetchingNextPage }: All
                     ))}
                   </div>
                 )}
+                {post.exercicesResultsPosts && <ResultsSection exercicesResultsPosts={post.exercicesResultsPosts} />}
               </div>
               {post.photo && <img className="mx-auto w-11/12 rounded-lg sm:w-3/4" src={post.photo} alt={`Photo de ${post.author.pseudo}`} />}
               <div>

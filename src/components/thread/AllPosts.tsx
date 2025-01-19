@@ -11,6 +11,7 @@ import { sharePost, unsharePost } from '../../services/sharesService';
 import { PostType } from '../../types/postsType';
 import ConfirmDeleteModal from '../modals/ConfirmDeleteModal';
 import ConfirmShareModal from '../modals/ConfirmShareModal';
+import ResultsSection from '../profile/ResultsSection';
 import Avatar from '../ui/Avatar';
 import Badge from '../ui/Badge';
 import Card from '../ui/Card';
@@ -178,6 +179,7 @@ function AllPosts({ posts, fetchNextPage, hasNextPage, isFetchingNextPage }: All
                   ))}
                 </div>
               )}
+              {post.exercicesResultsPosts && <ResultsSection exercicesResultsPosts={post.exercicesResultsPosts} />}
             </div>
             {post.photo && <img className="mx-auto w-11/12 rounded-lg sm:w-3/4" src={post.photo} alt={`Photo de ${post.author.pseudo}`} />}
             <div>
