@@ -7,15 +7,36 @@ import ConfirmDeleteModal from '../modals/ConfirmDeleteModal';
 import EditWorkoutModal from './EditWorkoutModal';
 import WorkoutCard from './WorkoutCard';
 
+/**
+ * Props du composant WorkoutsList
+ * @typedef {object} WorkoutsListProps
+ * @property {WorkoutType[]} workouts - Liste des séances à afficher
+ */
 type WorkoutsListProps = {
   workouts: WorkoutType[];
 };
 
+/**
+ * Liste des séances d'entraînement avec fonctionnalités de gestion
+ * Fonctionnalités :
+ * - Affichage des séances
+ * - Édition et suppression
+ * - Réorganisation par drag & drop
+ * - Gestion des confirmations
+ * - Mutations optimistes
+ *
+ * @component
+ * @param {WorkoutsListProps} props - Les propriétés du composant
+ * @returns {JSX.Element} Liste interactive des séances
+ */
 function WorkoutsList({ workouts }: WorkoutsListProps) {
   const [workoutToEdit, setWorkoutToEdit] = useState<WorkoutType | null>(null);
   const [workoutToDelete, setWorkoutToDelete] = useState<WorkoutType | null>(null);
   const queryClient = useQueryClient();
 
+  /**
+   * Mutation pour la suppression d'une séance
+   */
   const deleteWorkoutMutation = useMutation({
     mutationFn: async (id: string) => {
       return await deleteWorkout(id);
@@ -30,6 +51,9 @@ function WorkoutsList({ workouts }: WorkoutsListProps) {
     }
   });
 
+  /**
+   * Mutation pour la mise à jour de la position d'une séance
+   */
   const updatePositionMutation = useMutation({
     mutationFn: (params: { id: string; position: number }) => updateWorkout(params.id, { position: params.position }),
     onSuccess: () => {
@@ -37,6 +61,9 @@ function WorkoutsList({ workouts }: WorkoutsListProps) {
     }
   });
 
+  /**
+   * Gère le déplacement d'une séance dans la liste
+   */
   const moveWorkout = (dragIndex: number, hoverIndex: number) => {
     const draggedWorkout = workouts[dragIndex];
 
@@ -53,7 +80,7 @@ function WorkoutsList({ workouts }: WorkoutsListProps) {
           <WorkoutCard key={workout.id} workout={workout} index={index} onEdit={setWorkoutToEdit} onDelete={setWorkoutToDelete} moveWorkout={moveWorkout} />
         ))}
       </div>
-      {workoutToEdit && <EditWorkoutModal workout={workoutToEdit} onClose={() => setWorkoutToEdit(null)} />}
+      {workoutToEdit && <EditWorkoutModal workout={workoutToEdit} closeModal={() => setWorkoutToEdit(null)} />}
       {workoutToDelete && (
         <ConfirmDeleteModal
           title="Supprimer la séance"

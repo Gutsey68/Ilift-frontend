@@ -1,6 +1,15 @@
 import * as React from 'react';
 import { cn } from '../../lib/cn';
 
+/**
+ * Composant Input réutilisable avec style personnalisé
+ * @component
+ * @param {object} props - Les propriétés du composant
+ * @param {string} [props.className] - Classes CSS additionnelles
+ * @param {string} [props.type] - Type de l'input HTML
+ * @param {React.Ref<HTMLInputElement>} ref - Référence React vers l'élément input
+ * @returns {JSX.Element} Composant Input stylisé
+ */
 const Input = React.forwardRef<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>(({ className, type, ...props }, ref) => {
   return (
     <input

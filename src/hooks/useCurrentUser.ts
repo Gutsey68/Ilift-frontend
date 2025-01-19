@@ -2,6 +2,11 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { fetchCurrentUser } from '../services/usersService';
 import { UserDetailsType } from '../types/userDetailsType';
 
+/**
+ * Hook personnalisé pour gérer l'utilisateur courant
+ * Fournit les données de l'utilisateur et une méthode pour les mettre à jour
+ * @returns Object contenant les données de l'utilisateur et la méthode setUser
+ */
 export const useCurrentUser = () => {
   const queryClient = useQueryClient();
 

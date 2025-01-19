@@ -1,3 +1,8 @@
+/**
+ * Composant d'arrière-plan avec effet de flou
+ * @component
+ * @returns {JSX.Element} Composant BlurBackground avec un dégradé vert flouté
+ */
 export default function BlurBackground() {
   return (
     <div className="absolute left-0 top-96 z-0 blur-3xl">

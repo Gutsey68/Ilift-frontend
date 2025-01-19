@@ -1,19 +1,12 @@
+import { storeTokens } from '@/lib/storeTokens';
 import { getRefreshHeader } from '../lib/getHeaders';
 
-interface TokenData {
-  data: {
-    token: string;
-    refreshToken: string;
-    user: unknown;
-  };
-}
-
-const storeTokens = (data: TokenData) => {
-  const { token, refreshToken } = data.data;
-  localStorage.setItem('token', token);
-  localStorage.setItem('refreshToken', refreshToken);
-};
-
+/**
+ * Authentifie un utilisateur
+ * @param pseudo - Pseudo de l'utilisateur
+ * @param password - Mot de passe de l'utilisateur
+ * @throws {Error} Si l'authentification échoue
+ */
 export const login = async ({ pseudo, password }: { pseudo: string; password: string }) => {
   const response = await fetch('/api/auth/login', {
     method: 'POST',
@@ -31,6 +24,10 @@ export const login = async ({ pseudo, password }: { pseudo: string; password: st
   return data;
 };
 
+/**
+ * Déconnecte un utilisateur
+ * @throws {Error} Si l'invalidation du jeton échoue
+ */
 export const logout = async () => {
   const refreshToken = localStorage.getItem('refreshToken');
   if (!refreshToken) return;
@@ -50,6 +47,14 @@ export const logout = async () => {
   }
 };
 
+/**
+ * Inscrit un nouvel utilisateur
+ * @param pseudo - Pseudo de l'utilisateur
+ * @param email - Email de l'utilisateur
+ * @param password - Mot de passe de l'utilisateur
+ * @param confirmPassword - Confirmation du mot de passe
+ * @throws {Error} Si l'inscription échoue
+ */
 export const register = async ({ pseudo, email, password, confirmPassword }: { pseudo: string; email: string; password: string; confirmPassword: string }) => {
   const response = await fetch('/api/auth/register', {
     method: 'POST',
@@ -63,6 +68,11 @@ export const register = async ({ pseudo, email, password, confirmPassword }: { p
   }
 };
 
+/**
+ * Vérifie l'expiration d'un token
+ * @param token - Token à vérifier
+ * @throws {Error} Si le token a expiré
+ */
 export const checkTokenExpiration = (token: string) => {
   const { exp } = JSON.parse(atob(token.split('.')[1]));
   if (Date.now() >= exp * 1000) {
@@ -70,6 +80,11 @@ export const checkTokenExpiration = (token: string) => {
   }
 };
 
+/**
+ * Demande une réinitialisation de mot de passe
+ * @param email - Email de l'utilisateur
+ * @throws {Error} Si la demande échoue
+ */
 export const requestPasswordReset = async (email: string) => {
   const response = await fetch('/api/auth/reset-password', {
     method: 'POST',
@@ -85,6 +100,12 @@ export const requestPasswordReset = async (email: string) => {
   return response.json();
 };
 
+/**
+ * Réinitialise le mot de passe d'un utilisateur
+ * @param token - Token de réinitialisation
+ * @param newPassword - Nouveau mot de passe
+ * @throws {Error} Si la réinitialisation échoue
+ */
 export const resetPassword = async ({ token, newPassword }: { token: string; newPassword: string }) => {
   const response = await fetch('/api/auth/update-password', {
     method: 'POST',
@@ -100,6 +121,10 @@ export const resetPassword = async ({ token, newPassword }: { token: string; new
   return response.json();
 };
 
+/**
+ * Rafraîchit le token d'authentification
+ * @throws {Error} Si le refresh token est invalide ou absent
+ */
 export const refresh = async () => {
   const refreshHeader = getRefreshHeader();
 

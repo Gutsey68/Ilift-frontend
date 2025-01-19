@@ -7,11 +7,30 @@ import useFloatingModal from '../../../hooks/useFloatingModal';
 import ThemeSwitch from '../../theme/ThemeSwitch';
 import LogoutButton from './LogoutButton';
 
+/**
+ * Props du composant UserAvatarModal
+ * @typedef {object} UserAvatarModalProps
+ * @property {() => void} closeModal - Fonction de fermeture du modal
+ * @property {React.RefObject<HTMLDivElement>} avatarRef - Référence vers l'avatar déclencheur
+ */
 type UserAvatarModalProps = {
   closeModal: () => void;
   avatarRef: React.RefObject<HTMLDivElement>;
 };
 
+/**
+ * Modal flottant avec les options utilisateur
+ * Fonctionnalités :
+ * - Navigation vers profil et paramètres
+ * - Accès administration si roleId approprié
+ * - Gestion du thème avec switch
+ * - Déconnexion
+ * - Positionnement automatique relatif à l'avatar
+ *
+ * @component
+ * @param {UserAvatarModalProps} props - Les propriétés du composant
+ * @returns {JSX.Element} Modal des options utilisateur
+ */
 function UserAvatarModal({ closeModal, avatarRef }: UserAvatarModalProps) {
   const { user } = useContext(AuthContext);
   const { isDark, toggleTheme } = useContext(ThemeContext);

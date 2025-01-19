@@ -1,6 +1,16 @@
 import { Activity, Dumbbell, Share2, Users } from 'lucide-react';
 import Card from '../ui/Card';
 
+/**
+ * Section présentant les principales fonctionnalités de l'application
+ * Affiche trois cartes mettant en avant :
+ * - Le suivi des séances
+ * - Le partage social
+ * - La communauté
+ * Utilise des icônes et une mise en page responsive
+ * @component
+ * @returns {JSX.Element} Section des fonctionnalités avec cartes
+ */
 function FeaturesSection() {
   return (
     <section id="features" className="z-10 mx-auto max-w-6xl">

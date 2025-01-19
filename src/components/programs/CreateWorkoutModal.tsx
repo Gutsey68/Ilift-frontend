@@ -12,12 +12,30 @@ import Button from '../ui/Button';
 import Card from '../ui/Card';
 import Modal from '../ui/Modal';
 
+/**
+ * Props du composant CreateWorkoutModal
+ * @typedef {object} CreateWorkoutModalProps
+ * @property {() => void} closeModal - Fonction de fermeture du modal
+ */
 type CreateWorkoutModalProps = {
   closeModal: () => void;
 };
 
 type FormData = z.infer<typeof createWorkoutSchema>['body'];
 
+/**
+ * Modal de création de séance d'entraînement
+ * Fonctionnalités :
+ * - Formulaire validé avec Zod
+ * - Création de séance dans un programme
+ * - Gestion des erreurs de validation
+ * - Retours visuels des actions
+ * - Association automatique au programme courant
+ *
+ * @component
+ * @param {CreateWorkoutModalProps} props - Les propriétés du composant
+ * @returns {JSX.Element} Modal de création de séance
+ */
 function CreateWorkoutModal({ closeModal }: CreateWorkoutModalProps) {
   const { id: programId } = useParams();
   const queryClient = useQueryClient();
@@ -34,6 +52,9 @@ function CreateWorkoutModal({ closeModal }: CreateWorkoutModalProps) {
     }
   });
 
+  /**
+   * Mutation pour la création de la séance
+   */
   const createWorkoutMutation = useMutation({
     mutationFn: (data: FormData) => createWorkout(data),
     onSuccess: () => {
@@ -46,6 +67,9 @@ function CreateWorkoutModal({ closeModal }: CreateWorkoutModalProps) {
     }
   });
 
+  /**
+   * Gère la soumission du formulaire
+   */
   const onSubmit = handleSubmit(data => {
     createWorkoutMutation.mutate(data);
   });

@@ -17,6 +17,14 @@ import Avatar from '../ui/Avatar';
 import Badge from '../ui/Badge';
 import ResultsSection from './ResultsSection';
 
+/**
+ * Props du composant AllPosts
+ * @typedef {object} AllPostsProps
+ * @property {(PostType | CommonPost)[]} posts - Liste des publications à afficher
+ * @property {() => void} fetchNextPage - Fonction pour charger la page suivante
+ * @property {boolean | undefined} hasNextPage - Indique s'il y a une page suivante
+ * @property {boolean} isFetchingNextPage - Indique si le chargement de la page suivante est en cours
+ */
 type AllPostsProps = {
   posts: (PostType | CommonPost)[];
   fetchNextPage: () => void;
@@ -24,6 +32,13 @@ type AllPostsProps = {
   isFetchingNextPage: boolean;
 };
 
+/**
+ * Composant d'affichage des publications d'un profil sur la page profil
+ * Gère l'affichage, les likes, les partages et les commentaires des publications
+ * @component
+ * @param {AllPostsProps} props - Les propriétés du composant
+ * @returns {JSX.Element} Section des publications avec gestion des interactions
+ */
 function AllPosts({ posts, fetchNextPage, hasNextPage, isFetchingNextPage }: AllPostsProps) {
   const [selectedPostId, setSelectedPostId] = useState<string | null>(null);
   const [postToShare, setPostToShare] = useState<CommonPost | null>(null);
@@ -69,6 +84,10 @@ function AllPosts({ posts, fetchNextPage, hasNextPage, isFetchingNextPage }: All
     }
   });
 
+  /**
+   * Gère le like/unlike d'une publication
+   * @param {CommonPost} post - Publication à liker/unliker
+   */
   const handleLike = (post: CommonPost) => {
     if (post.doILike) {
       unlikeMutation.mutate(post.id);
@@ -77,6 +96,10 @@ function AllPosts({ posts, fetchNextPage, hasNextPage, isFetchingNextPage }: All
     }
   };
 
+  /**
+   * Gère le clic sur le bouton de partage
+   * @param {CommonPost} post - Publication à partager/départager
+   */
   const handleShareClick = (post: CommonPost) => {
     if (post.isShared && post.sharedBy === id) {
       setPostToUnshare(post);
@@ -85,6 +108,9 @@ function AllPosts({ posts, fetchNextPage, hasNextPage, isFetchingNextPage }: All
     }
   };
 
+  /**
+   * Gère la confirmation du partage d'une publication
+   */
   const handleConfirmShare = () => {
     if (postToShare) {
       try {
@@ -97,6 +123,9 @@ function AllPosts({ posts, fetchNextPage, hasNextPage, isFetchingNextPage }: All
     }
   };
 
+  /**
+   * Gère la confirmation de la suppression d'un partage
+   */
   const handleConfirmUnshare = () => {
     if (postToUnshare) {
       try {

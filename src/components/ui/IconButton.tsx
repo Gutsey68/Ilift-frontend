@@ -1,6 +1,14 @@
 import clsx from 'clsx';
 import React from 'react';
 
+/**
+ * Composant bouton avec icône
+ * @component
+ * @param {object} props - Les propriétés du composant
+ * @param {React.ReactNode} props.icon - L'icône à afficher dans le bouton
+ * @param {string} [props.className] - Classes CSS additionnelles
+ * @returns {JSX.Element} Composant IconButton
+ */
 interface IconButtonProps {
   icon: React.ReactNode;
   className?: string;

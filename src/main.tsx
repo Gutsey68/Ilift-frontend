@@ -11,8 +11,22 @@ import { ThemeProvider } from './context/ThemeProvider';
 import { router } from './router/router';
 import './styles/global.css';
 
+/**
+ * Configuration du client React Query pour la gestion du cache et des requêtes
+ */
 const queryClient = new QueryClient();
 
+/**
+ * Point d'entrée principal de l'application
+ * Configure les providers nécessaires :
+ * - Suspense pour le chargement asynchrone
+ * - QueryClientProvider pour React Query
+ * - DndProvider pour le drag and drop
+ * - AuthProvider pour l'authentification
+ * - ThemeProvider pour le thème
+ * - RouterProvider pour le routage
+ * - Toaster pour les notifications
+ */
 createRoot(document.getElementById('root')!).render(
   <Suspense fallback={<Spinner />}>
     <QueryClientProvider client={queryClient}>
@@ -28,4 +42,8 @@ createRoot(document.getElementById('root')!).render(
   </Suspense>
 );
 
+/**
+ * Point de montage secondaire pour les modales
+ * Utilise le même client React Query pour maintenir la cohérence des données
+ */
 createRoot(document.getElementById('modal')!).render(<QueryClientProvider client={queryClient}></QueryClientProvider>);

@@ -1,3 +1,13 @@
+/**
+ * Composant de placeholder pour la liste des abonnements
+ * Affiche 5 éléments de chargement simulant :
+ * - Avatar
+ * - Nom d'utilisateur
+ * - Bouton d'action
+ *
+ * @component
+ * @returns {JSX.Element} Animation de chargement de la liste d'abonnements
+ */
 function FollowingsSkeletons() {
   return (
     <div className="flex flex-col gap-4">

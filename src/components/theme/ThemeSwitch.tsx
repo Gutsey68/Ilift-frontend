@@ -2,6 +2,11 @@ import { Moon, Sun } from 'lucide-react';
 import { useContext } from 'react';
 import { ThemeContext } from '../../context/ThemeContext';
 
+/**
+ * Composant switch stylisé pour basculer entre le thème clair et sombre
+ * @component
+ * @returns {JSX.Element} Switch de basculement de thème avec animation et icônes
+ */
 function ThemeSwitch() {
   const { isDark, toggleTheme } = useContext(ThemeContext);
   return (

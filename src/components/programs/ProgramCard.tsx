@@ -3,11 +3,26 @@ import { useDrag, useDrop } from 'react-dnd';
 import { Link } from 'react-router-dom';
 import { ProgramType } from '../../types/programsType';
 
+/**
+ * Type pour l'élément en cours de glisser-déposer
+ * @typedef {object} DragItem
+ * @property {string} id - Identifiant du programme
+ * @property {number} index - Position dans la liste
+ */
 type DragItem = {
   id: string;
   index: number;
 };
 
+/**
+ * Props du composant ProgramCard
+ * @typedef {object} ProgramCardProps
+ * @property {ProgramType} program - Le programme à afficher
+ * @property {number} index - Position dans la liste
+ * @property {(program: ProgramType) => void} onEdit - Fonction d'édition
+ * @property {(program: ProgramType) => void} onDelete - Fonction de suppression
+ * @property {(dragIndex: number, hoverIndex: number) => void} moveProgram - Fonction de réorganisation
+ */
 type ProgramCardProps = {
   program: ProgramType;
   index: number;
@@ -16,7 +31,22 @@ type ProgramCardProps = {
   moveProgram: (dragIndex: number, hoverIndex: number) => void;
 };
 
+/**
+ * Carte de programme avec fonctionnalités de glisser-déposer
+ * Fonctionnalités :
+ * - Affichage des informations du programme
+ * - Actions d'édition et suppression
+ * - Réorganisation par drag & drop
+ * - Navigation vers les détails
+ *
+ * @component
+ * @param {ProgramCardProps} props - Les propriétés du composant
+ * @returns {JSX.Element} Carte de programme interactive
+ */
 export default function ProgramCard({ program, index, onEdit, onDelete, moveProgram }: ProgramCardProps) {
+  /**
+   * Configuration du drag & drop
+   */
   const [{ isDragging }, drag] = useDrag({
     type: 'PROGRAM',
     item: { id: program.id, index },

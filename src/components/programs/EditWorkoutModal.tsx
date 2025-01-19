@@ -12,16 +12,38 @@ import Button from '../ui/Button';
 import Card from '../ui/Card';
 import Modal from '../ui/Modal';
 
+/**
+ * Props du composant EditWorkoutModal
+ * @typedef {object} EditWorkoutModalProps
+ * @property {WorkoutType} workout - La séance à modifier
+ * @property {() => void} closeModal - Fonction de fermeture du modal
+ */
 type EditWorkoutModalProps = {
   workout: WorkoutType;
-  onClose: () => void;
+  closeModal: () => void;
 };
 
 type FormData = z.infer<typeof updateWorkoutSchema>['body'];
 
-function EditWorkoutModal({ workout, onClose }: EditWorkoutModalProps) {
+/**
+ * Modal de modification d'une séance d'entraînement
+ * Fonctionnalités :
+ * - Formulaire pré-rempli avec les données existantes
+ * - Validation Zod des modifications
+ * - Gestion des erreurs avec feedback visuel
+ * - États de chargement
+ * - Mise à jour en temps réel
+ *
+ * @component
+ * @param {EditWorkoutModalProps} props - Les propriétés du composant
+ * @returns {JSX.Element} Modal d'édition de séance
+ */
+function EditWorkoutModal({ workout, closeModal }: EditWorkoutModalProps) {
   const queryClient = useQueryClient();
 
+  /**
+   * Configuration du formulaire avec validation Zod
+   */
   const {
     register,
     handleSubmit,
@@ -33,12 +55,15 @@ function EditWorkoutModal({ workout, onClose }: EditWorkoutModalProps) {
     }
   });
 
+  /**
+   * Mutation pour la mise à jour de la séance
+   */
   const updateWorkoutMutation = useMutation({
     mutationFn: (data: FormData) => updateWorkout(workout.id, { name: data.name }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['workouts'] });
       toast.success('Séance modifiée avec succès');
-      onClose();
+      closeModal();
     },
     onError: () => {
       toast.error('Erreur lors de la modification de la séance');
@@ -50,17 +75,17 @@ function EditWorkoutModal({ workout, onClose }: EditWorkoutModalProps) {
   });
 
   return (
-    <Modal onClose={onClose}>
+    <Modal onClose={closeModal}>
       <Card size="sm" className="relative flex flex-col gap-4">
         <div className="relative flex w-full justify-center">
           <h2 className="text-xl font-semibold">Modifier la séance</h2>
-          <X onClick={onClose} className="absolute right-0 cursor-pointer text-neutral-11 hover:text-neutral-12" />
+          <X onClick={closeModal} className="absolute right-0 cursor-pointer text-neutral-11 hover:text-neutral-12" />
         </div>
         <hr className="border-neutral-6" />
         <form onSubmit={onSubmit} className="flex flex-col gap-4">
           <FormField label="Nom de la séance" name="name" type="text" register={register} errors={errors} disabled={updateWorkoutMutation.isPending} />
           <div className="flex justify-end gap-2">
-            <Button type="button" onClick={onClose} disabled={updateWorkoutMutation.isPending} variant="secondary">
+            <Button type="button" onClick={closeModal} disabled={updateWorkoutMutation.isPending} variant="secondary">
               Annuler
             </Button>
             <Button type="submit" isPending={updateWorkoutMutation.isPending}>

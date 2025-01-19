@@ -6,10 +6,28 @@ import { AuthContext } from '../../../context/AuthContext';
 import { updateUserPhoto } from '../../../services/usersService';
 import Button from '../../ui/Button';
 
+/**
+ * Props du composant ProfilePhotoStep
+ * @typedef {object} ProfilePhotoStepProps
+ * @property {() => void} onComplete - Fonction appelée lorsque l'étape est terminée
+ */
 type ProfilePhotoStepProps = {
   onComplete: () => void;
 };
 
+/**
+ * Composant de l'étape d'upload de photo de profil dans le processus d'onboarding
+ * Fonctionnalités :
+ * - Sélection de fichier image
+ * - Prévisualisation de l'image
+ * - Validation du type et de la taille du fichier
+ * - Upload avec gestion des erreurs
+ * - Retour visuel du succès/échec
+ *
+ * @component
+ * @param {ProfilePhotoStepProps} props - Les propriétés du composant
+ * @returns {JSX.Element} Étape d'upload de photo de profil
+ */
 const ProfilePhotoStep = ({ onComplete }: ProfilePhotoStepProps) => {
   const queryClient = useQueryClient();
   const [photo, setPhoto] = useState<File | null>(null);
@@ -17,6 +35,9 @@ const ProfilePhotoStep = ({ onComplete }: ProfilePhotoStepProps) => {
   const { user } = useContext(AuthContext);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  /**
+   * Mutation pour uploader la photo de profil
+   */
   const { mutate: uploadPhoto, isPending } = useMutation({
     mutationFn: async () => {
       if (!photo) return;
@@ -38,6 +59,10 @@ const ProfilePhotoStep = ({ onComplete }: ProfilePhotoStepProps) => {
     }
   });
 
+  /**
+   * Gère la sélection d'un fichier image
+   * Vérifie le type et la taille du fichier avant de créer une prévisualisation
+   */
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -54,10 +79,16 @@ const ProfilePhotoStep = ({ onComplete }: ProfilePhotoStepProps) => {
     }
   };
 
+  /**
+   * Déclenche le sélecteur de fichier
+   */
   const handleButtonClick = () => {
     fileInputRef.current?.click();
   };
 
+  /**
+   * Réinitialise la sélection de photo
+   */
   const handleCancel = () => {
     setPhoto(null);
     setPreview(null);

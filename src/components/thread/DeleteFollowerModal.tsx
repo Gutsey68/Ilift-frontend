@@ -7,14 +7,36 @@ import Avatar from '../ui/Avatar';
 import Card from '../ui/Card';
 import Modal from '../ui/Modal';
 
+/**
+ * Props du composant DeleteFollowerModal
+ * @typedef {object} DeleteFollowerModalProps
+ * @property {() => void} closeModal - Fonction de fermeture du modal
+ * @property {FollowingsType} follower - Informations sur l'abonné à supprimer
+ */
 type DeleteFollowerModalProps = {
   closeModal: () => void;
   follower: FollowingsType;
 };
 
+/**
+ * Modal de confirmation pour la suppression d'un abonné
+ * Fonctionnalités :
+ * - Affichage des informations de l'abonné
+ * - Confirmation de suppression
+ * - Gestion des états de chargement
+ * - Notifications de succès/erreur
+ * - Mise à jour automatique des données
+ *
+ * @component
+ * @param {DeleteFollowerModalProps} props - Les propriétés du composant
+ * @returns {JSX.Element} Modal de suppression d'abonné
+ */
 function DeleteFollowerModal({ closeModal, follower }: DeleteFollowerModalProps) {
   const queryClient = useQueryClient();
 
+  /**
+   * Mutation pour la suppression de l'abonné
+   */
   const mutation = useMutation({
     mutationFn: () => deleteFollower(follower.id),
     onSuccess: () => {
@@ -24,6 +46,9 @@ function DeleteFollowerModal({ closeModal, follower }: DeleteFollowerModalProps)
     }
   });
 
+  /**
+   * Gère la suppression avec retour visuel
+   */
   const handleDelete = () => {
     try {
       mutation.mutate();

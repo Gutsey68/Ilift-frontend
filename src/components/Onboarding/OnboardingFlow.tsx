@@ -9,11 +9,30 @@ import FollowUsersStep from './steps/FollowUsersStep';
 import ProfilePhotoStep from './steps/ProfilePhotoStep';
 import UserInfoStep from './steps/UserInfoStep';
 
+/**
+ * Composant gérant le flux d'intégration (onboarding) des nouveaux utilisateurs
+ * Gère un processus en 3 étapes :
+ * 1. Upload de photo de profil
+ * 2. Complétion des informations utilisateur
+ * 3. Suggestions d'utilisateurs à suivre
+ *
+ * Inclut :
+ * - Navigation entre les étapes
+ * - Barre de progression
+ * - Possibilité de sauter des étapes
+ * - Persistance de l'état d'avancement
+ *
+ * @component
+ * @returns {JSX.Element | null} Composant d'onboarding ou null si l'utilisateur a déjà complété le processus
+ */
 const OnboardingFlow = () => {
   const { user, setUser } = useContext(AuthContext);
   const [currentStep, setCurrentStep] = useState(user?.onboardingStep || 1);
   const queryClient = useQueryClient();
 
+  /**
+   * Mutation pour mettre à jour l'étape courante
+   */
   const { mutate: updateStep } = useMutation({
     mutationFn: updateOnboardingStep,
     onSuccess: () => {
@@ -21,6 +40,9 @@ const OnboardingFlow = () => {
     }
   });
 
+  /**
+   * Mutation pour marquer l'onboarding comme terminé
+   */
   const { mutate: complete } = useMutation({
     mutationFn: completeOnboarding,
     onSuccess: async () => {
@@ -35,6 +57,9 @@ const OnboardingFlow = () => {
     }
   });
 
+  /**
+   * Passe à l'étape suivante ou termine l'onboarding
+   */
   const handleNextStep = () => {
     const nextStep = currentStep + 1;
     if (nextStep > steps.length) {
@@ -45,6 +70,9 @@ const OnboardingFlow = () => {
     }
   };
 
+  /**
+   * Retourne à l'étape précédente si possible
+   */
   const handlePreviousStep = () => {
     if (currentStep > 1) {
       const prevStep = currentStep - 1;
@@ -57,6 +85,9 @@ const OnboardingFlow = () => {
     handleNextStep();
   };
 
+  /**
+   * Configuration des étapes avec leurs composants et textes associés
+   */
   const steps = [
     {
       component: <ProfilePhotoStep onComplete={handleNextStep} />,

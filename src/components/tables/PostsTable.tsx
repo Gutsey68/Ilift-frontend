@@ -10,11 +10,24 @@ import Badge from '../ui/Badge';
 
 const FETCH_SIZE = 50;
 
+/**
+ * Composant de table pour afficher et gérer la liste des posts
+ * Inclut :
+ * - Pagination infinie avec chargement automatique
+ * - Virtualisation des lignes pour les performances
+ * - Tri des colonnes
+ * - Modal de détails au clic sur une ligne
+ * @component
+ * @returns {JSX.Element} Table des posts avec virtualisation et pagination infinie
+ */
 const PostsTable = () => {
   const tableContainerRef = useRef<HTMLDivElement>(null);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [selectedPost, setSelectedPost] = useState<PostType | null>(null);
 
+  /**
+   * Définition des colonnes de la table
+   */
   const columns = useMemo<ColumnDef<PostType>[]>(
     () => [
       {
@@ -50,6 +63,9 @@ const PostsTable = () => {
     []
   );
 
+  /**
+   * Hook de requête infinie pour charger les données paginées
+   */
   const { data, fetchNextPage, isFetching } = useInfiniteQuery({
     queryKey: ['postsAdmin', sorting],
     queryFn: async ({ pageParam = 1 }) => {
@@ -70,6 +86,9 @@ const PostsTable = () => {
   const totalDBRowCount = data?.pages?.[0]?.meta?.totalRowCount ?? 0;
   const totalFetched = flatData.length;
 
+  /**
+   * Fonction de détection du scroll pour charger plus de données
+   */
   const fetchMoreOnBottomReached = useCallback(
     (containerRefElement?: HTMLDivElement | null) => {
       if (containerRefElement) {
@@ -86,6 +105,9 @@ const PostsTable = () => {
     fetchMoreOnBottomReached(tableContainerRef.current);
   }, [fetchMoreOnBottomReached]);
 
+  /**
+   * Gestionnaire de tri des colonnes avec retour en haut de la table
+   */
   const handleSortingChange: OnChangeFn<SortingState> = updater => {
     setSorting(updater);
 
@@ -120,6 +142,9 @@ const PostsTable = () => {
 
   const { rows } = table.getRowModel();
 
+  /**
+   * Configuration de la virtualisation des lignes
+   */
   const rowVirtualizer = useVirtualizer({
     count: rows.length,
     estimateSize: () => 45,
@@ -135,6 +160,9 @@ const PostsTable = () => {
     }
   });
 
+  /**
+   * Gestionnaire de clic sur une ligne pour ouvrir le modal de détails
+   */
   const handleRowClick = (post: PostType) => {
     setSelectedPost(post);
   };

@@ -1,3 +1,9 @@
+/**
+ * Composant de placeholder animé pour les commentaires
+ * Affiche 4 commentaires en chargement avec avatar et texte
+ * @component
+ * @returns {JSX.Element} Animation de chargement des commentaires
+ */
 function CommentsSkeletons() {
   return (
     <div className="flex flex-col gap-4">

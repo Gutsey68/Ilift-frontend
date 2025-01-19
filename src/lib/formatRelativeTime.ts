@@ -1,3 +1,9 @@
+/**
+ * Formate une date en texte relatif en français (ex: "il y a 2 jours")
+ *
+ * @param dateString - La date à formater au format ISO string
+ * @returns Une chaîne de caractères représentant le temps écoulé en format relatif
+ */
 export function formatRelativeTime(dateString: string) {
   const date = new Date(dateString);
   const now = new Date();

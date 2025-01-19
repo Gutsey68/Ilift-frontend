@@ -1,3 +1,11 @@
+/**
+ * Configuration de Tailwind CSS
+ * - Activation du mode sombre
+ * - Configuration des chemins de contenu
+ * - Extension du thème avec :
+ *   - Police personnalisée
+ *   - Palette de couleurs personnalisée
+ */
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: 'class',

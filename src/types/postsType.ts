@@ -1,5 +1,9 @@
 import { ExerciseResult } from './exerciceResultsType';
 
+/**
+ * Type représentant une publication complète
+ * Inclut les résultats d'exercices, tags, et métadonnées
+ */
 export type PostType = {
   id: string;
   photo?: string;
@@ -53,6 +57,9 @@ export type PostType = {
   };
 };
 
+/**
+ * Type représentant un tag associé à une publication
+ */
 export type TagType = {
   postId: string;
   tagId: string;
@@ -66,6 +73,9 @@ export type TagType = {
   };
 };
 
+/**
+ * Type représentant une publication de base avec ses propriétés communes
+ */
 export type CommonPost = {
   id: string;
   photo?: string;

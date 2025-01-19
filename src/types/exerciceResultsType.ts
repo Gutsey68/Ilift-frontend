@@ -1,3 +1,7 @@
+/**
+ * Type représentant un résultat d'exercice complet
+ * Inclut les séries, l'exercice et les informations utilisateur
+ */
 export type ExerciseResult = {
   id: string;
   createdAt: string;
@@ -30,6 +34,9 @@ export type ExerciseResult = {
   };
 };
 
+/**
+ * Version simplifiée du résultat d'exercice
+ */
 export type SimpleExerciseResult = {
   id: string;
   createdAt: string;
@@ -44,6 +51,9 @@ export type SimpleExerciseResult = {
   }>;
 };
 
+/**
+ * Type pour les résultats d'exercice dans un post
+ */
 export type ExerciseResultPost = {
   exercicesResults: SimpleExerciseResult;
 };

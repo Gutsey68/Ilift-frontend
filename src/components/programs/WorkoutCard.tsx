@@ -3,11 +3,26 @@ import { useDrag, useDrop } from 'react-dnd';
 import { Link } from 'react-router-dom';
 import { WorkoutType } from '../../types/workoutsType';
 
+/**
+ * Type pour l'élément en cours de glisser-déposer
+ * @typedef {object} DragItem
+ * @property {string} id - Identifiant de la séance
+ * @property {number} index - Position dans la liste
+ */
 type DragItem = {
   id: string;
   index: number;
 };
 
+/**
+ * Props du composant WorkoutCard
+ * @typedef {object} WorkoutCardProps
+ * @property {WorkoutType} workout - La séance à afficher
+ * @property {number} index - Position dans la liste
+ * @property {(workout: WorkoutType) => void} onEdit - Fonction d'édition
+ * @property {(workout: WorkoutType) => void} onDelete - Fonction de suppression
+ * @property {(dragIndex: number, hoverIndex: number) => void} moveWorkout - Fonction de réorganisation
+ */
 type WorkoutCardProps = {
   workout: WorkoutType;
   index: number;
@@ -16,7 +31,22 @@ type WorkoutCardProps = {
   moveWorkout: (dragIndex: number, hoverIndex: number) => void;
 };
 
+/**
+ * Carte de séance avec fonctionnalités de glisser-déposer
+ * Fonctionnalités :
+ * - Affichage des informations de la séance
+ * - Actions d'édition et suppression
+ * - Réorganisation par drag & drop
+ * - Navigation vers les exercices
+ *
+ * @component
+ * @param {WorkoutCardProps} props - Les propriétés du composant
+ * @returns {JSX.Element} Carte de séance interactive
+ */
 export default function WorkoutCard({ workout, index, onEdit, onDelete, moveWorkout }: WorkoutCardProps) {
+  /**
+   * Configuration du drag & drop
+   */
   const [{ isDragging }, drag] = useDrag({
     type: 'WORKOUT',
     item: { id: workout.id, index },

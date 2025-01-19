@@ -18,18 +18,44 @@ import Button from '../ui/Button';
 import Card from '../ui/Card';
 import Modal from '../ui/Modal';
 
+/**
+ * Props du composant CommentsModal
+ * @typedef {object} CommentsModalProps
+ * @property {() => void} closeModal - Fonction de fermeture du modal
+ * @property {string} postId - Identifiant du post dont on affiche les commentaires
+ */
 type CommentsModalProps = {
   closeModal: () => void;
   postId: string;
 };
 
+/**
+ * Type des données du formulaire de commentaire
+ */
 type CommentFormData = z.infer<typeof createCommentSchema>;
 
+/**
+ * Modal d'affichage et gestion des commentaires d'un post
+ * Fonctionnalités :
+ * - Affichage des commentaires existants
+ * - Ajout de nouveaux commentaires
+ * - Suppression de ses propres commentaires
+ * - Validation des données avec Zod
+ * - États de chargement
+ * - Retours visuels des actions
+ *
+ * @component
+ * @param {CommentsModalProps} props - Les propriétés du composant
+ * @returns {JSX.Element} Modal de gestion des commentaires
+ */
 function CommentsModal({ closeModal, postId }: CommentsModalProps) {
   const { user } = useContext(AuthContext);
   const [commentToDelete, setCommentToDelete] = useState<{ postsId: string; usersId: string } | null>(null);
   const queryClient = useQueryClient();
 
+  /**
+   * Configuration du formulaire avec validation Zod
+   */
   const {
     register,
     handleSubmit,
@@ -39,6 +65,9 @@ function CommentsModal({ closeModal, postId }: CommentsModalProps) {
     resolver: zodResolver(createCommentSchema)
   });
 
+  /**
+   * Requête et mutations pour la gestion des commentaires
+   */
   const { data: commentsData, isPending } = useQuery({
     queryKey: ['comments', postId],
     queryFn: () => getCommentsOfAPost(postId)
@@ -72,6 +101,9 @@ function CommentsModal({ closeModal, postId }: CommentsModalProps) {
     }
   });
 
+  /**
+   * Gestionnaires d'événements
+   */
   const onSubmit = handleSubmit((data: CommentFormData) => {
     createCommentMutation.mutate(data);
   });

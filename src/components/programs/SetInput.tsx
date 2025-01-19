@@ -7,20 +7,47 @@ import { createResult } from '../../services/resultsService';
 import Button from '../ui/Button';
 import NumberInput from '../ui/NumberInput';
 
+/**
+ * Props du composant SetInput
+ * @typedef {object} SetInputProps
+ * @property {() => void} onClose - Fonction de fermeture du formulaire
+ */
 type SetInputProps = {
   onClose: () => void;
 };
 
+/**
+ * Type pour une série d'exercice
+ * @typedef {object} SetInput
+ * @property {number} reps - Nombre de répétitions
+ * @property {number} weight - Poids utilisé
+ */
 type SetInput = {
   reps: number;
   weight: number;
 };
 
+/**
+ * Formulaire d'ajout de séries d'exercice
+ * Fonctionnalités :
+ * - Ajout dynamique de séries
+ * - Gestion des répétitions et poids
+ * - Suppression de séries
+ * - Validation des données
+ * - Retours visuels des actions
+ *
+ * @component
+ * @param {SetInputProps} props - Les propriétés du composant
+ * @returns {JSX.Element} Formulaire de gestion des séries
+ */
 function SetInput({ onClose }: SetInputProps) {
   const { id } = useParams();
   const [sets, setSets] = useState<SetInput[]>([{ reps: 0, weight: 0 }]);
   const queryClient = useQueryClient();
 
+  /**
+   * Mutation pour la création des résultats
+   */
   const createResultMutation = useMutation({
     mutationFn: (data: { exerciceId: string; sets: SetInput[] }) => createResult(data),
     onSuccess: () => {

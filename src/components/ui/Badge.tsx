@@ -1,5 +1,14 @@
 import { cn } from '../../lib/cn';
 
+/**
+ * Composant Badge pour afficher un indicateur visuel
+ * @component
+ * @param {object} props - Les propriétés du composant
+ * @param {React.ReactNode} props.children - Contenu du badge
+ * @param {string} [props.className] - Classes CSS additionnelles
+ * @param {'default' | 'destructive'} [props.variant='default'] - Variante visuelle du badge
+ * @returns {JSX.Element} Composant Badge
+ */
 type BadgeProps = {
   children: React.ReactNode;
   className?: string;

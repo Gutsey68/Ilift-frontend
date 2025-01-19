@@ -9,19 +9,32 @@ import Card from '../ui/Card';
 import Modal from '../ui/Modal';
 import NumberInput from '../ui/NumberInput';
 
+/**
+ * Props du composant EditResultModal
+ * @typedef {object} EditResultModalProps
+ * @property {ExerciseResultType} result - Le résultat d'exercice à modifier
+ * @property {() => void} closeModal - Fonction de fermeture du modal
+ */
 type EditResultModalProps = {
   results: ExerciseResult[];
   onClose: () => void;
 };
 
-type SetInput = {
-  id: string;
-  reps: number;
-  weight: number;
-};
-
+/**
+ * Modal de modification des résultats d'exercice
+ * Fonctionnalités :
+ * - Édition des séries (répétitions et poids)
+ * - Validation des données
+ * - Gestion dynamique des séries
+ * - Retours visuels des actions
+ * - Mise à jour en temps réel
+ *
+ * @component
+ * @param {EditResultModalProps} props - Les propriétés du composant
+ * @returns {JSX.Element} Modal d'édition des résultats
+ */
 function EditResultModal({ results, onClose }: EditResultModalProps) {
-  const [sets, setSets] = useState<SetInput[]>(
+  const [sets, setSets] = useState(
     results.flatMap(result =>
       result.sets.map(set => ({
         id: set.id,
@@ -32,9 +45,20 @@ function EditResultModal({ results, onClose }: EditResultModalProps) {
   );
   const queryClient = useQueryClient();
 
+  /**
+   * Type de données pour la mise à jour des séries
+   */
+  type SetInput = {
+    id: string;
+    reps: number;
+    weight: number;
+  };
+
+  /**
+   * Mutation pour la mise à jour des résultats
+   */
   const updateResultsMutation = useMutation({
     mutationFn: async (data: { sets: SetInput[] }) => {
-      // Grouper les sets par résultat et mettre à jour chaque résultat
       const updatePromises = results.map(result => {
         const resultSets = data.sets.filter(set => result.sets.some(originalSet => originalSet.id === set.id));
         return updateResult(result.id, { sets: resultSets });

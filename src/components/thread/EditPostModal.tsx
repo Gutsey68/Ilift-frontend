@@ -6,27 +6,50 @@ import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { z } from 'zod';
 import { deletePost, updatePost } from '../../services/postsService';
-import { PostType } from '../../types/postsType';
+import { CommonPost, PostType } from '../../types/postsType';
 import { updatePostSchema } from '../../validators/posts.validation';
 import ConfirmDeleteModal from '../modals/ConfirmDeleteModal';
-import { CommonPost } from '../profile/AllPostsProfile';
 import Badge from '../ui/Badge';
 import Button from '../ui/Button';
 import Card from '../ui/Card';
 import Modal from '../ui/Modal';
 import { Textarea } from '../ui/Textarea';
 
+/**
+ * Props du composant EditPostModal
+ * @typedef {object} EditPostModalProps
+ * @property {PostType | CommonPost} post - Le post à modifier
+ * @property {() => void} closeModal - Fonction de fermeture du modal
+ */
 type EditPostModalProps = {
   post: PostType | CommonPost;
   closeModal: () => void;
 };
 
+/**
+ * Modal d'édition de publication
+ * Fonctionnalités :
+ * - Modification du contenu textuel
+ * - Gestion des tags (ajout/suppression)
+ * - Gestion des images (ajout/suppression)
+ * - Validation des données avec Zod
+ * - Prévisualisation des images
+ * - Suppression de la publication
+ * - États de chargement
+ *
+ * @component
+ * @param {EditPostModalProps} props - Les propriétés du composant
+ * @returns {JSX.Element} Modal d'édition de publication
+ */
 export default function EditPostModal({ post, closeModal }: EditPostModalProps) {
   const [tags, setTags] = useState<string[]>(post.tags?.map(tag => tag.tag.name) || []);
   const [currentTag, setCurrentTag] = useState('');
   const [preview, setPreview] = useState<string | null>(post.photo || null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
+  /**
+   * Configuration du formulaire avec Zod
+   */
   const {
     register,
     handleSubmit,
@@ -40,6 +63,9 @@ export default function EditPostModal({ post, closeModal }: EditPostModalProps) 
 
   const queryClient = useQueryClient();
 
+  /**
+   * Mutations pour l'édition et la suppression
+   */
   const editMutation = useMutation({
     mutationFn: (formData: FormData) => updatePost(post.id, formData)
   });
@@ -60,6 +86,9 @@ export default function EditPostModal({ post, closeModal }: EditPostModalProps) 
     }
   };
 
+  /**
+   * Gestionnaires pour les tags et les images
+   */
   const handleAddTag = () => {
     if (currentTag && !tags.includes(currentTag)) {
       setTags([...tags, currentTag]);

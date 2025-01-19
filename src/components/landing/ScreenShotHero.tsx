@@ -2,6 +2,12 @@ import { useContext } from 'react';
 import { ThemeContext } from '../../context/ThemeContext';
 import BlurBackground from '../ui/BackgroundBlur';
 
+/**
+ * Composant affichant une capture d'écran de l'application dans la section héros
+ * Adapte l'image en fonction du thème (clair/sombre)
+ * @component
+ * @returns {JSX.Element} Section avec capture d'écran et effet de flou
+ */
 function ScreenShotHero() {
   const { isDark } = useContext(ThemeContext);
 

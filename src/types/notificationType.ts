@@ -1,3 +1,8 @@
+/**
+ * Type représentant une notification
+ * @property type - Type de notification (like, comment, follow)
+ * @property isRead - État de lecture de la notification
+ */
 export type NotificationType = {
   id: string;
   userId: string;
@@ -12,6 +17,9 @@ export type NotificationType = {
   };
 };
 
+/**
+ * Type représentant la réponse des notifications avec le compteur non lu
+ */
 export type NotificationResponse = {
   notifications: NotificationType[];
   unreadCount: number;

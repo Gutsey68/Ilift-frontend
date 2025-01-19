@@ -1,5 +1,9 @@
 import { TagType as PostTagType } from './postsType';
 
+/**
+ * Type représentant une publication likée
+ * Inclut les métadonnées de like et les informations de la publication
+ */
 export type LikedPostType = {
   postsId: string;
   usersId: string;
@@ -26,6 +30,9 @@ export type LikedPostType = {
   };
 };
 
+/**
+ * Type représentant un tag simplifié
+ */
 export type TagType = {
   postId: string;
   tagId: string;

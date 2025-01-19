@@ -10,18 +10,41 @@ import Card from '../../ui/Card';
 import { Input } from '../../ui/Input';
 import Modal from '../../ui/Modal';
 
+/**
+ * Props du composant SearchModal
+ * @typedef {object} SearchModalProps
+ * @property {() => void} closeModal - Fonction de fermeture du modal
+ */
 type SearchModalProps = {
   closeModal: () => void;
 };
 
+/**
+ * Modal de recherche d'utilisateurs
+ * Fonctionnalités :
+ * - Recherche en temps réel
+ * - Focus automatique sur l'input
+ * - Affichage des résultats avec avatars
+ * - État de chargement
+ * - Minimum 2 caractères pour la recherche
+ * - Navigation vers les profils
+ *
+ * @component
+ * @param {SearchModalProps} props - Les propriétés du composant
+ * @returns {JSX.Element} Modal de recherche avec résultats
+ */
 function SearchModal({ closeModal }: SearchModalProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // Focus automatique sur l'input à l'ouverture
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
 
+  /**
+   * Requête de récupération des utilisateurs
+   */
   const { isPending, data: usersData } = useQuery({
     queryKey: ['users'],
     queryFn: fetchUsers

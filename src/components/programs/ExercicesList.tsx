@@ -7,6 +7,12 @@ import { ExerciseType, WorkoutExerciseType } from '../../types/exercicesType';
 import ConfirmDeleteModal from '../modals/ConfirmDeleteModal';
 import ExerciceCard from './ExerciceCard';
 
+/**
+ * Props du composant ExercicesList
+ * @typedef {object} ExercicesListProps
+ * @property {WorkoutExerciseType[]} exercices - Liste des exercices de la séance
+ * @property {{ name: string; id: string; program: { name: string; id: string } }} workout - Informations sur la séance
+ */
 type ExercicesListProps = {
   exercices: WorkoutExerciseType[];
   workout: {
@@ -19,6 +25,9 @@ type ExercicesListProps = {
   };
 };
 
+/**
+ * Type pour la structure des données de la requête
+ */
 type QueryData = {
   data: {
     exercices: WorkoutExerciseType[];
@@ -26,10 +35,26 @@ type QueryData = {
   };
 };
 
+/**
+ * Liste des exercices d'une séance avec fonctionnalités de gestion
+ * Fonctionnalités :
+ * - Affichage des exercices
+ * - Réorganisation par drag & drop
+ * - Suppression d'exercices
+ * - Mise à jour optimiste du cache
+ * - Gestion des erreurs
+ *
+ * @component
+ * @param {ExercicesListProps} props - Les propriétés du composant
+ * @returns {JSX.Element} Liste interactive des exercices
+ */
 function ExercicesList({ exercices, workout }: ExercicesListProps) {
   const [exerciceToDelete, setExerciceToDelete] = useState<ExerciseType | null>(null);
   const queryClient = useQueryClient();
 
+  /**
+   * Mutation pour la suppression d'un exercice
+   */
   const removeExerciceMutation = useMutation({
     mutationFn: (exerciceId: string) => {
       const updatedExerciceIds = exercices.filter(e => e.id !== exerciceId).map(e => e.id);
@@ -42,6 +67,10 @@ function ExercicesList({ exercices, workout }: ExercicesListProps) {
     }
   });
 
+  /**
+   * Mutation pour la mise à jour de la position d'un exercice
+   * avec gestion optimiste du cache
+   */
   const updatePositionMutation = useMutation({
     mutationFn: (params: { exerciceId: string; position: number }) => updateExercicePosition(workout.id, params.exerciceId, params.position),
     onMutate: async ({ exerciceId, position }) => {
@@ -71,6 +100,9 @@ function ExercicesList({ exercices, workout }: ExercicesListProps) {
     }
   });
 
+  /**
+   * Gère le déplacement d'un exercice dans la liste
+   */
   const moveExercice = (dragIndex: number, hoverIndex: number) => {
     const draggedExercice = exercices[dragIndex];
 

@@ -8,10 +8,28 @@ import Button from '../ui/Button';
 import Card from '../ui/Card';
 import Modal from '../ui/Modal';
 
+/**
+ * Props du composant AddPhotoModal
+ * @typedef {object} AddPhotoModalProps
+ * @property {() => void} onClose - Fonction de fermeture du modal
+ */
 type AddPhotoModalProps = {
   onClose: () => void;
 };
 
+/**
+ * Modal pour l'ajout ou la modification de la photo de profil
+ * Fonctionnalités :
+ * - Sélection de fichier image
+ * - Prévisualisation de l'image
+ * - Validation du type et de la taille du fichier (max 5MB)
+ * - Upload avec gestion des erreurs
+ * - Retour visuel du succès/échec
+ *
+ * @component
+ * @param {AddPhotoModalProps} props - Les propriétés du composant
+ * @returns {JSX.Element | null} Modal d'ajout de photo ou null si pas d'utilisateur
+ */
 function AddPhotoModal({ onClose }: AddPhotoModalProps) {
   const [preview, setPreview] = useState<string | null>(null);
   const [photo, setPhoto] = useState<File | null>(null);
@@ -21,6 +39,9 @@ function AddPhotoModal({ onClose }: AddPhotoModalProps) {
 
   if (!user) return null;
 
+  /**
+   * Mutation pour uploader la photo de profil
+   */
   const { mutate: uploadPhoto, isPending } = useMutation({
     mutationFn: async () => {
       if (!photo) return;
@@ -38,6 +59,10 @@ function AddPhotoModal({ onClose }: AddPhotoModalProps) {
     }
   });
 
+  /**
+   * Gère la sélection d'un fichier image avec validation
+   * @param {React.ChangeEvent<HTMLInputElement>} e - Événement de changement de fichier
+   */
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -54,11 +79,17 @@ function AddPhotoModal({ onClose }: AddPhotoModalProps) {
     }
   };
 
+  /**
+   * Réinitialise la sélection de photo
+   */
   const handleCancel = () => {
     setPhoto(null);
     setPreview(null);
   };
 
+  /**
+   * Déclenche le sélecteur de fichier
+   */
   const handleButtonClick = () => {
     fileInputRef.current?.click();
   };

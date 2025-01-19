@@ -9,15 +9,40 @@ import PostForm from '../thread/PostForm';
 import Badge from '../ui/Badge';
 import EditResultModal from './EditResultModal';
 
+/**
+ * Props du composant ExerciceResults
+ * @typedef {object} ExerciceResultsProps
+ * @property {ExerciseResult[]} results - Liste des résultats d'exercices à afficher
+ */
 type ExerciceResultsProps = {
   results: ExerciseResult[];
 };
 
+/**
+ * Type pour le groupement des résultats par date
+ * @typedef {object} GroupedResults
+ * @property {string} date - Date des résultats
+ * @property {ExerciseResult[]} results - Résultats pour cette date
+ */
 type GroupedResults = {
   date: string;
   results: ExerciseResult[];
 };
 
+/**
+ * Composant d'affichage et de gestion des résultats d'exercices
+ * Fonctionnalités :
+ * - Groupement des résultats par date
+ * - Édition des résultats
+ * - Suppression de séries individuelles
+ * - Suppression de groupes de résultats
+ * - Partage des résultats
+ * - Interface interactive avec retours visuels
+ *
+ * @component
+ * @param {ExerciceResultsProps} props - Les propriétés du composant
+ * @returns {JSX.Element} Interface de gestion des résultats
+ */
 function ExerciceResults({ results }: ExerciceResultsProps) {
   const [resultGroupToEdit, setResultGroupToEdit] = useState<ExerciseResult[] | null>(null);
   const [setToDelete, setSetToDelete] = useState<{ resultId: string; setId: string } | null>(null);
@@ -26,6 +51,9 @@ function ExerciceResults({ results }: ExerciceResultsProps) {
   const [resultsToDelete, setResultsToDelete] = useState<ExerciseResult[] | null>(null);
   const queryClient = useQueryClient();
 
+  /**
+   * Groupement des résultats par date
+   */
   const groupedResults: GroupedResults[] = results.reduce((groups: GroupedResults[], result) => {
     const date = new Date(result.createdAt).toLocaleDateString();
     const existingGroup = groups.find(group => group.date === date);
@@ -39,6 +67,9 @@ function ExerciceResults({ results }: ExerciceResultsProps) {
     return groups;
   }, []);
 
+  /**
+   * Mutations pour la suppression des résultats et des séries
+   */
   const deleteResultMutation = useMutation({
     mutationFn: async (results: ExerciseResult[]) => {
       await Promise.all(results.map(result => deleteResult(result.id)));

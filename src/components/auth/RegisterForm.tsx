@@ -8,6 +8,19 @@ import { registerSchema } from '../../validators/auth.validation';
 import Button from '../ui/Button';
 import FormField from './FormField';
 
+/**
+ * Formulaire d'inscription avec validation complète
+ * Fonctionnalités :
+ * - Validation des champs avec Zod
+ * - Vérification de la correspondance des mots de passe
+ * - Gestion des états de chargement
+ * - Messages d'erreur contextuels
+ * - Notifications de succès/échec
+ * - Lien vers les mentions légales
+ *
+ * @component
+ * @returns {JSX.Element} Formulaire d'inscription
+ */
 function RegisterForm() {
   const {
     register,
@@ -18,6 +31,10 @@ function RegisterForm() {
   });
   const { registerMutation } = useAuth();
 
+  /**
+   * Gère la soumission du formulaire d'inscription
+   * @param {z.infer<typeof registerSchema>} data - Données du formulaire validées
+   */
   const onSubmit = async (data: z.infer<typeof registerSchema>) => {
     try {
       await registerMutation.mutateAsync({

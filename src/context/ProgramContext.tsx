@@ -1,5 +1,8 @@
 import { ReactNode, createContext, useContext, useState } from 'react';
 
+/**
+ * Type définissant la structure du contexte de programme
+ */
 type ProgramContextType = {
   programName: string;
   programId: string;
@@ -9,8 +12,15 @@ type ProgramContextType = {
   setWorkoutInfo: (name: string, id: string) => void;
 };
 
+/**
+ * Contexte pour gérer les informations des programmes et des séances
+ */
 const ProgramContext = createContext<ProgramContextType | null>(null);
 
+/**
+ * Provider pour gérer l'état global des programmes et des séances
+ * @param children - Composants enfants
+ */
 export function ProgramProvider({ children }: { children: ReactNode }) {
   const [programName, setProgramName] = useState('');
   const [programId, setProgramId] = useState('');
@@ -43,6 +53,10 @@ export function ProgramProvider({ children }: { children: ReactNode }) {
   );
 }
 
+/**
+ * Hook personnalisé pour utiliser le contexte de programme
+ * @throws {Error} Si utilisé en dehors d'un ProgramProvider
+ */
 export const useProgramContext = () => {
   const context = useContext(ProgramContext);
   if (!context) {

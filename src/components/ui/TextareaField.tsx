@@ -1,6 +1,15 @@
 import { TriangleAlert } from 'lucide-react';
 import { Textarea } from './Textarea';
 
+/**
+ * Props pour le composant TextareaField
+ * @property label - Libellé du champ
+ * @property name - Nom du champ pour le formulaire
+ * @property register - Fonction d'enregistrement React Hook Form
+ * @property errors - Objets des erreurs du formulaire
+ * @property placeholder - Texte indicatif optionnel
+ * @property disabled - État désactivé optionnel
+ */
 type TextareaFieldProps = {
   label: string;
   name: string;
@@ -10,6 +19,10 @@ type TextareaFieldProps = {
   disabled?: boolean;
 };
 
+/**
+ * Champ textarea avec gestion des erreurs et du style
+ * Utilise React Hook Form pour la gestion du formulaire
+ */
 function TextareaField({ label, name, register, errors, placeholder, disabled }: TextareaFieldProps) {
   return (
     <>

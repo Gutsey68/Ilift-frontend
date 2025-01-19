@@ -2,16 +2,35 @@ import { X } from 'lucide-react';
 import { ExerciseResultPost } from '../../types/exerciceResultsType';
 import Badge from '../ui/Badge';
 
+/**
+ * Props du composant ResultsSection
+ * @typedef {object} ResultsSectionProps
+ * @property {ExerciseResultPost[]} exercicesResultsPosts - Liste des résultats d'exercices à afficher
+ */
 type ResultsSectionProps = {
   exercicesResultsPosts: ExerciseResultPost[];
 };
 
+/**
+ * Type pour les résultats groupés par date et exercice
+ * @typedef {object} GroupedResults
+ * @property {string} date - Date de l'exercice
+ * @property {string} exerciseName - Nom de l'exercice
+ * @property {Array<{id: string, reps: number, weight: number}>} sets - Liste des séries effectuées
+ */
 type GroupedResults = {
   date: string;
   exerciseName: string;
   sets: Array<{ id: string; reps: number; weight: number }>;
 };
 
+/**
+ * Composant d'affichage des résultats d'exercices groupés par date
+ * Affiche les séries avec leurs répétitions et poids pour chaque exercice
+ * @component
+ * @param {ResultsSectionProps} props - Les propriétés du composant
+ * @returns {JSX.Element | null} Section des résultats d'exercices ou null si aucun résultat
+ */
 function ResultsSection({ exercicesResultsPosts }: ResultsSectionProps) {
   if (!exercicesResultsPosts?.length) return null;
 

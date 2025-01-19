@@ -3,6 +3,16 @@ import { createPortal } from 'react-dom';
 import useEscapeKeydown from '../../hooks/useEscapeKeydown';
 import { cn } from '../../lib/cn';
 
+/**
+ * Composant Modal réutilisable avec portail React
+ * @component
+ * @param {object} props - Les propriétés du composant
+ * @param {React.ReactNode} props.children - Le contenu à afficher dans la modal
+ * @param {() => void} [props.onClose] - Fonction appelée à la fermeture de la modal
+ * @param {'sm' | 'md' | 'lg' | 'xl'} [props.size='lg'] - Taille de la modal
+ * @param {string} [props.className] - Classes CSS additionnelles
+ * @returns {React.ReactPortal | null} Composant Modal
+ */
 type ModalProps = {
   children: React.ReactNode;
   onClose?: () => void;
@@ -20,31 +30,15 @@ const Modal = ({ children, onClose, size = 'lg', className }: ModalProps) => {
 
   useEffect(() => {
     const modalRoot = document.getElementById('modal');
-    if (!modalRoot) {
-      return;
-    }
+    if (!modalRoot) return;
 
     modalRoot.appendChild(elRef.current!);
-
     return () => {
       if (modalRoot && elRef.current) {
         modalRoot.removeChild(elRef.current);
       }
     };
   }, []);
-
-  useEffect(() => {
-    const handleEscapeKey = (event: KeyboardEvent) => {
-      if (event.key === 'Escape' && onClose) {
-        onClose();
-      }
-    };
-
-    document.addEventListener('keydown', handleEscapeKey);
-    return () => {
-      document.removeEventListener('keydown', handleEscapeKey);
-    };
-  }, [onClose]);
 
   const modalContent = (
     <div className="fixed inset-0 z-30 flex justify-center bg-transparent/80" onClick={onClose}>

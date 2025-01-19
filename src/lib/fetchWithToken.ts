@@ -4,11 +4,23 @@ import { getAuthHeader } from './getHeaders';
 let isRefreshing = false;
 let refreshQueue: Array<(token: string) => void> = [];
 
+/**
+ * File de traitement pour les requêtes en attente de rafraîchissement du token
+ * @param token - Le nouveau token d'accès
+ */
 const processQueue = (token: string) => {
   refreshQueue.forEach(cb => cb(token));
   refreshQueue = [];
 };
 
+/**
+ * Effectue une requête HTTP authentifiée avec gestion automatique du rafraîchissement du token
+ *
+ * @param url - L'URL de la requête
+ * @param options - Les options de la requête fetch (headers, method, body, etc.)
+ * @returns Une Promise contenant la réponse JSON de la requête
+ * @throws {Error} Si l'authentification échoue ou si la requête échoue
+ */
 export const fetchWithToken = async (url: string, options: RequestInit = {}) => {
   const makeRequest = async (accessToken: string) => {
     const headers: Record<string, string> = {

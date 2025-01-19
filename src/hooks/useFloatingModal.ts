@@ -1,5 +1,11 @@
 import { useEffect, useState } from 'react';
 
+/**
+ * Hook personnalisé pour gérer la position d'un modal flottant par rapport à un élément de référence
+ * @param referenceRef - Référence vers l'élément par rapport auquel le modal doit se positionner
+ * @param onClose - Fonction de callback appelée lors de la fermeture du modal
+ * @returns Position calculée du modal (top et right)
+ */
 const useFloatingModal = (referenceRef: React.RefObject<HTMLElement>, onClose?: () => void) => {
   const [position, setPosition] = useState(() => {
     const rect = referenceRef.current?.getBoundingClientRect();

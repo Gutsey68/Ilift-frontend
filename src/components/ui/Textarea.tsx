@@ -1,6 +1,11 @@
 import * as React from 'react';
 import { cn } from '../../lib/cn';
 
+/**
+ * Composant Textarea personnalisé
+ * Utilise forwardRef pour la compatibilité avec les formulaires
+ * Applique des styles Tailwind pour l'apparence et les états
+ */
 const Textarea = React.forwardRef<HTMLTextAreaElement, React.TextareaHTMLAttributes<HTMLTextAreaElement>>(({ className, ...props }, ref) => {
   return (
     <textarea

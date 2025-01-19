@@ -1,3 +1,13 @@
+/**
+ * Composant de placeholder pour la liste des programmes
+ * Affiche 4 éléments de chargement simulant :
+ * - Titre du programme
+ * - Description
+ * Avec séparateurs et animation pulse
+ *
+ * @component
+ * @returns {JSX.Element} Animation de chargement des programmes
+ */
 function ProgramsSkeletons() {
   return (
     <div className="space-y-4">

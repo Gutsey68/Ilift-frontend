@@ -1,7 +1,10 @@
 import { z } from 'zod';
 
+/**
+ * Schéma de validation pour la mise à jour d'un utilisateur
+ * Valide les champs optionnels : pseudo, bio, ville, email, photo de profil et statut de bannissement
+ */
 export const updateUserSchema = z.object({
-  //good
   body: z.object({
     pseudo: z.string().min(1, 'Le pseudo ne doit pas être vide').optional(),
     bio: z.string().optional(),

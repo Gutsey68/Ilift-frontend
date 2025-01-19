@@ -13,10 +13,27 @@ import UnfollowModal from '../thread/UnfollowModal';
 import Avatar from '../ui/Avatar';
 import Button from '../ui/Button';
 
+/**
+ * Props du composant ProfileCardProfile
+ * @typedef {object} ProfileCardProps
+ * @property {UserDetailsType | null} userDetails - Détails de l'utilisateur à afficher
+ */
 type ProfileCardProps = {
   userDetails: UserDetailsType | null;
 };
 
+/**
+ * Composant de carte de profil affichant les informations détaillées d'un utilisateur sur la page profil
+ * Inclut :
+ * - Informations de base (photo, pseudo, bio)
+ * - Localisation et date d'inscription
+ * - Statistiques (abonnements, abonnés, activités)
+ * - Bouton de suivi/désabonnement
+ * @component
+ * @param {ProfileCardProps} props - Les propriétés du composant
+ * @returns {JSX.Element} Carte de profil avec les informations de l'utilisateur
+ * @throws {Error} Si userDetails est null
+ */
 function ProfileCardProfile({ userDetails }: ProfileCardProps) {
   const { user } = useContext(AuthContext);
   const [selectedFollowing, setSelectedFollowing] = useState<UserDetailsType | null>(null);
@@ -28,6 +45,9 @@ function ProfileCardProfile({ userDetails }: ProfileCardProps) {
     throw new Error('Le profil est introuvable');
   }
 
+  /**
+   * Mutation pour suivre un utilisateur
+   */
   const mutation = useMutation({
     mutationFn: () => follow(userDetails.id),
     onSuccess: () => {
@@ -38,6 +58,9 @@ function ProfileCardProfile({ userDetails }: ProfileCardProps) {
     }
   });
 
+  /**
+   * Gère le clic sur le bouton suivre/ne plus suivre
+   */
   const handleFollow = () => {
     if (userDetails.amIFollowing) {
       setSelectedFollowing(userDetails);

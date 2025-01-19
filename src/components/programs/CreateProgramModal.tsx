@@ -12,12 +12,30 @@ import Card from '../ui/Card';
 import Modal from '../ui/Modal';
 import TextareaField from '../ui/TextareaField';
 
+/**
+ * Props du composant CreateProgramModal
+ * @typedef {object} CreateProgramModalProps
+ * @property {() => void} closeModal - Fonction de fermeture du modal
+ */
 type CreateProgramModalProps = {
   closeModal: () => void;
 };
 
 type FormData = z.infer<typeof createProgramSchema>['body'];
 
+/**
+ * Modal de création de programme d'entraînement
+ * Fonctionnalités :
+ * - Formulaire validé avec Zod
+ * - Gestion des erreurs de validation
+ * - Retours visuels des actions
+ * - Mutation React Query
+ * - Description optionnelle
+ *
+ * @component
+ * @param {CreateProgramModalProps} props - Les propriétés du composant
+ * @returns {JSX.Element} Modal de création de programme
+ */
 function CreateProgramModal({ closeModal }: CreateProgramModalProps) {
   const queryClient = useQueryClient();
 
@@ -33,6 +51,10 @@ function CreateProgramModal({ closeModal }: CreateProgramModalProps) {
     }
   });
 
+  /**
+   * Mutation pour la création du programme
+   * Gère les succès et erreurs avec des notifications
+   */
   const createProgramMutation = useMutation({
     mutationFn: (data: FormData) => {
       const payload = {
@@ -54,6 +76,9 @@ function CreateProgramModal({ closeModal }: CreateProgramModalProps) {
     }
   });
 
+  /**
+   * Gère la soumission du formulaire
+   */
   const onSubmit = handleSubmit(data => {
     createProgramMutation.mutate(data);
   });

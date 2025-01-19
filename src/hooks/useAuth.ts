@@ -5,6 +5,16 @@ import { AuthContext } from '../context/AuthContext';
 import { login, logout, register, requestPasswordReset, resetPassword } from '../services/authService';
 import { fetchCurrentUser } from '../services/usersService';
 
+/**
+ * Hook personnalisé pour gérer l'authentification
+ * Fournit les mutations pour:
+ * - Connexion
+ * - Déconnexion
+ * - Inscription
+ * - Demande de réinitialisation de mot de passe
+ * - Réinitialisation de mot de passe
+ * @returns Object contenant toutes les mutations d'authentification
+ */
 const useAuth = () => {
   const navigate = useNavigate();
   const { setUser } = useContext(AuthContext);

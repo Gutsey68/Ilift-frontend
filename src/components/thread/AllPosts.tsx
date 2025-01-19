@@ -18,6 +18,14 @@ import Card from '../ui/Card';
 import CommentsModal from './CommentsModal';
 import EditPostModal from './EditPostModal';
 
+/**
+ * Props du composant AllPosts
+ * @typedef {object} AllPostsProps
+ * @property {PostType[]} posts - Liste des publications à afficher
+ * @property {() => void} fetchNextPage - Fonction pour charger plus de posts
+ * @property {boolean} hasNextPage - Indique s'il y a d'autres posts à charger
+ * @property {boolean} isFetchingNextPage - État de chargement de la page suivante
+ */
 type AllPostsProps = {
   posts: PostType[];
   fetchNextPage: () => void;
@@ -25,6 +33,20 @@ type AllPostsProps = {
   isFetchingNextPage: boolean;
 };
 
+/**
+ * Composant d'affichage du fil principal des publications
+ * Fonctionnalités :
+ * - Affichage des posts avec scroll infini
+ * - Gestion des likes et partages
+ * - Système de commentaires
+ * - Édition des posts personnels
+ * - Publications suggérées
+ * - Interactions sociales complètes
+ *
+ * @component
+ * @param {AllPostsProps} props - Les propriétés du composant
+ * @returns {JSX.Element | null} Fil d'actualité ou null si pas de posts
+ */
 function AllPosts({ posts, fetchNextPage, hasNextPage, isFetchingNextPage }: AllPostsProps) {
   const [selectedPostId, setSelectedPostId] = useState<string | null>(null);
   const [postToEdit, setPostToEdit] = useState<PostType | null>(null);
@@ -41,6 +63,9 @@ function AllPosts({ posts, fetchNextPage, hasNextPage, isFetchingNextPage }: All
     return null;
   }
 
+  /**
+   * Mutations pour les interactions (like, unlike, share, unshare)
+   */
   const likeMutation = useMutation({
     mutationFn: (id: string) => like(id),
     onSuccess: () => {
@@ -85,6 +110,9 @@ function AllPosts({ posts, fetchNextPage, hasNextPage, isFetchingNextPage }: All
     }
   });
 
+  /**
+   * Gestionnaires d'événements pour les interactions utilisateur
+   */
   const handleLike = (posts: PostType) => {
     if (posts.doILike) {
       unlikeMutation.mutate(posts.id);
