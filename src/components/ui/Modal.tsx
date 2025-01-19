@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
+import useEscapeKeydown from '../../hooks/useEscapeKeydown';
 import { cn } from '../../lib/cn';
 
 type ModalProps = {
@@ -11,6 +12,7 @@ type ModalProps = {
 
 const Modal = ({ children, onClose, size = 'lg', className }: ModalProps) => {
   const elRef = useRef<HTMLDivElement | null>(null);
+  useEscapeKeydown(onClose);
 
   if (!elRef.current) {
     elRef.current = document.createElement('div');
@@ -30,6 +32,19 @@ const Modal = ({ children, onClose, size = 'lg', className }: ModalProps) => {
       }
     };
   }, []);
+
+  useEffect(() => {
+    const handleEscapeKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && onClose) {
+        onClose();
+      }
+    };
+
+    document.addEventListener('keydown', handleEscapeKey);
+    return () => {
+      document.removeEventListener('keydown', handleEscapeKey);
+    };
+  }, [onClose]);
 
   const modalContent = (
     <div className="fixed inset-0 z-30 flex justify-center bg-transparent/80" onClick={onClose}>

@@ -1,8 +1,9 @@
 import { Moon, Settings, Sun, User, UserCog } from 'lucide-react';
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../../context/AuthContext';
 import { ThemeContext } from '../../../context/ThemeContext';
+import useFloatingModal from '../../../hooks/useFloatingModal';
 import ThemeSwitch from '../../theme/ThemeSwitch';
 import LogoutButton from './LogoutButton';
 
@@ -14,35 +15,7 @@ type UserAvatarModalProps = {
 function UserAvatarModal({ closeModal, avatarRef }: UserAvatarModalProps) {
   const { user } = useContext(AuthContext);
   const { isDark, toggleTheme } = useContext(ThemeContext);
-  const [position, setPosition] = useState(() => {
-    const rect = avatarRef.current?.getBoundingClientRect();
-    return rect
-      ? {
-          top: rect.bottom + 4,
-          right: window.innerWidth - rect.right - 13
-        }
-      : { top: 0, right: 0 };
-  });
-
-  const updatePosition = () => {
-    const rect = avatarRef.current?.getBoundingClientRect();
-    if (rect) {
-      setPosition({
-        top: rect.bottom + 4,
-        right: window.innerWidth - rect.right - 13
-      });
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener('scroll', updatePosition);
-    window.addEventListener('resize', updatePosition);
-
-    return () => {
-      window.removeEventListener('scroll', updatePosition);
-      window.removeEventListener('resize', updatePosition);
-    };
-  }, []);
+  const position = useFloatingModal(avatarRef, closeModal);
 
   const onClickHandler = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -54,10 +27,7 @@ function UserAvatarModal({ closeModal, avatarRef }: UserAvatarModalProps) {
       <div
         onClick={e => e.stopPropagation()}
         className="fixed z-40 flex flex-col gap-2 rounded-md border border-neutral-6 bg-neutral-1 p-3 shadow-lg"
-        style={{
-          top: position.top,
-          right: position.right
-        }}
+        style={{ top: position.top, right: position.right }}
       >
         <Link className="flex items-center gap-2 hover:text-green-11" to={`/profil/${user?.id}`}>
           <User size={18} />
