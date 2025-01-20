@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
-import OnboardingFlow from '../onboarding/OnboardingFlow';
+import OnboardingFlow from '../Onboarding/OnboardingFlow';
 import Spinner from '../ui/Spinner';
 
 /**

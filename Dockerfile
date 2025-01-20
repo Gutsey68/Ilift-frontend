@@ -15,4 +15,8 @@ RUN pnpm run build
 FROM nginx:alpine
 COPY --from=builder /app/dist /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Créer le dossier uploads
+RUN mkdir -p /usr/share/nginx/uploads && chmod 755 /usr/share/nginx/uploads
+
 EXPOSE 80
