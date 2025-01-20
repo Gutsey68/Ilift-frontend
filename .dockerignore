@@ -1,0 +1,32 @@
+# Dépendances
+node_modules
+.pnpm-store
+
+# Fichiers de build
+dist
+build
+*.tsbuildinfo
+
+# Fichiers de développement
+.git
+.gitignore
+.env
+.env.*
+*.log
+.DS_Store
+.vscode
+.idea
+README.md
+*.md
+
+# Tests
+coverage
+__tests__
+*.test.*
+*.spec.*
+
+# Autres
+.docker
+.husky
+.eslintcache
+*.pdf
