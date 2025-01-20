@@ -1,5 +1,5 @@
-import { UserDetailsType } from '@/types/userDetailsType';
 import { createContext } from 'react';
+import { UserDetailsType } from '../types/UserDetailsType';
 
 /**
  * Type définissant la structure du contexte d'authentification

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { AuthContext } from '../../../context/AuthContext';
 import { follow } from '../../../services/followersService';
 import { fetchUsers } from '../../../services/usersService';
-import { UserDetailsType } from '../../../types/userDetailsType';
+import { UserDetailsType } from '../../../types/UserDetailsType';
 import FollowingsSkeletons from '../../skeletons/FollowingsSkeletons';
 import Avatar from '../../ui/Avatar';
 import Button from '../../ui/Button';

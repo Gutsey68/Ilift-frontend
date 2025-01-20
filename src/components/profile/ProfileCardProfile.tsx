@@ -6,7 +6,7 @@ import { AuthContext } from '../../context/AuthContext';
 import { formatRelativeTime } from '../../lib/formatRelativeTime';
 import { follow } from '../../services/followersService';
 
-import { UserDetailsType } from '@/types/userDetailsType';
+import { UserDetailsType } from '../../types/UserDetailsType';
 import FollowersModal from '../thread/FollowersModal';
 import FollowingsModal from '../thread/FollowingsModal';
 import UnfollowModal from '../thread/UnfollowModal';

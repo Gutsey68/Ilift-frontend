@@ -3,7 +3,7 @@ import { X } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { unfollow } from '../../services/followersService';
 import { FollowingsType } from '../../types/followingsType';
-import { UserDetailsType } from '../../types/userDetailsType';
+import { UserDetailsType } from '../../types/UserDetailsType';
 import Avatar from '../ui/Avatar';
 import Card from '../ui/Card';
 import Modal from '../ui/Modal';

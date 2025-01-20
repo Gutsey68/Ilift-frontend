@@ -3,7 +3,7 @@ import { X } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { fetchUsers } from '../../../services/usersService';
-import { UserDetailsType } from '../../../types/userDetailsType';
+import { UserDetailsType } from '../../../types/UserDetailsType';
 import SearchNavSkeletons from '../../skeletons/SearchNavSkeletons';
 import Avatar from '../../ui/Avatar';
 import Card from '../../ui/Card';
