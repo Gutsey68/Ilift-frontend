@@ -1,3 +1,4 @@
+# Étape 1 : Construction de l'application
 FROM node:20-alpine AS builder
 
 WORKDIR /app
@@ -11,12 +12,17 @@ RUN pnpm install
 COPY . .
 RUN pnpm run build
 
-# Étape de production avec Nginx
+# Étape 2 : Serveur Nginx
 FROM nginx:alpine
+
+# Copier les fichiers statiques générés
 COPY --from=builder /app/dist /usr/share/nginx/html
+
+# Copier la configuration Nginx
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Créer le dossier uploads
+# Configurer le dossier uploads
 RUN mkdir -p /usr/share/nginx/uploads && chmod 755 /usr/share/nginx/uploads
 
+# Exposer le port
 EXPOSE 80
