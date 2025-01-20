@@ -12,11 +12,25 @@ import { useProgramContext } from '../context/ProgramContext';
 import { fetchExercicesOfWorkout } from '../services/programsService';
 import { WorkoutExercisesResponseType } from '../types/exercicesType';
 
+/**
+ * Page d'affichage des exercices d'un programme
+ * Fonctionnalités :
+ * - Affichage des exercices d'un programme
+ * - Ajout de nouveaux exercices
+ * - Navigation avec fil d'Ariane
+ * - Gestion des états de chargement
+ *
+ * @component
+ * @returns {JSX.Element} Page d'affichage des exercices
+ */
 function ExercicesPage() {
   const { id } = useParams();
   const [showModal, setShowModal] = useState(false);
   const { setWorkoutInfo } = useProgramContext();
 
+  /**
+   * Requête pour récupérer les exercices d'un programme
+   */
   const { isPending: exercicesPending, data: exercices } = useQuery<WorkoutExercisesResponseType>({
     queryKey: ['exercices', id],
     queryFn: () => {
@@ -77,4 +91,5 @@ function ExercicesPage() {
     </>
   );
 }
+
 export default ExercicesPage;

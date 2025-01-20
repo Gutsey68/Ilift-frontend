@@ -20,10 +20,24 @@ import { getSharedPostsOfUser } from '../services/sharesService';
 import { fetchTagsHandler } from '../services/tagsService';
 import { fetchCurrentUser, fetchUserById } from '../services/usersService';
 
+/**
+ * Page de profil utilisateur
+ * Fonctionnalités :
+ * - Affichage des informations de l'utilisateur
+ * - Affichage des publications, likes et partages de l'utilisateur
+ * - Affichage des profils suggérés et des tendances
+ * - Gestion des états de chargement
+ *
+ * @component
+ * @returns {JSX.Element} Page de profil utilisateur
+ */
 function ProfilePage() {
   const { id } = useParams();
   const [activeTab, setActiveTab] = useState<'posts' | 'likes' | 'shares'>('posts');
 
+  /**
+   * Requête pour récupérer les informations de l'utilisateur
+   */
   const { isPending: userPending, data: userData } = useQuery({
     queryKey: ['userProfile', id],
     queryFn: () => (id ? fetchUserById(id) : fetchCurrentUser())
@@ -33,6 +47,9 @@ function ProfilePage() {
 
   const user = userData?.data;
 
+  /**
+   * Requête pour récupérer les tags tendances
+   */
   const { isPending: tagsPending, data: tagsData } = useQuery({
     queryKey: ['tags'],
     queryFn: () => {
@@ -42,6 +59,9 @@ function ProfilePage() {
 
   const tags = tagsData?.data;
 
+  /**
+   * Requête pour récupérer les publications de l'utilisateur
+   */
   const {
     data: userPostsData,
     fetchNextPage,
@@ -67,6 +87,9 @@ function ProfilePage() {
 
   const userPosts = userPostsData?.pages.flatMap(page => page.data) || [];
 
+  /**
+   * Requête pour récupérer les publications likées par l'utilisateur
+   */
   const {
     data: likedPostsData,
     fetchNextPage: fetchNextLikePage,
@@ -90,6 +113,9 @@ function ProfilePage() {
     enabled: activeTab === 'likes'
   });
 
+  /**
+   * Requête pour récupérer les publications partagées par l'utilisateur
+   */
   const {
     data: sharedPostsData,
     fetchNextPage: fetchNextSharedPage,

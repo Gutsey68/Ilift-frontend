@@ -2,6 +2,17 @@ import { Code2, Dumbbell, GraduationCap } from 'lucide-react';
 import { Spacing } from '../components/ui/Spacing';
 import { socials } from '../lib/links';
 
+/**
+ * Page de présentation "À propos" de l'application ILift
+ * Fonctionnalités :
+ * - Présentation du projet et de sa mission
+ * - Description des technologies utilisées
+ * - Contexte du projet
+ * - Liens vers les réseaux sociaux
+ *
+ * @component
+ * @returns {JSX.Element} Page de présentation "À propos"
+ */
 function AboutPage() {
   return (
     <>

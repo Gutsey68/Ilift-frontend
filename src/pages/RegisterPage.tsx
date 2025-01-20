@@ -2,6 +2,16 @@ import { Dumbbell } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import RegisterForm from '../components/auth/RegisterForm';
 
+/**
+ * Page d'inscription de l'application
+ * Fonctionnalités :
+ * - Formulaire d'inscription
+ * - Lien vers la page de connexion
+ * - Affichage d'une image de fond sur grand écran
+ *
+ * @component
+ * @returns {JSX.Element} Page d'inscription
+ */
 function RegisterPage() {
   return (
     <main className="flex h-screen justify-center bg-neutral-1 max-lg:px-4">

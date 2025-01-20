@@ -13,17 +13,39 @@ import { Input } from '../ui/Input';
 import Modal from '../ui/Modal';
 import UnfollowModal from './UnfollowModal';
 
+/**
+ * Props du composant FollowingsModal
+ * @typedef {object} FollowingsModalProps
+ * @property {() => void} closeModal - Fonction de fermeture du modal
+ * @property {string} [userId] - ID de l'utilisateur dont on affiche les abonnements (utilise l'utilisateur courant si non fourni)
+ */
 type FollowingsModalProps = {
   closeModal: () => void;
   userId?: string;
 };
 
+/**
+ * Modal d'affichage et de gestion des abonnements
+ * Fonctionnalités :
+ * - Liste des abonnements avec recherche en temps réel
+ * - Suppression d'abonnements
+ * - Navigation vers les profils
+ * - Gestion des états de chargement
+ * - Filtrage des résultats
+ *
+ * @component
+ * @param {FollowingsModalProps} props - Les propriétés du composant
+ * @returns {JSX.Element} Modal de gestion des abonnements
+ */
 function FollowingsModal({ closeModal, userId }: FollowingsModalProps) {
   const { user } = useContext(AuthContext);
   const [selectedFollowing, setSelectedFollowing] = useState<FollowingsType | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const id = userId || user?.id;
 
+  /**
+   * Requête pour récupérer la liste des abonnements
+   */
   const { isPending: followingsPending, data: followings } = useQuery({
     queryKey: ['followings', id],
     queryFn: () => {

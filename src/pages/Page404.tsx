@@ -5,6 +5,16 @@ import MobileBottomNav from '../components/layout/navbar/MobileBottomNav';
 import Button from '../components/ui/Button';
 import { Spacing } from '../components/ui/Spacing';
 
+/**
+ * Page d'erreur 404 pour les routes non trouvées
+ * Fonctionnalités :
+ * - Affichage d'un message d'erreur 404
+ * - Bouton pour revenir à la page d'accueil
+ * - Affichage du header, footer et navigation mobile
+ *
+ * @component
+ * @returns {JSX.Element} Page d'erreur 404
+ */
 export default function Page404() {
   const navigate = useNavigate();
 

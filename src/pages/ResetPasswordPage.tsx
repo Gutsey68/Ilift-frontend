@@ -1,5 +1,13 @@
 import ResetPasswordForm from '../components/auth/ResetPasswordForm';
 
+/**
+ * Page de réinitialisation de mot de passe
+ * Fonctionnalités :
+ * - Formulaire de réinitialisation de mot de passe
+ *
+ * @component
+ * @returns {JSX.Element} Page de réinitialisation de mot de passe
+ */
 function ResetPasswordPage() {
   return (
     <div className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center p-4">

@@ -13,6 +13,18 @@ import { AuthContext } from '../context/AuthContext';
 import { removeUserPhoto, updateUser } from '../services/usersService';
 import { updateUserSchema } from '../validators/users.validation';
 
+/**
+ * Page des paramètres utilisateur
+ * Fonctionnalités :
+ * - Affichage et modification de la photo de profil
+ * - Modification de la bio et de la ville
+ * - Suppression de la photo de profil
+ * - Gestion des états de chargement
+ * - Notifications de succès/erreur
+ *
+ * @component
+ * @returns {JSX.Element} Page des paramètres utilisateur
+ */
 function ParametresPage() {
   const { user } = useContext(AuthContext);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -24,6 +36,9 @@ function ParametresPage() {
 
   const queryClient = useQueryClient();
 
+  /**
+   * Mutation pour supprimer la photo de profil
+   */
   const removePhotoMutation = useMutation({
     mutationFn: () => removeUserPhoto(user!.id),
     onSuccess: () => {
@@ -32,6 +47,9 @@ function ParametresPage() {
     }
   });
 
+  /**
+   * Mutation pour mettre à jour la bio
+   */
   const updateBioMutation = useMutation({
     mutationFn: (data: { bio: string }) => {
       const validatedData = updateUserSchema.parse({ body: { bio: data.bio } });
@@ -50,6 +68,9 @@ function ParametresPage() {
     }
   });
 
+  /**
+   * Mutation pour mettre à jour la ville
+   */
   const updateCityMutation = useMutation({
     mutationFn: (data: { city: string }) => {
       const validatedData = updateUserSchema.parse({ body: { city: data.city } });

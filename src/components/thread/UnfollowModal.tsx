@@ -8,14 +8,36 @@ import Avatar from '../ui/Avatar';
 import Card from '../ui/Card';
 import Modal from '../ui/Modal';
 
+/**
+ * Props du composant UnfollowModal
+ * @typedef {object} UnfollowModalProps
+ * @property {() => void} closeModal - Fonction de fermeture du modal
+ * @property {FollowingsType | UserDetailsType} following - Informations sur l'utilisateur à ne plus suivre
+ */
 type UnfollowModalProps = {
   closeModal: () => void;
   following: FollowingsType | UserDetailsType;
 };
 
+/**
+ * Modal de confirmation pour arrêter de suivre un utilisateur
+ * Fonctionnalités :
+ * - Affichage des informations de l'utilisateur
+ * - Confirmation de l'action de ne plus suivre
+ * - Gestion des états de chargement
+ * - Notifications de succès/erreur
+ * - Mise à jour automatique des données
+ *
+ * @component
+ * @param {UnfollowModalProps} props - Les propriétés du composant
+ * @returns {JSX.Element} Modal de confirmation pour arrêter de suivre un utilisateur
+ */
 function UnfollowModal({ closeModal, following }: UnfollowModalProps) {
   const queryClient = useQueryClient();
 
+  /**
+   * Mutation pour arrêter de suivre l'utilisateur
+   */
   const mutation = useMutation({
     mutationFn: () => unfollow(following.id),
     onSuccess: () => {
@@ -28,6 +50,9 @@ function UnfollowModal({ closeModal, following }: UnfollowModalProps) {
     }
   });
 
+  /**
+   * Gère l'action de ne plus suivre avec retour visuel
+   */
   const handleUnfollow = () => {
     try {
       mutation.mutate();

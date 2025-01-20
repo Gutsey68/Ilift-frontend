@@ -10,11 +10,25 @@ import Button from '../components/ui/Button';
 import { useProgramContext } from '../context/ProgramContext';
 import { fetchExerciceAndResults } from '../services/exercicesService';
 
+/**
+ * Page de détail d'un exercice
+ * Fonctionnalités :
+ * - Affichage des résultats d'un exercice
+ * - Ajout de nouvelles séries
+ * - Navigation avec fil d'Ariane
+ * - Gestion des états de chargement
+ *
+ * @component
+ * @returns {JSX.Element} Page de détail d'un exercice
+ */
 function ExerciceDetailPage() {
   const { id } = useParams();
   const [showSetInput, setShowSetInput] = useState(false);
   const { programName, programId, workoutName, workoutId } = useProgramContext();
 
+  /**
+   * Requête pour récupérer les résultats de l'exercice
+   */
   const { isPending: resultsPending, data: results } = useQuery({
     queryKey: ['results', id],
     queryFn: () => {
@@ -71,4 +85,5 @@ function ExerciceDetailPage() {
     </>
   );
 }
+
 export default ExerciceDetailPage;

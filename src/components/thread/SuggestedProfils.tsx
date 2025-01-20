@@ -1,12 +1,28 @@
 import { Link } from 'react-router-dom';
-import { SuggestedUserType } from '../../types/suggestedUserType';
+import { SuggestedUserType } from '../../types/SuggestedUserType';
 import Avatar from '../ui/Avatar';
 import Card from '../ui/Card';
 
+/**
+ * Props du composant SuggestedProfils
+ * @typedef {object} SuggestedProfilsProps
+ * @property {SuggestedUserType[]} suggestedUsers - Liste des utilisateurs suggérés
+ */
 type SuggestedProfilsProps = {
   suggestedUsers: SuggestedUserType[];
 };
 
+/**
+ * Composant d'affichage des profils suggérés
+ * Fonctionnalités :
+ * - Affichage des avatars et pseudos des utilisateurs suggérés
+ * - Affichage des informations de suivi commun
+ * - Navigation vers les profils des utilisateurs
+ *
+ * @component
+ * @param {SuggestedProfilsProps} props - Les propriétés du composant
+ * @returns {JSX.Element} Liste des profils suggérés
+ */
 function SuggestedProfils({ suggestedUsers }: SuggestedProfilsProps) {
   return (
     <Card size="md" className="flex w-full flex-col gap-4">

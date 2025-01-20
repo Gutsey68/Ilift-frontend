@@ -4,6 +4,15 @@ import FollowersModal from './FollowersModal';
 import FollowingsModal from './FollowingsModal';
 import StatItem from './StatItem';
 
+/**
+ * Composant d'affichage des statistiques utilisateur
+ * Fonctionnalités :
+ * - Affichage des statistiques d'abonnés, abonnements et activités
+ * - Ouverture des modals pour voir les abonnés et abonnements
+ *
+ * @component
+ * @returns {JSX.Element} Statistiques utilisateur avec interactions
+ */
 function UserStats() {
   const { user } = useContext(AuthContext);
   const [showFollowersModal, setShowFollowersModal] = useState(false);

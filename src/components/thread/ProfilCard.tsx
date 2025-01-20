@@ -7,6 +7,18 @@ import Card from '../ui/Card';
 import ProfilUser from './ProfilUser';
 import UserStats from './UserStats';
 
+/**
+ * Carte de profil utilisateur affichée dans le fil d'actualité
+ * Fonctionnalités :
+ * - Affichage des informations utilisateur
+ * - Statistiques de l'utilisateur
+ * - Dernière séance d'entraînement
+ * - Navigation vers le journal d'entraînements
+ * - Position sticky en desktop
+ *
+ * @component
+ * @returns {JSX.Element} Carte de profil avec informations et statistiques
+ */
 function ProfilCard() {
   const { user } = useContext(AuthContext);
 

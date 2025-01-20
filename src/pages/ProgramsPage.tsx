@@ -8,6 +8,17 @@ import Button from '../components/ui/Button';
 import { Spacing } from '../components/ui/Spacing';
 import useProgramsOfUser from '../hooks/useProgramsOfUsers';
 
+/**
+ * Page d'affichage des programmes de l'utilisateur
+ * Fonctionnalités :
+ * - Affichage des programmes de l'utilisateur
+ * - Création de nouveaux programmes
+ * - Navigation avec fil d'Ariane
+ * - Gestion des états de chargement
+ *
+ * @component
+ * @returns {JSX.Element} Page d'affichage des programmes
+ */
 function ProgramsPage() {
   const { programsPending, programsData } = useProgramsOfUser();
   const [showModal, setShowModal] = useState(false);

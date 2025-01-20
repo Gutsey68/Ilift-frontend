@@ -2,6 +2,16 @@ import { Dumbbell } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import LoginForm from '../components/auth/LoginForm';
 
+/**
+ * Page de connexion de l'application
+ * Fonctionnalités :
+ * - Formulaire de connexion
+ * - Lien vers la page d'inscription
+ * - Affichage d'une image de fond sur grand écran
+ *
+ * @component
+ * @returns {JSX.Element} Page de connexion
+ */
 function LoginPage() {
   return (
     <main className="flex h-screen justify-center bg-neutral-1 max-lg:mx-4">
@@ -30,4 +40,5 @@ function LoginPage() {
     </main>
   );
 }
+
 export default LoginPage;

@@ -5,6 +5,16 @@ import UsersTable from '../components/tables/UsersTable';
 import { Spacing } from '../components/ui/Spacing';
 import { AuthContext } from '../context/AuthContext';
 
+/**
+ * Page d'administration pour la gestion des utilisateurs et des publications
+ * Fonctionnalités :
+ * - Affichage des onglets pour basculer entre les utilisateurs et les publications
+ * - Vérification du rôle de l'utilisateur pour l'accès à la page
+ * - Affichage des tables de gestion des utilisateurs et des publications
+ *
+ * @component
+ * @returns {JSX.Element} Page d'administration
+ */
 const AdminPage = () => {
   const { user } = useContext(AuthContext);
   const [activeTab, setActiveTab] = useState('users');
@@ -39,7 +49,6 @@ const AdminPage = () => {
             </nav>
           </div>
         </div>
-
         {activeTab === 'users' && <UsersTable />}
         {activeTab === 'posts' && <PostsTable />}
       </div>

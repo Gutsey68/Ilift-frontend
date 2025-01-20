@@ -2,6 +2,15 @@ import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import Avatar from '../ui/Avatar';
 
+/**
+ * Composant d'affichage des informations de l'utilisateur dans le profil
+ * Fonctionnalités :
+ * - Affichage de l'avatar de l'utilisateur
+ * - Affichage du pseudo de l'utilisateur
+ *
+ * @component
+ * @returns {JSX.Element} Informations de l'utilisateur dans le profil
+ */
 function ProfilUser() {
   const { user } = useContext(AuthContext);
 

@@ -2,6 +2,16 @@ import { Dumbbell } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import ForgotPasswordForm from '../components/auth/ForgotPasswordForm';
 
+/**
+ * Page de réinitialisation de mot de passe
+ * Fonctionnalités :
+ * - Formulaire de demande de réinitialisation de mot de passe
+ * - Lien de retour à la page de connexion
+ * - Affichage d'une image de fond sur grand écran
+ *
+ * @component
+ * @returns {JSX.Element} Page de réinitialisation de mot de passe
+ */
 function ForgotPasswordPage() {
   return (
     <main className="flex h-screen justify-center bg-neutral-1 max-lg:px-4">

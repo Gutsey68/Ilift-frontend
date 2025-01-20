@@ -15,11 +15,30 @@ import { Input } from '../ui/Input';
 import Modal from '../ui/Modal';
 import DeleteFollowerModal from './DeleteFollowerModal';
 
+/**
+ * Props du composant FollowersModal
+ * @typedef {object} FollowersModalProps
+ * @property {() => void} closeModal - Fonction de fermeture du modal
+ * @property {string} [userId] - ID de l'utilisateur dont on affiche les abonnés (utilise l'utilisateur courant si non fourni)
+ */
 type FollowersModalProps = {
   closeModal: () => void;
   userId?: string;
 };
 
+/**
+ * Modal d'affichage et de gestion des abonnés
+ * Fonctionnalités :
+ * - Liste des abonnés avec recherche en temps réel
+ * - Actions de suivi/suppression d'abonnés
+ * - Navigation vers les profils
+ * - Gestion des états de chargement
+ * - Retours visuels des actions
+ *
+ * @component
+ * @param {FollowersModalProps} props - Les propriétés du composant
+ * @returns {JSX.Element} Modal de gestion des abonnés
+ */
 function FollowersModal({ closeModal, userId }: FollowersModalProps) {
   const { user } = useContext(AuthContext);
   const [selectedFollower, setSelectedFollower] = useState<FollowingsType | null>(null);
@@ -28,6 +47,9 @@ function FollowersModal({ closeModal, userId }: FollowersModalProps) {
 
   const id = userId || user?.id;
 
+  /**
+   * Requête pour récupérer la liste des abonnés
+   */
   const { isPending: followersPending, data: followers } = useQuery({
     queryKey: ['followers', id],
     queryFn: () => {
@@ -43,6 +65,9 @@ function FollowersModal({ closeModal, userId }: FollowersModalProps) {
 
   const filteredFollowers = followersData?.filter((follower: FollowingsType) => follower.pseudo.toLowerCase().includes(searchTerm.toLowerCase()));
 
+  /**
+   * Mutation pour suivre un utilisateur
+   */
   const mutation = useMutation({
     mutationFn: (id: string) => follow(id),
     onSuccess: () => {
@@ -53,6 +78,9 @@ function FollowersModal({ closeModal, userId }: FollowersModalProps) {
     }
   });
 
+  /**
+   * Gère le suivi d'un utilisateur avec retour visuel
+   */
   const handleFollow = (followerId: string, followerPseudo: string) => {
     try {
       mutation.mutate(followerId);

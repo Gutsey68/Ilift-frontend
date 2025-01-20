@@ -16,17 +16,41 @@ import Card from '../ui/Card';
 import Modal from '../ui/Modal';
 import { Textarea } from '../ui/Textarea';
 
+/**
+ * Props du composant PostForm
+ * @typedef {object} PostFormProps
+ * @property {() => void} closeModal - Fonction de fermeture du modal
+ * @property {ExerciseResult[]} selectedResults - Résultats d'exercices à inclure dans le post
+ */
 type PostFormProps = {
   closeModal: () => void;
   selectedResults: ExerciseResult[];
 };
 
+/**
+ * Formulaire de création de publication
+ * Fonctionnalités :
+ * - Création de post avec contenu texte
+ * - Gestion des tags
+ * - Upload et prévisualisation d'images
+ * - Inclusion de résultats d'exercices
+ * - Validation des données avec Zod
+ * - Retours visuels des actions
+ * - Navigation après soumission
+ *
+ * @component
+ * @param {PostFormProps} props - Les propriétés du composant
+ * @returns {JSX.Element} Formulaire de création de post
+ */
 export default function PostForm({ closeModal, selectedResults = [] }: PostFormProps) {
   const [tags, setTags] = useState<string[]>([]);
   const [currentTag, setCurrentTag] = useState('');
   const [preview, setPreview] = useState<string | null>(null);
   const navigate = useNavigate();
 
+  /**
+   * Configuration du formulaire avec validation Zod
+   */
   const {
     register,
     handleSubmit,
@@ -37,10 +61,16 @@ export default function PostForm({ closeModal, selectedResults = [] }: PostFormP
 
   const queryClient = useQueryClient();
 
+  /**
+   * Mutation pour la création du post
+   */
   const postMutation = useMutation({
     mutationFn: createPostHandler
   });
 
+  /**
+   * Gestionnaires pour les tags et les images
+   */
   const handleAddTag = () => {
     if (currentTag && !tags.includes(currentTag)) {
       setTags([...tags, currentTag]);
@@ -76,6 +106,9 @@ export default function PostForm({ closeModal, selectedResults = [] }: PostFormP
     }
   };
 
+  /**
+   * Gestion de la soumission du formulaire
+   */
   const onSubmit = async (data: z.infer<typeof createPostSchema>) => {
     try {
       const formData = new FormData();

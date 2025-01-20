@@ -1,5 +1,17 @@
 import { Spacing } from '../components/ui/Spacing';
 
+/**
+ * Page des mentions légales, politique de confidentialité, CGU et CGV
+ * Fonctionnalités :
+ * - Affichage des informations légales du site
+ * - Politique de confidentialité
+ * - Conditions Générales d'Utilisation (CGU)
+ * - Conditions Générales de Vente (CGV)
+ * - Politique de cookies
+ *
+ * @component
+ * @returns {JSX.Element} Page des mentions légales et politiques
+ */
 function LegalPage() {
   return (
     <>
@@ -30,7 +42,6 @@ function LegalPage() {
           <h2 className="text-xl text-neutral-12">Informations sur la propriété intellectuelle</h2>
           <p>Le contenu du site est protégé par les lois en vigueur sur la propriété intellectuelle.</p>
         </section>
-
         <h2 className="mt-8 pb-1 text-3xl text-green-9">Politique de confidentialité</h2>
         <hr className="border-neutral-6" />
         <section className="mt-4 flex flex-col gap-2">
@@ -50,7 +61,6 @@ function LegalPage() {
           <p>Accès, rectification et suppression de leurs données.</p>
           <p>Contact pour exercer ces droits : privacy@example.com</p>
         </section>
-
         <h2 className="mt-8 pb-1 text-3xl text-green-9">Conditions Générales d'Utilisation (CGU)</h2>
         <hr className="border-neutral-6" />
         <section className="mt-4 flex flex-col gap-2">
@@ -72,7 +82,6 @@ function LegalPage() {
           <h2 className="text-xl text-neutral-12">Loi applicable et juridiction compétente</h2>
           <p>Les présentes conditions sont régies par la loi française. En cas de litige, les tribunaux français seront seuls compétents.</p>
         </section>
-
         <h2 className="mt-8 pb-1 text-3xl text-green-9">Conditions Générales de Vente (CGV)</h2>
         <hr className="border-neutral-6" />
         <section className="mt-4 flex flex-col gap-2">
@@ -95,7 +104,6 @@ function LegalPage() {
           <h2 className="text-xl text-neutral-12">Garantie et service après-vente</h2>
           <p>Nos produits bénéficient d'une garantie légale de conformité.</p>
         </section>
-
         <h2 className="mt-8 pb-1 text-3xl text-green-9">Politique de Cookies</h2>
         <hr className="border-neutral-6" />
         <section className="mt-4 flex flex-col gap-2">
@@ -111,4 +119,5 @@ function LegalPage() {
     </>
   );
 }
+
 export default LegalPage;

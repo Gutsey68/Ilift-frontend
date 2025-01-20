@@ -16,6 +16,17 @@ import usePostsOfUsers from '../hooks/usePostsOfUsers';
 import useSuggestedUsers from '../hooks/useSuggestedUsers';
 import { fetchTagsHandler } from '../services/tagsService';
 
+/**
+ * Page du fil de discussion
+ * Fonctionnalités :
+ * - Affichage du fil de discussion pour les utilisateurs connectés
+ * - Barre de navigation et barre inférieure mobile
+ * - Affichage des tags et des profils suggérés
+ * - Gestion des états de chargement
+ *
+ * @component
+ * @returns {JSX.Element} Page du fil de discussion
+ */
 function Thread() {
   const { userPending, user } = useContext(AuthContext);
   const { status, postsData, fetchNextPage, hasNextPage, isFetchingNextPage } = usePostsOfUsers();

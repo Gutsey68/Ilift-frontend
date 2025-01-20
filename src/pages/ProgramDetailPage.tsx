@@ -12,12 +12,26 @@ import { Spacing } from '../components/ui/Spacing';
 import { useProgramContext } from '../context/ProgramContext';
 import { fetchWorkoutsOfProgram } from '../services/programsService';
 
+/**
+ * Page de détail d'un programme
+ * Fonctionnalités :
+ * - Affichage des séances d'un programme
+ * - Ajout de nouvelles séances
+ * - Navigation avec fil d'Ariane
+ * - Gestion des états de chargement
+ *
+ * @component
+ * @returns {JSX.Element} Page de détail d'un programme
+ */
 function ProgramDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const { setProgramInfo } = useProgramContext();
 
+  /**
+   * Requête pour récupérer les séances d'un programme
+   */
   const { isPending: workoutsPending, data: workouts } = useQuery({
     queryKey: ['workouts', id],
     queryFn: async () => {
