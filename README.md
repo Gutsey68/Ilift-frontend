@@ -51,7 +51,7 @@ pnpm run dev
 
 1. Cloner le dépôt :
    ```bash
-   git clone [url-du-repo]
+   git clone https://github.com/Gutsey68/CDA-Ilift-frontend.git
    cd frontend
    ```
 2. Installer les dépendances :
