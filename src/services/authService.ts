@@ -1,5 +1,5 @@
-import { storeTokens } from '@/lib/storeTokens';
 import { getRefreshHeader } from '../lib/getHeaders';
+import { storeTokens } from '../lib/storeTokens';
 
 /**
  * Authentifie un utilisateur
