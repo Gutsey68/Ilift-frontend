@@ -21,8 +21,9 @@ COPY --from=builder /app/dist /usr/share/nginx/html
 # Copier la configuration Nginx
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Configurer le dossier uploads
+# Configurer le dossier uploads et .well-known/acme-challenge
 RUN mkdir -p /usr/share/nginx/uploads && chmod 755 /usr/share/nginx/uploads
+RUN mkdir -p /usr/share/nginx/html/.well-known/acme-challenge && chmod 755 /usr/share/nginx/html/.well-known/acme-challenge
 
 # Exposer le port
 EXPOSE 80
