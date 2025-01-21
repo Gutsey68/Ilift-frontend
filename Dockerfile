@@ -18,6 +18,9 @@ FROM nginx:alpine
 # Copier les fichiers statiques générés
 COPY --from=builder /app/dist /usr/share/nginx/html
 
+# Copier vos images locales
+COPY uploads/ /usr/share/nginx/uploads/
+
 # Copier la configuration Nginx
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
