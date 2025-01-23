@@ -133,19 +133,22 @@ export const requestPasswordReset = async (email: string) => {
  * Réinitialise le mot de passe d'un utilisateur
  * @param token - Token de réinitialisation
  * @param newPassword - Nouveau mot de passe
+ * @param confirmPassword - Confirmation du mot de passe
  * @throws {Error} Si la réinitialisation échoue
  */
 export const resetPassword = async ({
   token,
   newPassword,
+  confirmPassword,
 }: {
   token: string;
   newPassword: string;
+  confirmPassword: string;
 }) => {
   const response = await fetch("/api/auth/update-password", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ token, newPassword }),
+    body: JSON.stringify({ token, newPassword, confirmPassword }),
   });
 
   if (!response.ok) {
