@@ -17,20 +17,21 @@ Application frontend pour la plateforme sociale de fitness ILift, permettant aux
 ```
 frontend/
 ├── src/
-│   ├── components/
-│   ├── context/
-│   ├── hooks/
-│   ├── pages/
-│   ├── services/
-│   ├── styles
-│   ├── router
-│   ├── types
-│   ├── validators
-│   ├── lib
-│   └── main.tsx
-├── public/
-│   └── ...
-└── index.html
+│   ├── components/      # Composants réutilisables (boutons, formulaires, cartes, etc.)
+│   ├── context/         # Context API pour la gestion des états globaux (auth, utilisateur, thème)
+│   ├── hooks/           # Hooks personnalisés (gestion des requêtes, logique réutilisable)
+│   ├── pages/           # Pages principales de l'application (Accueil, Profil, Programme, etc.)
+│   ├── services/        # Gestion des appels API et intégrations externes
+│   ├── styles/          # Fichiers de style globaux (CSS, Tailwind, etc.)
+│   ├── router/          # Configuration des routes avec React Router
+│   ├── types/           # Définition des types TypeScript (types pour props, API, context, etc.)
+│   ├── validators/      # Schémas de validation avec Zod ou autre
+│   ├── lib/             # Librairies internes et utilitaires (helpers, constantes, etc.)
+│   └── main.tsx         # Point d'entrée de l'application React
+├── public/              # Fichiers statiques accessibles publiquement (favicon, manifest.json)
+│   ├── images/          # Ressources d'images (logos, icônes, etc.)
+│   └── index.html       # Fichier HTML principal pour le point d'entrée
+└── package.json         # Dépendances et scripts de gestion de projet
 ```
 
 ## Scripts Disponibles
