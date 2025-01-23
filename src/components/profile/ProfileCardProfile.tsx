@@ -94,9 +94,9 @@ function ProfileCardProfile({ userDetails }: ProfileCardProps) {
           className="mr-1"
           size="xl"
         />
-        <div className="w-4/5">
+        <div className="lg:w-4/5">
           <h1 className="text-2xl font-bold">{userDetails.pseudo}</h1>
-          <p className="w-4/5 text-neutral-11">{userDetails.bio || ""}</p>
+          <p className="text-neutral-11 lg:w-4/5">{userDetails.bio || ""}</p>
           <div className="mt-2 flex items-center gap-6 text-sm text-neutral-10 max-sm:flex-col">
             <p>
               <MapPin size={16} className="mr-1 inline-block" />
