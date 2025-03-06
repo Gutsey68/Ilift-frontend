@@ -26,7 +26,7 @@ const Avatar = ({ size, src, alt, className }: AvatarProps) => {
           'size-16': size === 'md',
           'size-24': size === 'lg',
           'size-36': size === 'xl',
-          'rounded-full bg-green-9': true
+          'rounded-full': true
         },
         className
       )}

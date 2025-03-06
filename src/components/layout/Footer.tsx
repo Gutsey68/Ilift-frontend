@@ -32,7 +32,7 @@ const Footer = ({ ...props }) => {
             </Link>
             <p className="text-sm">
               Made with ❤️ by{' '}
-              <a href="https://gauthierseyzeriat.com" target="_blank" className="text-green-9 hover:underline" rel="noreferrer">
+              <a href="https://seyzeriat.com" target="_blank" className="text-green-9 hover:underline" rel="noreferrer">
                 Gauthier Seyzeriat
               </a>
             </p>
